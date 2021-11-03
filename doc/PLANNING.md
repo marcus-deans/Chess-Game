@@ -14,7 +14,19 @@
 
 > what are your goals for the project?
 
-Our goals for this project are to produce an interesting application that will
+Our goals for this project are to produce an interesting application that will provide the user a
+robust experience and that appears as similar to a real-life production-grade quality game. This
+will entail tailoring the UI and design very attentively, as well as ensuring that the backend is
+bug-free for primary gameplay. As a team, we intend to coordinate closely and set manageable,
+realistic goals that allow us to achieve the overall project that we have envisioned. We also want
+to challenge ourselves with new technologies such as setting up the separate REST API and database
+that will allow information to be stored. We also want to extend the player profile extension to
+also incorporate the online component that will retain user information across game restarts. These
+opportunities will present a chance to highlight our understanding of the design prinicples we have
+covered in the course thus far and allow us to see the utility of a robust design in general. We
+want to produce a thorough API that we will test to enssure its extendability. Overall, we intend to
+create a robust deliverable that is able to compete with real-life similar products, as it will be a
+more profound learning opportunity.
 
 ## Project Emphasis
 
@@ -35,6 +47,10 @@ Our goals for this project are to produce an interesting application that will
 Mild:
 
 * Player Profiles
+    * We will use the controller to manage the player interactions and store information such as
+      identifying features as well as gameplay metrics like score
+    * This will require carefully controlling the information and keeping in mind immutability
+      principles
 
 > Player Profiles. Allow users to log in, choose an avatar to be used within the game player, view personal high scores, and save their preferences (e.g., name, password, image, age (if parental controls are implemented), and favorite variants, tokens, colors, etc). Player information should be saved between runs of the program.
 
