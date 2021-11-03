@@ -32,6 +32,9 @@ more profound learning opportunity.
 
 > what parts of the project do you want to spend more or less effort on (game complexity or variety, viewer, engine, etc.)?
 
+Good program design. Scalable back-end. Flexibility and extendability to create more games based on
+the API we created.
+
 ## Project Extensions
 
 > what extensions to the project would be most interesting/useful? Basic:
