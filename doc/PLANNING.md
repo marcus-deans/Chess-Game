@@ -60,7 +60,8 @@ Mild:
 Challenging:
 
 * Save Game Data in the Web
-    * We plan to use REST APIs to make
+    * We plan to use REST APIs and external database to be able to save user data and game data
+      online so that you can fetch the data anywhere.
 
 > Save Game Data in the Web. Allow users to save and load game data using an online database or web server with REST API. Note, these use the JSON data format so you likely would also.
 
@@ -68,16 +69,23 @@ Challenging:
 
 > what would mark good progress for each Sprint/week?
 
-#### Sprint 1 (Test)
+#### Sprint 1 (Test):
 
-#### Sprint 2 (Basic)
+One game, fully functional (front end and backend), and tested thoroughly.
 
-#### Sprint 3 (Complete)
+#### Sprint 2 (Basic):
+
+Implement all 4 games implemented with good design. Complete testing of all designs and a have a
+functional version of the entire project without the extensions.
+
+#### Sprint 3 (Complete):
+
+Refactoring, extra user functionality and extensions, REST API, external database. Fix bugs.
 
 ## Project Roles
 
 * Remy Cross: Backend
 * Marcus Deans: Frontend
 * Tim Jang: Rest API
-* Carter Stonesifer:
+* Carter Stonesifer: Controller
 * Amr Tagel-Din: Backend
