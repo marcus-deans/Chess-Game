@@ -17,12 +17,18 @@
 
 ## Team Procedures
 
+### Team meetings
 
-### Team meetings 
- * when and how often to meet (at least once a week)
- * how to communicate action items made during the meeting
- * policy for a team member to give advance notice of missing a team meeting and work required to make up for it
- * policy for handling disagreements, major decisions, or priorities during the meeting
+* when and how often to meet (at least once a week)
+    * 1-2 Times a week
+* how to communicate action items made during the meeting
+    * Have someone write down To-Do's and share them once the meeting is done
+* policy for a team member to give advance notice of missing a team meeting and work required to
+  make up for it
+    * Let us know a day in advance if you can't make a meeting and outline what work you will do to
+      make up for it
+* policy for handling disagreements, major decisions, or priorities during the meeting
+    * Discuss any issues directly with the group and we will handle them together
 
 ### Communications
 
