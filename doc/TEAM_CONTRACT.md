@@ -1,5 +1,5 @@
 # OOGA Team Contract
-### Team Name
+### Team Name: Team Stack Overflow
 ### Date
 
 
@@ -15,6 +15,7 @@
 
 
 ## Team Procedures
+
 
 ### Team meetings 
  * when and how often to meet (at least once a week)
