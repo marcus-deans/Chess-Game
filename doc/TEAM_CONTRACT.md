@@ -54,9 +54,18 @@
       have a good idea of our progress thus far
 
 ### Helping each other
- * how and when to ask for help and what is needed to show effort
- * response to team member asking for help
- * ways to "go above and beyond" as needed to support the team and even other teams
+
+* how and when to ask for help and what is needed to show effort
+    * You should not ask for help until you put your best effort. But you should not feel ashamed to
+      ask for help.
+* response to team member asking for help
+    * When a team member is struggling with implementing a feature, you should try to help the
+      member to the best of your ability.
+* ways to "go above and beyond" as needed to support the team and even other teams
+    * When your task or part is finished quicker than expected, you should be willing to help with
+      other parts of the program. Regardless of your team's work, you should aim to at least get
+      your parts perfected and at least help modify some parts of the other parts of the code to
+      allow it to work with the rest of the program.
 
 ### Commitments
 
