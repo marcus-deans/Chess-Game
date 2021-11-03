@@ -1,0 +1,83 @@
+image: dukedesigncoach/testfx-runner:openjdk16
+
+stages:
+  - analyze
+  - validate
+  - test
+  - report
+
+checkstyle_analysis:
+  stage: validate
+  script:
+    - mvn -B -ntp validate site
+  artifacts:
+    paths:
+      - target/site/*
+
+
+sonar_analysis:
+  stage: analyze
+  script:
+    - |
+      mvn -B -ntp sonar:sonar \
+        -Dsonar.host.url=http://coursework.cs.duke.edu:9000 \
+        -Dsonar.java.binaries=. \
+        -Dsonar.exclusions=**/*.xml,**/*.css
+  tags:
+    - sonarqube
+  only:
+    - master
+
+
+unit_testing:
+  stage: test
+  before_script:
+    - mv $CI_PROJECT_DIR/src $CI_PROJECT_DIR/DUKE_TMP
+    - mkdir -p $CI_PROJECT_DIR/src/main
+    - mv $CI_PROJECT_DIR/DUKE_TMP $CI_PROJECT_DIR/src/main/java
+  script:
+    - |
+      mvn -B -ntp test \
+        -Djava.awt.headless=true \
+        -Dtestfx.headless=true \
+        -Dtestfx.robot=glass \
+        -Dembedded=monocle \
+        -Dglass.platform=Monocle \
+        -Dprism.order=sw \
+        -Dprism.fontdir=/usr/share/fonts \
+        -Dtestfx.setup.timeout=2500 \
+        -Dheadless.geometry=1600x1200
+    - cat target/site/jacoco/index.html
+  allow_failure: true
+  artifacts:
+    paths:
+      - target/site/*
+      - '**/target/surefire-reports/TEST-*.xml'
+
+coverage_report:
+  stage: report
+  image: haynes/jacoco2cobertura:1.0.4
+  needs:
+    - unit_testing
+  script:
+    - python /opt/cover2cover.py target/site/jacoco/jacoco.xml src > cobertura.xml
+    - python /opt/source2filename.py cobertura.xml
+  artifacts:
+    reports:
+      cobertura: cobertura.xml
+      junit: '**/target/surefire-reports/TEST-*.xml'
+
+pages:
+  stage: report
+  needs:
+    - checkstyle_analysis
+    - unit_testing
+  script:
+    - mkdir .public
+    - cp -r target/site .public
+    - mv .public public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
