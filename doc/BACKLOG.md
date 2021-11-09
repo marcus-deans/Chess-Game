@@ -184,6 +184,13 @@ Backend: Game Variation Interfaces (Tim)
   * The game mode is standard
   * There are no interfaces applied because it does not require any variations.
 
-Backend: Piece class (Tim)
+Backend: Game Class - logic (Tim)
 * Case 1
+  * The game class updates each piece in the board when the player has made a move in standard game mode.
+  * The game class uses the corresponding interface classes to update the pieces and the score accordingly
+  * The game class calls update() to update the pieces on the board.
+  * update() method will have corresponding interface methods if it isn't standard game mode.
 * Case 2
+  * The player has made a move where a piece kills another piece.
+  * The game class takes the piece's new position and checks if there is already an opponent piece there
+  * If there is depending on what interface/rules it is using, it will perform necessary methods to update backend.
