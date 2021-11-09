@@ -42,7 +42,6 @@ public interface Piece {
      * Needed when a piece is taken or a pawn reaches the end
      */
     public void setState();
-
     /**
      * Updates the internal coordinate of the piece after it is moved
      */
@@ -57,4 +56,41 @@ public interface Piece {
      * Retrieves the coordinate set for the piece
      */
     public Coordinate getCoordinate();
+}
+
+/** General Board/ board change **/
+public interface Board {
+
+    /**
+     *Create a board given a number of rows and columns
+     */
+    public void create(int row, int col);
+
+    /**
+     * add portals (entrance and exit squares) to the game
+     * @param amount of portals to add
+     */
+    public void makePortals(int amount);
+
+    /**
+     * Remove a given amount of portals (default will be all of them)
+     * @param amount of portals to remove
+     */
+    public void removePortals(int amount);
+
+    /**
+     * add Black Holes (if touched, piece is lost) to the game
+     * @param amount of Black Holes to add
+     */
+    public void makeBlackHoles();
+
+    /**
+     * Remove a given amount of Black Holes (default will be all of them)
+     * @param amount of Black Holes to remove
+     */
+    public void removeBlackHoles();
+}
+
+public interface FeatureSelector{
+    public void implementFeature(String feature);
 }
