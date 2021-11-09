@@ -1,1 +1,1 @@
-![](doc/images/StackOverflowChess.png)
+![](api/images/StackOverflowChess.png)
