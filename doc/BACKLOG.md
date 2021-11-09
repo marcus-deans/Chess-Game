@@ -168,3 +168,22 @@ Backend: Coordinate Class (Remy)
 * Case 1
   * Getters and setters for x and y coordinates represented by i and j indices
   * Used to keep track of position of individual pieces location on the board
+
+
+Backend: Game Variation Interfaces (Tim)
+* Case 1
+  * The current game variation is determined by the information in the data file.
+  * The Properties file in the game folder has the necessary commands to take in the proper interface.
+  * each interface for variation represents a slight change in rules.
+  * in the properties file, it collects whatever variation interface it needs to use to make a new complete variation
+* Case 2
+  * The current game variation is custom. 
+  * The user can pick what variations they want added to the game.
+  * Using the user input, the CustomGame class takes the corresponding interfaces to match the requested variation from the user.
+* Case 3
+  * The game mode is standard
+  * There are no interfaces applied because it does not require any variations.
+
+Backend: Piece class (Tim)
+* Case 1
+* Case 2

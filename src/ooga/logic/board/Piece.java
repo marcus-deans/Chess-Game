@@ -16,6 +16,10 @@ public interface Piece {
      */
     public void updatePossibleMoves();
 
+
+    //returns all available tiles that the piece can move to
+    public List<Coordinate> getAvailableTiles();
+
     /**
      *
      * @return the list of possible coordinates to move to
