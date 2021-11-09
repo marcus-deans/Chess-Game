@@ -11,6 +11,14 @@ public interface Piece {
     public void setState();
 }
 
+public interface Board {
+    public void create();
+    public void makePortals();
+    public void removePortals();
+    public void makeBlackHoles();
+    public void removeBlackHoles();
+}
+
 public interface FeatureSelector{
     public void implementFeature(String feature);
 }
