@@ -44,3 +44,7 @@ Abstract Classes/ Interfaces:
 ![](../images/19ef629c2a0c4e0c8c687501dd015e68.jpeg)![](../images/db453d752a6943598e943b072c5113f8.jpeg)
 
 ![](../images/db453d752a6943598e943b072c5113f8.jpeg)
+
+### View
+We can see a more robust overview of the view below 
+![](StackOverflowChess.png)

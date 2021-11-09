@@ -17,3 +17,18 @@ Set a given block outside of the range of the grid to a black hole:
 in a try catch, define the coordinates of the block, use a method for "setBlocktoBlackHole(x,y)"
 this should trigger the catch, with an exception we will call "OutOfBoundsException" (not the 
 java one), and require us to set a valid grid coordinate to a black hole.
+
+In order to more easily test our APIs, we discussed several key points that we should take into
+account:
+
+1. Keeping classes small (following single responsibility principle) as well as concise methods that
+   allow for more specific testing of a single component of the project, reducing the scope for
+   error
+2. Designing APIs to take parameters that are easily constructable for testing and that return
+   meaningful values that can be interpreted to elucidate success or failure
+3. Throwing Exceptions as necessary especially for erroneous inputs or calculations as these will
+   allow for verification that problems are diagnosed and handled by the program appropriately
+
+## Test Scenarios
+
+### View
