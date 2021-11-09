@@ -31,7 +31,7 @@ account:
 
 ## Test Scenarios
 
-### View
+### View (Marcus)
 
 We would aim to test changing the language of the simulation. The design supports testing by calling
 the ```changeLanguage()``` method which is designed to change the language of all of the text in the
