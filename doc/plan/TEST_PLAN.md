@@ -61,3 +61,20 @@ forgetting/failing to update a certain text from tis locale or otherwise not ini
 ina a way that it was refreshed and replaced based on the JavaFX locale.
 
 ### Remy Cross
+
+
+
+
+
+
+
+### CARTER STONESIFER
+The aim of the test here is to ensure that the CSV and SIM files are parsed correctly and the Board is initialized
+accordingly.
+
+Test 1 Scenario: The standard board is passed in with the standard SIM file. The rooks are all in the correct positions.
+
+Test 2 Scenario: The Star Wars board containing blackHoles is passed in, but the Standard SIM file has Blackholes set to
+False so the blackholes throw an error or get replaced by normal tiles.
+
+Test Scenario 3: An empty CSV File is passed in and an error is thrown. Or no CSV File exists and an error is thrown
