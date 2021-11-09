@@ -60,4 +60,4 @@ ltext present in the label and determining its language. This would likely be th
 forgetting/failing to update a certain text from tis locale or otherwise not iniitalizing the text
 ina a way that it was refreshed and replaced based on the JavaFX locale.
 
-### Pieces
+### Remy Cross
