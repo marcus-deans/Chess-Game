@@ -84,7 +84,7 @@
       commitments as this is impacting the entire team's progress
     * We think this is the best way to continue working together as a team and keep each other
       accountable
-    * If the other team meber isn't willing to change their actions and get their work done, then we
+    * If the other team member isn't willing to change their actions and get their work done, then we
       would have to resort to informing class staff
     * Overall we think we will work together well and that outside intervention will not be
       necessary to manage any conflicts.
