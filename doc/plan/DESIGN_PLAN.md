@@ -50,3 +50,14 @@ depending on what is contained in the resource file inputted to the API. Importa
 be communicated between classes using interface listeners that would be associated with the specific
 View API.
 
+The design considations that willl have to made in the API have to deal with the overall project
+intent as well as how the view should be implemented overall. For an API that is restricte to
+different varities of chess as intended, the API will allow primarlily for the user to interact with
+the view with minimal configuration of backend links required. This is because the general structure
+would remain the same across chess projects in contrast to completely different games. However, this
+idea has to limit the flexibility of the API to remove that complexity from the frontend
+configuration. We also have to consider how the links themselves with the backend are made, as the
+whole intent of the APi is to eparate funtionality and provide an entry point into all interactions
+with the view. Therefore, the backend should communicae similarly to any external application or
+extension that would intend to be using the APi. Other design considerations would include the
+inehritance strucutre for subclasses and how those relate othe API and main view class for the UI.
