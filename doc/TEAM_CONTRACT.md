@@ -77,7 +77,7 @@
     * If a teamember relys on someone else's code, then compromise on a time that gives both
       teammates enough time to work on the given task. If a group meeting is arranged to work on the
       project as a whole, bring your piece of the code ready to be implemented, so an internal deadline
-  would be 
+  would be to f
 * how to provide commitments others on the team can rely on
 * policy for resolving failure to meet commitments
     * We will meet as a team and collectively discuss the failure of the team member to meet the
