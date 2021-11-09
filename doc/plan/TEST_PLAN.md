@@ -60,7 +60,25 @@ ltext present in the label and determining its language. This would likely be th
 forgetting/failing to update a certain text from tis locale or otherwise not iniitalizing the text
 ina a way that it was refreshed and replaced based on the JavaFX locale.
 
+
+### CARTER STONESIFER
+The aim of the test here is to ensure that the CSV and SIM files are parsed correctly and the Board is initialized
+accordingly.
+
+Test 1 Scenario: 
+The standard board is passed in with the standard SIM file. The rooks are all in the correct positions.
+
+Test 2 Scenario: 
+The Star Wars board containing blackHoles is passed in, but the Standard SIM file has Blackholes set to
+False so the blackholes throw an error or get replaced by normal tiles.
+
+Test Scenario 3: 
+An empty CSV File is passed in and an error is thrown. Or no CSV File exists and an error is thrown
+
+
+
 ### Remy Cross
+
 Project Feature: Calculating the possible next moves of a piece
 
 Test 1: 
@@ -74,3 +92,4 @@ correspond to that of a knight. I chose the knight because the knight has bounde
 Test 3: 
 Set the move() method to that of a queen(Unbounded in all directions). Have this trigger
 an out-of-bounds error when it says a possible move is off of the grid
+
