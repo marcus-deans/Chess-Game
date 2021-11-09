@@ -1,0 +1,1 @@
+![StackOverflowChess.png](StackOverflowChess.png)
