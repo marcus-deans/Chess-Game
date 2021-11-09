@@ -123,4 +123,9 @@ Backend: Game Variation Interfaces (Tim)
   * The user can pick what variations they want added to the game.
   * Using the user input, the CustomGame class takes the corresponding interfaces to match the requested variation from the user.
 * Case 3
-  * 
+  * The game mode is standard
+  * There are no interfaces applied because it does not require any variations.
+
+Backend: Piece class (Tim)
+* Case 1
+* Case 2
