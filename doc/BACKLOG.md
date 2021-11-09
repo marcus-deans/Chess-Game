@@ -42,14 +42,16 @@ Backend Use Cases: Pieces (Remy)
   * New position is fed into backend
   * Piece location is updated
 * Case 2
-  * User clicks on piece on front end
-  * Possible coordinates to move to generated in a list based on move method
-  * List is returned in method getPossibleMoves()
+  * Piece is in a certain Coordinate location
+  * Based on coordinate location and move() method, list of possible moves is created
 * Case 3
+  * User clicks on piece on front end
+  * List of possible moves is returned in method getPossibleMoves() and displayed
+* Case 4
   * Piece takes another piece in front end
   * Information relayed back to backend
   * Piece.setState(0) to make that piece empty
-* Case 4
+* Case 5
   * Pawn reaches end of grid
   * Information relayed back to backend
   * User inputs state number corresponding to piece they want
