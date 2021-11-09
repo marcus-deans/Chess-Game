@@ -1,0 +1,13 @@
+Type=Standard
+Title=Standard Chess
+Author=Carter Stonesifer
+
+GameTimer=0
+
+Portal=False
+BlackHole=False
+EdgePolicy=Standard
+
+PiecesImageDirectory=Standard
+
+//more to come, but the game configuration will all be defined here
