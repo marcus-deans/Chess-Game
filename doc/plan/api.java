@@ -91,6 +91,3 @@ public interface Board {
     public void removeBlackHoles();
 }
 
-public interface FeatureSelector{
-    public void implementFeature(String feature);
-}

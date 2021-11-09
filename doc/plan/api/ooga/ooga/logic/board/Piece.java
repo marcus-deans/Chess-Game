@@ -1,8 +1,7 @@
 package ooga.logic.board;
 
 import java.util.List;
-//The purpose of this interface is to create a template for the pieces found on the board
-//It will interact with the Board class and the Coordinate class
+
 public interface Piece {
     /**
      * This method would define the movement of the individual piece. For example,
@@ -17,6 +16,9 @@ public interface Piece {
      */
     public void updatePossibleMoves();
 
+
+    //returns all available tiles that the piece can move to
+    public List<Coordinate> getAvailableTiles();
 
     /**
      *

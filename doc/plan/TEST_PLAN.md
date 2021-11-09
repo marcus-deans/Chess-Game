@@ -60,21 +60,36 @@ ltext present in the label and determining its language. This would likely be th
 forgetting/failing to update a certain text from tis locale or otherwise not iniitalizing the text
 ina a way that it was refreshed and replaced based on the JavaFX locale.
 
-### Remy Cross
-
-
-
-
-
-
 
 ### CARTER STONESIFER
 The aim of the test here is to ensure that the CSV and SIM files are parsed correctly and the Board is initialized
 accordingly.
 
-Test 1 Scenario: The standard board is passed in with the standard SIM file. The rooks are all in the correct positions.
+Test 1 Scenario: 
+The standard board is passed in with the standard SIM file. The rooks are all in the correct positions.
 
-Test 2 Scenario: The Star Wars board containing blackHoles is passed in, but the Standard SIM file has Blackholes set to
+Test 2 Scenario: 
+The Star Wars board containing blackHoles is passed in, but the Standard SIM file has Blackholes set to
 False so the blackholes throw an error or get replaced by normal tiles.
 
-Test Scenario 3: An empty CSV File is passed in and an error is thrown. Or no CSV File exists and an error is thrown
+Test Scenario 3: 
+An empty CSV File is passed in and an error is thrown. Or no CSV File exists and an error is thrown
+
+
+
+### Remy Cross
+
+Project Feature: Calculating the possible next moves of a piece
+
+Test 1: 
+Set the move() method to the movement of a pawn (one space at a time) to see if the possible move
+is just the spot in front of it
+
+Test 2:
+Set the move() method to the movement of a knight (in an L) to see if the possible moves
+correspond to that of a knight. I chose the knight because the knight has bounded movements.
+
+Test 3: 
+Set the move() method to that of a queen(Unbounded in all directions). Have this trigger
+an out-of-bounds error when it says a possible move is off of the grid
+
