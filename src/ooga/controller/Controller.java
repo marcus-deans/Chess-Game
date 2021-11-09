@@ -1,6 +1,7 @@
 package ooga.controller;
 
 import javafx.stage.Stage;
+import ooga.logic.board.Piece;
 import ooga.logic.game.Game;
 
 import java.io.File;
@@ -24,6 +25,5 @@ public interface Controller {
 
     //sets time limit of each round in the game
     public void setTime(int speed);
-
 
 }

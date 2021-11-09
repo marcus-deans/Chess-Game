@@ -1,0 +1,13 @@
+Type=StarWars
+Title=Star Wars Chess
+Author=Carter Stonesifer
+
+GameTimer=0
+
+Portal=True
+BlackHole=True
+EdgePolicy=Toroidal
+
+PiecesImageDirectory=StarWars
+
+//more to come, but the game configuration will all be defined here
