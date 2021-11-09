@@ -24,28 +24,21 @@ example, to ruin their structure);
 ###What is open?
 The type of game being played should be up to the user - ideally the ability to mix and match.
 This includes any type of flexibility described above.
+Each game logic can read in from a variety of different interfaces
 
 ###What is closed?
 Chess games will not be extended past 2 dimensions or anything like that; for the most part, despite
 changes in rules or numbers of players, we want these games to follow a relatively logical path/ flow.
+The order of play will not change in a game
 
 ###Abstractions?
 Abstract Classes/ Interfaces:
 'Spots' (like squares)
 'Board' size, shape, toroidal, etc
 'Piece' (different in terms of logic)
-'logic' (basic logical properties for pieces to take from)
-'win Conditions' to allow for different, similar win conditions
-'Timer' (to allow for ultra flexible timers)
+'logic' (interfaces under gameLogic)
 'Rules' (general rules for the game that are in play)
 
-## Intended Design to handle goals:
-Describe your intended design to handle your team's goals for the project
-functionality using APIs to provide services rather than simple classes.
+## Intended Design to handle goal/ High level Design Overview for API's
 
-
-## High level Design Overview for API's
-Then, for each API you plan to build, provide a roughly "one page" high-level design overview
-using the format below. Note, this file can link to external image files
-(such as UML diagrams, CRC cards, scans of hand drawn diagrams, example game screens, etc.)
-
+![](../images/19ef629c2a0c4e0c8c687501dd015e68.jpeg)
