@@ -1,1 +1,5 @@
-![](api/images/StackOverflowChess.png)
+>  Write your planned design without revealing any specific implementation details (like data structures, file formats, etc.). Start by describing the primary design goals of the project (i.e., where is it most flexible) and the primary architecture of the design (i.e., what is closed and what is open) — this should emphasize your game genre's important commonalities and how they could be represented by abstractions. Describe your intended design to handle your team's goals for the project functionality using APIs to provide services rather than simple classes. Then, for each API you plan to build, provide a roughly "one page" high-level design overview using the format below. Note, this file can link to external image files (such as UML diagrams, CRC cards, scans of hand drawn diagrams, example game screens, etc.).
+
+### View
+We can see a more robust overview of the view below 
+![](StackOverflowChess.png)
