@@ -189,4 +189,6 @@ Backend: Game Class - logic (Tim)
   * The game class updates each piece in the board when the player has made a move
   * The game class uses the corresponding interface classes to update the pieces and the score accordingly
 * Case 2
-  * 
+  * The player has made a move where a piece kills another piece.
+  * The game class takes the piece's new position and checks if there is already an opponent piece there
+  * If there is depending on what interface/rules it is using, it will perform necessary methods to update backend.
