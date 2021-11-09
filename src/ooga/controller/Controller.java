@@ -3,6 +3,7 @@ package ooga.controller;
 import javafx.stage.Stage;
 import ooga.logic.board.Piece;
 import ooga.logic.game.Game;
+import ooga.view.View;
 
 import java.io.File;
 
@@ -12,7 +13,7 @@ public interface Controller {
     public void initializeFromFile(File file);
 
     //Initializes the passed display in this logic controller. @Param - Display
-    public void setDisplay();
+    public void setDisplay(View view);
 
     //Returns the stage of the active display.
     public Stage getStage();
