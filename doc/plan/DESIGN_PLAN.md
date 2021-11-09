@@ -41,4 +41,12 @@ control (which direcly affect the JavaFX animation that will be held within the 
 visual things like the vview mode of hte display and the language. ALl of the other details will
 have to be coordinate with the controller to be implemented appropriately. Resoruces used will
 include plentiful objects forstyling of the different pieces as well as resource files that awill
-allow for all appropriate setup to be performed. New games will be writen
+allow for all appropriate setup to be performed. New games will be created by the appropriate
+subclasses and will involve lambdas as well as subclasses in order to midify the ivew appropriately
+to suit hte needs of the specific program being implemented. Most configuration should be performed
+in code although files could contain information such as alternate positioning and styling of the
+view elements, e.g., the JavaFX compoennts could be set in different x,y coordinate positions
+depending on what is contained in the resource file inputted to the API. Important information would
+be communicated between classes using interface listeners that would be associated with the specific
+View API.
+
