@@ -61,3 +61,16 @@ forgetting/failing to update a certain text from tis locale or otherwise not ini
 ina a way that it was refreshed and replaced based on the JavaFX locale.
 
 ### Remy Cross
+Project Feature: Calculating the possible next moves of a piece
+
+Test 1: 
+Set the move() method to the movement of a pawn (one space at a time) to see if the possible move
+is just the spot in front of it
+
+Test 2:
+Set the move() method to the movement of a knight (in an L) to see if the possible moves
+correspond to that of a knight. I chose the knight because the knight has bounded movements.
+
+Test 3: 
+Set the move() method to that of a queen(Unbounded in all directions). Have this trigger
+an out-of-bounds error when it says a possible move is off of the grid
