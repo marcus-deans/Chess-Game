@@ -1,4 +1,22 @@
-> Describe at least two specific strategies your team discussed to make your APIs more easily testable (such as useful parameters and return values, using smaller classes or methods, throwing Exceptions, etc.). Describe at least three test scenarios each for four project features (at least one of which is negative/sad/error producing), the expected outcome, and how your design supports testing for it (such as methods you can call, specific values you can use as parameters and return values to check, specific expected UI displays or changes that could be checked, etc.). A test scenario describes the the expected results from a user's action to initiate a feature in your program and the steps that lead to that result. It is generally believed that easily testable code is better designed so this sets the team's commitment to the project's quality by addressing expectations for both "happy" and "sad" possible input/interactions.
+Amr Tagel-Din
+Project Feature:
+Ability to set a square from a regular square to a black hole or a portal
+Test 1:
+Set a given block with nothing on it equal to a portal:
+Define the coordinates of the block, use a method for "setBlockToBlackHole(x,y)";
+Then, when we check Status of the block it should return whatever value we define a black hole to be"
+
+Test 2:
+Set a given block with a piece on it to a black hole:
+in a try catch, define the coordinates of the block, use a method for "setBlockToBlackHole(x,y)"
+this should trigger the 'catch', which we will assert to true; this should ensure we throw an 
+exception if we try to set an occupied square to a black hole.
+
+Test 3:
+Set a given block outside of the range of the grid to a black hole:
+in a try catch, define the coordinates of the block, use a method for "setBlocktoBlackHole(x,y)"
+this should trigger the catch, with an exception we will call "OutOfBoundsException" (not the 
+java one), and require us to set a valid grid coordinate to a black hole.
 
 In order to more easily test our APIs, we discussed several key points that we should take into
 account:
