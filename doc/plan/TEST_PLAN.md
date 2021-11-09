@@ -41,3 +41,5 @@ changed to. This would again nbe performed by performign a lookup on the text an
 ltext present in the label and determining its language. This would likely be the consequence of
 forgetting/failing to update a certain text from tis locale or otherwise not iniitalizing the text
 ina a way that it was refreshed and replaced based on the JavaFX locale.
+
+### Pieces

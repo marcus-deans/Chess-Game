@@ -4,3 +4,9 @@
 * Sprint 1: Create populated grid (pieces) with listeners for state information
 * Sprint 2: Add full UI functionality (history, piece count, views/languages)
 * Sprint 3: Additional UI features (player score & profile, welcome screen, piece movement animation)
+
+###Remy
+* Responsible for backend features
+* Sprint 1: Implement the logic for the Coordinate API as well as the Pieces API
+* Sprint 2: Implement the functionality for using resource files to set up the default games
+* Sprint 3: Implement the functionality for creating custom games
