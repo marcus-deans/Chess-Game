@@ -49,11 +49,11 @@ public class GameView extends Application implements PanelListener {
       GAME_VIEW_RESOURCES_FILE_PATH);
 
   //Cosmetic features: colours and views
-  private static final String GRID_COLORS_PATH = "cellsociety.resources.defaultColors";
+  private static final String GRID_COLORS_PATH = "ooga.view.viewresources.DefaultGridColours";
   private static final ResourceBundle defaultGridColours = ResourceBundle.getBundle(
       GRID_COLORS_PATH);
 
-  private final List<String> gameTypes = Arrays.asList(gameViewResources.getString("GameOptions").split(","));
+//  private final List<String> gameTypes = Arrays.asList(gameViewResources.getString("GameOptions").split(","));
 
   //Cosmetic features: JavaFX pixel positioning
   private int frameWidth;
@@ -61,13 +61,6 @@ public class GameView extends Application implements PanelListener {
   private Paint frameBackground;
   private int gridDisplayLength;
   private int[] gridSize;
-  private static final int OFFSET_X = 10;
-  private static final int OFFSET_Y = 15;
-  protected static final int OFFSET_Y_TOP = 40;
-
-  private static final int WIDTH_BUFFER = 200;
-  private static final int CONTROL_PANEL_OFFSET = 175;
-
   private String myFilename;
   private String NO_CONTENT = "None";
 
@@ -104,9 +97,9 @@ public class GameView extends Application implements PanelListener {
 
   private FileInputStream fis;
 
-  private static final String REQUIRED_PARAMETERS = "cellsociety.resources.controller.requiredParameters";
-  private static final ResourceBundle requiredParameters = ResourceBundle.getBundle(
-      REQUIRED_PARAMETERS);
+//  private static final String REQUIRED_PARAMETERS = "ooga.view.viewresources.requiredParameters";
+//  private static final ResourceBundle requiredParameters = ResourceBundle.getBundle(
+//      REQUIRED_PARAMETERS);
 
   private boolean successfulSetup;
 
@@ -124,8 +117,8 @@ public class GameView extends Application implements PanelListener {
     frameBackground = background;
     myFilename = filename;
     createController();
-    gridDisplayLength = width - WIDTH_BUFFER;
-    controlPanelX = width - CONTROL_PANEL_OFFSET;
+    gridDisplayLength = width - getInt("width_buffer");
+    controlPanelX = width - getInt("control_panel_offset");
     myGameViewRoot = new Group();
   }
 
@@ -138,37 +131,42 @@ public class GameView extends Application implements PanelListener {
   // Initializes the controller and retrieves relevant parameters
   //TODO: make sure exception stops everything from running (maybe pass it up another level?)
   private void setupController(){
-    successfulSetup = false;
-    try {
+    successfulSetup = true;
+//    try {
 //      myGameController.setupProgram();
 //      Map<String, String> parameters = myGameController.getConfigurationMap();
       //TODO; replace dummy
-      Map<String, String> parameters = new HashMap<>();
-      myTitle = parameters.get("Title");
-      myType = parameters.get("Type"); //work on translating from GameOfLife->life
-      myDescription = parameters.get("Description");
-      myAuthor = parameters.get("Author");
-      String[] myAdditionalParameters = requiredParameters.getString(myType).split(",");
-      myGameParameters = new String[myAdditionalParameters.length];
-      for(int iterate = 0; iterate < myAdditionalParameters.length; iterate++){
-        if(parameters.get(myAdditionalParameters[iterate]) != null){
-          myGameParameters[iterate] = String.format("%s = %s",myAdditionalParameters[iterate], parameters.get(myAdditionalParameters[iterate]));
-        }
-        else {
-          myGameParameters[iterate] = NO_CONTENT;
-        }
-      }
+//      Map<String, String> parameters = new HashMap<>();
+//      myTitle = parameters.get("Title");
+//      myType = parameters.get("Type"); //work on translating from GameOfLife->life
+//      myDescription = parameters.get("Description");
+//      myAuthor = parameters.get("Author");
+//      String[] myAdditionalParameters = requiredParameters.getString(myType).split(",");
+//      myGameParameters = new String[myAdditionalParameters.length];
+//      for(int iterate = 0; iterate < myAdditionalParameters.length; iterate++){
+//        if(parameters.get(myAdditionalParameters[iterate]) != null){
+//          myGameParameters[iterate] = String.format("%s = %s",myAdditionalParameters[iterate], parameters.get(myAdditionalParameters[iterate]));
+//        }
+//        else {
+//          myGameParameters[iterate] = NO_CONTENT;
+//        }
+//      }
+//
+//      if (parameters.get("StateColors") != null) {
+//        myGridColours = parameters.get("StateColors").split(",");
+//      } else {
+//        myGridColours = defaultGridColours.getString(myType).split(",");
+//      }
+////      gridSize = myGameController.getGridSize();
+//      successfulSetup = true;
+//    } catch(Exception e){
+//      sendAlert(e.getMessage());
+//    }
+    myGameParameters = new String[1];
+    myGameParameters[0] = "None";
+    myType = "GameOfLife";
+    myGridColours = defaultGridColours.getString("GameOfLife").split(",");
 
-      if (parameters.get("StateColors") != null) {
-        myGridColours = parameters.get("StateColors").split(",");
-      } else {
-        myGridColours = defaultGridColours.getString(myType).split(",");
-      }
-//      gridSize = myGameController.getGridSize();
-      successfulSetup = true;
-    } catch(Exception e){
-      sendAlert(e.getMessage());
-    }
 //    catch (IncorrectSimFormatException e) {
 //      sendAlert(e.getMessage());
 //    } catch (IncorrectCSVFormatException e) {
@@ -275,6 +273,7 @@ public class GameView extends Application implements PanelListener {
 
   //initialize the grid itself that appears on the scree
   private Node createGrid() {
+
     myGridView = new GridView(gridSize[0], gridSize[1], myGridColours, gridDisplayLength);
     GridPane myGameGridView = myGridView.getMyGameGrid();
     myGameGridView.setOnMouseClicked(click->updateGrid(click.getX(), click.getY()));
@@ -292,6 +291,8 @@ public class GameView extends Application implements PanelListener {
 
   //create the cosmetic boundaries showing where the simulation takes place
   private void initializeBoundaries() {
+    int OFFSET_X = getInt("offset_x");
+    int OFFSET_Y_TOP = getInt("offset_y_top");
     Line topLine = new Line(OFFSET_X, OFFSET_Y_TOP, OFFSET_X + gridDisplayLength, OFFSET_Y_TOP);
     topLine.setId("boundary-line");
     Line leftLine = new Line(OFFSET_X, OFFSET_Y_TOP, OFFSET_X, OFFSET_Y_TOP + gridDisplayLength);

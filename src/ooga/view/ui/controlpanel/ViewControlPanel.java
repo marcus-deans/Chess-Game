@@ -16,7 +16,7 @@ import javafx.scene.paint.Color;
  */
 public class ViewControlPanel extends ControlPanel {
   //General resource file structure
-  private static final String RESOURCE_FILE_PATH = "cellsociety.resources.view.viewControlResources";
+  private static final String RESOURCE_FILE_PATH = "ooga.view.viewresources.ViewControlResources";
   private static final ResourceBundle gameViewResources = ResourceBundle.getBundle(
       RESOURCE_FILE_PATH);
   private final List<String> viewOptions = Arrays.asList(
