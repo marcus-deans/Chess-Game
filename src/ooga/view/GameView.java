@@ -1,7 +1,8 @@
-package ooga.view
+package ooga.view;
 
 import java.io.FileInputStream;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -23,6 +24,7 @@ import javafx.util.Duration;
 import ooga.util.IncorrectCSVFormatException;
 import ooga.util.IncorrectSimFormatException;
 import ooga.util.ReflectionException;
+import ooga.view.ui.DetailsPanel;
 import ooga.view.ui.InformationPanel;
 import ooga.view.ui.controlpanel.AnimationControlPanel;
 import ooga.view.ui.controlpanel.LoadControlPanel;
@@ -129,7 +131,7 @@ public class GameView extends Application implements PanelListener {
 
   // Creates a new GameController for the specific simulation detailed in myFilename (.sim file)
   private void createController() {
-    myGameController = new GameController(myFilename);
+//    myGameController = new GameController(myFilename);
     setupController();
   }
 
@@ -138,8 +140,10 @@ public class GameView extends Application implements PanelListener {
   private void setupController(){
     successfulSetup = false;
     try {
-      myGameController.setupProgram();
-      Map<String, String> parameters = myGameController.getConfigurationMap();
+//      myGameController.setupProgram();
+//      Map<String, String> parameters = myGameController.getConfigurationMap();
+      //TODO; replace dummy
+      Map<String, String> parameters = new HashMap<>();
       myTitle = parameters.get("Title");
       myType = parameters.get("Type"); //work on translating from GameOfLife->life
       myDescription = parameters.get("Description");
@@ -160,17 +164,19 @@ public class GameView extends Application implements PanelListener {
       } else {
         myGridColours = defaultGridColours.getString(myType).split(",");
       }
-      gridSize = myGameController.getGridSize();
+//      gridSize = myGameController.getGridSize();
       successfulSetup = true;
-    }
-    catch (IncorrectSimFormatException e) {
-      sendAlert(e.getMessage());
-    } catch (IncorrectCSVFormatException e) {
+    } catch(Exception e){
       sendAlert(e.getMessage());
     }
-    catch (ReflectionException e) {
-      sendAlert("InternalError Cannot Make Object");
-    }
+//    catch (IncorrectSimFormatException e) {
+//      sendAlert(e.getMessage());
+//    } catch (IncorrectCSVFormatException e) {
+//      sendAlert(e.getMessage());
+//    }
+//    catch (ReflectionException e) {
+//      sendAlert("InternalError Cannot Make Object");
+//    }
   }
 
   /**
@@ -240,7 +246,8 @@ public class GameView extends Application implements PanelListener {
   //<editor-fold desc="Create Animation Control Pane and Buttons">
   //create the animation control pane allowing the user to run, pause/resume, clear, and step the simualtion
   private Node createAnimationControlPane() {
-    AnimationControlPanel myAnimationControlPanel = new AnimationControlPanel(myAnimation, myGameController,controlPanelX);
+//    AnimationControlPanel myAnimationControlPanel = new AnimationControlPanel(myAnimation, myGameController,controlPanelX);
+    AnimationControlPanel myAnimationControlPanel = new AnimationControlPanel(myAnimation, controlPanelX);
     myAnimationControlPanel.setPanelListener(this);
     return myAnimationControlPanel.createAnimationControlPanel();
   }
@@ -273,13 +280,13 @@ public class GameView extends Application implements PanelListener {
     myGameGridView.setOnMouseClicked(click->updateGrid(click.getX(), click.getY()));
     myGameGridView.setLayoutX(getInt("offset_x") + 3);
     myGameGridView.setLayoutY(getInt("offset_y_top") + 3);
-    myGameController.setupListener(myGridView);
-    try {
-      myGameController.showInitialStates();
-    }
-    catch (ReflectionException e) {
-      sendAlert("InternalError Cannot Make Object");
-    }
+//    myGameController.setupListener(myGridView);
+//    try {
+//      myGameController.showInitialStates();
+//    }
+//    catch (ReflectionException e) {
+//      sendAlert("InternalError Cannot Make Object");
+//    }
     return myGameGridView;
   }
 
@@ -299,7 +306,7 @@ public class GameView extends Application implements PanelListener {
   }
 
   private void updateGrid(double x, double y) {
-    myGameController.calculateIndexesAndUpdateModel(x, y, myGridView.getMyCellHeight(), myGridView.getMyCellWidth());
+//    myGameController.calculateIndexesAndUpdateModel(x, y, myGridView.getMyCellHeight(), myGridView.getMyCellWidth());
   }
 
   //<editor-fold desc="Setup Languages, Conversion, and Update on Change">
@@ -307,12 +314,13 @@ public class GameView extends Application implements PanelListener {
 
   // runs one step of the simulation
   private void step() {
-    try {
-      myGameController.runSimulation();
-    }
-    catch (ReflectionException e) {
-      sendAlert("InternalError Cannot Make Object");
-    }
+    //TODO: increment simulation
+//    try {
+//      myGameController.runSimulation();
+//    }
+//    catch (ReflectionException e) {
+//      sendAlert("InternalError Cannot Make Object");
+//    }
   }
 
   // displays alert/error message to the user - currently duplicated in SharedUIComponents
@@ -398,22 +406,22 @@ public class GameView extends Application implements PanelListener {
    */
   @Override
   public void loadNewFile(String filename) {
-    myFilename = filename;
-
-    myGameController.loadNewFile(myFilename);
-    setupController();
-    gridSize = myGameController.getGridSize();
-    myGameViewRoot.getChildren().remove(myGridPanel);
-    myGridPanel = createGrid();
-    myGameViewRoot.getChildren().addAll(myGridPanel);
-    myGameController.setupListener(myGridView);
-    try {
-      myGameController.showInitialStates();
-    }
-    catch (ReflectionException e) {
-      sendAlert("InternalError Cannot Make Object");
-    }
-    refreshUIPanels();
+//    myFilename = filename;
+//
+//    myGameController.loadNewFile(myFilename);
+//    setupController();
+//    gridSize = myGameController.getGridSize();
+//    myGameViewRoot.getChildren().remove(myGridPanel);
+//    myGridPanel = createGrid();
+//    myGameViewRoot.getChildren().addAll(myGridPanel);
+//    myGameController.setupListener(myGridView);
+//    try {
+//      myGameController.showInitialStates();
+//    }
+//    catch (ReflectionException e) {
+//      sendAlert("InternalError Cannot Make Object");
+//    }
+//    refreshUIPanels();
   }
 
   /**
@@ -422,27 +430,29 @@ public class GameView extends Application implements PanelListener {
   @Override
   public void saveCurrentFile(){
     // TODO: does NOT currently work
-    String filename = getUserSaveFileName(getWord("get_user_filename"));
-    if (myGameController.saveCommand(filename)) {
-//          updateSavedDropdown();
-    }
-    else {
-      sendAlert("Error Saving Program");
-    }
+//    String filename = getUserSaveFileName(getWord("get_user_filename"));
+//    if (myGameController.saveCommand(filename)) {
+////          updateSavedDropdown();
+//    }
+//    else {
+//      sendAlert("Error Saving Program");
+//    }
   }
 
   //get the filename for the simulation file that the user wants to save the current simulation to
   private String getUserSaveFileName(String message) {
+    // TODO: implement interface from gamecontroller
     myAnimation.pause();
-    TextInputDialog getUserInput = new TextInputDialog();
-    getUserInput.setHeaderText(message);
-    String fileName = getUserInput.showAndWait().toString();
-    if (myGameController.validateSaveStringFilenameUsingIO(fileName)) {
-      return fileName;
-    }
-    sendAlert("Invalid Filename");
-    myAnimation.play();
-    return getUserSaveFileName(
-        message); //TODO: test to make sure this gives users another chance if they submit an invalid filename
+//    TextInputDialog getUserInput = new TextInputDialog();
+//    getUserInput.setHeaderText(message);
+//    String fileName = getUserInput.showAndWait().toString();
+//    if (myGameController.validateSaveStringFilenameUsingIO(fileName)) {
+//      return fileName;
+//    }
+//    sendAlert("Invalid Filename");
+//    myAnimation.play();
+//    return getUserSaveFileName(
+//        message); //TODO: test to make sure this gives users another chance if they submit an invalid filename
+    return "Yee";
   }
 }
