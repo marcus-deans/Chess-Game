@@ -41,21 +41,17 @@ public class GameView extends Application implements PanelListener {
   private static final int FRAMES_PER_SECOND = 7;
   private static final double SECOND_DELAY = 7.0 / FRAMES_PER_SECOND;
 
-  private static final String MAIN_WORDS_PATH = "cellsociety.resources.mainWords";
-  private static final ResourceBundle gameTitleWords = ResourceBundle.getBundle(MAIN_WORDS_PATH);
-
   //General resource file structure
-  private static final String RESOURCE_FILE_PATH = "cellsociety.resources.view.viewControlResources";
-  private static final ResourceBundle gameViewResources = ResourceBundle.getBundle(RESOURCE_FILE_PATH);
+  private static final String GAME_VIEW_RESOURCES_FILE_PATH = "ooga.view.viewresources.GameViewResources";
+  private static final ResourceBundle gameViewResources = ResourceBundle.getBundle(
+      GAME_VIEW_RESOURCES_FILE_PATH);
 
   //Cosmetic features: colours and views
   private static final String GRID_COLORS_PATH = "cellsociety.resources.defaultColors";
   private static final ResourceBundle defaultGridColours = ResourceBundle.getBundle(
       GRID_COLORS_PATH);
 
-  //Game options and parameters
-  private static final String GAME_OPTIONS = "GameOptions";
-  private final List<String> gameTypes = Arrays.asList(gameViewResources.getString(GAME_OPTIONS).split(","));
+  private final List<String> gameTypes = Arrays.asList(gameViewResources.getString("GameOptions").split(","));
 
   //Cosmetic features: JavaFX pixel positioning
   private int frameWidth;
@@ -275,8 +271,8 @@ public class GameView extends Application implements PanelListener {
     myGridView = new GridView(gridSize[0], gridSize[1], myGridColours, gridDisplayLength);
     GridPane myGameGridView = myGridView.getMyGameGrid();
     myGameGridView.setOnMouseClicked(click->updateGrid(click.getX(), click.getY()));
-    myGameGridView.setLayoutX(OFFSET_X + 3);
-    myGameGridView.setLayoutY(OFFSET_Y_TOP + 3);
+    myGameGridView.setLayoutX(getInt("offset_x") + 3);
+    myGameGridView.setLayoutY(getInt("offset_y_top") + 3);
     myGameController.setupListener(myGridView);
     try {
       myGameController.showInitialStates();
@@ -326,10 +322,27 @@ public class GameView extends Application implements PanelListener {
     alert.show();
   }
 
-  // retrieves relevant word from the "words" ResourceBundle - currently duplicated in SharedUIComponents
+  //retrieves relevant word from the "words" ResourceBundle
   protected String getWord(String key) {
     ResourceBundle words = ResourceBundle.getBundle("words");
-    String value = words.getString(key);
+    String value = "error";
+    try {
+      value = words.getString(key);
+    } catch (Exception exception) {
+      sendAlert(String.format("%s string was not found in Resource File %s", key,
+          GAME_VIEW_RESOURCES_FILE_PATH));
+    }
+    return value;
+  }
+
+  //return the integer from the resource file based on the provided string
+  private int getInt(String key){
+    int value;
+    try {
+      value = Integer.parseInt(gameViewResources.getString(key));
+    } catch(Exception e){
+      value =-1;
+    }
     return value;
   }
 
@@ -359,7 +372,6 @@ public class GameView extends Application implements PanelListener {
         Locale.setDefault(new Locale("fr"));
       }
     }
-
     refreshUIPanels();
   }
 

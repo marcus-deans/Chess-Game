@@ -24,7 +24,7 @@ import ooga.view.PanelListener;
 public abstract class SharedUIComponents {
 
   //General resource file structure
-  private static final String UI_FILE_PATH = "cellsociety.resources.view.uiLocation";
+  private static final String UI_FILE_PATH = "ooga.view.viewresources.GameViewResources";
   private static final ResourceBundle uiLocationResources = ResourceBundle.getBundle(UI_FILE_PATH);
 
   private PanelListener myPanelListener;

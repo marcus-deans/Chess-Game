@@ -9,7 +9,7 @@ import javafx.scene.shape.Rectangle;
 /**
  * JavaFX View class
  */
-public class GridView implements ooga.view.GridListener {
+public class GridView implements GridListener {
 
   private String[] myGridColours;
   private GridPane myGameGrid;

@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ooga.view.GameView;
@@ -31,7 +30,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         stage.setScene(setupDisplay());
-        stage.setTitle(getWord("menu_title"));
+        stage.setTitle(getString("menu_title"));
         stage.show();
     }
 
@@ -39,7 +38,7 @@ public class Main extends Application {
     private Scene setupDisplay() {
         Scene myMenuScene = new Scene(setupMenuRoot(), getInt("menuWidth"), getInt("menuHeight"));
         myMenuScene.getStylesheets()
-            .add(Main.class.getResource(getWord("stylingFile")).toExternalForm());
+            .add(Main.class.getResource(getString("stylingFile")).toExternalForm());
         return myMenuScene;
     }
 
@@ -48,7 +47,7 @@ public class Main extends Application {
     private VBox setupMenuRoot() {
         VBox myMenuRoot = new VBox();
 
-        Label programTitle = makeTitleLabel(getWord("welcomeText"));
+        Label programTitle = makeTitleLabel(getString("welcomeText"));
         HBox myMenuButton = makeMenuButtonPanel();
 
         myMenuRoot.getChildren().addAll(programTitle, myMenuButton);
@@ -61,12 +60,12 @@ public class Main extends Application {
     private HBox makeMenuButtonPanel(){
         HBox menuButtonPanel = new HBox();
 
-        Button newGameButton = makeButton(getWord("newGameButtonText"), value -> {
-            startNewGame(getWord("defaultSetup"));
+        Button newGameButton = makeButton(getString("newGameButtonText"), value -> {
+            startNewGame(getString("defaultSetup"));
         });
 
         // Create a button to load new files
-        Button loadGameButton = makeButton(getWord("loadGameButtonText"), value -> {
+        Button loadGameButton = makeButton(getString("loadGameButtonText"), value -> {
             File selectedSIMFile = makeFileChooser("SIM files (*.sim)", "*.sim");
             if(selectedSIMFile != null) {
                 String filename = selectedSIMFile.getAbsolutePath();
@@ -93,7 +92,8 @@ public class Main extends Application {
 
     //create a new game animation based on the default app file provided
     private void startNewGame(String appFileName) {
-        GameView newGameView = new GameView(getInt("frameWidth"), getInt("frameHeight"), Color.web(getWord("backgroundColor")), appFileName);
+        GameView newGameView = new GameView(getInt("frameWidth"), getInt("frameHeight"), Color.web(
+            getString("backgroundColor")), appFileName);
         newGameView.start(new Stage());
     }
 
@@ -105,7 +105,7 @@ public class Main extends Application {
     }
 
     //return the String  from the resource file based on the provided string
-    private String getWord(String key) {
+    private String getString(String key) {
         String value;
         try {
             value = gameTitleWords.getString(key);
