@@ -1,12 +1,9 @@
 package ooga.view;
 
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ResourceBundle;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 
 
 /**
@@ -16,9 +13,6 @@ public class GridView implements ooga.view.GridListener {
 
   private String[] myGridColours;
   private GridPane myGameGrid;
-  private Map<Integer, Map<Integer,Integer>> myStateCounter;
-  private Map<Integer, Integer> myTimeCount;
-  private int myTimeCounter;
   private int myWidthNumber;
   private int myHeightNumber;
   private int myGridDimensions;
@@ -26,39 +20,52 @@ public class GridView implements ooga.view.GridListener {
   private int myCellHeight;
   private static final int LINE_SIZE = 6;
 
+  private static final String GRID_VIEW_RESOURCES_PATH = "ooga.view.viewresources.GridViewResources";
+  private static final ResourceBundle gridViewResources = ResourceBundle.getBundle(GRID_VIEW_RESOURCES_PATH);
+
   public GridView(int height, int width, String[] gridColours, int gridDisplayLength) {
     myGameGrid = new GridPane();
     myWidthNumber = width;
     myHeightNumber = height;
     myGridColours = gridColours;
     myGridDimensions = gridDisplayLength;
-    myTimeCounter = 0;
-    myStateCounter = new HashMap<>();
-    myTimeCount = new HashMap<>();
     determineCellDimensions();
     populateNewGrid();
   }
 
   private void determineCellDimensions() {
-    //TODO: fix computation
-    myCellWidth = (myGridDimensions - LINE_SIZE) / myWidthNumber;
-    myCellHeight = (myGridDimensions - LINE_SIZE) / myHeightNumber;
+    myCellWidth = (myGridDimensions - getInt("lineSize")) / myWidthNumber;
+    myCellHeight = (myGridDimensions - getInt("lineSize")) / myHeightNumber;
   }
 
+  //create an individual cell on the grid representing a square of provided colour
   private Rectangle createNewCellView(int state) {
     Rectangle newCell = new Rectangle();
     newCell.setWidth(myCellWidth);
     newCell.setHeight(myCellHeight);
-
     newCell.setId("cell-view");
     newCell.setFill(Paint.valueOf(myGridColours[state]));
     return newCell;
   }
 
+  //a chess board alternates in colour hence the state must switch depending on position
+  private int determineCellColour(int column, int row){
+    if((column %2 == 0)&&(row %2 ==0)){
+      return 0;
+    } else if ((column %2 ==0)&&(row %2 == 1)){
+      return 1;
+    } else if ((column %2 == 1)&&(row %2 == 0)){
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  //create the new chess grid of appropriate size
   private void populateNewGrid() {
     for (int column = 0; column < myWidthNumber; column++) {
       for (int row = 0; row < myHeightNumber; row++) {
-        myGameGrid.add(createNewCellView(0), column, row);
+        myGameGrid.add(createNewCellView(determineCellColour(column, row)), column, row);
       }
     }
   }
@@ -81,9 +88,17 @@ public class GridView implements ooga.view.GridListener {
 
   @Override
   public void update(int row, int column, int state) {
-    myGameGrid.add(createNewCellView(state), column, row);
-//    myTimeCount.put(myTimeCounter, myTimeCount.getOrDefault(state,0)+1);
-//    myStateCounter.put(state, myTimeCount);
-    myTimeCount.put(state, myTimeCount.getOrDefault(state, 0)+1);
+    myGameGrid.add(createNewCellView(determineCellColour(column, row)), column, row);
+  }
+
+  //return the integer from the resource file based on the provided string
+  private int getInt(String key){
+    int value;
+    try {
+      value = Integer.parseInt(gridViewResources.getString(key));
+    } catch(Exception e){
+      value =-1;
+    }
+    return value;
   }
 }
