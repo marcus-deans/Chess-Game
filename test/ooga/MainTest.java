@@ -14,12 +14,12 @@ class MainTest {
     /**
      * Test a method from Main.
      */
-    @Test
-    void testVersionIsReady () {
-        Main m = new Main();
-        // different ways to test double results
-        assertEquals(1, Math.round(m.getVersion() * 1000));
-        assertTrue(m.getVersion() < 1);
-        assertEquals(0.001, m.getVersion(), TOLERANCE);
-    }
+//    @Test
+//    void testVersionIsReady () {
+//        Main m = new Main();
+//        // different ways to test double results
+//        assertEquals(1, Math.round(m.getVersion() * 1000));
+//        assertTrue(m.getVersion() < 1);
+//        assertEquals(0.001, m.getVersion(), TOLERANCE);
+//    }
 }

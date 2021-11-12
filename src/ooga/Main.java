@@ -10,27 +10,20 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import ooga.view.GameView;
 
 /**
  * Feel free to completely change this code or delete it entirely. 
  */
 public class Main extends Application {
-    private static final int MENU_WIDTH = 550;
-    private static final int MENU_HEIGHT = 130;
-    private static final int FRAME_WIDTH = 733;
-    private static final int FRAME_HEIGHT = 680;
-    public static final Paint BACKGROUND = Color.web("#00539B");
     private static final String MAIN_WORDS_PATH = "ooga.view.viewresources.MainWords";
     private static final ResourceBundle gameTitleWords = ResourceBundle.getBundle(MAIN_WORDS_PATH);
-    private static final int BUTTON_WIDTH = 175;
-    private static final int BUTTON_HEIGHT = 30;
-    private static final int MENU_ROW_SPACING = 40;
-    private static final int MENU_VERTICAL_SPACING = 20;
 
     /**
      * Organize display of game in a scene and start the game.
@@ -44,7 +37,7 @@ public class Main extends Application {
 
     //setup the JavaFX Scene to hold all content as well as importing appropriate styling
     private Scene setupDisplay() {
-        Scene myMenuScene = new Scene(setupMenuRoot(), MENU_WIDTH, MENU_HEIGHT);
+        Scene myMenuScene = new Scene(setupMenuRoot(), getInt("menuWidth"), getInt("menuHeight"));
         myMenuScene.getStylesheets()
             .add(Main.class.getResource(getWord("stylingFile")).toExternalForm());
         return myMenuScene;
@@ -56,9 +49,24 @@ public class Main extends Application {
         VBox myMenuRoot = new VBox();
 
         Label programTitle = makeTitleLabel(getWord("welcomeText"));
+        HBox myMenuButton = makeMenuButtonPanel();
+
+        myMenuRoot.getChildren().addAll(programTitle, myMenuButton);
+        myMenuRoot.setAlignment(Pos.CENTER);
+        myMenuRoot.setSpacing(getInt("menuVerticalSpacing"));
+        return myMenuRoot;
+    }
+
+    //create JavaFX Horizontal panel containing buttons
+    private HBox makeMenuButtonPanel(){
+        HBox menuButtonPanel = new HBox();
+
+        Button newGameButton = makeButton(getWord("newGameButtonText"), value -> {
+            startNewGame(getWord("defaultSetup"));
+        });
 
         // Create a button to load new files
-        Button startButton = makeButton("Load New File", value -> {
+        Button loadGameButton = makeButton(getWord("loadGameButtonText"), value -> {
             File selectedSIMFile = makeFileChooser("SIM files (*.sim)", "*.sim");
             if(selectedSIMFile != null) {
                 String filename = selectedSIMFile.getAbsolutePath();
@@ -66,27 +74,26 @@ public class Main extends Application {
             }
         });
 
-        //Add to each box
-        myMenuRoot.getChildren().addAll(programTitle, startButton);
-        myMenuRoot.setAlignment(Pos.CENTER);
-        myMenuRoot.setSpacing(MENU_VERTICAL_SPACING);
-        return myMenuRoot;
+        menuButtonPanel.getChildren().addAll(newGameButton, loadGameButton);
+        menuButtonPanel.setAlignment(Pos.CENTER);
+        menuButtonPanel.setSpacing(getInt("menuHorizontalSpacing"));
+        return menuButtonPanel;
     }
 
-    //creata a JavaFX Button with the appropriate text as well as provided EventHandler
+    //create a JavaFX Button with the appropriate text as well as provided EventHandler
     private Button makeButton(String property, EventHandler<ActionEvent> response) {
         Button gameSelectionButton = new Button();
-        gameSelectionButton.setId("game-selection-button");
+        gameSelectionButton.setId("start-game-button");
         gameSelectionButton.setText(property);
-        gameSelectionButton.setPrefWidth(BUTTON_WIDTH);
-        gameSelectionButton.setPrefHeight(BUTTON_HEIGHT);
+        gameSelectionButton.setPrefWidth(getInt("buttonWidth"));
+        gameSelectionButton.setPrefHeight(getInt("buttonHeight"));
         gameSelectionButton.setOnAction(response);
         return gameSelectionButton;
     }
 
     //create a new game animation based on the default app file provided
     private void startNewGame(String appFileName) {
-        GameView newGameView = new GameView(FRAME_WIDTH, FRAME_HEIGHT, BACKGROUND, appFileName);
+        GameView newGameView = new GameView(getInt("frameWidth"), getInt("frameHeight"), Color.web(getWord("backgroundColor")), appFileName);
         newGameView.start(new Stage());
     }
 
@@ -108,6 +115,18 @@ public class Main extends Application {
         return value;
     }
 
+    //return the integer from the resource file based on the provided string
+    private int getInt(String key){
+        int value;
+        try {
+            value = Integer.parseInt(gameTitleWords.getString(key));
+        } catch(Exception e){
+            value =-1;
+        }
+        return value;
+    }
+
+    //allow the user to select a file to load the game from
     private File makeFileChooser(String description, String extensions) {
         FileChooser myFileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(description, extensions);
