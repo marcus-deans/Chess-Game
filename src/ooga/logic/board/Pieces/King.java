@@ -1,12 +1,10 @@
 package ooga.logic.board.Pieces;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import ooga.logic.board.Coordinate;
 import ooga.logic.board.CoordinateUseCase;
-import ooga.logic.board.Pieces.Interfaces.CaptureLogic;
-import ooga.logic.board.Pieces.Interfaces.MoveLogic;
+import ooga.logic.board.Pieces.Interfaces.PieceLogic;
 
 /**
  * Implement a Pawn that can do the following
@@ -15,7 +13,7 @@ import ooga.logic.board.Pieces.Interfaces.MoveLogic;
  * Move forward once if else
  * can capture top right and top left immediate
  */
-public class King extends Piece implements MoveLogic, CaptureLogic {
+public class King extends Piece {
 
   public King(){
     this(4,0);
@@ -24,19 +22,6 @@ public class King extends Piece implements MoveLogic, CaptureLogic {
     setMyCoordinate(new CoordinateUseCase(xPosition,yPosition));
     updateRankAndFile();
   }
-
-
-//  @Override
-//  public void captures(Coordinate captureCoordinate) {
-//    if (canCapture(captureCoordinate)){
-//      myCoordinate.setCoordinate(captureCoordinate);
-//      // TODO: remove the piece thats on this square in the board
-//    }
-//  }
-
-//  @Override
-//  public void moves() {
-//  }
 
   @Override
   public List<Coordinate> getPossibleCaptures() {
@@ -71,4 +56,17 @@ public class King extends Piece implements MoveLogic, CaptureLogic {
     return getPossibleCaptures().contains(captureCoordinate);
   }
 
+
+
+
+
+  @Override
+  public List<Coordinate> promotionSquares() {
+    return null;
+  }
+
+  @Override
+  public List<PieceLogic> possiblePromotionPieces() {
+    return null;
+  }
 }

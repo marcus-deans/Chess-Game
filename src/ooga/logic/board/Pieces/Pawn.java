@@ -17,7 +17,7 @@ import ooga.logic.board.Pieces.Interfaces.PromoteLogic;
  * Move forward once if else
  * can capture top right and top left immediate
  */
-public class Pawn extends Piece implements MoveLogic, CaptureLogic, PromoteLogic {
+public class Pawn extends Piece {
 
   public Pawn(){
     this(0,1);
@@ -27,19 +27,6 @@ public class Pawn extends Piece implements MoveLogic, CaptureLogic, PromoteLogic
     updateRankAndFile();
   }
 
-
-
-//  @Override
-//  public void captures(Coordinate captureCoordinate) {
-//    if (canCapture(captureCoordinate)){
-//      myCoordinate.setCoordinate(captureCoordinate);
-//      // TODO: remove the piece thats on this square in the board
-//    }
-//  }
-
-//  @Override
-//  public void moves() {
-//  }
 
   @Override
   public List<Coordinate> getPossibleCaptures() {
