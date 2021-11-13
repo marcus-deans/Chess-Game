@@ -22,4 +22,6 @@ public interface PanelListener {
      * Undo the previous move
      */
     void undoMove();
+
+    void changeVariant(String variant);
 }

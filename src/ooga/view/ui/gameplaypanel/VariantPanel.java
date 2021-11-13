@@ -1,10 +1,16 @@
 package ooga.view.ui.gameplaypanel;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import ooga.view.ui.SharedUIComponents;
 
 /**
@@ -14,21 +20,19 @@ import ooga.view.ui.SharedUIComponents;
  * @author marcusdeans, drewpeterson
  */
 public class VariantPanel extends SharedUIComponents {
-  private String myType;
-  private String myTitle;
-  private String myAuthor;
   private String myDescription;
+
+  private static final String VARIANT_RESOURCE_FILE_PATH = "ooga.view.viewresources.VariantResources";
+  private static final ResourceBundle variantResources = ResourceBundle.getBundle(
+      VARIANT_RESOURCE_FILE_PATH);
+  private final List<String> variantOptions = Arrays.asList(
+      variantResources.getString("VariantOptions").split(","));
+  private ComboBox variantControlDropdown;
 
   /**
    * Initialize the information panel creator
-   * @param type String type of simulation
-   * @param title String title of simulation
-   * @param author String author of simulation
    */
-  public VariantPanel(String type, String title, String author, String description){
-    myType = type;
-    myTitle = title;
-    myAuthor = author;
+  public VariantPanel(String description){
     myDescription = description;
   }
 
@@ -36,22 +40,28 @@ public class VariantPanel extends SharedUIComponents {
    * Create the information panel that displays type, name, and author of the simulation on-screen
    * @return the JavaFX HBox that constitutes the information panel
    */
-  public Node createInformationPanel(){
-    HBox myInformationPanel = new HBox();
-    myInformationPanel.setSpacing(getInt("information_panel_spacing"));
+  public Node createVariantPanel(){
+    VBox myVariantPanel = new VBox();
+    myVariantPanel.setSpacing(getInt("gameplay_subpanel_spacing"));
+    myVariantPanel.setId("variant-panel");
 
-    HBox gameTypePanel = makeHorizontalPanel(makeText(getWord("game_type_text")), makeInformationLabel(myType));
-    HBox gameNamePanel = makeHorizontalPanel(makeText(getWord("game_name_text")), makeInformationLabel(myTitle));
-    HBox gameAuthorPanel = makeHorizontalPanel(makeText(getWord("game_author_text")), makeInformationLabel(myAuthor));
+    Node variantControlDropdown = initializeVariantControlDropdown();
     Button gameDescriptionButton = initializeGameDescriptionButton();
 
+    myVariantPanel.getChildren().addAll(variantControlDropdown, gameDescriptionButton);
 
-    myInformationPanel.getChildren().addAll(gameTypePanel, gameNamePanel, gameAuthorPanel, gameDescriptionButton);
-    myInformationPanel.setLayoutX(getInt("offset_x"));
-    myInformationPanel.setLayoutY(getInt("offset_y"));
-    myInformationPanel.setId("information-panel");
+    return myVariantPanel;
+  }
 
-    return myInformationPanel;
+  //create the specific dropdown allowing the user to select which view mode they prefer
+  private Node initializeVariantControlDropdown() {
+    variantControlDropdown = makeComboBox(getWord("view_selection"), variantOptions, (event) -> {
+      String myVariantSelection = variantControlDropdown.getSelectionModel().getSelectedItem().toString();
+      if(this.getPanelListener() != null){
+        this.getPanelListener().changeVariant(myVariantSelection);
+      }
+    });
+    return variantControlDropdown;
   }
 
   private Button initializeGameDescriptionButton(){

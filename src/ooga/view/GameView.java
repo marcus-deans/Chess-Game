@@ -18,6 +18,7 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.controller.Controller;
+import ooga.view.ui.gameplaypanel.GameplayPanel;
 import ooga.view.ui.gameplaypanel.HistoryPanel;
 import ooga.view.ui.gameplaypanel.VariantPanel;
 import ooga.view.ui.controlpanel.ControlPanel;
@@ -65,6 +66,7 @@ public class GameView extends Application implements PanelListener {
   //Control Panel on Right Side of Screen
   private int controlPanelX;
   private Node myControlPanel;
+  private Node myGameplayPanel;
   private Node myViewControlPanel;
   private Node myAnimationControlPanel;
   private Node myLoadControlPanel;
@@ -213,13 +215,10 @@ public class GameView extends Application implements PanelListener {
 
   //create the UI panels that will provide interactivity and information to the user
   private void createUIPanels() {
-    // Information (top) panel:
-    myInfoPanel = createInformationPanel();
+    // Gameplay (left) panel
+    myGameplayPanel = createGameplayPanel();
 
-    // Details (bottom) panel:
-    myDetailsPanel = createDetailsPanel();
-
-    // Control (side) panel:
+    // Control (right) panel:
     myControlPanel = createControlPanel();
 //    myAnimationControlPanel = createAnimationControlPane();
 //    myLoadControlPanel = createLoadControlPanel();
@@ -239,23 +238,32 @@ public class GameView extends Application implements PanelListener {
   }
   //</editor-fold>
 
-  //create information panel on top of screen to display information like type, name, and author to user
-  private Node createInformationPanel() {
-    //TODO: replace information panel entirely
-    myType="GameOfLife";
-    myTitle="Cantor's Game Of Life";
-    myAuthor="Marcus Deans";
-    myDescription="Testing Game";
-    VariantPanel myInformationPanel = new VariantPanel(myType, myTitle, myAuthor, myDescription);
-    myInformationPanel.setPanelListener(this);
-    return myInformationPanel.createInformationPanel();
-  }
+
+
+//  //create information panel on top of screen to display information like type, name, and author to user
+//  private Node createInformationPanel() {
+//    //TODO: replace information panel entirely
+//    myType="GameOfLife";
+//    myTitle="Cantor's Game Of Life";
+//    myAuthor="Marcus Deans";
+//    myDescription="Testing Game";
+//    VariantPanel myInformationPanel = new VariantPanel(myType, myTitle, myAuthor, myDescription);
+//    myInformationPanel.setPanelListener(this);
+//    return myInformationPanel.createInformationPanel();
+//  }
 
   //create control panel on right of screen to control view, animation/gameplay, and loading/saving
   private Node createControlPanel(){
-    ControlPanel myControlPanel = new ControlPanel(controlPanelX, myAnimation);
-    myControlPanel.setPanelListener(this);
-    return myControlPanel.createControlPanel();
+    ControlPanel newControlPanel = new ControlPanel(controlPanelX, myAnimation);
+    newControlPanel.setPanelListener(this);
+    return newControlPanel.createControlPanel();
+  }
+
+  //create gameplay panel on left of screen to control variant, move history, and dead pieces
+  private Node createGameplayPanel(){
+    GameplayPanel newGameplayPanel = new GameplayPanel(getInt("x_offset"));
+    newGameplayPanel.setPanelListener(this);
+    return newGameplayPanel.createGameplayPanel();
   }
 
 //  //<editor-fold desc="Create Control Pane and Buttons">
@@ -445,6 +453,11 @@ public class GameView extends Application implements PanelListener {
   @Override
   public void undoMove() {
     //TODO: callback to controller
+  }
+
+  @Override
+  public void changeVariant(String variant) {
+    //TODO: callback to controller to change the variant
   }
 
   //get the filename for the simulation file that the user wants to save the current simulation to
