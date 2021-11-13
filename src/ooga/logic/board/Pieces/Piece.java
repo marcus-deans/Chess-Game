@@ -76,5 +76,33 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     return true;
   }
 
+  @Override
+  public boolean canCapture(Coordinate captureCoordinate) {
+    return getPossibleCaptures().contains(captureCoordinate);
+  }
+
+
+  @Override
+  public void updatePosition(Coordinate passedCoordinate) {
+    setMyCoordinate(passedCoordinate);
+  }
+
+
+  @Override
+  public void setCoordinate(Coordinate passedCoordinate) {
+    setMyCoordinate(passedCoordinate);
+  }
+
+  
+  @Override
+  public List<Coordinate> promotionSquares() {
+    return null;
+  }
+
+  @Override
+  public List<PieceLogic> possiblePromotionPieces() {
+    return null;
+  }
+
 
 }

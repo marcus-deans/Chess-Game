@@ -5,10 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import ooga.logic.board.Coordinate;
 import ooga.logic.board.CoordinateUseCase;
-import ooga.logic.board.Pieces.Interfaces.CaptureLogic;
-import ooga.logic.board.Pieces.Interfaces.MoveLogic;
 import ooga.logic.board.Pieces.Interfaces.PieceLogic;
-import ooga.logic.board.Pieces.Interfaces.PromoteLogic;
 
 /**
  * Implement a Pawn that can do the following
@@ -32,7 +29,6 @@ public class Pawn extends Piece {
   public List<Coordinate> getPossibleCaptures() {
     int[] addXAmount = new int[]{-1,1};
     int[] addYAmount = new int[]{1};
-
     return availableSquares(addXAmount,addYAmount);
   }
 
@@ -47,17 +43,6 @@ public class Pawn extends Piece {
       myPossibleMoves.add(moveCoordinate);
     }
     return myPossibleMoves;
-  }
-
-  @Override
-  public void updatePosition(Coordinate passedCoordinate) {
-    setMyCoordinate(passedCoordinate);
-  }
-
-
-  @Override
-  public void setCoordinate(Coordinate passedCoordinate) {
-    setMyCoordinate(passedCoordinate);
   }
 
   @Override
@@ -93,9 +78,5 @@ public class Pawn extends Piece {
   return boops;
   }
 
-  @Override
-  public boolean canCapture(Coordinate captureCoordinate) {
-    return getPossibleCaptures().contains(captureCoordinate);
-  }
 
 }
