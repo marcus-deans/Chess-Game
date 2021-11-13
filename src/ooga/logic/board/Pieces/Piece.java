@@ -1,8 +1,9 @@
 package ooga.logic.board.Pieces;
 
 import ooga.logic.board.Coordinate;
+import ooga.logic.board.Pieces.Interfaces.PieceLogic;
 
-abstract public class Piece implements PieceLogic{
+abstract public class Piece implements PieceLogic {
   private Coordinate myCoordinate;
   private int myRank;
   private int myFile;

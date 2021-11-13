@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import ooga.logic.board.Coordinate;
 import ooga.logic.board.CoordinateUseCase;
+import ooga.logic.board.Pieces.Interfaces.CaptureLogic;
+import ooga.logic.board.Pieces.Interfaces.MoveLogic;
 
 /**
  * Implement a Pawn that can do the following
@@ -13,7 +15,7 @@ import ooga.logic.board.CoordinateUseCase;
  * Move forward once if else
  * can capture top right and top left immediate
  */
-public class King extends Piece implements MoveLogic, CaptureLogic{
+public class King extends Piece implements MoveLogic, CaptureLogic {
 
   public King(){
     this(4,0);
