@@ -2,6 +2,7 @@ package ooga.logic.board.Pieces.Interfaces;
 
 import java.util.List;
 import ooga.logic.board.Coordinate;
+import ooga.logic.board.CoordinateUseCase;
 
 public interface MoveLogic {
 
@@ -29,12 +30,12 @@ public interface MoveLogic {
   /**
    * Updates the internal coordinate of the piece after it is moved
    */
-  public void updatePosition(Coordinate passedCoordinate);
+  public void updatePosition(CoordinateUseCase passedCoordinate);
 
   /**
    * Changes the coordinate set for the piece
    */
-  public void setCoordinate(Coordinate passedCoordinate);
+  public void setCoordinate(CoordinateUseCase passedCoordinate);
 
 }
 

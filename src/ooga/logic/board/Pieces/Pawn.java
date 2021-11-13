@@ -36,14 +36,14 @@ public class Pawn extends Piece {
   @Override
   public List<Coordinate> getPossibleMoves() {
     List<Coordinate> myPossibleMoves = new ArrayList<>();
-    CoordinateUseCase moveCoordinate = new CoordinateUseCase(getMyXCoordinate(), getMyYCoordinate() + 1);
-    myPossibleMoves.add(moveCoordinate);
+    myPossibleMoves.add(Forward(1));
     if (getMyRank() == 1){
-      moveCoordinate.setCoordinate(getMyXCoordinate(), getMyYCoordinate() + 2);
-      myPossibleMoves.add(moveCoordinate);
+      myPossibleMoves.add(Forward(2));
     }
     return myPossibleMoves;
   }
+
+
 
   @Override
   public void setState() {

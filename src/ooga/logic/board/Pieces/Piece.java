@@ -10,13 +10,13 @@ import ooga.logic.board.Pieces.Interfaces.PieceLogic;
 import ooga.logic.board.Pieces.Interfaces.PromoteLogic;
 
 abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, PromoteLogic {
-  private Coordinate myCoordinate;
+  private CoordinateUseCase myCoordinate;
   private int myRank;
   private int myFile;
 
 
   @Override
-  public Coordinate getCoordinate(){
+  public CoordinateUseCase getCoordinate(){
     return myCoordinate;
   }
 
@@ -28,7 +28,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     return getCoordinate().getY_pos();
   }
 
-  protected void setMyCoordinate(Coordinate newCoordinate){
+  protected void setMyCoordinate(CoordinateUseCase newCoordinate){
     myCoordinate = newCoordinate;
   }
 
@@ -55,12 +55,12 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   protected List<Coordinate> availableSquares(int[] addXAmount, int[] addYAmount){
     List<Coordinate> myCoordinateList = new ArrayList<>();
-    CoordinateUseCase moveCoordinate = new CoordinateUseCase();
+    CoordinateUseCase moveCoordinate;
 
     for (int xAmt : addXAmount){
       for (int yAmt: addYAmount){
         if (!(xAmt == 0 && yAmt == 0)) {
-          moveCoordinate.setCoordinate(getMyXCoordinate() + xAmt, getMyYCoordinate() + yAmt);
+          moveCoordinate = Diagonal(getCoordinate(),xAmt,yAmt);
           if (isValidSquare(moveCoordinate)) {
             myCoordinateList.add(moveCoordinate);
           }
@@ -77,23 +77,23 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   }
 
   @Override
-  public boolean canCapture(Coordinate captureCoordinate) {
+  public boolean canCapture(CoordinateUseCase captureCoordinate) {
     return getPossibleCaptures().contains(captureCoordinate);
   }
 
 
   @Override
-  public void updatePosition(Coordinate passedCoordinate) {
+  public void updatePosition(CoordinateUseCase passedCoordinate) {
     setMyCoordinate(passedCoordinate);
   }
 
 
   @Override
-  public void setCoordinate(Coordinate passedCoordinate) {
+  public void setCoordinate(CoordinateUseCase passedCoordinate) {
     setMyCoordinate(passedCoordinate);
   }
 
-  
+
   @Override
   public List<Coordinate> promotionSquares() {
     return null;
@@ -102,6 +102,20 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   @Override
   public List<PieceLogic> possiblePromotionPieces() {
     return null;
+  }
+
+  protected CoordinateUseCase Diagonal(CoordinateUseCase myCoordinate, int xAmount, int yAmount){
+    myCoordinate.setX_pos(myCoordinate.getX_pos() + xAmount);
+    myCoordinate.setY_pos(myCoordinate.getY_pos() + yAmount);
+    return myCoordinate;
+  }
+
+  protected CoordinateUseCase Forward(int yAmount) {
+    return Diagonal(getCoordinate(),0,yAmount);
+  }
+
+  protected CoordinateUseCase Sideways(int xAmount) {
+    return Diagonal(getCoordinate(),xAmount,0);
   }
 
 
