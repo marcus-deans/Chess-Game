@@ -1,9 +1,12 @@
-package ooga.logic.board;
+package ooga.logic.board.Pieces;
 
 import java.util.ArrayList;
 import java.util.List;
+import ooga.logic.board.Coordinate;
+import ooga.logic.board.CoordinateUseCase;
+import ooga.logic.board.Pieces.Piece;
 
-public class PieceUseCase implements Piece{
+public class PieceUseCase implements Piece {
     private int state=1;//Represents a pawn
     private List<Coordinate> possibleMoves=new ArrayList<>();
     private Coordinate currentLoc=new CoordinateUseCase(0,0);
@@ -35,6 +38,11 @@ public class PieceUseCase implements Piece{
     @Override
     public Coordinate getCoordinate() {
         return null;
+    }
+
+    @Override
+    public void remove() {
+
     }
 
     @Override

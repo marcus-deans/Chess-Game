@@ -6,8 +6,8 @@ public class CoordinateUseCase implements Coordinate{
 
     public CoordinateUseCase(int x,int y)
     {
-        this.x_pos=x;
-        this.y_pos=y;
+        setX_pos(x);
+        setY_pos(y);
     }
     /**
      * This method would set the x-position for a coordinate

@@ -1,7 +1,6 @@
 package ooga.controller;
 
 import javafx.stage.Stage;
-import ooga.logic.board.Piece;
 import ooga.logic.game.Game;
 import ooga.view.View;
 
