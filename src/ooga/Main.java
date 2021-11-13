@@ -12,13 +12,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.controller.GameController;
-import ooga.logic.game.Game;
-import ooga.view.GameView;
 
 /**
  * Feel free to completely change this code or delete it entirely. 
