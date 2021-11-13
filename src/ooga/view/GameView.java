@@ -20,7 +20,6 @@ import javafx.util.Duration;
 import ooga.controller.Controller;
 import ooga.view.ui.gameplaypanel.GameplayPanel;
 import ooga.view.ui.gameplaypanel.HistoryPanel;
-import ooga.view.ui.gameplaypanel.VariantPanel;
 import ooga.view.ui.controlpanel.ControlPanel;
 
 
@@ -234,7 +233,7 @@ public class GameView extends Application implements PanelListener {
     myGameParameters = new String[1];
     myGameParameters[0] = "None";
     HistoryPanel myDetailsPanel = new HistoryPanel(gridDisplayLength, myGridColours, myType, myGameParameters);
-    return myDetailsPanel.createDetailsPanel();
+    return myDetailsPanel.createHistoryPanel();
   }
   //</editor-fold>
 
