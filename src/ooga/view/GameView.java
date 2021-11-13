@@ -20,7 +20,6 @@ import javafx.util.Duration;
 import ooga.controller.Controller;
 import ooga.view.ui.gameplaypanel.GameplayPanel;
 import ooga.view.ui.gameplaypanel.HistoryPanel;
-import ooga.view.ui.gameplaypanel.VariantPanel;
 import ooga.view.ui.controlpanel.ControlPanel;
 
 
@@ -225,18 +224,18 @@ public class GameView extends Application implements PanelListener {
 //    myViewControlPanel = createViewControlPanel();
   }
 
-  //<editor-fold desc="Create Details Pane and Buttons">
-  //create the JavaFX ane on the bottom of the screen; describes colours for cell states as well as simulation parameters
-  private Node createDetailsPanel() {
-    //TODO: remove details panel entirely
-    myType="GameOfLife";
-    myGridColours = defaultGridColours.getString("GameOfLife").split(",");
-    myGameParameters = new String[1];
-    myGameParameters[0] = "None";
-    HistoryPanel myDetailsPanel = new HistoryPanel(gridDisplayLength, myGridColours, myType, myGameParameters);
-    return myDetailsPanel.createDetailsPanel();
-  }
-  //</editor-fold>
+//  //<editor-fold desc="Create Details Pane and Buttons">
+//  //create the JavaFX ane on the bottom of the screen; describes colours for cell states as well as simulation parameters
+//  private Node createDetailsPanel() {
+//    //TODO: remove details panel entirely
+//    myType="GameOfLife";
+//    myGridColours = defaultGridColours.getString("GameOfLife").split(",");
+//    myGameParameters = new String[1];
+//    myGameParameters[0] = "None";
+//    HistoryPanel myDetailsPanel = new HistoryPanel(gridDisplayLength, myGridColours, myType, myGameParameters);
+//    return myDetailsPanel.createHistoryPanel();
+//  }
+//  //</editor-fold>
 
 
 
