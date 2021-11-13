@@ -16,7 +16,10 @@ import ooga.logic.board.CoordinateUseCase;
 public class King extends Piece implements MoveLogic, CaptureLogic{
 
   public King(){
-    setMyCoordinate(new CoordinateUseCase(4,0));
+    this(4,0);
+  }
+  public King(int xPosition, int yPosition){
+    setMyCoordinate(new CoordinateUseCase(xPosition,yPosition));
     updateRankAndFile();
   }
 

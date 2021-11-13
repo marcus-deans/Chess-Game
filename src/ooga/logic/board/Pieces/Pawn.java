@@ -16,7 +16,10 @@ import ooga.logic.board.CoordinateUseCase;
 public class Pawn extends Piece implements MoveLogic, CaptureLogic, PromoteLogic {
 
   public Pawn(){
-    setMyCoordinate(new CoordinateUseCase(1,1));
+    this(0,1);
+  }
+  public Pawn(int xPosition, int yPosition){
+    setMyCoordinate(new CoordinateUseCase(xPosition,yPosition));
     updateRankAndFile();
   }
 

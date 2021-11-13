@@ -4,10 +4,7 @@ import ooga.logic.board.Coordinate;
 
 abstract public class Piece implements PieceLogic{
   private Coordinate myCoordinate;
-
-
   private int myRank;
-
   private int myFile;
 
 
