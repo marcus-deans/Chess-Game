@@ -1,4 +1,4 @@
-package ooga.view.ui;
+package ooga.view.ui.gameplaypanel;
 
 import static java.util.Map.entry;
 
@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import ooga.view.ui.SharedUIComponents;
 
 /**
  * JavaFX panel that creates the details panel that displays game colours and parameters Relies on
@@ -15,7 +16,7 @@ import javafx.scene.shape.Rectangle;
  *
  * @author marcusdeans, drewpeterson
  */
-public class DetailsPanel extends SharedUIComponents {
+public class HistoryPanel extends SharedUIComponents {
 
   private final Map<String, String[]> colourLabelNames = Map.ofEntries(
       entry("GameOfLife",
@@ -42,7 +43,7 @@ public class DetailsPanel extends SharedUIComponents {
    * @param type              String type of simulation
    * @param gameParameters    the parameters of the game if pertinent, e.g., fire probability
    */
-  public DetailsPanel(int gridDisplayLength, String[] gridColours, String type,
+  public HistoryPanel(int gridDisplayLength, String[] gridColours, String type,
       String[] gameParameters) {
     myGridDisplayLength = gridDisplayLength;
     myGridColours = gridColours;

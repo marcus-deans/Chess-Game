@@ -12,4 +12,14 @@ public interface PanelListener {
     void loadNewFile(String filename);
 
     void saveCurrentFile();
+
+    /**
+     * Redo a move that was previously undone
+     */
+    void redoMove();
+
+    /**
+     * Undo the previous move
+     */
+    void undoMove();
 }

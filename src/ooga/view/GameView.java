@@ -2,11 +2,7 @@ package ooga.view;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -15,7 +11,6 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -23,15 +18,9 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.controller.Controller;
-import ooga.controller.GameController;
-import ooga.util.IncorrectCSVFormatException;
-import ooga.util.IncorrectSimFormatException;
-import ooga.util.ReflectionException;
-import ooga.view.ui.DetailsPanel;
-import ooga.view.ui.InformationPanel;
-import ooga.view.ui.controlpanel.AnimationControlPanel;
-import ooga.view.ui.controlpanel.LoadControlPanel;
-import ooga.view.ui.controlpanel.ViewControlPanel;
+import ooga.view.ui.gameplaypanel.HistoryPanel;
+import ooga.view.ui.gameplaypanel.VariantPanel;
+import ooga.view.ui.controlpanel.ControlPanel;
 
 
 /**
@@ -75,6 +64,7 @@ public class GameView extends Application implements PanelListener {
 
   //Control Panel on Right Side of Screen
   private int controlPanelX;
+  private Node myControlPanel;
   private Node myViewControlPanel;
   private Node myAnimationControlPanel;
   private Node myLoadControlPanel;
@@ -215,7 +205,8 @@ public class GameView extends Application implements PanelListener {
     createUIPanels();
     initializeBoundaries();
     myGridPanel = createGrid();
-    myGameViewRoot.getChildren().addAll(myInfoPanel, myDetailsPanel, myAnimationControlPanel, myLoadControlPanel, myViewControlPanel, myGridPanel);
+//    myGameViewRoot.getChildren().addAll(myInfoPanel, myDetailsPanel, myAnimationControlPanel, myLoadControlPanel, myViewControlPanel, myGridPanel);
+    myGameViewRoot.getChildren().addAll(myInfoPanel, myDetailsPanel, myControlPanel, myGridPanel);
 
     myGameViewScene.getStylesheets().add(GameView.class.getResource("GameViewFormatting.css").toExternalForm());
   }
@@ -229,9 +220,10 @@ public class GameView extends Application implements PanelListener {
     myDetailsPanel = createDetailsPanel();
 
     // Control (side) panel:
-    myAnimationControlPanel = createAnimationControlPane();
-    myLoadControlPanel = createLoadControlPanel();
-    myViewControlPanel = createViewControlPanel();
+    myControlPanel = createControlPanel();
+//    myAnimationControlPanel = createAnimationControlPane();
+//    myLoadControlPanel = createLoadControlPanel();
+//    myViewControlPanel = createViewControlPanel();
   }
 
   //<editor-fold desc="Create Details Pane and Buttons">
@@ -242,7 +234,7 @@ public class GameView extends Application implements PanelListener {
     myGridColours = defaultGridColours.getString("GameOfLife").split(",");
     myGameParameters = new String[1];
     myGameParameters[0] = "None";
-    DetailsPanel myDetailsPanel = new DetailsPanel(gridDisplayLength, myGridColours, myType, myGameParameters);
+    HistoryPanel myDetailsPanel = new HistoryPanel(gridDisplayLength, myGridColours, myType, myGameParameters);
     return myDetailsPanel.createDetailsPanel();
   }
   //</editor-fold>
@@ -254,41 +246,48 @@ public class GameView extends Application implements PanelListener {
     myTitle="Cantor's Game Of Life";
     myAuthor="Marcus Deans";
     myDescription="Testing Game";
-    InformationPanel myInformationPanel = new InformationPanel(myType, myTitle, myAuthor, myDescription);
+    VariantPanel myInformationPanel = new VariantPanel(myType, myTitle, myAuthor, myDescription);
     myInformationPanel.setPanelListener(this);
     return myInformationPanel.createInformationPanel();
   }
 
-  //<editor-fold desc="Create Control Pane and Buttons">
-  //<editor-fold desc="Create Animation Control Pane and Buttons">
-  //create the animation control pane allowing the user to run, pause/resume, clear, and step the simualtion
-  private Node createAnimationControlPane() {
-//    AnimationControlPanel myAnimationControlPanel = new AnimationControlPanel(myAnimation, myGameController,controlPanelX);
-    AnimationControlPanel myAnimationControlPanel = new AnimationControlPanel(myAnimation, controlPanelX);
-    myAnimationControlPanel.setPanelListener(this);
-    return myAnimationControlPanel.createAnimationControlPanel();
-  }
-  //</editor-fold>
-
-  //<editor-fold desc="Create Load Control Pane and Button">
-  //create the pane allowing user to load and save simulation files
-  private Node createLoadControlPanel() {
-    LoadControlPanel myLoadControlPanel = new LoadControlPanel(myAnimation, controlPanelX);
-    myLoadControlPanel.setPanelListener(this);
-    return myLoadControlPanel.createLoadControlPanel();
+  //create control panel on right of screen to control view, animation/gameplay, and loading/saving
+  private Node createControlPanel(){
+    ControlPanel myControlPanel = new ControlPanel(controlPanelX, myAnimation);
+    myControlPanel.setPanelListener(this);
+    return myControlPanel.createControlPanel();
   }
 
-  //</editor-fold>
+//  //<editor-fold desc="Create Control Pane and Buttons">
+//  //<editor-fold desc="Create Animation Control Pane and Buttons">
+//  //create the animation control pane allowing the user to run, pause/resume, clear, and step the simualtion
+//  private Node createAnimationControlPane() {
+////    AnimationControlPanel myAnimationControlPanel = new AnimationControlPanel(myAnimation, myGameController,controlPanelX);
+//    AnimationControlPanel myAnimationControlPanel = new AnimationControlPanel(myAnimation, controlPanelX);
+//    myAnimationControlPanel.setPanelListener(this);
+//    return myAnimationControlPanel.createAnimationControlPanel();
+//  }
+//  //</editor-fold>
 
-  //<editor-fold desc="Create View Control Pane and Buttons">
-  //create the view control panel allowing the user to select cosmetic aspects: colours and language
-  private Node createViewControlPanel() {
-    ViewControlPanel myViewControlPanel = new ViewControlPanel(controlPanelX);
-    myViewControlPanel.setPanelListener(this);
-    return myViewControlPanel.createViewControlPanel();
-  }
-  //</editor-fold>
-  //</editor-fold>
+//  //<editor-fold desc="Create Load Control Pane and Button">
+//  //create the pane allowing user to load and save simulation files
+//  private Node createLoadControlPanel() {
+//    LoadControlPanel myLoadControlPanel = new LoadControlPanel(myAnimation, controlPanelX);
+//    myLoadControlPanel.setPanelListener(this);
+//    return myLoadControlPanel.createLoadControlPanel();
+//  }
+//
+//  //</editor-fold>
+
+//  //<editor-fold desc="Create View Control Pane and Buttons">
+//  //create the view control panel allowing the user to select cosmetic aspects: colours and language
+//  private Node createViewControlPanel() {
+//    ViewControlPanel myViewControlPanel = new ViewControlPanel(controlPanelX);
+//    myViewControlPanel.setPanelListener(this);
+//    return myViewControlPanel.createViewControlPanel();
+//  }
+//  //</editor-fold>
+//  //</editor-fold>
 
   //initialize the grid itself that appears on the scree
   private Node createGrid() {
@@ -379,7 +378,9 @@ public class GameView extends Application implements PanelListener {
    */
   @Override
   public void resetGame() {
-    loadNewFile(myFilename);
+    //TODO: adjust for this game and callback to Controller to match
+//    loadNewFile(myFilename);
+    myGameController.resetGame();
   }
 
   /**
@@ -428,6 +429,22 @@ public class GameView extends Application implements PanelListener {
 //    else {
 //      sendAlert("Error Saving Program");
 //    }
+  }
+
+  /**
+   * Redo a move that was previously undone
+   */
+  @Override
+  public void redoMove() {
+    //TODO: callback to controller
+  }
+
+  /**
+   * Undo the previous move
+   */
+  @Override
+  public void undoMove() {
+    //TODO: callback to controller
   }
 
   //get the filename for the simulation file that the user wants to save the current simulation to

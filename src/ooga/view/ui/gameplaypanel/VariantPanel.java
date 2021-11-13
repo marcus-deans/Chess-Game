@@ -1,10 +1,11 @@
-package ooga.view.ui;
+package ooga.view.ui.gameplaypanel;
 
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import ooga.view.ui.SharedUIComponents;
 
 /**
  * JavaFX panel that creates the information panel display the game type, author, and name.
@@ -12,7 +13,7 @@ import javafx.scene.layout.HBox;
  *
  * @author marcusdeans, drewpeterson
  */
-public class InformationPanel extends SharedUIComponents{
+public class VariantPanel extends SharedUIComponents {
   private String myType;
   private String myTitle;
   private String myAuthor;
@@ -24,7 +25,7 @@ public class InformationPanel extends SharedUIComponents{
    * @param title String title of simulation
    * @param author String author of simulation
    */
-  public InformationPanel(String type, String title, String author, String description){
+  public VariantPanel(String type, String title, String author, String description){
     myType = type;
     myTitle = title;
     myAuthor = author;

@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import ooga.view.ui.SharedUIComponents;
 
 /**
  * JavaFX panel that creates the load control panel that allows the user to control saving/loading
@@ -13,16 +14,14 @@ import javafx.stage.FileChooser;
  *
  * @author marcusdeans, drewpeterson
  */
-public class LoadControlPanel extends ControlPanel {
+public class LoadControlPanel extends SharedUIComponents {
   private Timeline myAnimation;
 
   /**
    *
    * @param animation
-   * @param controlPanelX
    */
-  public LoadControlPanel(Timeline animation, int controlPanelX){
-    super(controlPanelX);
+  public LoadControlPanel(Timeline animation){
     myAnimation = animation;
     createLoadControlPanel();
   }
@@ -33,7 +32,7 @@ public class LoadControlPanel extends ControlPanel {
    */
   public Node createLoadControlPanel(){
     VBox panel = new VBox();
-    panel.setSpacing(getInt("control_panel_spacing"));
+    panel.setSpacing(getInt("control_subpanel_spacing"));
 
     Node loadFileButton = initializeLoadFileButton();
     panel.getChildren().add(loadFileButton);
@@ -41,8 +40,8 @@ public class LoadControlPanel extends ControlPanel {
     Node saveFileButton = initializeSaveFileButton();
     panel.getChildren().add(saveFileButton);
 
-    panel.setLayoutX(myControlPanelX);
-    panel.setLayoutY(getInt("load_control_panel_y"));
+//    panel.setLayoutX(myControlPanelX);
+//    panel.setLayoutY(getInt("load_control_panel_y"));
     panel.setId("load-control-panel");
 
     return panel;
