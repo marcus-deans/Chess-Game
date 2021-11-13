@@ -1,5 +1,6 @@
 package ooga.view;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,6 +22,8 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import ooga.controller.Controller;
+import ooga.controller.GameController;
 import ooga.util.IncorrectCSVFormatException;
 import ooga.util.IncorrectSimFormatException;
 import ooga.util.ReflectionException;
@@ -102,6 +105,8 @@ public class GameView extends Application implements PanelListener {
 //      REQUIRED_PARAMETERS);
 
   private boolean successfulSetup;
+  private Controller myGameController;
+
 
   /**
    * Creates new GameView for each application
@@ -110,22 +115,25 @@ public class GameView extends Application implements PanelListener {
    * @param height     of JavaFX display in pixels
    * @param background colour of JavaFX background
    * @param filename   Filename of the simulation file which GameController uses
+   * @param gameController the listener object that will be notified/called upon whenever the state of a UI panel changes due to user interaction
    */
-  public GameView(int width, int height, Paint background, String filename) {
+  public GameView(int width, int height, String background, String filename, Controller gameController) {
     frameWidth = width;
     frameHeight = height;
-    frameBackground = background;
+    frameBackground = Color.web(background);
     myFilename = filename;
-    createController();
+    myGameController = gameController;
     gridDisplayLength = width - getInt("width_buffer");
     controlPanelX = width - getInt("control_panel_offset");
     myGameViewRoot = new Group();
   }
 
-  // Creates a new GameController for the specific simulation detailed in myFilename (.sim file)
-  private void createController() {
-//    myGameController = new GameController(myFilename);
-    setupController();
+  /**
+   * Returns the PanelListener, allowing UI panel subclasses to interact with the listener
+   * @return the PanelListener
+   */
+  protected Controller getGameController(){
+    return myGameController;
   }
 
   // Initializes the controller and retrieves relevant parameters
@@ -185,6 +193,7 @@ public class GameView extends Application implements PanelListener {
   @Override
   public void start(Stage primaryStage) {
     myStage = primaryStage;
+    successfulSetup=true;
     if (successfulSetup){
       myAnimation = new Timeline();
       myAnimation.setCycleCount(Timeline.INDEFINITE);
@@ -228,6 +237,11 @@ public class GameView extends Application implements PanelListener {
   //<editor-fold desc="Create Details Pane and Buttons">
   //create the JavaFX ane on the bottom of the screen; describes colours for cell states as well as simulation parameters
   private Node createDetailsPanel() {
+    //TODO: remove details panel entirely
+    myType="GameOfLife";
+    myGridColours = defaultGridColours.getString("GameOfLife").split(",");
+    myGameParameters = new String[1];
+    myGameParameters[0] = "None";
     DetailsPanel myDetailsPanel = new DetailsPanel(gridDisplayLength, myGridColours, myType, myGameParameters);
     return myDetailsPanel.createDetailsPanel();
   }
@@ -235,6 +249,11 @@ public class GameView extends Application implements PanelListener {
 
   //create information panel on top of screen to display information like type, name, and author to user
   private Node createInformationPanel() {
+    //TODO: replace information panel entirely
+    myType="GameOfLife";
+    myTitle="Cantor's Game Of Life";
+    myAuthor="Marcus Deans";
+    myDescription="Testing Game";
     InformationPanel myInformationPanel = new InformationPanel(myType, myTitle, myAuthor, myDescription);
     myInformationPanel.setPanelListener(this);
     return myInformationPanel.createInformationPanel();
@@ -273,7 +292,9 @@ public class GameView extends Application implements PanelListener {
 
   //initialize the grid itself that appears on the scree
   private Node createGrid() {
-
+    gridSize = new int[2];
+    gridSize[0]=8;
+    gridSize[1]=8;
     myGridView = new GridView(gridSize[0], gridSize[1], myGridColours, gridDisplayLength);
     GridPane myGameGridView = myGridView.getMyGameGrid();
     myGameGridView.setOnMouseClicked(click->updateGrid(click.getX(), click.getY()));
@@ -324,37 +345,6 @@ public class GameView extends Application implements PanelListener {
 //    }
   }
 
-  // displays alert/error message to the user - currently duplicated in SharedUIComponents
-  protected void sendAlert(String alertMessage) {
-    Alert alert = new Alert(Alert.AlertType.ERROR);
-    alert.setContentText(alertMessage);
-    alert.show();
-  }
-
-  //retrieves relevant word from the "words" ResourceBundle
-  protected String getWord(String key) {
-    ResourceBundle words = ResourceBundle.getBundle("words");
-    String value = "error";
-    try {
-      value = words.getString(key);
-    } catch (Exception exception) {
-      sendAlert(String.format("%s string was not found in Resource File %s", key,
-          GAME_VIEW_RESOURCES_FILE_PATH));
-    }
-    return value;
-  }
-
-  //return the integer from the resource file based on the provided string
-  private int getInt(String key){
-    int value;
-    try {
-      value = Integer.parseInt(gameViewResources.getString(key));
-    } catch(Exception e){
-      value =-1;
-    }
-    return value;
-  }
-
   // refreshes the UI panels by removing them from the scene before creating new panels and adding them back
   private void refreshUIPanels(){
     myGameViewRoot.getChildren().removeAll(myInfoPanel, myDetailsPanel, myAnimationControlPanel, myLoadControlPanel, myViewControlPanel);
@@ -388,7 +378,7 @@ public class GameView extends Application implements PanelListener {
    * Resets the simulation on the screen by simply reloading the current file
    */
   @Override
-  public void resetScreen() {
+  public void resetGame() {
     loadNewFile(myFilename);
   }
 
@@ -407,9 +397,9 @@ public class GameView extends Application implements PanelListener {
    */
   @Override
   public void loadNewFile(String filename) {
-//    myFilename = filename;
-//
-//    myGameController.loadNewFile(myFilename);
+    myFilename = filename;
+
+    myGameController.initializeFromFile(new File(myFilename));
 //    setupController();
 //    gridSize = myGameController.getGridSize();
 //    myGameViewRoot.getChildren().remove(myGridPanel);
@@ -456,4 +446,36 @@ public class GameView extends Application implements PanelListener {
 //        message); //TODO: test to make sure this gives users another chance if they submit an invalid filename
     return "Yee";
   }
+
+  // displays alert/error message to the user - currently duplicated in SharedUIComponents
+  protected void sendAlert(String alertMessage) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setContentText(alertMessage);
+    alert.show();
+  }
+
+  //retrieves relevant word from the "words" ResourceBundle
+  protected String getWord(String key) {
+    ResourceBundle words = ResourceBundle.getBundle("words");
+    String value = "error";
+    try {
+      value = words.getString(key);
+    } catch (Exception exception) {
+      sendAlert(String.format("%s string was not found in Resource File %s", key,
+          GAME_VIEW_RESOURCES_FILE_PATH));
+    }
+    return value;
+  }
+
+  //return the integer from the resource file based on the provided string
+  private int getInt(String key){
+    int value;
+    try {
+      value = Integer.parseInt(gameViewResources.getString(key));
+    } catch(Exception e){
+      value =-1;
+    }
+    return value;
+  }
+
 }

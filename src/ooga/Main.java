@@ -15,6 +15,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import ooga.controller.Controller;
+import ooga.controller.GameController;
+import ooga.logic.game.Game;
 import ooga.view.GameView;
 
 /**
@@ -92,9 +95,9 @@ public class Main extends Application {
 
     //create a new game animation based on the default app file provided
     private void startNewGame(String appFileName) {
-        GameView newGameView = new GameView(getInt("frameWidth"), getInt("frameHeight"), Color.web(
-            getString("backgroundColor")), appFileName);
-        newGameView.start(new Stage());
+        Controller newGame = new GameController(getInt("frameWidth"), getInt("frameHeight"),
+            getString("backgroundColor"), appFileName);
+//        newGameView.start(new Stage());
     }
 
     //create a JavaFX Label for the menu title

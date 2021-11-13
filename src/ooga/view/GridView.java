@@ -2,6 +2,7 @@ package ooga.view;
 
 import java.util.ResourceBundle;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
@@ -44,7 +45,7 @@ public class GridView implements GridListener {
     newCell.setWidth(myCellWidth);
     newCell.setHeight(myCellHeight);
     newCell.setId("cell-view");
-    newCell.setFill(Paint.valueOf(myGridColours[state]));
+    newCell.setFill(Color.web(myGridColours[state]));
     return newCell;
   }
 

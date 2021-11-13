@@ -12,18 +12,18 @@ import javafx.scene.paint.Color;
  * JavaFX panel that creates the view control panel for UI language and appearance Relies on
  * appropriate resourcebundles being configured, SharedUIComponents, and JavaFX
  *
- * @author marcusdeans, drewpeterson
+ * @author marcusdeans
  */
 public class ViewControlPanel extends ControlPanel {
   //General resource file structure
-  private static final String RESOURCE_FILE_PATH = "ooga.view.viewresources.ViewControlResources";
-  private static final ResourceBundle gameViewResources = ResourceBundle.getBundle(
-      RESOURCE_FILE_PATH);
+  private static final String VIEW_CONTROL_RESOURCE_FILE_PATH = "ooga.view.viewresources.ViewControlResources";
+  private static final ResourceBundle viewControlResources = ResourceBundle.getBundle(
+      VIEW_CONTROL_RESOURCE_FILE_PATH);
   private final List<String> viewOptions = Arrays.asList(
-      gameViewResources.getString("ViewOptions").split(","));
+      viewControlResources.getString("ViewOptions").split(","));
   //Cosmetic features: languages
   private final List<String> languageTypes = Arrays.asList(
-      gameViewResources.getString("LanguageOptions").split(","));
+      viewControlResources.getString("LanguageOptions").split(","));
   private ComboBox languagesPrograms;
   private ComboBox viewSetting;
 
@@ -64,7 +64,7 @@ public class ViewControlPanel extends ControlPanel {
     viewSetting = makeComboBox(getWord("view_selection"), viewOptions, (event) -> {
       String myViewOption = viewSetting.getSelectionModel().getSelectedItem().toString();
       if(this.getPanelListener() != null){
-        this.getPanelListener().updateColorScheme(Color.web(gameViewResources.getString(myViewOption)));
+        this.getPanelListener().updateColorScheme(Color.web(viewControlResources.getString(myViewOption)));
       }
     });
     return viewSetting;
