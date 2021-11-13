@@ -9,6 +9,10 @@ public interface Coordinate{
      * This method would set the y-position for a coordinate
      */
     public void setY_pos(int y_pos);
+
+    public void setCoordinate(Coordinate myCoordinate);
+
+
     /**
      * This method would get the x-position for a coordinate
      */
@@ -17,4 +21,5 @@ public interface Coordinate{
      * This method would get the y-position for a coordinate
      */
     public int getY_pos();
+
 }

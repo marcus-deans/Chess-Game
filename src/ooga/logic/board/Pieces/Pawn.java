@@ -9,27 +9,55 @@ import ooga.logic.board.CoordinateUseCase;
 /**
  * Implement a Pawn that can do the following
  * Promote on the 8th rank
- *
+ * Move forward once OR twice if on 2nd rank
+ * Move forward once if else
+ * can capture top right and top left immediate
  */
 public class Pawn implements Piece,Moves,Captures,Promotes {
 
 
-
-
   private int state=1;//Represents a pawn
-  private List<Coordinate> possibleMoves=new ArrayList<>();
-  private Coordinate currentLoc=new CoordinateUseCase(0,0);
-  private List<Coordinate> possibleChanges=new ArrayList<>();
+  private List<Coordinate> possibleMoves;
+  private Coordinate myCoordinate;
 
-  @Override
-  public void captures() {
+
+  public Pawn(){
+    possibleMoves = new ArrayList<>();
+    myCoordinate = new CoordinateUseCase(1,1);
 
   }
 
   @Override
-  public List<Coordinate> possibleCaptures() {
-    return null;
+  public void captures(Coordinate captureCoordinate) {
+    if (canCapture(captureCoordinate)){
+      myCoordinate.setCoordinate(captureCoordinate);
+      // TODO: remove the piece thats on this square in the board
+    }
   }
+
+  @Override
+  public List<Coordinate> getPossibleCaptures() {
+    List<Coordinate> myCoordinateList = new ArrayList<>();
+    Coordinate newCapture;
+    int[] addXAmount = new int[]{-1,1};
+    int[] addYAmount = new int[]{1};
+
+    for (int xAmt : addXAmount){
+      for (int yAmt: addYAmount){
+        newCapture = new CoordinateUseCase(myCoordinate.getX_pos() + xAmt, myCoordinate.getY_pos() + yAmt);
+        if (isValidSquare(newCapture)){
+          myCoordinateList.add(newCapture);
+        }
+      }
+    }
+    return myCoordinateList;
+  }
+
+  private boolean isValidSquare(Coordinate captureCoordinate) {
+    // for now it doesn't matter
+   return true;
+  }
+
 
   @Override
   public void moves() {
@@ -86,8 +114,14 @@ public class Pawn implements Piece,Moves,Captures,Promotes {
   }
 
   @Override
-  public void possiblePromotionPieces(){
+  public List<Piece> possiblePromotionPieces(){
+  List<Piece> boops = new ArrayList<>();
+  return boops;
+  }
 
+  @Override
+  public boolean canCapture(Coordinate captureCoordinate) {
+    return getPossibleCaptures().contains(captureCoordinate);
   }
 
 }

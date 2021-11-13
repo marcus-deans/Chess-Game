@@ -21,6 +21,13 @@ public class CoordinateUseCase implements Coordinate{
     public void setY_pos(int y_pos){
         this.y_pos=y_pos;
     }
+
+    @Override
+    public void setCoordinate(Coordinate myCoordinate) {
+        setX_pos(myCoordinate.getX_pos());
+        setY_pos(myCoordinate.getY_pos());
+    }
+
     /**
      * This method would get the x-position for a coordinate
      */

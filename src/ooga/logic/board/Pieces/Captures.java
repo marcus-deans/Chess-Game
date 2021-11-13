@@ -5,8 +5,10 @@ import ooga.logic.board.Coordinate;
 
 public interface Captures {
 
-  public void captures();
+  public void captures(Coordinate captureCoordinate);
 
-  public List<Coordinate> possibleCaptures();
+  public List<Coordinate> getPossibleCaptures();
+
+  public boolean canCapture(Coordinate captureCoordinate);
 
 }
