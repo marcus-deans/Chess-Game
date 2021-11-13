@@ -1,23 +1,54 @@
 package ooga.logic.board.Pieces;
 
-import java.util.List;
 import ooga.logic.board.Coordinate;
 
-//The purpose of this interface is to create a template for the pieces found on the board
-//It will interact with the Board class and the Coordinate class
-public interface Piece {
+abstract public class Piece implements PieceLogic{
+  private Coordinate myCoordinate;
 
 
-    /**
-     * Sets the state of the piece, 0 for empty, 1 for pawn, etc.
-     * Needed when a piece is taken or a pawn reaches the end
-     */
-    public void setState();
+  private int myRank;
 
-    /**
-     * Retrieves the coordinate set for the piece
-     */
-    public Coordinate getCoordinate();
+  private int myFile;
 
-    public void remove();
+
+  @Override
+  public Coordinate getCoordinate(){
+    return myCoordinate;
+  }
+
+  protected int getMyXCoordinate(){
+    return getCoordinate().getX_pos();
+  }
+
+  protected int getMyYCoordinate(){
+    return getCoordinate().getY_pos();
+  }
+
+  protected void setMyCoordinate(Coordinate newCoordinate){
+    myCoordinate = newCoordinate;
+  }
+
+  public int getMyRank() {
+    return myRank;
+  }
+
+  public void setMyRank(int myRank) {
+    this.myRank = myRank;
+  }
+
+  public int getMyFile() {
+    return myFile;
+  }
+
+  public void setMyFile(int myFile) {
+    this.myFile = myFile;
+  }
+
+  protected void updateRankAndFile() {
+    setMyRank(getMyXCoordinate());
+    setMyFile(getMyYCoordinate());
+  }
+
+
+
 }

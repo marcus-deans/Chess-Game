@@ -13,27 +13,26 @@ import ooga.logic.board.CoordinateUseCase;
  * Move forward once if else
  * can capture top right and top left immediate
  */
-public class Pawn implements Piece,Moves,Captures,Promotes {
-
-
-  private int state=1;//Represents a pawn
-  private List<Coordinate> possibleMoves;
-  private Coordinate myCoordinate;
-
+public class Pawn extends Piece implements MoveLogic, CaptureLogic, PromoteLogic {
 
   public Pawn(){
-    possibleMoves = new ArrayList<>();
-    myCoordinate = new CoordinateUseCase(1,1);
-
+    setMyCoordinate(new CoordinateUseCase(1,1));
+    updateRankAndFile();
   }
 
-  @Override
-  public void captures(Coordinate captureCoordinate) {
-    if (canCapture(captureCoordinate)){
-      myCoordinate.setCoordinate(captureCoordinate);
-      // TODO: remove the piece thats on this square in the board
-    }
-  }
+
+
+//  @Override
+//  public void captures(Coordinate captureCoordinate) {
+//    if (canCapture(captureCoordinate)){
+//      myCoordinate.setCoordinate(captureCoordinate);
+//      // TODO: remove the piece thats on this square in the board
+//    }
+//  }
+
+//  @Override
+//  public void moves() {
+//  }
 
   @Override
   public List<Coordinate> getPossibleCaptures() {
@@ -44,7 +43,7 @@ public class Pawn implements Piece,Moves,Captures,Promotes {
 
     for (int xAmt : addXAmount){
       for (int yAmt: addYAmount){
-        newCapture = new CoordinateUseCase(myCoordinate.getX_pos() + xAmt, myCoordinate.getY_pos() + yAmt);
+        newCapture = new CoordinateUseCase(getMyXCoordinate() + xAmt, getMyYCoordinate() + yAmt);
         if (isValidSquare(newCapture)){
           myCoordinateList.add(newCapture);
         }
@@ -54,38 +53,33 @@ public class Pawn implements Piece,Moves,Captures,Promotes {
   }
 
   private boolean isValidSquare(Coordinate captureCoordinate) {
-    // for now it doesn't matter
+    // TODO: IMPLEMENT EDGE POLICIES
    return true;
   }
 
 
-  @Override
-  public void moves() {
-    possibleChanges.add(new CoordinateUseCase(0,1));
-  }
-
-  @Override
-  public void updatePossibleMoves() {
-    for (Coordinate c:possibleChanges)
-    {
-      Coordinate newPos=new CoordinateUseCase(currentLoc.getX_pos()+c.getX_pos(),currentLoc.getY_pos()+c.getY_pos());
-      possibleMoves.add(newPos);
-    }
-  }
 
   @Override
   public List<Coordinate> getPossibleMoves() {
-    return null;
+    List<Coordinate> myPossibleMoves = new ArrayList<>();
+    CoordinateUseCase moveCoordinate = new CoordinateUseCase(getMyXCoordinate(), getMyYCoordinate() + 1);
+    myPossibleMoves.add(moveCoordinate);
+    if (getMyRank() == 1){
+      moveCoordinate.setCoordinate(getMyXCoordinate(), getMyYCoordinate() + 2);
+      myPossibleMoves.add(moveCoordinate);
+    }
+    return myPossibleMoves;
   }
 
   @Override
-  public void updatePosition() {
-
+  public void updatePosition(Coordinate passedCoordinate) {
+    setMyCoordinate(passedCoordinate);
   }
 
-  @Override
-  public void setCoordinate() {
 
+  @Override
+  public void setCoordinate(Coordinate passedCoordinate) {
+    setMyCoordinate(passedCoordinate);
   }
 
   @Override
@@ -94,28 +88,30 @@ public class Pawn implements Piece,Moves,Captures,Promotes {
   }
 
   @Override
-  public Coordinate getCoordinate() {
-    return null;
-  }
-
-  @Override
-  public void remove() {
-
-  }
-
-  @Override
-  public void promote() {
-
-  }
-
-  @Override
   public List<Coordinate> promotionSquares() {
-    return null;
+    List<Integer> xOfSquares = new ArrayList<>();
+    for (int i = 0; i < 8; i++){
+      xOfSquares.add(i);
+    }
+    List<Integer> yOfSquares = new ArrayList<>();
+      yOfSquares.add(7);
+
+    List<Coordinate> myCoordinateList = new ArrayList<>();
+    Coordinate newCapture;
+
+    for (int xPos : xOfSquares){
+      for (int yPos: yOfSquares){
+        newCapture = new CoordinateUseCase(xPos,yPos);
+        myCoordinateList.add(newCapture);
+      }
+    }
+    return myCoordinateList;
   }
 
   @Override
-  public List<Piece> possiblePromotionPieces(){
-  List<Piece> boops = new ArrayList<>();
+  public List<PieceLogic> possiblePromotionPieces(){
+  List<PieceLogic> boops = new ArrayList<>();
+  // define: Bishop rook knight queen for now
   return boops;
   }
 

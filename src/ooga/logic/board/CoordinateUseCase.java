@@ -28,6 +28,11 @@ public class CoordinateUseCase implements Coordinate{
         setY_pos(myCoordinate.getY_pos());
     }
 
+    public void setCoordinate(int xPos, int yPos){
+        setX_pos(xPos);
+        setY_pos(yPos);
+    }
+
     /**
      * This method would get the x-position for a coordinate
      */

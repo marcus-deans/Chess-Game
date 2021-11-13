@@ -22,4 +22,5 @@ public interface Coordinate{
      */
     public int getY_pos();
 
+    public void setCoordinate(int x_pos, int i);
 }
