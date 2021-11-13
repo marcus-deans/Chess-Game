@@ -1,6 +1,9 @@
 package ooga.logic.board.Pieces;
 
+import java.util.ArrayList;
+import java.util.List;
 import ooga.logic.board.Coordinate;
+import ooga.logic.board.CoordinateUseCase;
 import ooga.logic.board.Pieces.Interfaces.PieceLogic;
 
 abstract public class Piece implements PieceLogic {
@@ -47,6 +50,28 @@ abstract public class Piece implements PieceLogic {
     setMyFile(getMyYCoordinate());
   }
 
+  protected List<Coordinate> availableSquares(int[] addXAmount, int[] addYAmount){
+    List<Coordinate> myCoordinateList = new ArrayList<>();
+    CoordinateUseCase moveCoordinate = new CoordinateUseCase();
+
+    for (int xAmt : addXAmount){
+      for (int yAmt: addYAmount){
+        if (!(xAmt == 0 && yAmt == 0)) {
+          moveCoordinate.setCoordinate(getMyXCoordinate() + xAmt, getMyYCoordinate() + yAmt);
+          if (isValidSquare(moveCoordinate)) {
+            myCoordinateList.add(moveCoordinate);
+          }
+        }
+      }
+    }
+    return myCoordinateList;
+
+  }
+
+  private boolean isValidSquare(Coordinate captureCoordinate) {
+    // TODO: IMPLEMENT EDGE POLICIES
+    return true;
+  }
 
 
 }

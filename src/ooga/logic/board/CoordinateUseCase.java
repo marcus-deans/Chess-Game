@@ -4,6 +4,9 @@ public class CoordinateUseCase implements Coordinate{
     private int x_pos;
     private int y_pos;
 
+    public CoordinateUseCase(){
+        this(0,0);
+    }
     public CoordinateUseCase(int x,int y)
     {
         setX_pos(x);

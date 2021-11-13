@@ -43,27 +43,11 @@ public class Pawn extends Piece implements MoveLogic, CaptureLogic, PromoteLogic
 
   @Override
   public List<Coordinate> getPossibleCaptures() {
-    List<Coordinate> myCoordinateList = new ArrayList<>();
-    Coordinate newCapture;
     int[] addXAmount = new int[]{-1,1};
     int[] addYAmount = new int[]{1};
 
-    for (int xAmt : addXAmount){
-      for (int yAmt: addYAmount){
-        newCapture = new CoordinateUseCase(getMyXCoordinate() + xAmt, getMyYCoordinate() + yAmt);
-        if (isValidSquare(newCapture)){
-          myCoordinateList.add(newCapture);
-        }
-      }
-    }
-    return myCoordinateList;
+    return availableSquares(addXAmount,addYAmount);
   }
-
-  private boolean isValidSquare(Coordinate captureCoordinate) {
-    // TODO: IMPLEMENT EDGE POLICIES
-   return true;
-  }
-
 
 
   @Override

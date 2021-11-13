@@ -43,30 +43,11 @@ public class King extends Piece implements MoveLogic, CaptureLogic {
     return getPossibleMoves();
   }
 
-  private boolean isValidSquare(Coordinate captureCoordinate) {
-    // TODO: IMPLEMENT EDGE POLICIES
-    return true;
-  }
-
   @Override
   public List<Coordinate> getPossibleMoves() {
-    List<Coordinate> myPossibleMoves = new ArrayList<>();
     int[] myXInts = new int[]{-1,0,1};
     int[] myYInts = new int[]{-1,0,1};
-    CoordinateUseCase moveCoordinate = new CoordinateUseCase(0, 0);
-
-    for (int xShift : myXInts){
-      for (int yShift: myYInts){
-        if (!(xShift == 0 && yShift ==0)){
-          moveCoordinate.setCoordinate(getMyXCoordinate() + xShift, getMyYCoordinate() + yShift);
-          if (isValidSquare(moveCoordinate)){
-            myPossibleMoves.add(moveCoordinate);
-          }
-        }
-      }
-    }
-
-    return myPossibleMoves;
+    return availableSquares(myXInts, myYInts);
   }
 
   @Override
