@@ -8,9 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import ooga.view.ui.SharedUIComponents;
 
 /**
@@ -46,9 +44,9 @@ public class VariantPanel extends SharedUIComponents {
     myVariantPanel.setId("variant-panel");
 
     Node variantControlDropdown = initializeVariantControlDropdown();
-    Button gameDescriptionButton = initializeGameDescriptionButton();
+    Button variantDescriptionButton = initializeVariantDescriptionButton();
 
-    myVariantPanel.getChildren().addAll(variantControlDropdown, gameDescriptionButton);
+    myVariantPanel.getChildren().addAll(variantControlDropdown, variantDescriptionButton);
 
     return myVariantPanel;
   }
@@ -64,16 +62,16 @@ public class VariantPanel extends SharedUIComponents {
     return variantControlDropdown;
   }
 
-  private Button initializeGameDescriptionButton(){
-    Button gameDescriptionButton = makeButton(getWord("game_description_button"), event -> {
+  private Button initializeVariantDescriptionButton(){
+    Button variantDescriptionButton = makeButton(getWord("game_description_button"), event -> {
       Alert alert = new Alert(AlertType.INFORMATION);
       alert.setTitle(getWord("game_description_popup_title"));
       alert.setHeaderText(getWord("game_description_popup_header"));
       alert.setContentText(myDescription);
       alert.showAndWait();
     });
-    gameDescriptionButton.setMaxHeight(getInt("game_description_height"));
-    gameDescriptionButton.setPrefWidth(getInt("game_description_width"));
-    return gameDescriptionButton;
+    variantDescriptionButton.setMaxHeight(getInt("game_description_height"));
+    variantDescriptionButton.setPrefWidth(getInt("game_description_width"));
+    return variantDescriptionButton;
   }
 }
