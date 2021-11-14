@@ -6,6 +6,8 @@ import java.util.List;
 import ooga.logic.board.Coordinate;
 import ooga.logic.board.CoordinateUseCase;
 import ooga.logic.board.Pieces.Interfaces.PieceLogic;
+import ooga.logic.board.Pieces.Movements.Movement;
+import ooga.logic.board.Pieces.Movements.PawnCapture;
 import ooga.logic.board.Pieces.Movements.PawnMovement;
 
 /**
@@ -16,7 +18,8 @@ import ooga.logic.board.Pieces.Movements.PawnMovement;
  * can capture top right and top left immediate
  */
 public class Pawn extends Piece {
-  private PawnMovement myMovement;
+  private Movement myMovement;
+  private Movement myCapture;
 
   public Pawn(){
     this(0,1);
@@ -25,14 +28,13 @@ public class Pawn extends Piece {
     setMyCoordinate(new CoordinateUseCase(xPosition,yPosition));
     updateRankAndFile();
     myMovement = new PawnMovement();
+    myCapture = new PawnCapture();
   }
 
 
   @Override
   public List<Coordinate> getPossibleCaptures() {
-    int[] addXAmount = new int[]{-1,1};
-    int[] addYAmount = new int[]{1};
-    return availableSquares(addXAmount,addYAmount);
+    return myCapture.getPossibleMoves(getCoordinate());
   }
 
 

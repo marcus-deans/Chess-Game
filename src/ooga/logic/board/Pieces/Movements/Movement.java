@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import ooga.logic.board.Coordinate;
 import ooga.logic.board.CoordinateUseCase;
-import ooga.logic.board.Pieces.Interfaces.MoveLogic;
 
 abstract public class Movement{
   protected CoordinateUseCase Diagonal(CoordinateUseCase myCoordinate, int xAmount, int yAmount){

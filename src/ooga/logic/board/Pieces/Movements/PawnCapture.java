@@ -5,13 +5,11 @@ import java.util.List;
 import ooga.logic.board.Coordinate;
 import ooga.logic.board.CoordinateUseCase;
 
-public class PawnMovement extends Movement{
+public class PawnCapture extends Movement{
 
   public List<Coordinate> getPossibleMoves(CoordinateUseCase myCoordinate) {
-    List<Coordinate> myPossibleMoves = new ArrayList<>();
-    myPossibleMoves.add(Forward(myCoordinate, 1));
-    myPossibleMoves.add(Forward(myCoordinate,2));
-
-    return myPossibleMoves;
+    int[] addXAmount = new int[]{-1,1};
+    int[] addYAmount = new int[]{1};
+    return availableSquares(myCoordinate, addXAmount,addYAmount);
   }
 }
