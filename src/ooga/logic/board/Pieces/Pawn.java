@@ -43,13 +43,6 @@ public class Pawn extends Piece {
     return myPossibleMoves;
   }
 
-
-
-  @Override
-  public void setState() {
-
-  }
-
   @Override
   public List<Coordinate> promotionSquares() {
     List<Integer> xOfSquares = new ArrayList<>();

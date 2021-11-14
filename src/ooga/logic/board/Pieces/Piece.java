@@ -71,9 +71,10 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   }
 
-  private boolean isValidSquare(Coordinate captureCoordinate) {
+  private boolean isValidSquare(CoordinateUseCase captureCoordinate) {
     // TODO: IMPLEMENT EDGE POLICIES
-    return true;
+    return !(captureCoordinate.getX_pos() < 0 || captureCoordinate.getY_pos() < 0
+    || captureCoordinate.getX_pos() > 7 || captureCoordinate.getY_pos() > 7);
   }
 
   @Override
@@ -118,5 +119,9 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     return Diagonal(getCoordinate(),xAmount,0);
   }
 
+  @Override
+  public void setState() {
+
+  }
 
 }

@@ -4,7 +4,6 @@ package ooga.logic.board.Pieces;
 import java.util.List;
 import ooga.logic.board.Coordinate;
 import ooga.logic.board.CoordinateUseCase;
-import ooga.logic.board.Pieces.Interfaces.PieceLogic;
 
 /**
  * Implement a Pawn that can do the following
@@ -35,8 +34,4 @@ public class King extends Piece {
     return availableSquares(myXInts, myYInts);
   }
 
-  @Override
-  public void setState() {
-
-  }
 }
