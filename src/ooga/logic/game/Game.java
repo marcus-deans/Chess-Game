@@ -1,22 +1,23 @@
 package ooga.logic.game;
 
 import ooga.logic.board.Board;
+import ooga.logic.board.GameBoard;
 
 import java.util.Map;
 
 public class Game {
-    private Board myBoard;
+    private GameBoard myBoard;
 
     //A map containing the game's data collected from the game's sim files.
     private Map<String, String> metadata;
 
 
-    public Game(Board board,  Map<String, String> metadata){
+    public Game(GameBoard board,  Map<String, String> metadata){
         makeBoard(board);
         this.metadata = metadata;
     }
 
-    protected void makeBoard(Board newBoard){
+    protected void makeBoard(GameBoard newBoard){
         this.myBoard = newBoard;
     }
 
