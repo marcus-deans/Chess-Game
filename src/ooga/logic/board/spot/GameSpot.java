@@ -1,12 +1,12 @@
 package ooga.logic.board.spot;
 
+import ooga.logic.board.Piece;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
-import ooga.logic.board.Piece;
 
 import java.util.Objects;
 
-public class GameSpot implements Spot {
+public class GameSpot implements Spot{
     private Piece piece;
     private Coordinate coordinate;
     private int typeOfSpot;
@@ -30,6 +30,7 @@ public class GameSpot implements Spot {
     public Coordinate getCoordinate() {
         return coordinate;
     }
+
 
     @Override
     public void setPiece(Piece piece) {

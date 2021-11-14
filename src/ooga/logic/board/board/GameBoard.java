@@ -1,7 +1,8 @@
 package ooga.logic.board.board;
 
+
 import ooga.logic.board.Piece;
-import ooga.logic.board.board.Board;
+
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.spot.GameSpot;
 import ooga.logic.board.spot.Spot;
