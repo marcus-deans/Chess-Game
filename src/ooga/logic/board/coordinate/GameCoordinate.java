@@ -1,6 +1,6 @@
-package ooga.logic.board;
+package ooga.logic.board.coordinate;
 
-public class GameCoordinate implements Coordinate{
+public class GameCoordinate implements Coordinate {
     private int x;
     private int y;
 
@@ -28,5 +28,13 @@ public class GameCoordinate implements Coordinate{
     @Override
     public void setY_pos(int y_pos) {
         this.y=y_pos;
+    }
+
+    @Override
+    public boolean equals (Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GameCoordinate coordinate= (GameCoordinate) o;
+        return this.x==coordinate.x && this.y==coordinate.y;
     }
 }
