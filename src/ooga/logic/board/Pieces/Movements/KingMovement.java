@@ -12,5 +12,4 @@ public class KingMovement extends Movement{
     int[] myYInts = new int[]{-1,0,1};
     return availableSquares(myCoordinate, myXInts, myYInts);
   }
-
-  }
+}
