@@ -1,9 +1,13 @@
-package ooga.logic.board;
+package ooga.logic.board.board;
+
+import ooga.logic.board.board.Board;
+import ooga.logic.board.spot.GameSpot;
+import ooga.logic.board.spot.Spot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameBoard implements Board{
+public class GameBoard implements Board {
     List<Spot> board;
     private int rows;
     private int columns;
@@ -26,12 +30,12 @@ public class GameBoard implements Board{
             {
                 if((i+j)%2==0)
                 {
-                    spotArr[i][j]=new GameSpot(new Piece(setup[i][j]),j,i,0,false);
-                    board.add(new GameSpot(new Piece(setup[i][j]),j,i,0,false));
+                    spotArr[i][j]=new GameSpot(,j,i,0,false);
+                    board.add(new GameSpot(,j,i,0,false));
                 }
                 else{
-                    board.add(new GameSpot(new Piece(setup[i][j]),j,i,0,true));
-                    spotArr[i][j]=new GameSpot(new Piece(setup[i][j]),j,i,0,true);
+                    board.add(new GameSpot(,j,i,0,true));
+                    spotArr[i][j]=new GameSpot(,j,i,0,true);
                 }
 
             }
@@ -42,11 +46,6 @@ public class GameBoard implements Board{
     public List<Spot> getFullBoard()
     {
         return board;
-    }
-
-    public void updateBoard()
-    {
-
     }
 
 

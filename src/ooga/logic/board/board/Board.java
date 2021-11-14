@@ -1,4 +1,6 @@
-package ooga.logic.board;
+package ooga.logic.board.board;
+
+import ooga.logic.board.spot.Spot;
 
 import java.util.List;
 
