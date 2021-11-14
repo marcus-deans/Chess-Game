@@ -14,7 +14,7 @@ import ooga.logic.board.Pieces.SpotCollection.finalRankPromotionSpots;
  */
 public class King extends Piece {
 
-  public King(int xPosition, int yPosition){
+  public King(int team, int xPosition, int yPosition){
     setMyCoordinate(new GameCoordinate(xPosition,yPosition));
     updateRankAndFile();
     setMyMovement(new KingMovement());

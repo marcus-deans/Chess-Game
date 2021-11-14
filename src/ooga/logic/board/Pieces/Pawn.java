@@ -6,6 +6,8 @@ import java.util.List;
 import ooga.logic.board.GameCoordinate;
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
 import ooga.logic.board.Pieces.SpotCollection.KingMovement;
+import ooga.logic.board.Pieces.SpotCollection.PawnCapture;
+import ooga.logic.board.Pieces.SpotCollection.PawnMovement;
 import ooga.logic.board.Pieces.SpotCollection.finalRankPromotionSpots;
 
 /**
@@ -16,11 +18,11 @@ import ooga.logic.board.Pieces.SpotCollection.finalRankPromotionSpots;
  * can capture top right and top left immediate
  */
 public class Pawn extends Piece {
-  public Pawn(int xPosition, int yPosition){
+  public Pawn(int team, int xPosition, int yPosition){
     setMyCoordinate(new GameCoordinate(xPosition,yPosition));
     updateRankAndFile();
-    setMyMovement(new KingMovement());
-    setMyCapture(new KingMovement());
+    setMyMovement(new PawnMovement());
+    setMyCapture(new PawnCapture());
     setMyPromotionSpots(new finalRankPromotionSpots());
     setMyPromotionPieces(new DefaultPromotionPieces());
   }
