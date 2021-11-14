@@ -29,4 +29,5 @@ public class GameCoordinate implements Coordinate{
     public void setY_pos(int y_pos) {
         this.y=y_pos;
     }
+
 }

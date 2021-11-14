@@ -1,22 +1,43 @@
 package ooga.logic.game;
 
-import ooga.logic.board.Board;
+import ooga.logic.board.*;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Game {
-    private Board myBoard;
+    private GameBoard myBoard;
+    private Map<String, GameSpot> boardMap;
 
     //A map containing the game's data collected from the game's sim files.
     private Map<String, String> metadata;
 
+    public Game(){
 
-    public Game(Board board,  Map<String, String> metadata){
+    }
+
+    public Game(GameBoard board,  Map<String, String> metadata){
         makeBoard(board);
         this.metadata = metadata;
     }
 
-    protected void makeBoard(Board newBoard){
+    private List<Coordinate> getPossiblePositions(List<GameCoordinate> list, GameCoordinate selected, Set<Coordinate> occupied){
+
+        for(int i = 0; i < list.size(); i++){
+            if(occupied.contains(list.get(i))){
+                if(selected.getY_pos() < list.get(i).getY_pos()){
+
+                }
+            }
+        }
+    }
+
+    public void update(){
+
+    }
+
+    protected void makeBoard(GameBoard newBoard){
         this.myBoard = newBoard;
     }
 
@@ -32,6 +53,4 @@ public class Game {
     public Map<String, String> getMetaData() {
         return metadata;
     }
-
-
 }
