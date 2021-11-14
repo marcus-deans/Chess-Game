@@ -1,9 +1,37 @@
 package ooga.logic.game;
 
-public interface Game {
+import ooga.logic.board.Board;
+
+import java.util.Map;
+
+public class Game {
+    private Board myBoard;
+
+    //A map containing the game's data collected from the game's sim files.
+    private Map<String, String> metadata;
+
+
+    public Game(Board board,  Map<String, String> metadata){
+        makeBoard(board);
+        this.metadata = metadata;
+    }
+
+    protected void makeBoard(Board newBoard){
+        this.myBoard = newBoard;
+    }
+
+    public Board getBoard() {
+        return myBoard;
+    }
 
     /**
-     *  Updates each piece in the board according to the interfaces.
+     * Returns the metadata of the game.
+     *
+     * @return the metadata of the game.
      */
-    public void update();
+    public Map<String, String> getMetaData() {
+        return metadata;
+    }
+
+
 }

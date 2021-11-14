@@ -1,7 +1,5 @@
 package ooga.view;
 
-import ooga.logic.game.Game;
-
 public class ViewUseCases implements View{
 
   /**
