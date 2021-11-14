@@ -1,5 +1,8 @@
 package ooga.logic.board;
 
+import ooga.logic.board.coordinate.Coordinate;
+import ooga.logic.board.coordinate.CoordinateUseCase;
+
 import java.util.ArrayList;
 import java.util.List;
 

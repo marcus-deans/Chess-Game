@@ -1,6 +1,6 @@
 package ooga.logic.game;
 
-import ooga.logic.board.Board;
+import ooga.logic.board.board.Board;
 
 import java.util.Map;
 

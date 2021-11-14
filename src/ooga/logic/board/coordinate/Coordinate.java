@@ -1,4 +1,4 @@
-package ooga.logic.board;
+package ooga.logic.board.coordinate;
 
 public interface Coordinate{
     /**
