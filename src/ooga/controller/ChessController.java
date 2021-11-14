@@ -4,7 +4,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import javafx.stage.Stage;
 import ooga.Parser.CSVParser;
 import ooga.Parser.SIMParser;
-import ooga.logic.board.GameBoard;
+import ooga.logic.board.board.GameBoard;
 import ooga.logic.game.Game;
 import ooga.view.View;
 
