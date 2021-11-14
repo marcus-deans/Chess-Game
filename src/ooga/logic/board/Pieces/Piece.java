@@ -7,14 +7,19 @@ import ooga.logic.board.Pieces.Interfaces.CaptureLogic;
 import ooga.logic.board.Pieces.Interfaces.MoveLogic;
 import ooga.logic.board.Pieces.Interfaces.PieceLogic;
 import ooga.logic.board.Pieces.Interfaces.PromoteLogic;
-import ooga.logic.board.Pieces.Movements.Movement;
+import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
+import ooga.logic.board.Pieces.PieceCollection.PieceCollection;
+import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 
 abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, PromoteLogic {
   private Coordinate myCoordinate;
   private int myRank;
   private int myFile;
-  private Movement myMovement;
-  private Movement myCapture;
+  private SpotCollection myMovement;
+  private SpotCollection myCapture;
+  private SpotCollection myPromotionSpots;
+  private PieceCollection myPromotionOptions;
+
 
 
   @Override
@@ -99,13 +104,8 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
 
   @Override
-  public List<Coordinate> promotionSquares() {
-    return null;
-  }
-
-  @Override
-  public List<PieceLogic> possiblePromotionPieces() {
-    return null;
+  public List<Piece> possiblePromotionPieces(){
+    return myPromotionOptions.getPossiblePieces();
   }
 
   protected Coordinate Diagonal(Coordinate myCoordinate, int xAmount, int yAmount){
@@ -131,19 +131,31 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   @Override
   public List<Coordinate> getPossibleCaptures() {
-    return myCapture.getPossibleMoves(getCoordinate());
+    return myCapture.getPossibleSpots(getCoordinate());
   }
 
   @Override
   public List<Coordinate> getPossibleMoves() {
-    return myMovement.getPossibleMoves(getCoordinate());
+    return myMovement.getPossibleSpots(getCoordinate());
   }
 
-  protected void setMyMovement(Movement movementToSet){
+  protected void setMyMovement(SpotCollection movementToSet){
     myMovement = movementToSet;
   }
-  protected void setMyCapture(Movement captureToSet){
+  protected void setMyCapture(SpotCollection captureToSet){
     myCapture = captureToSet;
+  }
+  protected void setMyPromotionSpots(SpotCollection promotionToSet){
+    myPromotionSpots = promotionToSet;
+  }
+
+  protected void setMyPromotionPieces(PieceCollection myPieceCollection) {
+    myPromotionOptions = myPieceCollection;
+  }
+
+  @Override
+  public List<Coordinate> promotionSquares() {
+    return myPromotionSpots.getPossibleSpots(myCoordinate);
   }
 
 

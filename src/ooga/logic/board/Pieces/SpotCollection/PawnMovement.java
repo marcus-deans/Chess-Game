@@ -1,13 +1,12 @@
-package ooga.logic.board.Pieces.Movements;
+package ooga.logic.board.Pieces.SpotCollection;
 
 import java.util.ArrayList;
 import java.util.List;
 import ooga.logic.board.Coordinate;
-import ooga.logic.board.CoordinateUseCase;
 
-public class PawnMovement extends Movement{
+public class PawnMovement extends SpotCollection {
 
-  public List<Coordinate> getPossibleMoves(Coordinate myCoordinate) {
+  public List<Coordinate> getPossibleSpots(Coordinate myCoordinate) {
     List<Coordinate> myPossibleMoves = new ArrayList<>();
     myPossibleMoves.add(Forward(myCoordinate, 1));
     myPossibleMoves.add(Forward(myCoordinate,2));

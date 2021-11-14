@@ -1,13 +1,9 @@
 package ooga.logic.board.Pieces;
 
 
-import java.util.List;
-import ooga.logic.board.Coordinate;
 import ooga.logic.board.GameCoordinate;
-import ooga.logic.board.Pieces.Interfaces.CaptureLogic;
-import ooga.logic.board.Pieces.Movements.KingMovement;
-import ooga.logic.board.Pieces.Movements.Movement;
-import ooga.logic.board.Pieces.Movements.PawnMovement;
+import ooga.logic.board.Pieces.SpotCollection.KingMovement;
+import ooga.logic.board.Pieces.SpotCollection.finalRankPromotionSpots;
 
 /**
  * Implement a Pawn that can do the following
@@ -27,6 +23,7 @@ public class King extends Piece {
     updateRankAndFile();
     setMyMovement(new KingMovement());
     setMyCapture(new KingMovement());
+//    setMyPromotionSpots(new finalRankPromotionSpots());
   }
 
 }

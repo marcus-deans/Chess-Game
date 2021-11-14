@@ -1,10 +1,10 @@
-package ooga.logic.board.Pieces.Movements;
+package ooga.logic.board.Pieces.SpotCollection;
 
 import java.util.ArrayList;
 import java.util.List;
 import ooga.logic.board.Coordinate;
 
-abstract public class Movement{
+abstract public class SpotCollection {
   protected Coordinate Diagonal(Coordinate myCoordinate, int xAmount, int yAmount){
     myCoordinate.setX_pos(myCoordinate.getX_pos() + xAmount);
     myCoordinate.setY_pos(myCoordinate.getY_pos() + yAmount);
@@ -19,7 +19,7 @@ abstract public class Movement{
     return Diagonal(myCoordinate,xAmount,0);
   }
 
-  public abstract List<Coordinate> getPossibleMoves(Coordinate coordinate);
+  public abstract List<Coordinate> getPossibleSpots(Coordinate coordinate);
 
   protected List<Coordinate> availableSquares(Coordinate myCoordinate,int[] addXAmount, int[] addYAmount){
     List<Coordinate> myCoordinateList = new ArrayList<>();

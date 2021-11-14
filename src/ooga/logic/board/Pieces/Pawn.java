@@ -3,13 +3,10 @@ package ooga.logic.board.Pieces;
 
 import java.util.ArrayList;
 import java.util.List;
-import ooga.logic.board.Coordinate;
 import ooga.logic.board.GameCoordinate;
-import ooga.logic.board.Pieces.Interfaces.PieceLogic;
-import ooga.logic.board.Pieces.Movements.KingMovement;
-import ooga.logic.board.Pieces.Movements.Movement;
-import ooga.logic.board.Pieces.Movements.PawnCapture;
-import ooga.logic.board.Pieces.Movements.PawnMovement;
+import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
+import ooga.logic.board.Pieces.SpotCollection.KingMovement;
+import ooga.logic.board.Pieces.SpotCollection.finalRankPromotionSpots;
 
 /**
  * Implement a Pawn that can do the following
@@ -28,36 +25,9 @@ public class Pawn extends Piece {
     updateRankAndFile();
     setMyMovement(new KingMovement());
     setMyCapture(new KingMovement());
+    setMyPromotionSpots(new finalRankPromotionSpots());
+    setMyPromotionPieces(new DefaultPromotionPieces());
   }
 
-
-
-  @Override
-  public List<Coordinate> promotionSquares() {
-    List<Integer> xOfSquares = new ArrayList<>();
-    for (int i = 0; i < 8; i++){
-      xOfSquares.add(i);
-    }
-    List<Integer> yOfSquares = new ArrayList<>();
-      yOfSquares.add(7);
-
-    List<Coordinate> myCoordinateList = new ArrayList<>();
-    Coordinate newCapture;
-
-    for (int xPos : xOfSquares){
-      for (int yPos: yOfSquares){
-        newCapture = new GameCoordinate(xPos,yPos);
-        myCoordinateList.add(newCapture);
-      }
-    }
-    return myCoordinateList;
-  }
-
-  @Override
-  public List<PieceLogic> possiblePromotionPieces(){
-  List<PieceLogic> boops = new ArrayList<>();
-  // define: Bishop rook knight queen for now
-  return boops;
-  }
 
 }
