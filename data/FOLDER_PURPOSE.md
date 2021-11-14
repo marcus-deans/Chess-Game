@@ -19,5 +19,7 @@ K2 = black king
 P1 = white pawn
 P2 = black pawn
 
-
+X0 = black hole
+E0 = empty space
+P0 = portal
 
