@@ -2,18 +2,8 @@ image: dukedesigncoach/testfx-runner:openjdk16
 
 stages:
   - analyze
-  - validate
   - test
   - report
-
-checkstyle_analysis:
-  stage: validate
-  script:
-    - mvn -B -ntp validate site
-  artifacts:
-    paths:
-      - target/site/*
-
 
 sonar_analysis:
   stage: analyze
@@ -32,12 +22,14 @@ sonar_analysis:
 unit_testing:
   stage: test
   before_script:
-    - mv $CI_PROJECT_DIR/src $CI_PROJECT_DIR/DUKE_TMP
-    - mkdir -p $CI_PROJECT_DIR/src/main
-    - mv $CI_PROJECT_DIR/DUKE_TMP $CI_PROJECT_DIR/src/main/java
+    - cd $CI_PROJECT_DIR
+    - mv src DUKE_TMP
+    - mkdir -p src/main target
+    - find DUKE_TMP -type f -path '*/resources/*' | cpio -pdm target && mv target/DUKE_TMP target/classes
+    - mv DUKE_TMP src/main/java
   script:
     - |
-      mvn -B -ntp test \
+      mvn -B -ntp test site \
         -Djava.awt.headless=true \
         -Dtestfx.headless=true \
         -Dtestfx.robot=glass \
@@ -70,7 +62,6 @@ coverage_report:
 pages:
   stage: report
   needs:
-    - checkstyle_analysis
     - unit_testing
   script:
     - mkdir .public
