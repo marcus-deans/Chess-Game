@@ -22,18 +22,34 @@ public class Game {
 
     private List<GameCoordinate> getJumpPossibleCoordinate(List<GameCoordinate> list){
         for(int i = 0; i < list.size(); i++){
-            if(myBoard.checkPieceExists(list.get(i))){
+            if(myBoard.hasPiece(list.get(i))){
                 list.remove(i);
                 i--;
             }
         }
 
     }
+
     private List<GameCoordinate> getStandardPossibleCoordinate(List<GameCoordinate> list){
+        int maxX = Integer.MIN_VALUE;
+        int maxY = Integer.MIN_VALUE;
+        int minX = Integer.MAX_VALUE;
+        int minY = Integer.MAX_VALUE;
+
         for(int i = 0; i < list.size(); i++){
-            if(myBoard.checkPieceExists(list.get(i))){
-                list.remove(i);
-                i--;
+            if(myBoard.hasPiece(list.get(i))){
+                int posX = list.get(i).getX_pos();
+                int posY = list.get(i).getY_pos();
+                if(selected.getX_pos() < posX && posX < maxX){
+                    maxX = posX;
+                }else if(selected.getX_pos() > posX && posX > minX){
+                    minX = posX;
+                }
+                if(selected.getY_pos() < posY && posY < maxY){
+                    maxY = posY;
+                }else if(selected.getY_pos() > posY && posY > minY){
+                    minY = posY;
+                }
             }
         }
 
