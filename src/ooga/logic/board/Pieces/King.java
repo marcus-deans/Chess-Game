@@ -17,8 +17,6 @@ import ooga.logic.board.Pieces.Movements.PawnMovement;
  * can capture top right and top left immediate
  */
 public class King extends Piece {
-  private Movement myMovement;
-  private Movement myCapture;
 
   public King(){
     this(4,0);
@@ -27,18 +25,8 @@ public class King extends Piece {
   public King(int xPosition, int yPosition){
     setMyCoordinate(new GameCoordinate(xPosition,yPosition));
     updateRankAndFile();
-    myMovement = new KingMovement();
-    myCapture = new KingMovement();
-  }
-
-  @Override
-  public List<Coordinate> getPossibleCaptures() {
-    return myCapture.getPossibleMoves(getCoordinate());
-  }
-
-  @Override
-  public List<Coordinate> getPossibleMoves() {
-    return myMovement.getPossibleMoves(getCoordinate());
+    setMyMovement(new KingMovement());
+    setMyCapture(new KingMovement());
   }
 
 }

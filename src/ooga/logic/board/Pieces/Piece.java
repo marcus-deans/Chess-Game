@@ -7,11 +7,14 @@ import ooga.logic.board.Pieces.Interfaces.CaptureLogic;
 import ooga.logic.board.Pieces.Interfaces.MoveLogic;
 import ooga.logic.board.Pieces.Interfaces.PieceLogic;
 import ooga.logic.board.Pieces.Interfaces.PromoteLogic;
+import ooga.logic.board.Pieces.Movements.Movement;
 
 abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, PromoteLogic {
   private Coordinate myCoordinate;
   private int myRank;
   private int myFile;
+  private Movement myMovement;
+  private Movement myCapture;
 
 
   @Override
@@ -123,6 +126,24 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   @Override
   public void setState() {
 
+  }
+
+
+  @Override
+  public List<Coordinate> getPossibleCaptures() {
+    return myCapture.getPossibleMoves(getCoordinate());
+  }
+
+  @Override
+  public List<Coordinate> getPossibleMoves() {
+    return myMovement.getPossibleMoves(getCoordinate());
+  }
+
+  protected void setMyMovement(Movement movementToSet){
+    myMovement = movementToSet;
+  }
+  protected void setMyCapture(Movement captureToSet){
+    myCapture = captureToSet;
   }
 
 

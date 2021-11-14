@@ -6,6 +6,7 @@ import java.util.List;
 import ooga.logic.board.Coordinate;
 import ooga.logic.board.GameCoordinate;
 import ooga.logic.board.Pieces.Interfaces.PieceLogic;
+import ooga.logic.board.Pieces.Movements.KingMovement;
 import ooga.logic.board.Pieces.Movements.Movement;
 import ooga.logic.board.Pieces.Movements.PawnCapture;
 import ooga.logic.board.Pieces.Movements.PawnMovement;
@@ -18,8 +19,6 @@ import ooga.logic.board.Pieces.Movements.PawnMovement;
  * can capture top right and top left immediate
  */
 public class Pawn extends Piece {
-  private Movement myMovement;
-  private Movement myCapture;
 
   public Pawn(){
     this(0,1);
@@ -27,21 +26,11 @@ public class Pawn extends Piece {
   public Pawn(int xPosition, int yPosition){
     setMyCoordinate(new GameCoordinate(xPosition,yPosition));
     updateRankAndFile();
-    myMovement = new PawnMovement();
-    myCapture = new PawnCapture();
+    setMyMovement(new KingMovement());
+    setMyCapture(new KingMovement());
   }
 
 
-  @Override
-  public List<Coordinate> getPossibleCaptures() {
-    return myCapture.getPossibleMoves(getCoordinate());
-  }
-
-
-  @Override
-  public List<Coordinate> getPossibleMoves() {
-    return myMovement.getPossibleMoves(getCoordinate());
-  }
 
   @Override
   public List<Coordinate> promotionSquares() {
