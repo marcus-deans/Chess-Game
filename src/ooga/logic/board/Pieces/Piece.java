@@ -2,13 +2,13 @@ package ooga.logic.board.Pieces;
 
 import java.util.ArrayList;
 import java.util.List;
-import ooga.logic.board.Coordinate;
 import ooga.logic.board.Pieces.Interfaces.CaptureLogic;
 import ooga.logic.board.Pieces.Interfaces.MoveLogic;
 import ooga.logic.board.Pieces.Interfaces.PieceLogic;
 import ooga.logic.board.Pieces.Interfaces.PromoteLogic;
 import ooga.logic.board.Pieces.PieceCollection.PieceCollection;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
+import ooga.logic.board.coordinate.Coordinate;
 
 abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, PromoteLogic {
   private Coordinate myCoordinate;

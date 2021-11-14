@@ -1,7 +1,7 @@
 package ooga.logic.board.Pieces.SpotCollection;
 
 import java.util.List;
-import ooga.logic.board.Coordinate;
+import ooga.logic.board.coordinate.Coordinate;
 
 public class PawnCapture extends SpotCollection {
 

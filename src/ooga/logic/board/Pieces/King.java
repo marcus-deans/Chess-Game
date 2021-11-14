@@ -1,9 +1,8 @@
 package ooga.logic.board.Pieces;
 
 
-import ooga.logic.board.GameCoordinate;
 import ooga.logic.board.Pieces.SpotCollection.KingMovement;
-import ooga.logic.board.Pieces.SpotCollection.finalRankPromotionSpots;
+import ooga.logic.board.coordinate.GameCoordinate;
 
 /**
  * Implement a Pawn that can do the following

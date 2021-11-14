@@ -1,14 +1,10 @@
 package ooga.logic.board.Pieces;
 
-
-import java.util.ArrayList;
-import java.util.List;
-import ooga.logic.board.GameCoordinate;
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
-import ooga.logic.board.Pieces.SpotCollection.KingMovement;
 import ooga.logic.board.Pieces.SpotCollection.PawnCapture;
 import ooga.logic.board.Pieces.SpotCollection.PawnMovement;
 import ooga.logic.board.Pieces.SpotCollection.finalRankPromotionSpots;
+import ooga.logic.board.coordinate.GameCoordinate;
 
 /**
  * Implement a Pawn that can do the following

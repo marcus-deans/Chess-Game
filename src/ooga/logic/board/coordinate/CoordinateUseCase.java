@@ -1,6 +1,6 @@
-package ooga.logic.board;
+package ooga.logic.board.coordinate;
 
-public class CoordinateUseCase implements Coordinate{
+public class CoordinateUseCase implements Coordinate {
     private int x_pos;
     private int y_pos;
 

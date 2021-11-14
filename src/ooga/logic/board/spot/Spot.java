@@ -1,6 +1,7 @@
-package ooga.logic.board;
+package ooga.logic.board.spot;
 
-import ooga.logic.board.Pieces.Piece;
+import ooga.logic.board.coordinate.Coordinate;
+import ooga.logic.board.Piece;
 
 public interface Spot {
     public void setCoordinate(int x, int y);

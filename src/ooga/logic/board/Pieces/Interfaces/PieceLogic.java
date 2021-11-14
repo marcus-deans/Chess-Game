@@ -1,8 +1,6 @@
 package ooga.logic.board.Pieces.Interfaces;
 
-import java.util.List;
-import ooga.logic.board.Coordinate;
-import ooga.logic.board.CoordinateUseCase;
+import ooga.logic.board.coordinate.Coordinate;
 
 //The purpose of this interface is to create a template for the pieces found on the board
 //It will interact with the Board class and the Coordinate class
