@@ -27,16 +27,20 @@ public class ChessController implements Controller {
     private GameBoard myGameBoard;
 
 
-    private void setData() throws CsvValidationException, IOException {
-        File simfile= new File("data/Standard.sim"); //TODO: Set up choosing files
-        File csvfile= new File("data/Standard.csv");
-        myCSVParser.readCSVFile(csvfile);
-
-        myData = mySIMParser.readSimFile(simfile);
-
+    private void setData(File file) throws CsvValidationException, IOException {
+        File simFile= new File(String.valueOf(file)); //TODO: Set up choosing files
+        myData = mySIMParser.readSimFile(simFile);
+        File csvFile= new File(myData.get("GameConfiguration"));
+        myCSVParser.readCSVFile(csvFile);
         BOARDWIDTH = myCSVParser.getDimensions()[0];
         BOARDHEIGHT = myCSVParser.getDimensions()[1];
         myBoard = myCSVParser.getInitialStates();
+    }
+
+    private void initializeGame(){
+
+
+
     }
 
 
@@ -45,6 +49,14 @@ public class ChessController implements Controller {
 
 
 
+
+
+
+
+
+    }
+
+    private void selectPiece(int i, int j){
 
     }
 

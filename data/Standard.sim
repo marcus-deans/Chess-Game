@@ -4,6 +4,8 @@ Author=Carter Stonesifer
 
 GameTimer=0
 
+GameConfiguration=data/Standard.csv
+
 Portal=False
 BlackHole=False
 EdgePolicy=Standard
