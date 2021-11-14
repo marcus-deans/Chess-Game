@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<settings>
+  <game id="default">
+    <title>Standard Chess</title>
+    <lightcell>E8EDF9</lightcell>
+    <darkcell>B7C0D8</darkcell>
+    <gridwidth>8</gridwidth>
+    <gridlength>8</gridlength>
+  </game>
+  <game id="long">
+    <title>Long Board Chess</title>
+    <lightcell>E8EDF9</lightcell>
+    <darkcell>B7C0D8</darkcell>
+    <gridwidth>8</gridwidth>
+    <gridlength>12</gridlength>
+  </game>
+</settings>

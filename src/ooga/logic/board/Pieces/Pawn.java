@@ -4,7 +4,7 @@ package ooga.logic.board.Pieces;
 import java.util.ArrayList;
 import java.util.List;
 import ooga.logic.board.Coordinate;
-import ooga.logic.board.CoordinateUseCase;
+import ooga.logic.board.GameCoordinate;
 import ooga.logic.board.Pieces.Interfaces.PieceLogic;
 import ooga.logic.board.Pieces.Movements.Movement;
 import ooga.logic.board.Pieces.Movements.PawnCapture;
@@ -25,7 +25,7 @@ public class Pawn extends Piece {
     this(0,1);
   }
   public Pawn(int xPosition, int yPosition){
-    setMyCoordinate(new CoordinateUseCase(xPosition,yPosition));
+    setMyCoordinate(new GameCoordinate(xPosition,yPosition));
     updateRankAndFile();
     myMovement = new PawnMovement();
     myCapture = new PawnCapture();
@@ -57,7 +57,7 @@ public class Pawn extends Piece {
 
     for (int xPos : xOfSquares){
       for (int yPos: yOfSquares){
-        newCapture = new CoordinateUseCase(xPos,yPos);
+        newCapture = new GameCoordinate(xPos,yPos);
         myCoordinateList.add(newCapture);
       }
     }

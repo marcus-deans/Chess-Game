@@ -3,7 +3,7 @@ package ooga.logic.board.Pieces;
 
 import java.util.List;
 import ooga.logic.board.Coordinate;
-import ooga.logic.board.CoordinateUseCase;
+import ooga.logic.board.GameCoordinate;
 import ooga.logic.board.Pieces.Interfaces.CaptureLogic;
 import ooga.logic.board.Pieces.Movements.KingMovement;
 import ooga.logic.board.Pieces.Movements.Movement;
@@ -25,7 +25,7 @@ public class King extends Piece {
   }
 
   public King(int xPosition, int yPosition){
-    setMyCoordinate(new CoordinateUseCase(xPosition,yPosition));
+    setMyCoordinate(new GameCoordinate(xPosition,yPosition));
     updateRankAndFile();
     myMovement = new KingMovement();
     myCapture = new KingMovement();

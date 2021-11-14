@@ -7,7 +7,7 @@ import ooga.logic.board.CoordinateUseCase;
 
 public class PawnMovement extends Movement{
 
-  public List<Coordinate> getPossibleMoves(CoordinateUseCase myCoordinate) {
+  public List<Coordinate> getPossibleMoves(Coordinate myCoordinate) {
     List<Coordinate> myPossibleMoves = new ArrayList<>();
     myPossibleMoves.add(Forward(myCoordinate, 1));
     myPossibleMoves.add(Forward(myCoordinate,2));

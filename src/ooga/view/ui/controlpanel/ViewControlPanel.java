@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import ooga.view.ui.SharedUIComponents;
 
 /**
  * JavaFX panel that creates the view control panel for UI language and appearance Relies on
@@ -14,7 +15,7 @@ import javafx.scene.paint.Color;
  *
  * @author marcusdeans
  */
-public class ViewControlPanel extends ControlPanel {
+public class ViewControlPanel extends SharedUIComponents {
   //General resource file structure
   private static final String VIEW_CONTROL_RESOURCE_FILE_PATH = "ooga.view.viewresources.ViewControlResources";
   private static final ResourceBundle viewControlResources = ResourceBundle.getBundle(
@@ -30,10 +31,8 @@ public class ViewControlPanel extends ControlPanel {
   /**
    * Initialize the view control panel creator
    *
-   * @param controlPanelX the integer position that the control panel should be located at
    */
-  public ViewControlPanel(int controlPanelX) {
-    super(controlPanelX);
+  public ViewControlPanel() {
     createViewControlPanel();
   }
 
@@ -43,7 +42,7 @@ public class ViewControlPanel extends ControlPanel {
    */
   public Node createViewControlPanel() {
     VBox myViewControlPanel = new VBox();
-    myViewControlPanel.setSpacing(getInt("control_panel_spacing"));
+    myViewControlPanel.setSpacing(getInt("control_subpanel_spacing"));
 
     Node viewControlDropdown = initializeViewControlDropdown();
     myViewControlPanel.getChildren().add(viewControlDropdown);
@@ -51,8 +50,8 @@ public class ViewControlPanel extends ControlPanel {
     Node languageControlDropdown = initializeLanguageControlDropdown();
     myViewControlPanel.getChildren().add(languageControlDropdown);
 
-    myViewControlPanel.setLayoutX(myControlPanelX);
-    myViewControlPanel.setLayoutY(getInt("view_control_panel_y"));
+//    myViewControlPanel.setLayoutX(myControlPanelX);
+//    myViewControlPanel.setLayoutY(getInt("view_control_panel_y"));
     myViewControlPanel.setId("view-control-panel");
 
     return myViewControlPanel;

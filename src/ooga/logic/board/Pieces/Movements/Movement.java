@@ -3,28 +3,27 @@ package ooga.logic.board.Pieces.Movements;
 import java.util.ArrayList;
 import java.util.List;
 import ooga.logic.board.Coordinate;
-import ooga.logic.board.CoordinateUseCase;
 
 abstract public class Movement{
-  protected CoordinateUseCase Diagonal(CoordinateUseCase myCoordinate, int xAmount, int yAmount){
+  protected Coordinate Diagonal(Coordinate myCoordinate, int xAmount, int yAmount){
     myCoordinate.setX_pos(myCoordinate.getX_pos() + xAmount);
     myCoordinate.setY_pos(myCoordinate.getY_pos() + yAmount);
     return myCoordinate;
   }
 
-  protected CoordinateUseCase Forward(CoordinateUseCase myCoordinate, int yAmount) {
+  protected Coordinate Forward(Coordinate myCoordinate, int yAmount) {
     return Diagonal(myCoordinate,0,yAmount);
   }
 
-  protected CoordinateUseCase Sideways(CoordinateUseCase myCoordinate, int xAmount) {
+  protected Coordinate Sideways(Coordinate myCoordinate, int xAmount) {
     return Diagonal(myCoordinate,xAmount,0);
   }
 
-  public abstract List<Coordinate> getPossibleMoves(CoordinateUseCase coordinate);
+  public abstract List<Coordinate> getPossibleMoves(Coordinate coordinate);
 
-  protected List<Coordinate> availableSquares(CoordinateUseCase myCoordinate,int[] addXAmount, int[] addYAmount){
+  protected List<Coordinate> availableSquares(Coordinate myCoordinate,int[] addXAmount, int[] addYAmount){
     List<Coordinate> myCoordinateList = new ArrayList<>();
-    CoordinateUseCase moveCoordinate;
+    Coordinate moveCoordinate;
 
     for (int xAmt : addXAmount){
       for (int yAmt: addYAmount){
@@ -40,7 +39,7 @@ abstract public class Movement{
 
   }
 
-  private boolean isValidSquare(CoordinateUseCase captureCoordinate) {
+  private boolean isValidSquare(Coordinate captureCoordinate) {
     // TODO: IMPLEMENT EDGE POLICIES
     return !(captureCoordinate.getX_pos() < 0 || captureCoordinate.getY_pos() < 0
         || captureCoordinate.getX_pos() > 7 || captureCoordinate.getY_pos() > 7);

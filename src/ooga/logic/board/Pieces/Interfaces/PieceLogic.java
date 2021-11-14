@@ -18,6 +18,6 @@ public interface PieceLogic {
     /**
      * Retrieves the coordinate set for the piece
      */
-    public CoordinateUseCase getCoordinate();
+    public Coordinate getCoordinate();
 
 }

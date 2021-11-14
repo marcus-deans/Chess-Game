@@ -1,7 +1,10 @@
 package ooga.controller;
 
 import javafx.stage.Stage;
+<<<<<<< HEAD
 import ooga.logic.game.Game;
+=======
+>>>>>>> 202e0f29021a5c83cef6c9ee6a3bd68cbf536d39
 import ooga.view.View;
 
 import java.io.File;
