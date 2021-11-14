@@ -1,4 +1,4 @@
-package ooga.logic.board.Pieces;
+package ooga.logic.board.Pieces.PieceBundle;
 
 import java.util.List;
 import ooga.logic.board.Pieces.Interfaces.CaptureLogic;

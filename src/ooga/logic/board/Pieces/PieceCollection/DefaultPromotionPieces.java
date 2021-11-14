@@ -3,7 +3,7 @@ package ooga.logic.board.Pieces.PieceCollection;
 import java.util.ArrayList;
 import java.util.List;
 
-import ooga.logic.board.Pieces.Piece;
+import ooga.logic.board.Pieces.PieceBundle.Piece;
 
 public class DefaultPromotionPieces extends PieceCollection{
 

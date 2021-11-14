@@ -1,4 +1,4 @@
-package ooga.logic.board.Pieces;
+package ooga.logic.board.Pieces.PieceBundle;
 
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
 import ooga.logic.board.Pieces.SpotCollection.PawnCapture;
