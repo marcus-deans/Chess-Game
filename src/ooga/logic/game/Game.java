@@ -30,7 +30,7 @@ public class Game {
 
         for(int i = 0; i < list.size(); i++){
             if(occupied.contains(list.get(i))){
-                if(selected.getY_pos() < list.get(i).getY_pos()){
+                if(selected.getY_pos() > list.get(i).getY_pos()){
 
                 }
             }
