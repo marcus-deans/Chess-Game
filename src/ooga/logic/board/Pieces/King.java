@@ -23,6 +23,7 @@ public class King extends Piece {
   public King(){
     this(4,0);
   }
+
   public King(int xPosition, int yPosition){
     setMyCoordinate(new CoordinateUseCase(xPosition,yPosition));
     updateRankAndFile();

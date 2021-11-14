@@ -75,7 +75,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     // TODO: IMPLEMENT EDGE POLICIES
     return !(captureCoordinate.getX_pos() < 0 || captureCoordinate.getY_pos() < 0
     || captureCoordinate.getX_pos() > 7 || captureCoordinate.getY_pos() > 7);
-    
+
   }
 
   @Override
@@ -118,6 +118,12 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   protected CoordinateUseCase Sideways(int xAmount) {
     return Diagonal(getCoordinate(),xAmount,0);
+  }
+
+
+  @Override
+  public void setState() {
+
   }
 
 

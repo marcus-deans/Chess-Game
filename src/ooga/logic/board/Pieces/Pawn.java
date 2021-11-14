@@ -71,5 +71,4 @@ public class Pawn extends Piece {
   return boops;
   }
 
-
 }
