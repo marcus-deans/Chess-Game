@@ -1,47 +1,46 @@
 package ooga.logic.game;
 
-import ooga.logic.board.*;
+import ooga.logic.board.board.Board;
+import ooga.logic.board.coordinate.Coordinate;
+import ooga.logic.board.coordinate.GameCoordinate;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class Game {
-    private GameBoard myBoard;
-    private Map<String, GameSpot> boardMap;
-    private int boardWidth, boardHeight;
+    private Board myBoard;
 
     //A map containing the game's data collected from the game's sim files.
     private Map<String, String> metadata;
+    private GameCoordinate selected;
 
-    public Game(){
 
-    }
-
-    public Game(GameBoard board,  Map<String, String> metadata, int boardWidth, int boardHeight){
+    public Game(Board board,  Map<String, String> metadata){
         makeBoard(board);
-        this.boardWidth = boardWidth;
-        this.boardHeight = boardHeight;
         this.metadata = metadata;
     }
 
-    private List<Coordinate> getPossiblePositions(List<GameCoordinate> list, GameCoordinate selected, Set<Coordinate> occupied){
-
+    private List<GameCoordinate> getJumpPossibleCoordinate(List<GameCoordinate> list){
         for(int i = 0; i < list.size(); i++){
-            if(occupied.contains(list.get(i))){
-                if(selected.getY_pos() > list.get(i).getY_pos()){
-
-                }
+            if(myBoard.checkPieceExists(list.get(i))){
+                list.remove(i);
+                i--;
             }
         }
-    }
-
-    public void update(){
 
     }
+    private List<GameCoordinate> getStandardPossibleCoordinate(List<GameCoordinate> list){
+        for(int i = 0; i < list.size(); i++){
+            if(myBoard.checkPieceExists(list.get(i))){
+                list.remove(i);
+                i--;
+            }
+        }
 
-    protected void makeBoard(GameBoard newBoard){
+    }
+
+
+    protected void makeBoard(Board newBoard){
         this.myBoard = newBoard;
     }
 
@@ -57,4 +56,6 @@ public class Game {
     public Map<String, String> getMetaData() {
         return metadata;
     }
+
+
 }
