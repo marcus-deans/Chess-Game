@@ -15,7 +15,6 @@ public class King extends Piece {
 
   public King(int team, int xPosition, int yPosition){
     setMyCoordinate(new GameCoordinate(xPosition,yPosition));
-    updateRankAndFile();
     setMyMovement(new KingMovement());
     setMyCapture(new KingMovement());
 //    setMyPromotionSpots(new finalRankPromotionSpots());

@@ -1,6 +1,5 @@
 package ooga.logic.board.Pieces;
 
-import java.util.ArrayList;
 import java.util.List;
 import ooga.logic.board.Pieces.Interfaces.CaptureLogic;
 import ooga.logic.board.Pieces.Interfaces.MoveLogic;
@@ -12,13 +11,10 @@ import ooga.logic.board.coordinate.Coordinate;
 
 abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, PromoteLogic {
   private Coordinate myCoordinate;
-  private int myRank;
-  private int myFile;
   private SpotCollection myMovement;
   private SpotCollection myCapture;
   private SpotCollection myPromotionSpots;
   private PieceCollection myPromotionOptions;
-
 
 
   @Override
@@ -38,44 +34,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     myCoordinate = newCoordinate;
   }
 
-  public int getMyRank() {
-    return myRank;
-  }
-
-  public void setMyRank(int myRank) {
-    this.myRank = myRank;
-  }
-
-  public int getMyFile() {
-    return myFile;
-  }
-
-  public void setMyFile(int myFile) {
-    this.myFile = myFile;
-  }
-
-  protected void updateRankAndFile() {
-    setMyRank(getMyXCoordinate());
-    setMyFile(getMyYCoordinate());
-  }
-
-  protected List<Coordinate> availableSquares(int[] addXAmount, int[] addYAmount){
-    List<Coordinate> myCoordinateList = new ArrayList<>();
-    Coordinate moveCoordinate;
-
-    for (int xAmt : addXAmount){
-      for (int yAmt: addYAmount){
-        if (!(xAmt == 0 && yAmt == 0)) {
-          moveCoordinate = Diagonal(getCoordinate(),xAmt,yAmt);
-          if (isValidSquare(moveCoordinate)) {
-            myCoordinateList.add(moveCoordinate);
-          }
-        }
-      }
-    }
-    return myCoordinateList;
-
-  }
 
   private boolean isValidSquare(Coordinate captureCoordinate) {
     // TODO: IMPLEMENT EDGE POLICIES
@@ -107,26 +65,10 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     return myPromotionOptions.getPossiblePieces();
   }
 
-  protected Coordinate Diagonal(Coordinate myCoordinate, int xAmount, int yAmount){
-    myCoordinate.setX_pos(myCoordinate.getX_pos() + xAmount);
-    myCoordinate.setY_pos(myCoordinate.getY_pos() + yAmount);
-    return myCoordinate;
-  }
-
-  protected Coordinate Forward(int yAmount) {
-    return Diagonal(getCoordinate(),0,yAmount);
-  }
-
-  protected Coordinate Sideways(int xAmount) {
-    return Diagonal(getCoordinate(),xAmount,0);
-  }
-
-
   @Override
   public void setState() {
 
   }
-
 
   @Override
   public List<Coordinate> getPossibleCaptures() {
@@ -156,6 +98,4 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   public List<Coordinate> promotionSquares() {
     return myPromotionSpots.getPossibleSpots(myCoordinate);
   }
-
-
 }

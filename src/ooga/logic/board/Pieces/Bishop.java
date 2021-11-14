@@ -8,7 +8,6 @@ import ooga.logic.board.coordinate.GameCoordinate;
 public class Bishop extends Piece {
   public Bishop(int xPosition, int yPosition){
     setMyCoordinate(new GameCoordinate(xPosition,yPosition));
-    updateRankAndFile();
     setMyMovement(new KingMovement());
     setMyCapture(new KingMovement());
     setMyPromotionSpots(new finalRankPromotionSpots());

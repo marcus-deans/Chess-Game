@@ -16,7 +16,6 @@ import ooga.logic.board.coordinate.GameCoordinate;
 public class Pawn extends Piece {
   public Pawn(int team, int xPosition, int yPosition){
     setMyCoordinate(new GameCoordinate(xPosition,yPosition));
-    updateRankAndFile();
     setMyMovement(new PawnMovement());
     setMyCapture(new PawnCapture());
     setMyPromotionSpots(new finalRankPromotionSpots());
