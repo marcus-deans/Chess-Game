@@ -2,6 +2,8 @@ package ooga.logic.board.board;
 
 
 import ooga.logic.board.Piece;
+
+import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.spot.GameSpot;
 import ooga.logic.board.spot.Spot;
 
@@ -43,9 +45,9 @@ public class GameBoard implements Board {
                 if((i+j)%2==0)
                 {
                     pieceName=pieceMap.getString(setup[i][j].substring(0,1));
-                    team=(int) setup[i][j].charAt(1);
-                    spotArr[i][j]=new GameSpot((Piece) Class.forName(pieceName).getConstructor()
-                            .newInstance(team), j,i,0,false);
+                    team=(int)setup[i][j].charAt(1);
+//                    spotArr[i][j]=new GameSpot((Piece) Class.forName(pieceName).getConstructor()
+//                            .newInstance(team), j,i,0,false);
                     board.add(new GameSpot((Piece) Class.forName(pieceName).getConstructor()
                             .newInstance(team,j,i),j,i,0,false));
                 }
@@ -54,8 +56,8 @@ public class GameBoard implements Board {
                     team=(int) setup[i][j].charAt(1);
                     board.add(new GameSpot((Piece) Class.forName(pieceName).getConstructor()
                             .newInstance(team),j,i,0,true));
-                    spotArr[i][j]=new GameSpot((Piece) Class.forName(pieceName).getConstructor()
-                            .newInstance(team),j,i,0,true);
+//                    spotArr[i][j]=new GameSpot((Piece) Class.forName(pieceName).getConstructor()
+//                            .newInstance(team),j,i,0,true);
                 }
 
             }
@@ -66,6 +68,21 @@ public class GameBoard implements Board {
     public List<Spot> getFullBoard()
     {
         return board;
+    }
+
+    public void updateBoard(List<Spot> updated)
+    {
+        this.board=updated;
+    }
+
+    public boolean hasPiece(Coordinate c)
+    {
+        for (Spot s:board) {
+            if (s.getCoordinate().equals(c)&&s.getPiece()!=null) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
