@@ -16,13 +16,16 @@ public interface Controller {
     //Returns the stage of the active display.
     public Stage getStage();
 
-    //gets the current game class
-    public Game getCurrentGame();
-
     //Resets the active game and the display.
     public void resetGame();
 
     //sets time limit of each round in the game
     public void setTime(int speed);
+
+    public void undoMove();
+
+    public void redoMove();
+
+    public void changeVariant(String variant);
 
 }

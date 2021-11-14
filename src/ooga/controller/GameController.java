@@ -33,17 +33,27 @@ public class GameController implements Controller {
   }
 
   @Override
-  public Game getCurrentGame() {
-    return null;
-  }
-
-  @Override
   public void resetGame() {
 
   }
 
   @Override
   public void setTime(int speed) {
+
+  }
+
+  @Override
+  public void undoMove() {
+
+  }
+
+  @Override
+  public void redoMove() {
+
+  }
+
+  @Override
+  public void changeVariant(String variant) {
 
   }
 }
