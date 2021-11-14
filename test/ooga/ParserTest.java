@@ -2,6 +2,7 @@ package ooga;
 
 import com.opencsv.exceptions.CsvValidationException;
 import ooga.Parser.CSVParser;
+import ooga.Parser.SIMParser;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -43,4 +44,29 @@ public class ParserTest {
         assertEquals("R",csvReader.getInitialStates()[7][0]);
         assertEquals("R",csvReader.getInitialStates()[7][0]);
     }
+
+    /**
+     * Test that uses the Standard sim file to create a map and check the type
+     * @throws IOException
+     */
+    @Test
+    public void readSIMFileTestStandard() throws IOException {
+        SIMParser simReader = new SIMParser();
+        File file= new File("data/Standard.sim");
+        Map<String, String> mydata = simReader.readSimFile(file);
+        assertEquals("Standard", mydata.get("Type"));
+    }
+
+    /**
+     * Test that uses the StarWars sim file to create a map and check the type
+     * @throws IOException
+     */
+    @Test
+    public void readSIMFileTestStarWars() throws IOException {
+        SIMParser simReader = new SIMParser();
+        File file= new File("data/Standard.sim");
+        Map<String, String> mydata = simReader.readSimFile(file);
+        assertEquals("StarWars", mydata.get("Type"));
+    }
+
 }

@@ -10,7 +10,7 @@ import java.io.IOException;
 public class CSVParser {
 
     private int [] gridDimensions;
-    private String [][] boardSetUp;
+    private String[][] boardSetUp;
 
     /**
      * Reads in the CSV file and parses the data to fit the Grid implementation
