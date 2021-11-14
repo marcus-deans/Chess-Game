@@ -9,11 +9,12 @@ public class GameSpot implements Spot{
     private boolean color;
     private boolean empty;
 
-    public GameSpot(Piece piece, int x, int y, int typeOfSpot)
+    public GameSpot(Piece piece, int x, int y, int typeOfSpot, boolean color)
     {
         this.setPiece(piece);
         this.setCoordinate(x,y);
         this.setTypeOfSpot(typeOfSpot);
+        this.color=color;
     }
 
     @Override

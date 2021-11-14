@@ -1,9 +1,12 @@
 package ooga.logic.board;
 
+import java.util.List;
+
 public interface Board {
 
-    //returns 2D int array of the board state
-    public int[][] getFullBoard();
+    //returns 2D spot array of the board
+    public List<Spot> getFullBoard();
+    public void setupBoard(String[][] setup);
 
 
 }
