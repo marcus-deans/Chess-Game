@@ -16,8 +16,11 @@ public class KnightMovement extends SpotCollection {
       for (int sign2 : myIntegers){
         myCoords.addAll(new OneTimeDirection().getPossibleSpots(myCoordinate,sign1 * 2,
             sign2 * 1));
+        System.out.println(myCoords.size());
         myCoords.addAll(new OneTimeDirection().getPossibleSpots(myCoordinate,sign1 * 1,
             sign2 * 2));
+        System.out.println(myCoords.size());
+
       }
     }
     return myCoords;

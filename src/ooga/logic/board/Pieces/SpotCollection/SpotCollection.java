@@ -17,8 +17,12 @@ abstract public class SpotCollection {
     for (int xAmt : addXAmount){
       for (int yAmt: addYAmount){
         if (!originalCoordinate(xAmt, yAmt)) {
-          moveCoordinate = new OneTimeDirection().getPossibleSpots(myCoordinate,xAmt,yAmt);
-          myCoordinateList.addAll(moveCoordinate);
+          moveCoordinate = (new OneTimeDirection()).getPossibleSpots(myCoordinate,xAmt,yAmt);
+          for (Coordinate x : moveCoordinate){
+            myCoordinateList.add(x);
+          }
+          System.out.println(myCoordinateList.size());
+          //myCoordinateList.addAll(moveCoordinate);
         }
       }
     }
