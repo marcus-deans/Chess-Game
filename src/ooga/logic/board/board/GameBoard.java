@@ -4,6 +4,7 @@ package ooga.logic.board.board;
 import ooga.logic.board.Piece;
 
 import ooga.logic.board.coordinate.Coordinate;
+import ooga.logic.board.coordinate.GameCoordinate;
 import ooga.logic.board.spot.GameSpot;
 import ooga.logic.board.spot.Spot;
 
@@ -86,4 +87,11 @@ public class GameBoard implements Board {
     }
 
 
+    public List<GameCoordinate> getPossibleCoordinates(GameCoordinate selected) {
+        return null;
+    }
+
+    public Boolean getIsJump(GameCoordinate selected) {
+        return false;
+    }
 }
