@@ -7,6 +7,7 @@ import ooga.logic.board.coordinate.GameCoordinate;
 
 public class finalRankPromotionSpots extends SpotCollection {
 
+  @Override
   public List<Coordinate> getPossibleSpots(Coordinate myCoordinate) {
     List<Coordinate> myCoordinateList = new ArrayList<>();
     Coordinate newCapture;

@@ -7,6 +7,7 @@ import ooga.logic.board.coordinate.Coordinate;
 
 public class PawnMovement extends SpotCollection {
 
+  @Override
   public List<Coordinate> getPossibleSpots(Coordinate myCoordinate) {
     List<Coordinate> myPossibleMoves = new ArrayList<>();
     myPossibleMoves.add(Forward(myCoordinate, 1));
