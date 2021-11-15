@@ -18,9 +18,6 @@ abstract public class SpotCollection {
       for (int yAmt: addYAmount){
         Coordinate myOriginalCopy = myCoordinate;
         if (!originalCoordinate(xAmt, yAmt)) {
-//          int newX = myCoordinate.getX_pos() + xAmt;
-//          int newY = myCoordinate.getY_pos() + yAmt;
-//          System.out.println(newX + " " + newY);
           moveCoordinate = (new OneTimeDirection()).getPossibleSpots(myOriginalCopy,xAmt,yAmt);
          if (moveCoordinate.size() != 0){
            myCoordinateList.addAll(moveCoordinate);
