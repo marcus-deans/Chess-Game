@@ -1,22 +1,63 @@
 package ooga.logic.game;
 
 import ooga.logic.board.board.Board;
+import ooga.logic.board.board.GameBoard;
+import ooga.logic.board.coordinate.Coordinate;
+import ooga.logic.board.coordinate.GameCoordinate;
 
+import java.util.List;
 import java.util.Map;
 
 public class Game {
-    private Board myBoard;
+    private GameBoard myBoard;
 
     //A map containing the game's data collected from the game's sim files.
     private Map<String, String> metadata;
+    private GameCoordinate selected;
 
 
-    public Game(Board board,  Map<String, String> metadata){
+    public Game(GameBoard board,  Map<String, String> metadata){
         makeBoard(board);
         this.metadata = metadata;
     }
 
-    protected void makeBoard(Board newBoard){
+    private List<GameCoordinate> getJumpPossibleCoordinate(List<GameCoordinate> list){
+        for(int i = 0; i < list.size(); i++){
+            if(myBoard.hasPiece(list.get(i))){
+                list.remove(i);
+                i--;
+            }
+        }
+        return list;
+    }
+
+    private List<GameCoordinate> getStandardPossibleCoordinate(List<GameCoordinate> list){
+        int maxX = Integer.MIN_VALUE;
+        int maxY = Integer.MIN_VALUE;
+        int minX = Integer.MAX_VALUE;
+        int minY = Integer.MAX_VALUE;
+
+        for(int i = 0; i < list.size(); i++){
+            if(myBoard.hasPiece(list.get(i))){
+                int posX = list.get(i).getX_pos();
+                int posY = list.get(i).getY_pos();
+                if(selected.getX_pos() < posX && posX < maxX){
+                    maxX = posX;
+                }else if(selected.getX_pos() > posX && posX > minX){
+                    minX = posX;
+                }
+                if(selected.getY_pos() < posY && posY < maxY){
+                    maxY = posY;
+                }else if(selected.getY_pos() > posY && posY > minY){
+                    minY = posY;
+                }
+            }
+        }
+        return list;
+    }
+
+
+    protected void makeBoard(GameBoard newBoard){
         this.myBoard = newBoard;
     }
 
