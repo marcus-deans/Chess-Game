@@ -8,7 +8,7 @@ abstract public class SpotCollection {
   private List<Integer> myXInts;
   private List<Integer> myYInts;
 
-  public SpotCollection(){
+  protected SpotCollection(){
     myXInts = new ArrayList<>();
     myYInts = new ArrayList<>();
   }

@@ -1,6 +1,6 @@
 package ooga.logic.board.Pieces.PieceBundle;
 
-import ooga.logic.board.Pieces.SpotCollection.QueenMovement;
+import ooga.logic.board.Pieces.SpotCollection.KnightMovement;
 import ooga.logic.board.coordinate.GameCoordinate;
 
 public class Knight extends Piece {

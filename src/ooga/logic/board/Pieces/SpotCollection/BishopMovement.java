@@ -5,6 +5,8 @@ import java.util.List;
 import ooga.logic.board.coordinate.Coordinate;
 
 public class BishopMovement extends SpotCollection {
+
+
   @Override
   public List<Coordinate> getPossibleSpots(Coordinate myCoordinate) {
     List<Coordinate> myCoords = new ArrayList<>();
