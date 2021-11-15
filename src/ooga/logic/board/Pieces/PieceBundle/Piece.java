@@ -22,25 +22,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     return myCoordinate;
   }
 
-  protected int getMyXCoordinate(){
-    return getCoordinate().getX_pos();
-  }
-
-  protected int getMyYCoordinate(){
-    return getCoordinate().getY_pos();
-  }
-
-  protected void setMyCoordinate(Coordinate newCoordinate){
-    myCoordinate = newCoordinate;
-  }
-
-
-  private boolean isValidSquare(Coordinate captureCoordinate) {
-    // TODO: IMPLEMENT EDGE POLICIES
-    return !(captureCoordinate.getX_pos() < 0 || captureCoordinate.getY_pos() < 0
-    || captureCoordinate.getX_pos() > 7 || captureCoordinate.getY_pos() > 7);
-
-  }
 
   @Override
   public boolean canCapture(Coordinate captureCoordinate) {
@@ -50,13 +31,13 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   @Override
   public void updatePosition(Coordinate passedCoordinate) {
-    setMyCoordinate(passedCoordinate);
+    setCoordinate(passedCoordinate);
   }
 
 
   @Override
   public void setCoordinate(Coordinate passedCoordinate) {
-    setMyCoordinate(passedCoordinate);
+    myCoordinate = passedCoordinate;
   }
 
 

@@ -2,6 +2,7 @@ package ooga.logic.board.Pieces.SpotCollection;
 
 import java.util.ArrayList;
 import java.util.List;
+import ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle.ContinuousLine;
 import ooga.logic.board.coordinate.Coordinate;
 
 public class BishopMovement extends SpotCollection {

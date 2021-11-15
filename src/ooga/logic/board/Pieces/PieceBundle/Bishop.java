@@ -5,7 +5,7 @@ import ooga.logic.board.coordinate.GameCoordinate;
 
 public class Bishop extends Piece {
   public Bishop(int xPosition, int yPosition){
-    setMyCoordinate(new GameCoordinate(xPosition,yPosition));
+    setCoordinate(new GameCoordinate(xPosition,yPosition));
     setMyMovement(new BishopMovement());
     setMyCapture(new BishopMovement());
   }

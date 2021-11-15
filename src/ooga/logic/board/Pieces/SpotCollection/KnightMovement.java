@@ -3,6 +3,7 @@ package ooga.logic.board.Pieces.SpotCollection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle.OneTimeDiagonal;
 import ooga.logic.board.coordinate.Coordinate;
 
 public class KnightMovement extends SpotCollection {
