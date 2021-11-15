@@ -27,7 +27,6 @@ abstract public class SpotCollection {
     return myCoordinateList;
 
   }
-
   private boolean originalCoordinate(int xAmt, int yAmt) {
     return xAmt == 0 && yAmt == 0;
   }

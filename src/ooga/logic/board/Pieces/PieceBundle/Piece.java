@@ -9,12 +9,13 @@ import ooga.logic.board.Pieces.PieceCollection.PieceCollection;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 import ooga.logic.board.coordinate.Coordinate;
 
-abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, PromoteLogic {
+abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, PromoteLogic{
   private Coordinate myCoordinate;
   private SpotCollection myMovement;
   private SpotCollection myCapture;
   private SpotCollection myPromotionSpots;
   private PieceCollection myPromotionOptions;
+  private int team;
 
 
   @Override
@@ -78,5 +79,15 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   @Override
   public List<Coordinate> promotionSquares() {
     return myPromotionSpots.getPossibleSpots(myCoordinate);
+  }
+
+  @Override
+  public void setTeam(int newTeam) {
+    this.team = newTeam;
+  }
+
+  @Override
+  public int getTeam() {
+    return team;
   }
 }

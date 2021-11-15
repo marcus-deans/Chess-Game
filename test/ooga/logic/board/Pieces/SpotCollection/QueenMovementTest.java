@@ -3,9 +3,6 @@ package ooga.logic.board.Pieces.SpotCollection;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
-import ooga.logic.board.Pieces.PieceBundle.Queen;
-import ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle.ContinuousLine;
-import ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle.SpecificSpotCollection;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
 import org.junit.jupiter.api.BeforeEach;
