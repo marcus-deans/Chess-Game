@@ -3,6 +3,7 @@ package ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle;
 import java.util.ArrayList;
 import java.util.List;
 import ooga.logic.board.coordinate.Coordinate;
+import ooga.logic.board.coordinate.GameCoordinate;
 
 /**
  * This class takes care of the logic behind finding specific spots or finding collections of spots
@@ -44,12 +45,11 @@ abstract public class SpecificSpotCollection implements SpecificSpotCollectionIn
 
   protected List<Coordinate> Diagonal(Coordinate myCoordinate, int xAmount, int yAmount){
     List<Coordinate> myCoords = new ArrayList<>();
-    myCoordinate.setX_pos(myCoordinate.getX_pos() + xAmount);
-    myCoordinate.setY_pos(myCoordinate.getY_pos() + yAmount);
-    if (!isValidSquare(myCoordinate)){
+    Coordinate myNewCoordinate = new GameCoordinate(myCoordinate.getX_pos() + xAmount,myCoordinate.getY_pos() + yAmount);
+    if (!isValidSquare(myNewCoordinate)){
       return myCoords;
     }
-    myCoords.add(myCoordinate);
+    myCoords.add(myNewCoordinate);
     return myCoords;
   }
 

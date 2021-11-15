@@ -16,13 +16,15 @@ abstract public class SpotCollection {
 
     for (int xAmt : addXAmount){
       for (int yAmt: addYAmount){
+        Coordinate myOriginalCopy = myCoordinate;
         if (!originalCoordinate(xAmt, yAmt)) {
-          moveCoordinate = (new OneTimeDirection()).getPossibleSpots(myCoordinate,xAmt,yAmt);
-          for (Coordinate x : moveCoordinate){
-            myCoordinateList.add(x);
-          }
-          System.out.println(myCoordinateList.size());
-          //myCoordinateList.addAll(moveCoordinate);
+//          int newX = myCoordinate.getX_pos() + xAmt;
+//          int newY = myCoordinate.getY_pos() + yAmt;
+//          System.out.println(newX + " " + newY);
+          moveCoordinate = (new OneTimeDirection()).getPossibleSpots(myOriginalCopy,xAmt,yAmt);
+         if (moveCoordinate.size() != 0){
+           myCoordinateList.addAll(moveCoordinate);
+         }
         }
       }
     }

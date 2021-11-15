@@ -27,8 +27,6 @@ class KingMovementTest {
   @Test
   void getPossibleSpotsInnerCoordinate() {
     List<Coordinate> myCoords = mySpotCollection.getPossibleSpots(innerCoordinate);
-//    Coordinate myCoord1 = new GameCoordinate(1,3);
-//    Coordinate myCoord2 = new GameCoordinate(3,3);
     assertTrue(myCoords.size() == 8);
   }
 
