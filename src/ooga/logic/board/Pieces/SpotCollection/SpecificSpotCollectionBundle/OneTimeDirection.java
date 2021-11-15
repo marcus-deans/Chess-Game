@@ -9,7 +9,7 @@ import ooga.logic.board.coordinate.Coordinate;
  * extend infinitely
  * @author Amr Tagel-Din
  */
-public class OneTimeDiagonal extends SpecificSpotCollection {
+public class OneTimeDirection extends SpecificSpotCollection {
 
   /**
    * return the specific spot that we are pointing to, or an empty list if this spot is invalid

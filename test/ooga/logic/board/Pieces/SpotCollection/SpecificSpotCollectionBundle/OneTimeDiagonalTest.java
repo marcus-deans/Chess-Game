@@ -1,8 +1,6 @@
 package ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle;
 
 import java.util.List;
-import ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle.OneTimeDiagonal;
-import ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle.SpecificSpotCollection;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +15,7 @@ private Coordinate outerCoordinate;
 
   @BeforeEach
   void setUp() {
-    mySpot = new OneTimeDiagonal();
+    mySpot = new OneTimeDirection();
     innerCoordinate = new GameCoordinate(1,1);
     outerCoordinate = new GameCoordinate(0,0);
   }

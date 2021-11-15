@@ -2,7 +2,7 @@ package ooga.logic.board.Pieces.SpotCollection;
 
 import java.util.ArrayList;
 import java.util.List;
-import ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle.OneTimeDiagonal;
+import ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle.OneTimeDirection;
 import ooga.logic.board.coordinate.Coordinate;
 
 abstract public class SpotCollection {
@@ -17,7 +17,7 @@ abstract public class SpotCollection {
     for (int xAmt : addXAmount){
       for (int yAmt: addYAmount){
         if (!originalCoordinate(xAmt, yAmt)) {
-          moveCoordinate = new OneTimeDiagonal().getPossibleSpots(myCoordinate,xAmt,yAmt);
+          moveCoordinate = new OneTimeDirection().getPossibleSpots(myCoordinate,xAmt,yAmt);
           myCoordinateList.addAll(moveCoordinate);
         }
       }
