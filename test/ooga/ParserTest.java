@@ -3,14 +3,15 @@ package ooga;
 import com.opencsv.exceptions.CsvValidationException;
 import ooga.Parser.CSVParser;
 import ooga.Parser.SIMParser;
+import ooga.util.IncorrectCSVFormatException;
+import ooga.util.IncorrectSimFormatException;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ParserTest {
     //private Controller myController;
@@ -22,7 +23,7 @@ public class ParserTest {
      * @throws IOException
      */
     @Test
-    public void readCSVFileTestDimensions() throws CsvValidationException, IOException {
+    public void readCSVFileTestDimensions() throws CsvValidationException, IOException, IncorrectCSVFormatException {
         CSVParser csvReader = new CSVParser();
         File file= new File("data/Standard.csv");
         csvReader.readCSVFile(file);
@@ -36,14 +37,14 @@ public class ParserTest {
      * @throws IOException
      */
     @Test
-    public void readCSVFileTestRooks() throws CsvValidationException, IOException {
+    public void readCSVFileTestRooks() throws CsvValidationException, IOException, IncorrectCSVFormatException {
         CSVParser csvReader = new CSVParser();
         File file= new File("data/Standard.csv");
         csvReader.readCSVFile(file);
-        assertEquals("R",csvReader.getInitialStates()[0][0]);
-        assertEquals("R",csvReader.getInitialStates()[7][7]);
-        assertEquals("R",csvReader.getInitialStates()[7][0]);
-        assertEquals("R",csvReader.getInitialStates()[7][0]);
+        assertEquals("R1",csvReader.getInitialStates()[0][0]);
+        assertEquals("R2",csvReader.getInitialStates()[7][7]);
+        assertEquals("R2",csvReader.getInitialStates()[7][0]);
+        assertEquals("R1",csvReader.getInitialStates()[0][7]);
     }
 
     /**
@@ -51,7 +52,7 @@ public class ParserTest {
      * @throws IOException
      */
     @Test
-    public void readSIMFileTestStandard() throws IOException {
+    public void readSIMFileTestStandard() throws IOException{
         SIMParser simReader = new SIMParser();
         File file= new File("data/Standard.sim");
         Map<String, String> mydata = simReader.readSimFile(file);
@@ -63,9 +64,9 @@ public class ParserTest {
      * @throws IOException
      */
     @Test
-    public void readSIMFileTestStarWars() throws IOException {
+    public void readSIMFileTestStarWars() throws IOException{
         SIMParser simReader = new SIMParser();
-        File file= new File("data/Standard.sim");
+        File file= new File("data/StarWars.sim");
         Map<String, String> mydata = simReader.readSimFile(file);
         assertEquals("StarWars", mydata.get("Type"));
     }
@@ -85,10 +86,27 @@ public class ParserTest {
      * @throws IOException
      */
     @Test
-    public void readSIMFileTestNoFile() throws IOException {
+    public void readSIMFileTestNoFile(){
         SIMParser simReader = new SIMParser();
         File badFile = new File("data/noRealFile.sim");
         assertThrows(IOException.class, () -> simReader.readSimFile(badFile));
     }
 
+    /**
+     *
+     * @throws IOException
+     */
+    @Test
+    public void readSIMFileTestBadMap() throws IOException {
+        SIMParser simReader = new SIMParser();
+        File file= new File("data/BadFile.sim");
+        Map<String, String> data = simReader.readSimFile(file);
+        assertEquals(null, data.get("Type"));
+    }
+    @Test
+    public void readSIMFileTestBadCSV(){
+        CSVParser csvReader = new CSVParser();
+        File csvfile = new File("data/BadFile.csv");
+        assertThrows(IncorrectCSVFormatException.class, () -> csvReader.readCSVFile(csvfile));
+    }
 }

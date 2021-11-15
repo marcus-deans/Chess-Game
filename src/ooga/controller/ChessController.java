@@ -6,6 +6,8 @@ import ooga.Parser.CSVParser;
 import ooga.Parser.SIMParser;
 import ooga.logic.board.board.GameBoard;
 import ooga.logic.game.Game;
+import ooga.util.IncorrectCSVFormatException;
+import ooga.util.IncorrectSimFormatException;
 import ooga.view.GameView;
 import ooga.view.View;
 
@@ -44,7 +46,7 @@ public class ChessController implements Controller {
     }
 
 
-    private void setData(File file) throws CsvValidationException, IOException {
+    private void setData(File file) throws CsvValidationException, IOException, IncorrectCSVFormatException, IncorrectSimFormatException {
         File simFile= new File(String.valueOf(file)); //TODO: Set up choosing files
         myData = mySIMParser.readSimFile(simFile);
         File csvFile= new File(myData.get("GameConfiguration"));
