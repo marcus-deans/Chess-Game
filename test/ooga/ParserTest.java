@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ParserTest {
     //private Controller myController;
@@ -67,6 +68,27 @@ public class ParserTest {
         File file= new File("data/Standard.sim");
         Map<String, String> mydata = simReader.readSimFile(file);
         assertEquals("StarWars", mydata.get("Type"));
+    }
+
+    /**
+     * Test to see whether exception is thrown for no csv file existing
+     */
+    @Test
+    public void readCSVFileTestNoFile() {
+        CSVParser csvReader = new CSVParser();
+        File badFile = new File("data/noRealFile.csv");
+        assertThrows(IOException.class, () -> csvReader.readCSVFile(badFile));
+    }
+
+    /**
+     * Test to see whether exception is thrown for no sim file existing
+     * @throws IOException
+     */
+    @Test
+    public void readSIMFileTestNoFile() throws IOException {
+        SIMParser simReader = new SIMParser();
+        File badFile = new File("data/noRealFile.sim");
+        assertThrows(IOException.class, () -> simReader.readSimFile(badFile));
     }
 
 }
