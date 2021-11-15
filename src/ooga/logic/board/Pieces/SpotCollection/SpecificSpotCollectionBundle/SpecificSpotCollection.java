@@ -26,9 +26,9 @@ abstract public class SpecificSpotCollection implements SpecificSpotCollectionIn
   protected List<Coordinate> diagonalSquares(Coordinate coordinate, Integer myXInt, Integer myYInt) {
     List<Coordinate> myCoordinateList = new ArrayList<>();
     List<Coordinate> individualCoords;
-    int i = 0;
-    while (i < BOARD_SIZE){
-      individualCoords = Diagonal(coordinate,myXInt,myYInt);
+    int i = 1;
+    while (i <= BOARD_SIZE){
+      individualCoords = Diagonal(coordinate,myXInt * i,myYInt * i);
       if (DiagonalIsInvalid(individualCoords)){
         break;
       }
