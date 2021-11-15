@@ -13,7 +13,8 @@ import ooga.logic.board.coordinate.GameCoordinate;
  */
 public class King extends Piece {
 
-  public King(int team, int xPosition, int yPosition){
+  public King(int xPosition, int yPosition, int team){
+    setTeam(team);
     setCoordinate(new GameCoordinate(xPosition,yPosition));
     setMyMovement(new KingMovement());
     setMyCapture(new KingMovement());

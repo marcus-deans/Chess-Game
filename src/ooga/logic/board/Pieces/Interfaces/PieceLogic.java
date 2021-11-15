@@ -18,16 +18,16 @@ public interface PieceLogic {
      */
     Coordinate getCoordinate();
 
-    /**
-     * Sets the state of the piece, 0 for empty, 1 for pawn, etc.
-     * Needed when a piece is taken or a pawn reaches the end
-     */
+
     void setTeam(int newTeam);
 
-    /**
-     * Sets the state of the piece, 0 for empty, 1 for pawn, etc.
-     * Needed when a piece is taken or a pawn reaches the end
-     */
+
     int getTeam();
+
+
+    void setValue(int value);
+
+
+    int getValue();
 
 }

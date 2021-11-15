@@ -16,6 +16,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private SpotCollection myPromotionSpots;
   private PieceCollection myPromotionOptions;
   private int team;
+  private int pieceValue;
 
 
   @Override
@@ -89,5 +90,15 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   @Override
   public int getTeam() {
     return team;
+  }
+
+  @Override
+  public void setValue(int value) {
+    pieceValue = value;
+  }
+
+  @Override
+  public int getValue() {
+    return pieceValue;
   }
 }

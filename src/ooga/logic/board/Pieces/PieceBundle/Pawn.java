@@ -14,13 +14,13 @@ import ooga.logic.board.coordinate.GameCoordinate;
  * can capture top right and top left immediate
  */
 public class Pawn extends Piece {
-  public Pawn(int team, int xPosition, int yPosition){
+  public Pawn(int xPosition, int yPosition, int team){
+    setTeam(team);
     setCoordinate(new GameCoordinate(xPosition,yPosition));
     setMyMovement(new PawnMovement());
     setMyCapture(new PawnCapture());
     setMyPromotionSpots(new PromotionSpots());
     setMyPromotionPieces(new DefaultPromotionPieces());
   }
-
 
 }
