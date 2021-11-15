@@ -2,31 +2,23 @@ package ooga.logic.board.Pieces.SpotCollection;
 
 import java.util.ArrayList;
 import java.util.List;
+import ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle.OneTimeDiagonal;
 import ooga.logic.board.coordinate.Coordinate;
 
 abstract public class SpotCollection {
-
-  protected Coordinate Diagonal(Coordinate myCoordinate, int xAmount, int yAmount){
-    myCoordinate.setX_pos(myCoordinate.getX_pos() + xAmount);
-    myCoordinate.setY_pos(myCoordinate.getY_pos() + yAmount);
-    return myCoordinate;
-  }
-
 
   public abstract List<Coordinate> getPossibleSpots(Coordinate coordinate);
 
   protected List<Coordinate> availableSquares(Coordinate myCoordinate,List<Integer> addXAmount,
       List<Integer>addYAmount){
     List<Coordinate> myCoordinateList = new ArrayList<>();
-    Coordinate moveCoordinate;
+    List<Coordinate> moveCoordinate;
 
     for (int xAmt : addXAmount){
       for (int yAmt: addYAmount){
-        if (!(xAmt == 0 && yAmt == 0)) {
-          moveCoordinate = Diagonal(myCoordinate,xAmt,yAmt);
-          if (isValidSquare(moveCoordinate)) {
-            myCoordinateList.add(moveCoordinate);
-          }
+        if (!originalCoordinate(xAmt, yAmt)) {
+          moveCoordinate = new OneTimeDiagonal().getPossibleSpots(myCoordinate,xAmt,yAmt);
+          myCoordinateList.addAll(moveCoordinate);
         }
       }
     }
@@ -34,10 +26,8 @@ abstract public class SpotCollection {
 
   }
 
-  private boolean isValidSquare(Coordinate captureCoordinate) {
-    // TODO: IMPLEMENT EDGE POLICIES
-    return !(captureCoordinate.getX_pos() < 0 || captureCoordinate.getY_pos() < 0
-        || captureCoordinate.getX_pos() > 7 || captureCoordinate.getY_pos() > 7);
+  private boolean originalCoordinate(int xAmt, int yAmt) {
+    return xAmt == 0 && yAmt == 0;
   }
 
 }

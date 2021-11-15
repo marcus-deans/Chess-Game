@@ -1,4 +1,4 @@
-package ooga.logic.board.Pieces.SpotCollection;
+package ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle;
 
 import java.util.List;
 import ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle.OneTimeDiagonal;

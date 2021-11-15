@@ -4,61 +4,57 @@ import java.util.ArrayList;
 import java.util.List;
 import ooga.logic.board.coordinate.Coordinate;
 
-abstract public class SpecificSpotCollection {
+/**
+ * This class takes care of the logic behind finding specific spots or finding collections of spots
+ * @author Amr Tagel-Din
+ */
+abstract public class SpecificSpotCollection implements SpecificSpotCollectionInterface{
 
-  private List<Integer> myXInts;
-  private List<Integer> myYInts;
+  private static final int BOARD_SIZE = 8;
 
-  protected SpecificSpotCollection(){
-    myXInts = new ArrayList<>();
-    myYInts = new ArrayList<>();
-  }
-
+  /**
+   * From the interface, get possible spots either once or continuously down a given x and y
+   * @param coordinate The coordinate that we are starting at
+   * @param xChange the xChange is the change in the xDirection we will take either once, or repeatedly
+   * @param yChange the yChange is the change in the yDirection we will take either once, or repeatedly
+   * @return
+   */
+  @Override
   public abstract List<Coordinate> getPossibleSpots(Coordinate coordinate, int xChange, int yChange);
 
-
-  protected void addToMyXInts(int toAdd){
-    myXInts.add(toAdd);
-  }
-
-  protected void addToMyYInts(int toAdd){
-    myYInts.add(toAdd);
-  }
-
-  protected List<Integer> getMyXInts(){
-    return myXInts;
-  }
-  protected List<Integer> getMyYInts(){
-    return myYInts;
-  }
-
-  protected List<Coordinate> diagonalSquares
-      (Coordinate coordinate, List<Integer> myXInts, List<Integer> myYInts) {
+  protected List<Coordinate> diagonalSquares(Coordinate coordinate, Integer myXInt, Integer myYInt) {
     List<Coordinate> myCoordinateList = new ArrayList<>();
-    Coordinate moveCoordinate;
+    List<Coordinate> individualCoords;
     int i = 0;
-    while (i < myXInts.size()){
-      moveCoordinate = Diagonal(coordinate,myXInts.get(i),myYInts.get(i));
-      if (moveCoordinate != null){
-        myCoordinateList.add(moveCoordinate);
+    while (i < BOARD_SIZE){
+      individualCoords = Diagonal(coordinate,myXInt,myYInt);
+      if (DiagonalIsInvalid(individualCoords)){
+        break;
       }
+      myCoordinateList.addAll(individualCoords);
       i++;
     }
 
     return myCoordinateList;
   }
 
-  protected Coordinate Diagonal(Coordinate myCoordinate, int xAmount, int yAmount){
+  private boolean DiagonalIsInvalid(List<Coordinate> individualCoords) {
+    return individualCoords.size() == 0;
+  }
+
+  protected List<Coordinate> Diagonal(Coordinate myCoordinate, int xAmount, int yAmount){
+    List<Coordinate> myCoords = new ArrayList<>();
     myCoordinate.setX_pos(myCoordinate.getX_pos() + xAmount);
     myCoordinate.setY_pos(myCoordinate.getY_pos() + yAmount);
-    if (isValidSquare(myCoordinate)){
-      return myCoordinate;
+    if (!isValidSquare(myCoordinate)){
+      return myCoords;
     }
-    return null;
+    myCoords.add(myCoordinate);
+    return myCoords;
   }
 
   private boolean isValidSquare(Coordinate captureCoordinate) {
-    // TODO: IMPLEMENT EDGE POLICIES
+    // TODO: Connect to neighbors
     return !(captureCoordinate.getX_pos() < 0 || captureCoordinate.getY_pos() < 0
         || captureCoordinate.getX_pos() > 7 || captureCoordinate.getY_pos() > 7);
   }
