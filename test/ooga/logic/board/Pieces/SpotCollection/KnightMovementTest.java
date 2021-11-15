@@ -37,7 +37,7 @@ class KnightMovementTest {
     List<Coordinate> myCoords = mySpotCollection.getPossibleSpots(outerCoordinate);
 //    Coordinate myCoord1 = new GameCoordinate(1,3);
 //    Coordinate myCoord2 = new GameCoordinate(3,3);
-    assertTrue(myCoords.size() == 4);
+    assertTrue(myCoords.size() == 2);
   }
 
   @Test
