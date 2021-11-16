@@ -21,8 +21,9 @@ public class GameCoordinate implements Coordinate {
     }
 
     @Override
-    public void setCoordinate(int x_pos, int i) {
-
+    public void setCoordinate(int x_pos, int y_pos) {
+        setX_pos(x_pos);
+        setY_pos(y_pos);
     }
 
 
@@ -38,9 +39,8 @@ public class GameCoordinate implements Coordinate {
 
     @Override
     public void setCoordinate(Coordinate myCoordinate) {
-
+        setCoordinate(myCoordinate.getX_pos(),myCoordinate.getY_pos());
     }
-
 
     public boolean equals (Object o) {
         if (this == o) return true;
