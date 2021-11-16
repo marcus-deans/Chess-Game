@@ -79,8 +79,6 @@ public class Game {
 
         if(isJump) possibleCoordinates =  getJumpPossibleCoordinate(possiblePositions);
         else possibleCoordinates = getStandardPossibleCoordinate(possiblePositions);
-
-
     }
 
     public List<GameCoordinate> getPossibleCoordinates(){
@@ -89,11 +87,6 @@ public class Game {
 
     protected void makeBoard(GameBoard newBoard){
         this.myBoard = newBoard;
-    }
-
-    public Board getBoard() {
-
-        return myBoard;
     }
 
     /**
