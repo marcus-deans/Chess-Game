@@ -22,6 +22,7 @@ public class Game {
     public Game(GameBoard board,  Map<String, String> metadata){
         makeBoard(board);
         this.metadata = metadata;
+        this.possibleCoordinates = new ArrayList<>();
     }
 
     private List<GameCoordinate> getJumpPossibleCoordinate(List<GameCoordinate> list){
