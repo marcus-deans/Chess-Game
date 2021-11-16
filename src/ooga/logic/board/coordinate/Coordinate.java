@@ -11,8 +11,6 @@ public interface Coordinate{
     public void setY_pos(int y_pos);
 
     public void setCoordinate(Coordinate myCoordinate);
-
-
     /**
      * This method would get the x-position for a coordinate
      */
@@ -22,5 +20,5 @@ public interface Coordinate{
      */
     public int getY_pos();
 
-    public void setCoordinate(int x_pos, int i);
+    public void setCoordinate(int x_pos, int y_pos);
 }

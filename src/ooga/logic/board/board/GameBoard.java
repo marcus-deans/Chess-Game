@@ -1,9 +1,9 @@
 package ooga.logic.board.board;
 
 
-import ooga.logic.board.Piece;
-
+import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.logic.board.coordinate.Coordinate;
+import ooga.logic.board.coordinate.GameCoordinate;
 import ooga.logic.board.spot.GameSpot;
 import ooga.logic.board.spot.Spot;
 
@@ -23,6 +23,7 @@ public class GameBoard implements Board {
             GameBoard.class.getPackageName() + ".resources.";
     private static final String STRING_TO_PIECE_MAP = "PieceMap";
     private ResourceBundle pieceMap;
+    private static final String PIECE_PATH="ooga.logic.board.Pieces.PieceBundle.";
 
 
     public GameBoard(int rows, int columns)
@@ -42,24 +43,11 @@ public class GameBoard implements Board {
         {
             for(int j=0;j<columns;j++)
             {
-                if((i+j)%2==0)
-                {
-                    pieceName=pieceMap.getString(setup[i][j].substring(0,1));
-                    team=(int)setup[i][j].charAt(1);
-//                    spotArr[i][j]=new GameSpot((Piece) Class.forName(pieceName).getConstructor()
-//                            .newInstance(team), j,i,0,false);
-                    board.add(new GameSpot((Piece) Class.forName(pieceName).getConstructor()
-                            .newInstance(team,j,i),j,i,0,false));
-                }
-                else{
-                    pieceName=pieceMap.getString(setup[i][j].substring(0,1));
-                    team=(int) setup[i][j].charAt(1);
-                    board.add(new GameSpot((Piece) Class.forName(pieceName).getConstructor()
-                            .newInstance(team),j,i,0,true));
-//                    spotArr[i][j]=new GameSpot((Piece) Class.forName(pieceName).getConstructor()
-//                            .newInstance(team),j,i,0,true);
-                }
-
+                pieceName=PIECE_PATH+pieceMap.getString(setup[i][j].substring(0,1));
+                Class[] params={int.class,int.class,int.class};
+                team=Integer.parseInt(setup[i][j].substring(1,2));
+                Piece p=(Piece) Class.forName(pieceName).getDeclaredConstructor(params).newInstance(team,j,i);
+                board.add(new GameSpot(p,j,i,0,(i+j)%2==0));
             }
         }
     }
@@ -82,6 +70,14 @@ public class GameBoard implements Board {
                 return true;
             }
         }
+        return false;
+    }
+
+    public List<GameCoordinate> getPossibleCoordinates(GameCoordinate selected) {
+        return new ArrayList<>();
+    }
+
+    public Boolean getIsJump(GameCoordinate selected) {
         return false;
     }
 

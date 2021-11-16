@@ -6,6 +6,8 @@ import ooga.Parser.CSVParser;
 import ooga.Parser.SIMParser;
 import ooga.logic.board.board.GameBoard;
 import ooga.logic.game.Game;
+import ooga.util.IncorrectCSVFormatException;
+import ooga.util.IncorrectSimFormatException;
 import ooga.view.GameView;
 import ooga.view.View;
 
@@ -36,32 +38,38 @@ public class ChessController implements Controller {
 
     public ChessController(int width, int height, String background, String filename){
         myGameView = new GameView(width, height, background, filename, this);
-        myGameView.start(new Stage());
+        //TODO: Uncomment the next line when functional
+        //myGameView.start(new Stage());
     }
 
-    public ChessController(int width, int height, String background){
-        new ChessController(width, height, background, "Standard.sim");
-    }
+//    public ChessController(int width, int height, String background){
+//        new ChessController(width, height, background, "Standard.sim");
+//    }
 
 
-    private void setData() throws CsvValidationException, IOException {
-        File simfile= new File("data/Standard.sim"); //TODO: Set up choosing files
-        File csvfile= new File("data/Standard.csv");
-        myCSVParser.readCSVFile(csvfile);
-
-        myData = mySIMParser.readSimFile(simfile);
-
+    void setData(File file) throws CsvValidationException, IOException, IncorrectCSVFormatException, IncorrectSimFormatException {
+        File simFile= new File(String.valueOf(file)); //TODO: Set up choosing files
+        myData = mySIMParser.readSimFile(simFile);
+        File csvFile= new File(myData.get("GameConfiguration"));
+        myCSVParser.readCSVFile(csvFile);
         BOARDWIDTH = myCSVParser.getDimensions()[0];
         BOARDHEIGHT = myCSVParser.getDimensions()[1];
         myBoard = myCSVParser.getInitialStates();
+    }
+    public int getHeight(){
+        return BOARDHEIGHT;
+    }
+
+    private void initializeGame(){
+
     }
 
 
     @Override
     public void initializeFromFile(File file) {
+    }
 
-
-
+    private void selectPiece(int i, int j){
 
     }
 
