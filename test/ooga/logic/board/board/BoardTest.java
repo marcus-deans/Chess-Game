@@ -12,7 +12,7 @@ import java.util.List;
 
 public class BoardTest {
     @Test
-    public void boardSetupKings() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public void boardSetup() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         String[][] a={{"K1","K2"}};
         Board b=new GameBoard(1,2);
         b.setupBoard(a);
