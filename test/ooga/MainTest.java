@@ -1,5 +1,6 @@
 package ooga;
 
+import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MainTest {
     // how close do real valued numbers need to be to count as the same
     static final double TOLERANCE = 0.0005;
+    Main myMain;
 
     /**
      * Test a method from Main.
@@ -22,4 +24,11 @@ class MainTest {
 //        assertTrue(m.getVersion() < 1);
 //        assertEquals(0.001, m.getVersion(), TOLERANCE);
 //    }
+    @Test
+    public void startTest(){
+        Stage stage = new Stage();
+        myMain.start(stage);
+    }
+
+
 }

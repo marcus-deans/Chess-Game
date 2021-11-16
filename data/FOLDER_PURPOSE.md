@@ -20,6 +20,5 @@ P1 = white pawn
 P2 = black pawn
 
 X0 = black hole
-E0 = empty space
+E0 = empty tile
 P0 = portal
-

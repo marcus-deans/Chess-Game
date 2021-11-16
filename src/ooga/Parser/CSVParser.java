@@ -2,6 +2,7 @@ package ooga.Parser;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+import ooga.util.IncorrectCSVFormatException;
 
 import java.io.File;
 import java.io.FileReader;
@@ -18,7 +19,7 @@ public class CSVParser {
      * @throws IOException
      * @throws CsvValidationException
      */
-    public void readCSVFile(File file) throws IOException, CsvValidationException {
+    public void readCSVFile(File file) throws IOException, CsvValidationException, IncorrectCSVFormatException {
         FileReader filereader = new FileReader(file.getPath());
         CSVReader csvReader = new CSVReader(filereader);
         setDimensions(csvReader.readNext());
@@ -26,8 +27,13 @@ public class CSVParser {
     }
 
     //Takes the rows and columns inputted from the file and initializes those values
-    private void setDimensions(String [] dimensions) {
-        gridDimensions = new int[]{Integer.parseInt(dimensions[1]), Integer.parseInt(dimensions[0])};
+    private void setDimensions(String [] dimensions) throws IncorrectCSVFormatException {
+        try {
+            gridDimensions = new int[]{Integer.parseInt(dimensions[1]), Integer.parseInt(dimensions[0])};
+        }
+        catch (NullPointerException e){
+            throw new IncorrectCSVFormatException("Dimensions are not set");
+        }
     }
 
     //Takes each element in the CSV file and puts it into a 2D grid
