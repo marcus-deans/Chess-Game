@@ -65,8 +65,10 @@ public class GameSpot implements Spot{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GameSpot spot = (GameSpot) o;
-        return Objects.equals(piece,spot.piece) && coordinate.getX_pos() == spot.coordinate.getX_pos()
-                && coordinate.getY_pos() == spot.coordinate.getY_pos() && typeOfSpot == spot.typeOfSpot;
+        return  this.coordinate.getX_pos() == spot.coordinate.getX_pos()
+                && this.coordinate.getY_pos() == spot.coordinate.getY_pos()
+                && this.typeOfSpot == spot.typeOfSpot && this.color==spot.color;
+                //&& Objects.equals(this.piece,spot.piece);
     }
 
     @Override
