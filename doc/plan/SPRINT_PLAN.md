@@ -26,6 +26,6 @@ add some sort of "price" to pieces
 
 ###Remy
 * Responsible for backend features
-* Sprint 1: Implement the logic for the Coordinate API as well as the Pieces API
+* Sprint 1: Implement the logic for the Coordinate API as well as the Board and Spot APIs
 * Sprint 2: Implement the functionality for using resource files to set up the default games
 * Sprint 3: Implement the functionality for creating custom games
