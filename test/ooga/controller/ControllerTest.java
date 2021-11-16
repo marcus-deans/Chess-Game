@@ -1,4 +1,4 @@
-package ooga;
+package ooga.controller;
 
 import ooga.Parser.CSVParser;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package ooga;
+package ooga.logic.board.spot;
 
 import ooga.logic.board.Piece;
 import ooga.logic.board.coordinate.GameCoordinate;
