@@ -19,8 +19,7 @@ public class GameTest {
         Game game = new Game(board, metadata);
 
         game.getPossibleCoordinates();
-        assertEquals(new ArrayList<GameCoordinate>(), game.getPossibleCoordinates());
+        assertEquals(null, game.getPossibleCoordinates());
     }
 }
 
-}

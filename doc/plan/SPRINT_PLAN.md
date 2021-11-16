@@ -29,3 +29,10 @@ add some sort of "price" to pieces
 * Sprint 1: Implement the logic for the Coordinate API as well as the Board and Spot APIs
 * Sprint 2: Implement the functionality for using resource files to set up the default games
 * Sprint 3: Implement the functionality for creating custom games
+
+
+###Tim
+* Responsible for backend logic
+* Sprint 1: Implement the logic for the Game API and make sure I can send updated data to the front end and connect with the rest of the back end.
+* Sprint 2: Implement the functionality for the other variations of the game and making the design flexible
+* Sprint 3: Implement REST API and storing user data in the cloud so that it can be saved. 

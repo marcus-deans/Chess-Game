@@ -73,7 +73,6 @@ public class GameBoard implements Board {
         return false;
     }
 
-
     public List<GameCoordinate> getPossibleCoordinates(GameCoordinate selected) {
         return null;
     }
@@ -81,4 +80,6 @@ public class GameBoard implements Board {
     public Boolean getIsJump(GameCoordinate selected) {
         return false;
     }
+
+
 }
