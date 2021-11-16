@@ -1,8 +1,7 @@
-package ooga;
+package ooga.logic.board.spot;
 
-import ooga.logic.board.Piece;
+import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.logic.board.coordinate.GameCoordinate;
-import ooga.logic.board.spot.GameSpot;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

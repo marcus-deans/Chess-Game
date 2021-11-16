@@ -219,37 +219,9 @@ public class GameView extends Application implements PanelListener {
 
     // Control (right) panel:
     myControlPanel = createControlPanel();
-//    myAnimationControlPanel = createAnimationControlPane();
-//    myLoadControlPanel = createLoadControlPanel();
-//    myViewControlPanel = createViewControlPanel();
   }
 
-//  //<editor-fold desc="Create Details Pane and Buttons">
-//  //create the JavaFX ane on the bottom of the screen; describes colours for cell states as well as simulation parameters
-//  private Node createDetailsPanel() {
-//    //TODO: remove details panel entirely
-//    myType="GameOfLife";
-//    myGridColours = defaultGridColours.getString("GameOfLife").split(",");
-//    myGameParameters = new String[1];
-//    myGameParameters[0] = "None";
-//    HistoryPanel myDetailsPanel = new HistoryPanel(gridDisplayLength, myGridColours, myType, myGameParameters);
-//    return myDetailsPanel.createHistoryPanel();
-//  }
-//  //</editor-fold>
 
-
-
-//  //create information panel on top of screen to display information like type, name, and author to user
-//  private Node createInformationPanel() {
-//    //TODO: replace information panel entirely
-//    myType="GameOfLife";
-//    myTitle="Cantor's Game Of Life";
-//    myAuthor="Marcus Deans";
-//    myDescription="Testing Game";
-//    VariantPanel myInformationPanel = new VariantPanel(myType, myTitle, myAuthor, myDescription);
-//    myInformationPanel.setPanelListener(this);
-//    return myInformationPanel.createInformationPanel();
-//  }
 
   //create control panel on right of screen to control view, animation/gameplay, and loading/saving
   private Node createControlPanel(){
