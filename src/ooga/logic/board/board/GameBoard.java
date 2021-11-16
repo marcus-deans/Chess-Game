@@ -43,25 +43,11 @@ public class GameBoard implements Board {
         {
             for(int j=0;j<columns;j++)
             {
-                System.out.println(setup[i][j]);
-                System.out.println(j);
                 pieceName=PIECE_PATH+pieceMap.getString(setup[i][j].substring(0,1));
                 Class[] params={int.class,int.class,int.class};
                 team=Integer.parseInt(setup[i][j].substring(1,2));
-                if((i+j)%2==0)
-                {
-//                    spotArr[i][j]=new GameSpot((Piece) Class.forName(pieceName).getConstructor()
-//                            .newInstance(team), j,i,0,false);
-                    Piece p=(Piece) Class.forName(pieceName).getDeclaredConstructor(params).newInstance(team,j,i);
-                    board.add(new GameSpot(p,j,i,0,false));
-                }
-                else{
-//                    board.add(new GameSpot((Piece) Class.forName(pieceName).getConstructor()
-//                            .newInstance(team),j,i,0,true));
-//                    spotArr[i][j]=new GameSpot((Piece) Class.forName(pieceName).getConstructor()
-//                            .newInstance(team),j,i,0,true);
-                }
-
+                Piece p=(Piece) Class.forName(pieceName).getDeclaredConstructor(params).newInstance(team,j,i);
+                board.add(new GameSpot(p,j,i,0,(i+j)%2==0));
             }
         }
     }
