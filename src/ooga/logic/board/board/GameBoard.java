@@ -16,7 +16,6 @@ public class GameBoard implements Board {
     List<Spot> board;
     private int rows;
     private int columns;
-    private Spot[][] spotArr;
     private String pieceName;
     private int team;
     private static final String PIECES_PACKAGE =
@@ -31,7 +30,6 @@ public class GameBoard implements Board {
         board=new ArrayList<>();
         this.rows=rows;
         this.columns=columns;
-        spotArr=new Spot[rows][columns];
         pieceMap=ResourceBundle.getBundle(PIECES_PACKAGE+STRING_TO_PIECE_MAP);
     }
 
@@ -46,7 +44,16 @@ public class GameBoard implements Board {
                 pieceName=PIECE_PATH+pieceMap.getString(setup[i][j].substring(0,1));
                 Class[] params={int.class,int.class,int.class};
                 team=Integer.parseInt(setup[i][j].substring(1,2));
-                Piece p=(Piece) Class.forName(pieceName).getDeclaredConstructor(params).newInstance(team,j,i);
+                Piece p;
+                try
+                {
+                    p=(Piece) Class.forName(pieceName).getDeclaredConstructor(params).newInstance(team,j,i);
+                }
+                catch(Exception e)
+                {
+                    p=null;
+                }
+
                 board.add(new GameSpot(p,j,i,0,(i+j)%2==0));
             }
         }
@@ -84,6 +91,13 @@ public class GameBoard implements Board {
 
 
     public GameSpot getSpot(GameCoordinate selected) {
+        for (Spot s : board)
+        {
+            if (s.getCoordinate().equals(selected))
+            {
+                return (GameSpot) s;
+            }
+        }
         return null;
     }
 }
