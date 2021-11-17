@@ -82,4 +82,8 @@ public class GameBoard implements Board {
     }
 
 
+
+    public GameSpot getSpot(GameCoordinate selected) {
+        return null;
+    }
 }
