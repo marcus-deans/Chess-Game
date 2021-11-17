@@ -237,37 +237,6 @@ public class GameView extends Application implements PanelListener {
     return newGameplayPanel.createGameplayPanel();
   }
 
-//  //<editor-fold desc="Create Control Pane and Buttons">
-//  //<editor-fold desc="Create Animation Control Pane and Buttons">
-//  //create the animation control pane allowing the user to run, pause/resume, clear, and step the simualtion
-//  private Node createAnimationControlPane() {
-////    AnimationControlPanel myAnimationControlPanel = new AnimationControlPanel(myAnimation, myGameController,controlPanelX);
-//    AnimationControlPanel myAnimationControlPanel = new AnimationControlPanel(myAnimation, controlPanelX);
-//    myAnimationControlPanel.setPanelListener(this);
-//    return myAnimationControlPanel.createAnimationControlPanel();
-//  }
-//  //</editor-fold>
-
-//  //<editor-fold desc="Create Load Control Pane and Button">
-//  //create the pane allowing user to load and save simulation files
-//  private Node createLoadControlPanel() {
-//    LoadControlPanel myLoadControlPanel = new LoadControlPanel(myAnimation, controlPanelX);
-//    myLoadControlPanel.setPanelListener(this);
-//    return myLoadControlPanel.createLoadControlPanel();
-//  }
-//
-//  //</editor-fold>
-
-//  //<editor-fold desc="Create View Control Pane and Buttons">
-//  //create the view control panel allowing the user to select cosmetic aspects: colours and language
-//  private Node createViewControlPanel() {
-//    ViewControlPanel myViewControlPanel = new ViewControlPanel(controlPanelX);
-//    myViewControlPanel.setPanelListener(this);
-//    return myViewControlPanel.createViewControlPanel();
-//  }
-//  //</editor-fold>
-//  //</editor-fold>
-
   //initialize the grid itself that appears on the scree
   private Node createGrid() {
     gridSize = new int[2];
@@ -416,6 +385,7 @@ public class GameView extends Application implements PanelListener {
   @Override
   public void redoMove() {
     //TODO: callback to controller
+    myGameController.redoMove();
   }
 
   /**
@@ -424,11 +394,13 @@ public class GameView extends Application implements PanelListener {
   @Override
   public void undoMove() {
     //TODO: callback to controller
+    myGameController.undoMove();
   }
 
   @Override
   public void changeVariant(String variant) {
     //TODO: callback to controller to change the variant
+    myGameController.changeVariant(variant);
   }
 
   //get the filename for the simulation file that the user wants to save the current simulation to
