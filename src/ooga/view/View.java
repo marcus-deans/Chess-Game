@@ -1,5 +1,7 @@
 package ooga.view;
 
+import ooga.logic.game.Game;
+
 /**
  * Interface to interact with the view of the program, serves as API
  */
