@@ -25,14 +25,10 @@ public class Bishop extends Piece {
 
   private void setJump() {
     try{
-      setMyMovement(
-          (SpotCollection) Class.forName(
-                  String.format("ooga.logic.board.Pieces.PieceBundle.resources.%s", PIECE_TO_STRING))
-              .getConstructor().newInstance()
-      );
+      setCanJump(Boolean.parseBoolean(PieceProperties.getString("jump")));
     }
     catch (Exception e){
-      setMyMovement(new BishopMovement());
+      setCanJump(false);
     }
   }
 
