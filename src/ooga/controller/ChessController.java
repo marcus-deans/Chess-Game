@@ -98,4 +98,19 @@ public class ChessController implements Controller {
 
     }
 
+    @Override
+    public void undoMove() {
+
+    }
+
+    @Override
+    public void redoMove() {
+
+    }
+
+    @Override
+    public void changeVariant(String variant) {
+
+    }
+
 }
