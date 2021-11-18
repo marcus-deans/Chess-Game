@@ -6,10 +6,9 @@ import ooga.logic.board.board.GameBoard;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
 import ooga.logic.board.spot.GameSpot;
+import ooga.logic.board.spot.Spot;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Game {
     private GameBoard myBoard;
@@ -93,10 +92,16 @@ public class Game {
         if(possibleCapturePositions.size() > 0) addCapturePositions(possibleCapturePositions);
     }
 
-    public List<Coordinate> getPossibleCoordinates(GameCoordinate selected){
+    public Set<Spot> getPossibleCoordinates(GameCoordinate selected){
         searchPossiblePositions(selected);
 
-        return possibleCoordinates;
+        Set<Spot> possibleSet = new HashSet<>();
+
+        for(int i = 0; i < possibleCoordinates.size(); i++){
+            possibleSet.add(myBoard.getSpot(possibleCoordinates.get(i)));
+        }
+
+        return possibleSet;
     }
 
     protected void makeBoard(GameBoard newBoard){

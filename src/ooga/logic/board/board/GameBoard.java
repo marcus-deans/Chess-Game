@@ -90,7 +90,7 @@ public class GameBoard implements Board {
 
 
 
-    public GameSpot getSpot(GameCoordinate selected) {
+    public GameSpot getSpot(Coordinate selected) {
         for (Spot s : board)
         {
             if (s.getCoordinate().equals(selected))
