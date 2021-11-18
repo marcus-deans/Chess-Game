@@ -11,5 +11,4 @@ public class Knight extends Piece {
     setMyCapture(new KnightMovement());
   }
 
-
 }

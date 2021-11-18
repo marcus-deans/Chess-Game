@@ -17,6 +17,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private PieceCollection myPromotionOptions;
   private int team;
   private int pieceValue;
+  private boolean canJump;
 
 
   @Override
@@ -100,5 +101,15 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   @Override
   public int getValue() {
     return pieceValue;
+  }
+
+  @Override
+  public void setCanJump(boolean newJump) {
+    canJump = newJump;
+  }
+
+  @Override
+  public boolean getCanJump() {
+    return this.canJump;
   }
 }
