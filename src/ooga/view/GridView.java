@@ -26,6 +26,8 @@ public class GridView implements GridListener {
 
   public GridView(int height, int width, String[] gridColours, int gridDisplayLength) {
     myGameGrid = new GridPane();
+    myGameGrid.setId("game-grid");
+//    myGameGrid.getStyleClass().add("game-grid");
     myWidthNumber = width;
     myHeightNumber = height;
     myGridColours = gridColours;
