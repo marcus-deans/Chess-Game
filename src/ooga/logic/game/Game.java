@@ -1,9 +1,11 @@
 package ooga.logic.game;
 
+import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.logic.board.board.Board;
 import ooga.logic.board.board.GameBoard;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
+import ooga.logic.board.spot.GameSpot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ public class Game {
     private Map<String, String> metadata;
     private GameCoordinate selected;
     private List<Integer> scores;
+    private GameSpot selectedSpot;
     private List<GameCoordinate> possibleCoordinates;
 
 
@@ -73,6 +76,7 @@ public class Game {
 
     public void update(GameCoordinate selected){
         this.selected = selected;
+        this.selectedSpot = myBoard.getSpot(selected);
 
         List<GameCoordinate> possiblePositions = myBoard.getPossibleCoordinates(selected);
 
@@ -99,5 +103,8 @@ public class Game {
         return metadata;
     }
 
+    public void resetClick(){
+
+    }
 
 }

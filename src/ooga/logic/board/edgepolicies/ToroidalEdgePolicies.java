@@ -42,13 +42,13 @@ public class ToroidalEdgePolicies implements EdgePolicies{
 
     public void toroidalY(Coordinate c)
     {
-        if(c.getX_pos()>=height)
+        if(c.getY_pos()>=height)
         {
-            c.setX_pos(c.getX_pos()-height);
+            c.setY_pos(c.getY_pos()-height);
         }
-        else if(c.getX_pos()<0)
+        else if(c.getY_pos()<0)
         {
-            c.setX_pos(c.getX_pos()+height);
+            c.setY_pos(c.getY_pos()+height);
         }
     }
 }
