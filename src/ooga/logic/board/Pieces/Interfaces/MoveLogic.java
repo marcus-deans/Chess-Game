@@ -36,6 +36,11 @@ public interface MoveLogic {
    */
   public void setCoordinate(Coordinate passedCoordinate);
 
+  void setCanJump(boolean canJump);
+
+
+  boolean getCanJump();
+
 }
 
 
