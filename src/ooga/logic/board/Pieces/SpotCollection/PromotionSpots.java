@@ -15,7 +15,7 @@ public class PromotionSpots extends SpotCollection implements AcceptsCoordinates
   public PromotionSpots(){
     myCoordinates = getDefaultPossibleSpots();
   }
-  
+
   private List<Coordinate> getDefaultPossibleSpots() {
     List<Coordinate> myCoordinateList = new ArrayList<>();
     Coordinate newCapture;
@@ -37,6 +37,8 @@ public class PromotionSpots extends SpotCollection implements AcceptsCoordinates
     }
     return myCoordinateList;
   }
+
+
 
 
   @Override
