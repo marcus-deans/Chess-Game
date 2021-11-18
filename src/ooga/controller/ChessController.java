@@ -39,7 +39,7 @@ public class ChessController implements Controller {
     public ChessController(int width, int height, String background, String filename){
         myGameView = new GameView(width, height, background, filename, this);
         //TODO: Uncomment the next line when functional
-//        myGameView.start(new Stage());
+        myGameView.start(new Stage());
     }
 
 //    public ChessController(int width, int height, String background){

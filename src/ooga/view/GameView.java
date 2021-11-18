@@ -70,6 +70,12 @@ public class GameView extends Application implements PanelListener {
   private Node myAnimationControlPanel;
   private Node myLoadControlPanel;
 
+  //Gameplay Panel on Left Side of Screen
+  private int gameplayPanelX;
+
+  private int gameGridViewX;
+  private int gameGridViewY;
+
   //Details panel on bottom of screen
   private String[] myGameParameters;
   private String myDescription;
@@ -114,8 +120,11 @@ public class GameView extends Application implements PanelListener {
     frameBackground = Color.web(background);
     myFilename = filename;
     myGameController = gameController;
-    gridDisplayLength = width - getInt("width_buffer");
-    controlPanelX = width - getInt("control_panel_offset");
+    gameplayPanelX = getInt("gameplay_panel_offset");
+    controlPanelX = width - getInt("control_panel_offset") + getInt("width_buffer");
+    gameGridViewX = gameplayPanelX + getInt("button_width") + getInt("width_buffer");
+    gameGridViewY = getInt("game_grid_y_offset");
+    gridDisplayLength = controlPanelX - gameGridViewX - getInt("width_buffer")  - 2*getInt("line_offset");
     myGameViewRoot = new Group();
   }
 
@@ -204,10 +213,10 @@ public class GameView extends Application implements PanelListener {
     myGameViewScene = new Scene(myGameViewRoot, frameWidth, frameHeight, frameBackground);
 
     createUIPanels();
-    initializeBoundaries();
+
     myGridPanel = createGrid();
 //    myGameViewRoot.getChildren().addAll(myInfoPanel, myDetailsPanel, myAnimationControlPanel, myLoadControlPanel, myViewControlPanel, myGridPanel);
-    myGameViewRoot.getChildren().addAll(myInfoPanel, myDetailsPanel, myControlPanel, myGridPanel);
+    myGameViewRoot.getChildren().addAll(myGameplayPanel, myControlPanel, myGridPanel);
 
     myGameViewScene.getStylesheets().add(GameView.class.getResource("GameViewFormatting.css").toExternalForm());
   }
@@ -232,7 +241,7 @@ public class GameView extends Application implements PanelListener {
 
   //create gameplay panel on left of screen to control variant, move history, and dead pieces
   private Node createGameplayPanel(){
-    GameplayPanel newGameplayPanel = new GameplayPanel(getInt("x_offset"));
+    GameplayPanel newGameplayPanel = new GameplayPanel(gameplayPanelX);
     newGameplayPanel.setPanelListener(this);
     return newGameplayPanel.createGameplayPanel();
   }
@@ -242,11 +251,13 @@ public class GameView extends Application implements PanelListener {
     gridSize = new int[2];
     gridSize[0]=8;
     gridSize[1]=8;
+    //TODO: fix grid colour by obtaining from controller
+    myGridColours = defaultGridColours.getString("GameOfLife").split(",");
     myGridView = new GridView(gridSize[0], gridSize[1], myGridColours, gridDisplayLength);
     GridPane myGameGridView = myGridView.getMyGameGrid();
     myGameGridView.setOnMouseClicked(click->updateGrid(click.getX(), click.getY()));
-    myGameGridView.setLayoutX(getInt("offset_x") + 3);
-    myGameGridView.setLayoutY(getInt("offset_y_top") + 3);
+    myGameGridView.setLayoutX(gameGridViewX  + getInt("line_offset"));
+    myGameGridView.setLayoutY(gameGridViewY  + getInt("line_offset"));
 //    myGameController.setupListener(myGridView);
 //    try {
 //      myGameController.showInitialStates();
@@ -257,22 +268,6 @@ public class GameView extends Application implements PanelListener {
     return myGameGridView;
   }
 
-  //create the cosmetic boundaries showing where the simulation takes place
-  private void initializeBoundaries() {
-    int OFFSET_X = getInt("offset_x");
-    int OFFSET_Y_TOP = getInt("offset_y_top");
-    Line topLine = new Line(OFFSET_X, OFFSET_Y_TOP, OFFSET_X + gridDisplayLength, OFFSET_Y_TOP);
-    topLine.setId("boundary-line");
-    Line leftLine = new Line(OFFSET_X, OFFSET_Y_TOP, OFFSET_X, OFFSET_Y_TOP + gridDisplayLength);
-    leftLine.setId("boundary-line");
-    Line rightLine = new Line(OFFSET_X + gridDisplayLength, OFFSET_Y_TOP,
-        OFFSET_X + gridDisplayLength, OFFSET_Y_TOP + gridDisplayLength);
-    rightLine.setId("boundary-line");
-    Line bottomLine = new Line(OFFSET_X, OFFSET_Y_TOP + gridDisplayLength,
-        OFFSET_X + gridDisplayLength, OFFSET_Y_TOP + gridDisplayLength);
-    bottomLine.setId("boundary-line");
-    myGameViewRoot.getChildren().addAll(topLine, leftLine, rightLine, bottomLine);
-  }
 
   private void updateGrid(double x, double y) {
 //    myGameController.calculateIndexesAndUpdateModel(x, y, myGridView.getMyCellHeight(), myGridView.getMyCellWidth());
