@@ -70,6 +70,10 @@ public class GameView extends Application implements PanelListener {
   private Node myAnimationControlPanel;
   private Node myLoadControlPanel;
 
+  //Gameplay Panel on Left Side of Screen
+  private int gameplayPanelX;
+
+
   //Details panel on bottom of screen
   private String[] myGameParameters;
   private String myDescription;
@@ -114,8 +118,9 @@ public class GameView extends Application implements PanelListener {
     frameBackground = Color.web(background);
     myFilename = filename;
     myGameController = gameController;
-    gridDisplayLength = width - getInt("width_buffer");
+    gameplayPanelX = getInt("gameplay_panel_offset");
     controlPanelX = width - getInt("control_panel_offset");
+    gridDisplayLength = width - gameplayPanelX - controlPanelX - getInt("width_buffer");
     myGameViewRoot = new Group();
   }
 
@@ -207,7 +212,7 @@ public class GameView extends Application implements PanelListener {
     initializeBoundaries();
     myGridPanel = createGrid();
 //    myGameViewRoot.getChildren().addAll(myInfoPanel, myDetailsPanel, myAnimationControlPanel, myLoadControlPanel, myViewControlPanel, myGridPanel);
-    myGameViewRoot.getChildren().addAll(myInfoPanel, myDetailsPanel, myControlPanel, myGridPanel);
+    myGameViewRoot.getChildren().addAll(myGameplayPanel, myControlPanel, myGridPanel);
 
     myGameViewScene.getStylesheets().add(GameView.class.getResource("GameViewFormatting.css").toExternalForm());
   }
@@ -242,6 +247,8 @@ public class GameView extends Application implements PanelListener {
     gridSize = new int[2];
     gridSize[0]=8;
     gridSize[1]=8;
+    //TODO: fix grid colour by obtaining from controller
+    myGridColours = defaultGridColours.getString("GameOfLife").split(",");
     myGridView = new GridView(gridSize[0], gridSize[1], myGridColours, gridDisplayLength);
     GridPane myGameGridView = myGridView.getMyGameGrid();
     myGameGridView.setOnMouseClicked(click->updateGrid(click.getX(), click.getY()));
