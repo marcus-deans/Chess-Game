@@ -101,4 +101,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   public int getValue() {
     return pieceValue;
   }
+
+  public abstract boolean isJump();
 }
