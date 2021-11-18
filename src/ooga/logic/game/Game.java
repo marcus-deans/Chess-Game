@@ -19,8 +19,7 @@ public class Game {
     private GameCoordinate selected;
     private List<Integer> scores;
     private GameSpot selectedSpot;
-    private List<GameCoordinate> possibleCoordinates;
-
+    private List<Coordinate> possibleCoordinates;
 
     public Game(GameBoard board,  Map<String, String> metadata){
         makeBoard(board);
@@ -28,7 +27,7 @@ public class Game {
         this.possibleCoordinates = new ArrayList<>();
     }
 
-    private List<GameCoordinate> getJumpPossibleCoordinate(List<GameCoordinate> list){
+    private List<Coordinate> getJumpPossibleCoordinate(List<Coordinate> list){
         for(int i = 0; i < list.size(); i++){
             if(myBoard.hasPiece(list.get(i))){
                 list.remove(i);
@@ -38,7 +37,7 @@ public class Game {
         return list;
     }
 
-    private List<GameCoordinate> getStandardPossibleCoordinate(List<GameCoordinate> list){
+    private List<Coordinate> getStandardPossibleCoordinate(List<Coordinate> list){
         int maxX = Integer.MIN_VALUE;
         int maxY = Integer.MIN_VALUE;
         int minX = Integer.MAX_VALUE;
@@ -61,7 +60,7 @@ public class Game {
             }
         }
 
-        List<GameCoordinate> possiblePositions = new ArrayList<>();
+        List<Coordinate> possiblePositions = new ArrayList<>();
 
         for(int i = 0; i < list.size(); i++){
             if(list.get(i).getY_pos() < maxY && list.get(i).getY_pos() > minY
@@ -74,11 +73,11 @@ public class Game {
         return possiblePositions;
     }
 
-    public void update(GameCoordinate selected){
-        this.selected = selected;
+    public void searchPossiblePositions(GameCoordinate selected){
         this.selectedSpot = myBoard.getSpot(selected);
 
-        List<GameCoordinate> possiblePositions = myBoard.getPossibleCoordinates(selected);
+        List<Coordinate> possiblePositions = selectedSpot.getPiece().getPossibleMoves();
+
 
         Boolean isJump = myBoard.getIsJump(selected);
 
@@ -86,7 +85,9 @@ public class Game {
         else possibleCoordinates = getStandardPossibleCoordinate(possiblePositions);
     }
 
-    public List<GameCoordinate> getPossibleCoordinates(){
+    public List<Coordinate> getPossibleCoordinates(GameCoordinate selected){
+        searchPossiblePositions(selected);
+
         return possibleCoordinates;
     }
 
