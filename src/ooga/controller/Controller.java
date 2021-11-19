@@ -19,7 +19,9 @@ public interface Controller {
     //Returns the stage of the active display.
     public Stage getStage();
 
-    //Resets the active game and the display.
+  Game getCurrentGame();
+
+  //Resets the active game and the display.
     public void resetGame();
 
     //sets time limit of each round in the game
