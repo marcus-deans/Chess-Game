@@ -1,6 +1,9 @@
 package ooga.view;
 
 import java.awt.Panel;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
@@ -28,6 +31,7 @@ public class GridView implements GridListener {
 
   private static final String GRID_VIEW_RESOURCES_PATH = "ooga.view.viewresources.GridViewResources";
   private static final ResourceBundle gridViewResources = ResourceBundle.getBundle(GRID_VIEW_RESOURCES_PATH);
+  private final List<String> piecesNames= Arrays.asList(gridViewResources.getString("PieceNames").split(","));
 
   public GridView(int height, int width, String[] gridColours, int gridDisplayLength, PanelListener gameView) {
     myGameGrid = new GridPane();
@@ -108,7 +112,10 @@ public class GridView implements GridListener {
   // row, column, colour, piece type
   //Spot -> extract row, column, 'team'=colour, Spot.getPiece() -> reflect on the piece, makes corresponding JavaFX images
   public void updateChessCell(Spot spot){
-    spot.
+    int columnIndex = spot.getCoordinate().getX_pos();
+    int rowIndex = spot.getCoordinate().getY_pos();
+    int team = spot.getPiece().getTeam();
+
     //TODO: make cell updates
   }
 
