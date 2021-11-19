@@ -24,4 +24,6 @@ public interface PanelListener {
     void undoMove();
 
     void changeVariant(String variant);
+
+    void getBoardClick(int x, int y);
 }

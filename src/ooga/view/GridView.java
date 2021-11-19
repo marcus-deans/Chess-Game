@@ -1,6 +1,12 @@
 package ooga.view;
 
+import java.awt.Panel;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -15,6 +21,7 @@ public class GridView implements GridListener {
 
   private String[] myGridColours;
   private GridPane myGameGrid;
+  private PanelListener myGameView;
   private int myWidthNumber;
   private int myHeightNumber;
   private int myGridDimensions;
@@ -24,15 +31,16 @@ public class GridView implements GridListener {
 
   private static final String GRID_VIEW_RESOURCES_PATH = "ooga.view.viewresources.GridViewResources";
   private static final ResourceBundle gridViewResources = ResourceBundle.getBundle(GRID_VIEW_RESOURCES_PATH);
+  private final List<String> piecesNames= Arrays.asList(gridViewResources.getString("PieceNames").split(","));
 
-  public GridView(int height, int width, String[] gridColours, int gridDisplayLength) {
+  public GridView(int height, int width, String[] gridColours, int gridDisplayLength, PanelListener gameView) {
     myGameGrid = new GridPane();
     myGameGrid.setId("game-grid");
-//    myGameGrid.getStyleClass().add("game-grid");
     myWidthNumber = width;
     myHeightNumber = height;
     myGridColours = gridColours;
     myGridDimensions = gridDisplayLength;
+    myGameView = gameView;
     determineCellDimensions();
     populateNewGrid();
   }
@@ -45,6 +53,7 @@ public class GridView implements GridListener {
   //create an individual cell on the grid representing a square of provided colour
   private Rectangle createNewCellView(int state) {
     Rectangle newCell = new Rectangle();
+    newCell.setOnMouseClicked(this::clickOnGrid);
     newCell.setWidth(myCellWidth);
     newCell.setHeight(myCellHeight);
     newCell.setId("cell-view");
@@ -85,6 +94,16 @@ public class GridView implements GridListener {
     return myCellHeight;
   }
 
+  private void clickOnGrid(MouseEvent event){
+    Node clickedNode = event.getPickResult().getIntersectedNode();
+    if(clickedNode != myGameGrid){
+      Integer colIndex = GridPane.getColumnIndex(clickedNode);
+      Integer rowIndex = GridPane.getRowIndex(clickedNode);
+      myGameView.getBoardClick(colIndex, rowIndex);
+    }
+  }
+
+
   public int[] updateCellOnClick(double x, double y) {
     //TODO: compoute which cell this corresponds to in terms of chess grid
     return new int[]{0,0};
@@ -93,6 +112,10 @@ public class GridView implements GridListener {
   // row, column, colour, piece type
   //Spot -> extract row, column, 'team'=colour, Spot.getPiece() -> reflect on the piece, makes corresponding JavaFX images
   public void updateChessCell(Spot spot){
+    int columnIndex = spot.getCoordinate().getX_pos();
+    int rowIndex = spot.getCoordinate().getY_pos();
+    int team = spot.getPiece().getTeam();
+
     //TODO: make cell updates
   }
 
@@ -110,6 +133,17 @@ public class GridView implements GridListener {
       value = Integer.parseInt(gridViewResources.getString(key));
     } catch(Exception e){
       value =-1;
+    }
+    return value;
+  }
+
+  //retrieves relevant word from the "words" ResourceBundle
+  private String getString(String key) {
+    String value;
+    try {
+      value = gridViewResources.getString(key);
+    } catch (Exception exception) {
+      value = "error";
     }
     return value;
   }

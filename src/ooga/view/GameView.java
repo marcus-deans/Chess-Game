@@ -255,7 +255,7 @@ public class GameView extends Application implements PanelListener {
     gridSize[1]=8;
     //TODO: fix grid colour by obtaining from controller
     myGridColours = defaultGridColours.getString("GameOfLife").split(",");
-    myGridView = new GridView(gridSize[0], gridSize[1], myGridColours, gridDisplayLength);
+    myGridView = new GridView(gridSize[0], gridSize[1], myGridColours, gridDisplayLength, this);
     GridPane myGameGridView = myGridView.getMyGameGrid();
     myGameGridView.setOnMouseClicked(click->updateGrid(click.getX(), click.getY()));
     myGameGridView.setLayoutX(gameGridViewX  + getInt("line_offset"));
@@ -401,12 +401,17 @@ public class GameView extends Application implements PanelListener {
   }
 
   //compute which cell on the grid this corresponds to, NOT the pixel position
-  //erro check that its' in the board as well
-  public void clickedCoordinates(int x, int y){
-    //TODO: ensure contronoller callback works
-    myChessController.clickedCoordinates(x, y);
+  //error check that its' in the board as well
+  @Override
+  public void getBoardClick(int column, int row) {
+    //TODO: ensure controller callback works
+    myChessController.clickedCoordinates(column, row);
   }
 
+  /**
+   *
+   * @param spot
+   */
   public void updateChessCell(Spot spot){
     myGridView.updateChessCell(spot);
   }

@@ -85,6 +85,11 @@ public class ChessController implements Controller {
     }
 
     @Override
+    public Game getCurrentGame() {
+        return null;
+    }
+
+    @Override
     public void resetGame() {
         myBoard = initialBoard;
     }
@@ -110,7 +115,7 @@ public class ChessController implements Controller {
     }
 
     @Override
-    public void clickedCoordinates(int x, int y) {
+    public void clickedCoordinates(int column, int row) {
         //TODO: compute actual chess logic
         // could make List<ChessCells> -> each one has x, y -> GameView iterates and highlights each of those cells
         //jut give GameView list of coordinates/cells for possible moves -> highlighting handled there
