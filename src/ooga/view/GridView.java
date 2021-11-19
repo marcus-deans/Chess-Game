@@ -95,8 +95,7 @@ public class GridView implements GridListener {
     if(clickedNode != myGameGrid){
       Integer colIndex = GridPane.getColumnIndex(clickedNode);
       Integer rowIndex = GridPane.getRowIndex(clickedNode);
-      myGameView.
-//      System.out.println("Mouse clicked cell: " + colIndex + " And: " + rowIndex);
+      myGameView.getBoardClick(colIndex, rowIndex);
     }
   }
 
@@ -109,6 +108,7 @@ public class GridView implements GridListener {
   // row, column, colour, piece type
   //Spot -> extract row, column, 'team'=colour, Spot.getPiece() -> reflect on the piece, makes corresponding JavaFX images
   public void updateChessCell(Spot spot){
+    spot.
     //TODO: make cell updates
   }
 
@@ -126,6 +126,17 @@ public class GridView implements GridListener {
       value = Integer.parseInt(gridViewResources.getString(key));
     } catch(Exception e){
       value =-1;
+    }
+    return value;
+  }
+
+  //retrieves relevant word from the "words" ResourceBundle
+  private String getString(String key) {
+    String value;
+    try {
+      value = gridViewResources.getString(key);
+    } catch (Exception exception) {
+      value = "error";
     }
     return value;
   }
