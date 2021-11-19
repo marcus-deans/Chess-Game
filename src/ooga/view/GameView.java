@@ -18,8 +18,8 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.controller.Controller;
+import ooga.logic.board.spot.Spot;
 import ooga.view.ui.gameplaypanel.GameplayPanel;
-import ooga.view.ui.gameplaypanel.HistoryPanel;
 import ooga.view.ui.controlpanel.ControlPanel;
 
 
@@ -96,7 +96,7 @@ public class GameView extends Application implements PanelListener {
 //      REQUIRED_PARAMETERS);
 
   private boolean successfulSetup;
-  private Controller myGameController;
+  private Controller myChessController;
 
 
   /**
@@ -113,7 +113,7 @@ public class GameView extends Application implements PanelListener {
     frameHeight = height;
     frameBackground = Color.web(background);
     myFilename = filename;
-    myGameController = gameController;
+    myChessController = gameController;
     gridDisplayLength = width - getInt("width_buffer");
     controlPanelX = width - getInt("control_panel_offset");
     myGameViewRoot = new Group();
@@ -124,7 +124,7 @@ public class GameView extends Application implements PanelListener {
    * @return the PanelListener
    */
   protected Controller getGameController(){
-    return myGameController;
+    return myChessController;
   }
 
   // Initializes the controller and retrieves relevant parameters
@@ -328,7 +328,7 @@ public class GameView extends Application implements PanelListener {
   public void resetGame() {
     //TODO: adjust for this game and callback to Controller to match
 //    loadNewFile(myFilename);
-    myGameController.resetGame();
+    myChessController.resetGame();
   }
 
   /**
@@ -348,7 +348,7 @@ public class GameView extends Application implements PanelListener {
   public void loadNewFile(String filename) {
     myFilename = filename;
 
-    myGameController.initializeFromFile(new File(myFilename));
+    myChessController.initializeFromFile(new File(myFilename));
 //    setupController();
 //    gridSize = myGameController.getGridSize();
 //    myGameViewRoot.getChildren().remove(myGridPanel);
@@ -385,7 +385,7 @@ public class GameView extends Application implements PanelListener {
   @Override
   public void redoMove() {
     //TODO: callback to controller
-    myGameController.redoMove();
+    myChessController.redoMove();
   }
 
   /**
@@ -394,13 +394,24 @@ public class GameView extends Application implements PanelListener {
   @Override
   public void undoMove() {
     //TODO: callback to controller
-    myGameController.undoMove();
+    myChessController.undoMove();
   }
 
   @Override
   public void changeVariant(String variant) {
     //TODO: callback to controller to change the variant
-    myGameController.changeVariant(variant);
+    myChessController.changeVariant(variant);
+  }
+
+  //compute which cell on the grid this corresponds to, NOT the pixel position
+  //erro check that its' in the board as well
+  public void clickedCoordinates(int x, int y){
+    //TODO: ensure contronoller callback works
+    myChessController.clickedCoordinates(x, y);
+  }
+
+  public void updateChessCell(Spot spot){
+    myGridView.updateChessCell(spot);
   }
 
   //get the filename for the simulation file that the user wants to save the current simulation to

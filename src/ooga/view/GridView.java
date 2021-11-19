@@ -5,6 +5,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import ooga.logic.board.spot.Spot;
 
 
 /**
@@ -83,13 +84,21 @@ public class GridView implements GridListener {
   }
 
   public int[] updateCellOnClick(double x, double y) {
-
+    //TODO: compoute which cell this corresponds to in terms of chess grid
     return new int[]{0,0};
   }
+
+  // row, column, colour, piece type
+  //Spot -> extract row, column, 'team'=colour, Spot.getPiece() -> reflect on the piece, makes corresponding JavaFX images
+  public void updateChessCell(Spot spot){
+    //TODO: make cell updates
+  }
+
 
   @Override
   public void update(int row, int column, int state) {
     myGameGrid.add(createNewCellView(determineCellColour(column, row)), column, row);
+    //TODO: built iterator interface to extract which pieces are in what location ont the board, interact wi the model's list
   }
 
   //return the integer from the resource file based on the provided string

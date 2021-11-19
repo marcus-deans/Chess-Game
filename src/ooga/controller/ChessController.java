@@ -67,6 +67,7 @@ public class ChessController implements Controller {
 
     @Override
     public void initializeFromFile(File file) {
+        //TODO: use file to populate chessboard and reset everything
     }
 
     private void selectPiece(int i, int j){
@@ -84,11 +85,6 @@ public class ChessController implements Controller {
     }
 
     @Override
-    public Game getCurrentGame() {
-        return null;
-    }
-
-    @Override
     public void resetGame() {
         myBoard = initialBoard;
     }
@@ -96,6 +92,31 @@ public class ChessController implements Controller {
     @Override
     public void setTime(int speed) {
 
+    }
+
+    @Override
+    public void undoMove() {
+
+    }
+
+    @Override
+    public void redoMove() {
+
+    }
+
+    @Override
+    public void changeVariant(String variant) {
+
+    }
+
+    @Override
+    public void clickedCoordinates(int x, int y) {
+        //TODO: compute actual chess logic
+        // could make List<ChessCells> -> each one has x, y -> GameView iterates and highlights each of those cells
+        //jut give GameView list of coordinates/cells for possible moves -> highlighting handled there
+        //myGameView.displayPossibleMoves()
+
+        //myGameView.updateChessCell(spot)
     }
 
 }
