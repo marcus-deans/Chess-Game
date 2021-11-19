@@ -1,5 +1,6 @@
 package ooga.view;
 
+import java.awt.Panel;
 import java.util.ResourceBundle;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
@@ -17,6 +18,7 @@ public class GridView implements GridListener {
 
   private String[] myGridColours;
   private GridPane myGameGrid;
+  private PanelListener myGameView;
   private int myWidthNumber;
   private int myHeightNumber;
   private int myGridDimensions;
@@ -27,16 +29,14 @@ public class GridView implements GridListener {
   private static final String GRID_VIEW_RESOURCES_PATH = "ooga.view.viewresources.GridViewResources";
   private static final ResourceBundle gridViewResources = ResourceBundle.getBundle(GRID_VIEW_RESOURCES_PATH);
 
-  public GridView(int height, int width, String[] gridColours, int gridDisplayLength) {
+  public GridView(int height, int width, String[] gridColours, int gridDisplayLength, PanelListener gameView) {
     myGameGrid = new GridPane();
     myGameGrid.setId("game-grid");
-    System.out.println("lolza");
-    myGameGrid.setOnMouseClicked(this::clickOnGrid);
-//    myGameGrid.getStyleClass().add("game-grid");
     myWidthNumber = width;
     myHeightNumber = height;
     myGridColours = gridColours;
     myGridDimensions = gridDisplayLength;
+    myGameView = gameView;
     determineCellDimensions();
     populateNewGrid();
   }
@@ -92,11 +92,11 @@ public class GridView implements GridListener {
 
   private void clickOnGrid(MouseEvent event){
     Node clickedNode = event.getPickResult().getIntersectedNode();
-    System.out.print("we in tho");
     if(clickedNode != myGameGrid){
       Integer colIndex = GridPane.getColumnIndex(clickedNode);
       Integer rowIndex = GridPane.getRowIndex(clickedNode);
-      System.out.println("Mouse clicked cell: " + colIndex + " And: " + rowIndex);
+      myGameView.
+//      System.out.println("Mouse clicked cell: " + colIndex + " And: " + rowIndex);
     }
   }
 

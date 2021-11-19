@@ -402,7 +402,8 @@ public class GameView extends Application implements PanelListener {
 
   //compute which cell on the grid this corresponds to, NOT the pixel position
   //error check that its' in the board as well
-  public void getUserClick(int x, int y){
+  @Override
+  public void getBoardClick(int x, int y) {
     //TODO: ensure controller callback works
     myChessController.clickedCoordinates(x, y);
   }
