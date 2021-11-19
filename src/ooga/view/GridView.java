@@ -1,6 +1,8 @@
 package ooga.view;
 
 import java.util.ResourceBundle;
+import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -28,6 +30,8 @@ public class GridView implements GridListener {
   public GridView(int height, int width, String[] gridColours, int gridDisplayLength) {
     myGameGrid = new GridPane();
     myGameGrid.setId("game-grid");
+    System.out.println("lolza");
+    myGameGrid.setOnMouseClicked(this::clickOnGrid);
 //    myGameGrid.getStyleClass().add("game-grid");
     myWidthNumber = width;
     myHeightNumber = height;
@@ -45,6 +49,7 @@ public class GridView implements GridListener {
   //create an individual cell on the grid representing a square of provided colour
   private Rectangle createNewCellView(int state) {
     Rectangle newCell = new Rectangle();
+    newCell.setOnMouseClicked(this::clickOnGrid);
     newCell.setWidth(myCellWidth);
     newCell.setHeight(myCellHeight);
     newCell.setId("cell-view");
@@ -84,6 +89,17 @@ public class GridView implements GridListener {
   public int getMyCellHeight() {
     return myCellHeight;
   }
+
+  private void clickOnGrid(MouseEvent event){
+    Node clickedNode = event.getPickResult().getIntersectedNode();
+    System.out.print("we in tho");
+    if(clickedNode != myGameGrid){
+      Integer colIndex = GridPane.getColumnIndex(clickedNode);
+      Integer rowIndex = GridPane.getRowIndex(clickedNode);
+      System.out.println("Mouse clicked cell: " + colIndex + " And: " + rowIndex);
+    }
+  }
+
 
   public int[] updateCellOnClick(double x, double y) {
     //TODO: compoute which cell this corresponds to in terms of chess grid

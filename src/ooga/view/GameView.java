@@ -401,12 +401,16 @@ public class GameView extends Application implements PanelListener {
   }
 
   //compute which cell on the grid this corresponds to, NOT the pixel position
-  //erro check that its' in the board as well
-  public void clickedCoordinates(int x, int y){
-    //TODO: ensure contronoller callback works
+  //error check that its' in the board as well
+  public void getUserClick(int x, int y){
+    //TODO: ensure controller callback works
     myChessController.clickedCoordinates(x, y);
   }
 
+  /**
+   *
+   * @param spot
+   */
   public void updateChessCell(Spot spot){
     myGridView.updateChessCell(spot);
   }
