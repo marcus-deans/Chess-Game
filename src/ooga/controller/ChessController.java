@@ -39,7 +39,7 @@ public class ChessController implements Controller {
 
     private Game myGame;
 
-    private boolean FIRSTCLICK;
+    private boolean FIRSTCLICK = true;
     private GameCoordinate clickedPiece;
     private GameCoordinate nextMove;
 
@@ -50,6 +50,7 @@ public class ChessController implements Controller {
 
     public ChessController(int width, int height, String background, String filename){
         myGameView = new GameView(width, height, background, filename, this);
+        myGame =  new Game(myBoard,  myData);
         //TODO: Uncomment the next line when functional
         myGameView.start(new Stage());
     }
@@ -67,10 +68,11 @@ public class ChessController implements Controller {
         myCSVParser.readCSVFile(csvFile);
         BOARDWIDTH = myCSVParser.getDimensions()[0];
         BOARDHEIGHT = myCSVParser.getDimensions()[1];
+        initialBoard = new GameBoard(BOARDHEIGHT, BOARDWIDTH);
+        myBoard = new GameBoard(BOARDHEIGHT, BOARDWIDTH);
         initialBoard.setupBoard(myCSVParser.getInitialStates());
         myBoard = initialBoard;
         myGame =  new Game(myBoard,  myData);
-        FIRSTCLICK = true;
         numTurns = 2;
     }
     public int getHeight(){
@@ -125,10 +127,13 @@ public class ChessController implements Controller {
         //TODO: if piece belongs to player
         myGame.update(clickedPiece);
         GameView.highlightCellOptions(myGame.getPossibleCoordinates());
+        System.out.println("Called first Click");
         FIRSTCLICK = false;
+
     }
 
     private void handleSecondClick(int row, int column) {
+        System.out.println("Called second Click");
         nextMove = new GameCoordinate(row, column);
         if(nextMove==clickedPiece){
             FIRSTCLICK = true;

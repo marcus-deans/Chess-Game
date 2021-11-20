@@ -31,7 +31,7 @@ public class GridView implements GridListener {
 
   private static final String GRID_VIEW_RESOURCES_PATH = "ooga.view.viewresources.GridViewResources";
   private static final ResourceBundle gridViewResources = ResourceBundle.getBundle(GRID_VIEW_RESOURCES_PATH);
-  private final List<String> piecesNames= Arrays.asList(gridViewResources.getString("PieceNames").split(","));
+  private final List<String> piecesNames= Arrays.asList(gridViewResources.getString("pieceTypes").split(","));
 
   public GridView(int height, int width, String[] gridColours, int gridDisplayLength, PanelListener gameView) {
     myGameGrid = new GridPane();
