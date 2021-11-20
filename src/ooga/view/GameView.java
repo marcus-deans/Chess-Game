@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -22,6 +23,7 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.controller.Controller;
+import ooga.logic.board.coordinate.GameCoordinate;
 import ooga.view.ui.gameplaypanel.GameplayPanel;
 import ooga.view.ui.gameplaypanel.HistoryPanel;
 import ooga.view.ui.controlpanel.ControlPanel;
@@ -122,6 +124,12 @@ public class GameView extends Application implements PanelListener {
     controlPanelX = width - getInt("control_panel_offset");
     myGameViewRoot = new Group();
   }
+
+  public static void highlightCellOptions(List<GameCoordinate> possibleMoves) {
+    //TODO: add highlight to possible neighbors
+
+  }
+
 
   /**
    * Returns the PanelListener, allowing UI panel subclasses to interact with the listener
@@ -510,5 +518,4 @@ public class GameView extends Application implements PanelListener {
     }
     return value;
   }
-
 }

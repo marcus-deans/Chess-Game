@@ -41,6 +41,11 @@ public class ChessController implements Controller {
     private GameCoordinate clickedPiece;
     private GameCoordinate nextMove;
 
+    //TODO: Replace with player class and login
+    private int numTurns;
+    private String[] players = {"A", "B"};
+    private String currentPlayer;
+
     public ChessController(int width, int height, String background, String filename){
         myGameView = new GameView(width, height, background, filename, this);
         myGameView.start(new Stage());
@@ -65,6 +70,7 @@ public class ChessController implements Controller {
         myBoard = initialBoard;
         myGame =  new Game(myBoard,  myData);
         FIRSTCLICK = true;
+        numTurns = 2;
     }
 
     @Override
@@ -79,7 +85,7 @@ public class ChessController implements Controller {
 
     @Override
     public Game getCurrentGame() {
-        return null;
+        return myGame;
     }
 
     @Override
@@ -105,8 +111,8 @@ public class ChessController implements Controller {
         clickedPiece = new GameCoordinate(row, column);
         //TODO: if piece belongs to player
         myGame.update(clickedPiece);
+        GameView.highlightCellOptions(myGame.getPossibleCoordinates());
         FIRSTCLICK = false;
-        clickState(row, column);
     }
 
     private void handleSecondClick(int row, int column) {
@@ -115,17 +121,23 @@ public class ChessController implements Controller {
             FIRSTCLICK = true;
             clickState(row, column);
         }
-        //TODO: if piece belongs to player
+        //TODO: if piece belongs to player (currentPlayer)
         if (myGame.getPossibleCoordinates().contains(nextMove)){
+            //update the board with clicked piece at nextMove Coordinate: Works?
             clickedPiece.setCoordinate(nextMove);
-            //update the board with clicked piece at nextMove Coordinate
+            //myGameView.updateChessCell(/*A spot goes in here*/);
+            //updates board
+            nextTurn();
         }
         else{
-            clickState(row, column);
+            //do nothing
         }
 
 
     }
 
-
+    private void nextTurn(){
+        numTurns++;
+        currentPlayer = players[numTurns%2];
+    }
 }
