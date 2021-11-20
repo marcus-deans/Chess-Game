@@ -1,5 +1,7 @@
 package ooga.Parser;
 
+import ooga.util.IncorrectSimFormatException;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -17,10 +19,11 @@ public class SIMParser {
     public Map<String, String> readSimFile(File file) throws IOException {
         Map<String, String> data = new HashMap<>();
         Properties properties = simIntoProperties(file);
-        for(String property : properties.stringPropertyNames()) {
+        for (String property : properties.stringPropertyNames()) {
             data.put(property, properties.getProperty(property));
         }
         return data;
+
     }
 
     /**

@@ -4,6 +4,8 @@ Author=Carter Stonesifer
 
 GameTimer=0
 
+GameConfiguration=data/StarWars.csv
+
 Portal=True
 BlackHole=True
 EdgePolicy=Toroidal

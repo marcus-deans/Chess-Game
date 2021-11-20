@@ -3,7 +3,7 @@ package ooga.logic.board.Pieces.PieceBundle;
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
 import ooga.logic.board.Pieces.SpotCollection.PawnCapture;
 import ooga.logic.board.Pieces.SpotCollection.PawnMovement;
-import ooga.logic.board.Pieces.SpotCollection.finalRankPromotionSpots;
+import ooga.logic.board.Pieces.SpotCollection.PromotionSpots;
 import ooga.logic.board.coordinate.GameCoordinate;
 
 /**
@@ -14,13 +14,13 @@ import ooga.logic.board.coordinate.GameCoordinate;
  * can capture top right and top left immediate
  */
 public class Pawn extends Piece {
-  public Pawn(int team, int xPosition, int yPosition){
-    setMyCoordinate(new GameCoordinate(xPosition,yPosition));
+  public Pawn(int xPosition, int yPosition, int team){
+    setTeam(team);
+    setCoordinate(new GameCoordinate(xPosition,yPosition));
     setMyMovement(new PawnMovement());
     setMyCapture(new PawnCapture());
-    setMyPromotionSpots(new finalRankPromotionSpots());
+    setMyPromotionSpots(new PromotionSpots());
     setMyPromotionPieces(new DefaultPromotionPieces());
   }
-
 
 }

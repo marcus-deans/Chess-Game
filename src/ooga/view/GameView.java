@@ -23,9 +23,13 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.controller.Controller;
+
 import ooga.logic.board.coordinate.GameCoordinate;
+
+import ooga.logic.board.spot.Spot;
+
+import ooga.util.IncorrectCSVFormatException;
 import ooga.view.ui.gameplaypanel.GameplayPanel;
-import ooga.view.ui.gameplaypanel.HistoryPanel;
 import ooga.view.ui.controlpanel.ControlPanel;
 
 
@@ -76,6 +80,12 @@ public class GameView extends Application implements PanelListener {
   private Node myAnimationControlPanel;
   private Node myLoadControlPanel;
 
+  //Gameplay Panel on Left Side of Screen
+  private int gameplayPanelX;
+
+  private int gameGridViewX;
+  private int gameGridViewY;
+
   //Details panel on bottom of screen
   private String[] myGameParameters;
   private String myDescription;
@@ -102,7 +112,7 @@ public class GameView extends Application implements PanelListener {
 //      REQUIRED_PARAMETERS);
 
   private boolean successfulSetup;
-  private Controller myGameController;
+  private Controller myChessController;
 
 
   /**
@@ -119,9 +129,14 @@ public class GameView extends Application implements PanelListener {
     frameHeight = height;
     frameBackground = Color.web(background);
     myFilename = filename;
-    myGameController = gameController;
+    myChessController = gameController;
     gridDisplayLength = width - getInt("width_buffer");
     controlPanelX = width - getInt("control_panel_offset");
+    gameplayPanelX = getInt("gameplay_panel_offset");
+    controlPanelX = width - getInt("control_panel_offset") + getInt("width_buffer");
+    gameGridViewX = gameplayPanelX + getInt("button_width") + getInt("width_buffer");
+    gameGridViewY = getInt("game_grid_y_offset");
+    gridDisplayLength = controlPanelX - gameGridViewX - getInt("width_buffer")  - 2*getInt("line_offset");
     myGameViewRoot = new Group();
   }
 
@@ -136,7 +151,7 @@ public class GameView extends Application implements PanelListener {
    * @return the PanelListener
    */
   protected Controller getGameController(){
-    return myGameController;
+    return myChessController;
   }
 
   // Initializes the controller and retrieves relevant parameters
@@ -216,10 +231,10 @@ public class GameView extends Application implements PanelListener {
     myGameViewScene = new Scene(myGameViewRoot, frameWidth, frameHeight, frameBackground);
 
     createUIPanels();
-    initializeBoundaries();
+
     myGridPanel = createGrid();
 //    myGameViewRoot.getChildren().addAll(myInfoPanel, myDetailsPanel, myAnimationControlPanel, myLoadControlPanel, myViewControlPanel, myGridPanel);
-    myGameViewRoot.getChildren().addAll(myInfoPanel, myDetailsPanel, myControlPanel, myGridPanel);
+    myGameViewRoot.getChildren().addAll(myGameplayPanel, myControlPanel, myGridPanel);
 
     myGameViewScene.getStylesheets().add(GameView.class.getResource("GameViewFormatting.css").toExternalForm());
   }
@@ -231,37 +246,9 @@ public class GameView extends Application implements PanelListener {
 
     // Control (right) panel:
     myControlPanel = createControlPanel();
-//    myAnimationControlPanel = createAnimationControlPane();
-//    myLoadControlPanel = createLoadControlPanel();
-//    myViewControlPanel = createViewControlPanel();
   }
 
-//  //<editor-fold desc="Create Details Pane and Buttons">
-//  //create the JavaFX ane on the bottom of the screen; describes colours for cell states as well as simulation parameters
-//  private Node createDetailsPanel() {
-//    //TODO: remove details panel entirely
-//    myType="GameOfLife";
-//    myGridColours = defaultGridColours.getString("GameOfLife").split(",");
-//    myGameParameters = new String[1];
-//    myGameParameters[0] = "None";
-//    HistoryPanel myDetailsPanel = new HistoryPanel(gridDisplayLength, myGridColours, myType, myGameParameters);
-//    return myDetailsPanel.createHistoryPanel();
-//  }
-//  //</editor-fold>
 
-
-
-//  //create information panel on top of screen to display information like type, name, and author to user
-//  private Node createInformationPanel() {
-//    //TODO: replace information panel entirely
-//    myType="GameOfLife";
-//    myTitle="Cantor's Game Of Life";
-//    myAuthor="Marcus Deans";
-//    myDescription="Testing Game";
-//    VariantPanel myInformationPanel = new VariantPanel(myType, myTitle, myAuthor, myDescription);
-//    myInformationPanel.setPanelListener(this);
-//    return myInformationPanel.createInformationPanel();
-//  }
 
   //create control panel on right of screen to control view, animation/gameplay, and loading/saving
   private Node createControlPanel(){
@@ -272,52 +259,23 @@ public class GameView extends Application implements PanelListener {
 
   //create gameplay panel on left of screen to control variant, move history, and dead pieces
   private Node createGameplayPanel(){
-    GameplayPanel newGameplayPanel = new GameplayPanel(getInt("x_offset"));
+    GameplayPanel newGameplayPanel = new GameplayPanel(gameplayPanelX);
     newGameplayPanel.setPanelListener(this);
     return newGameplayPanel.createGameplayPanel();
   }
-
-//  //<editor-fold desc="Create Control Pane and Buttons">
-//  //<editor-fold desc="Create Animation Control Pane and Buttons">
-//  //create the animation control pane allowing the user to run, pause/resume, clear, and step the simualtion
-//  private Node createAnimationControlPane() {
-////    AnimationControlPanel myAnimationControlPanel = new AnimationControlPanel(myAnimation, myGameController,controlPanelX);
-//    AnimationControlPanel myAnimationControlPanel = new AnimationControlPanel(myAnimation, controlPanelX);
-//    myAnimationControlPanel.setPanelListener(this);
-//    return myAnimationControlPanel.createAnimationControlPanel();
-//  }
-//  //</editor-fold>
-
-//  //<editor-fold desc="Create Load Control Pane and Button">
-//  //create the pane allowing user to load and save simulation files
-//  private Node createLoadControlPanel() {
-//    LoadControlPanel myLoadControlPanel = new LoadControlPanel(myAnimation, controlPanelX);
-//    myLoadControlPanel.setPanelListener(this);
-//    return myLoadControlPanel.createLoadControlPanel();
-//  }
-//
-//  //</editor-fold>
-
-//  //<editor-fold desc="Create View Control Pane and Buttons">
-//  //create the view control panel allowing the user to select cosmetic aspects: colours and language
-//  private Node createViewControlPanel() {
-//    ViewControlPanel myViewControlPanel = new ViewControlPanel(controlPanelX);
-//    myViewControlPanel.setPanelListener(this);
-//    return myViewControlPanel.createViewControlPanel();
-//  }
-//  //</editor-fold>
-//  //</editor-fold>
 
   //initialize the grid itself that appears on the scree
   private Node createGrid() {
     gridSize = new int[2];
     gridSize[0]=8;
     gridSize[1]=8;
-    myGridView = new GridView(gridSize[0], gridSize[1], myGridColours, gridDisplayLength);
+    //TODO: fix grid colour by obtaining from controller
+    myGridColours = defaultGridColours.getString("GameOfLife").split(",");
+    myGridView = new GridView(gridSize[0], gridSize[1], myGridColours, gridDisplayLength, this);
     GridPane myGameGridView = myGridView.getMyGameGrid();
     myGameGridView.setOnMouseClicked(click->updateGrid(click.getX(), click.getY()));
-    myGameGridView.setLayoutX(getInt("offset_x") + 3);
-    myGameGridView.setLayoutY(getInt("offset_y_top") + 3);
+    myGameGridView.setLayoutX(gameGridViewX  + getInt("line_offset"));
+    myGameGridView.setLayoutY(gameGridViewY  + getInt("line_offset"));
 //    myGameController.setupListener(myGridView);
 //    try {
 //      myGameController.showInitialStates();
@@ -328,22 +286,6 @@ public class GameView extends Application implements PanelListener {
     return myGameGridView;
   }
 
-  //create the cosmetic boundaries showing where the simulation takes place
-  private void initializeBoundaries() {
-    int OFFSET_X = getInt("offset_x");
-    int OFFSET_Y_TOP = getInt("offset_y_top");
-    Line topLine = new Line(OFFSET_X, OFFSET_Y_TOP, OFFSET_X + gridDisplayLength, OFFSET_Y_TOP);
-    topLine.setId("boundary-line");
-    Line leftLine = new Line(OFFSET_X, OFFSET_Y_TOP, OFFSET_X, OFFSET_Y_TOP + gridDisplayLength);
-    leftLine.setId("boundary-line");
-    Line rightLine = new Line(OFFSET_X + gridDisplayLength, OFFSET_Y_TOP,
-        OFFSET_X + gridDisplayLength, OFFSET_Y_TOP + gridDisplayLength);
-    rightLine.setId("boundary-line");
-    Line bottomLine = new Line(OFFSET_X, OFFSET_Y_TOP + gridDisplayLength,
-        OFFSET_X + gridDisplayLength, OFFSET_Y_TOP + gridDisplayLength);
-    bottomLine.setId("boundary-line");
-    myGameViewRoot.getChildren().addAll(topLine, leftLine, rightLine, bottomLine);
-  }
 
   private void updateGrid(double x, double y) {
 //    myGameController.calculateIndexesAndUpdateModel(x, y, myGridView.getMyCellHeight(), myGridView.getMyCellWidth());
@@ -399,7 +341,7 @@ public class GameView extends Application implements PanelListener {
   public void resetGame() {
     //TODO: adjust for this game and callback to Controller to match
 //    loadNewFile(myFilename);
-    myGameController.resetGame();
+    myChessController.resetGame();
   }
 
   /**
@@ -416,10 +358,10 @@ public class GameView extends Application implements PanelListener {
    * @param filename name of the file to load
    */
   @Override
-  public void loadNewFile(String filename) throws CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+  public void loadNewFile(String filename) throws CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IncorrectCSVFormatException {
     myFilename = filename;
 
-    myGameController.initializeFromFile(new File(myFilename));
+    myChessController.initializeFromFile(new File(myFilename));
 //    setupController();
 //    gridSize = myGameController.getGridSize();
 //    myGameViewRoot.getChildren().remove(myGridPanel);
@@ -456,6 +398,7 @@ public class GameView extends Application implements PanelListener {
   @Override
   public void redoMove() {
     //TODO: callback to controller
+    myChessController.redoMove();
   }
 
   /**
@@ -464,11 +407,29 @@ public class GameView extends Application implements PanelListener {
   @Override
   public void undoMove() {
     //TODO: callback to controller
+    myChessController.undoMove();
   }
 
   @Override
   public void changeVariant(String variant) {
     //TODO: callback to controller to change the variant
+    myChessController.changeVariant(variant);
+  }
+
+  //compute which cell on the grid this corresponds to, NOT the pixel position
+  //error check that its' in the board as well
+  @Override
+  public void getBoardClick(int column, int row) {
+    //TODO: ensure controller callback works
+    myChessController.clickedCoordinates(column, row);
+  }
+
+  /**
+   *
+   * @param spot
+   */
+  public void updateChessCell(Spot spot){
+    myGridView.updateChessCell(spot);
   }
 
   //get the filename for the simulation file that the user wants to save the current simulation to

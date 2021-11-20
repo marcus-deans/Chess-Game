@@ -9,12 +9,14 @@ import ooga.logic.board.Pieces.PieceCollection.PieceCollection;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 import ooga.logic.board.coordinate.Coordinate;
 
-abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, PromoteLogic {
+abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, PromoteLogic{
   private Coordinate myCoordinate;
   private SpotCollection myMovement;
   private SpotCollection myCapture;
   private SpotCollection myPromotionSpots;
   private PieceCollection myPromotionOptions;
+  private int team;
+  private int pieceValue;
 
 
   @Override
@@ -22,25 +24,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     return myCoordinate;
   }
 
-  protected int getMyXCoordinate(){
-    return getCoordinate().getX_pos();
-  }
-
-  protected int getMyYCoordinate(){
-    return getCoordinate().getY_pos();
-  }
-
-  protected void setMyCoordinate(Coordinate newCoordinate){
-    myCoordinate = newCoordinate;
-  }
-
-
-  private boolean isValidSquare(Coordinate captureCoordinate) {
-    // TODO: IMPLEMENT EDGE POLICIES
-    return !(captureCoordinate.getX_pos() < 0 || captureCoordinate.getY_pos() < 0
-    || captureCoordinate.getX_pos() > 7 || captureCoordinate.getY_pos() > 7);
-
-  }
 
   @Override
   public boolean canCapture(Coordinate captureCoordinate) {
@@ -50,13 +33,13 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   @Override
   public void updatePosition(Coordinate passedCoordinate) {
-    setMyCoordinate(passedCoordinate);
+    setCoordinate(passedCoordinate);
   }
 
 
   @Override
   public void setCoordinate(Coordinate passedCoordinate) {
-    setMyCoordinate(passedCoordinate);
+    myCoordinate = passedCoordinate;
   }
 
 
@@ -97,5 +80,25 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   @Override
   public List<Coordinate> promotionSquares() {
     return myPromotionSpots.getPossibleSpots(myCoordinate);
+  }
+
+  @Override
+  public void setTeam(int newTeam) {
+    this.team = newTeam;
+  }
+
+  @Override
+  public int getTeam() {
+    return team;
+  }
+
+  @Override
+  public void setValue(int value) {
+    pieceValue = value;
+  }
+
+  @Override
+  public int getValue() {
+    return pieceValue;
   }
 }

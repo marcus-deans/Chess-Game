@@ -1,13 +1,15 @@
 package ooga.logic.board.Pieces.SpotCollection;
 
+import java.util.Arrays;
 import java.util.List;
 import ooga.logic.board.coordinate.Coordinate;
 
 public class KingMovement extends SpotCollection {
 
+  @Override
   public List<Coordinate> getPossibleSpots(Coordinate myCoordinate) {
-    int[] myXInts = new int[]{-1,0,1};
-    int[] myYInts = new int[]{-1,0,1};
-    return availableSquares(myCoordinate, myXInts, myYInts);
+    List<Integer> addXAmount = Arrays.asList(-1,0,1);
+    List<Integer> addYAmount  = Arrays.asList(-1,0,1);
+    return availableSquares(myCoordinate, addXAmount, addYAmount);
   }
 }

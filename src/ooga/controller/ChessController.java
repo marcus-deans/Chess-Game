@@ -7,6 +7,8 @@ import ooga.Parser.SIMParser;
 import ooga.logic.board.board.GameBoard;
 import ooga.logic.board.coordinate.GameCoordinate;
 import ooga.logic.game.Game;
+import ooga.util.IncorrectCSVFormatException;
+import ooga.util.IncorrectSimFormatException;
 import ooga.view.GameView;
 import ooga.view.View;
 import java.util.List;
@@ -48,22 +50,21 @@ public class ChessController implements Controller {
 
     public ChessController(int width, int height, String background, String filename){
         myGameView = new GameView(width, height, background, filename, this);
+        //TODO: Uncomment the next line when functional
         myGameView.start(new Stage());
     }
-
-    public ChessController(int width, int height, String background){
-        new ChessController(width, height, background, "Standard.sim");
-    }
+    //    public ChessController(int width, int height, String background){
+//        new ChessController(width, height, background, "Standard.sim");
+//    }
 
     @Override
     public void initializeFromFile(File file) throws CsvValidationException, IOException, ClassNotFoundException,
-            InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+            InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IncorrectCSVFormatException {
 
         File simFile= new File(file.toString());
         myData = mySIMParser.readSimFile(simFile);
-        File csvFile= new File("data/Standard.csv");
+        File csvFile= new File(myData.get("GameConfiguration"));
         myCSVParser.readCSVFile(csvFile);
-
         BOARDWIDTH = myCSVParser.getDimensions()[0];
         BOARDHEIGHT = myCSVParser.getDimensions()[1];
         initialBoard.setupBoard(myCSVParser.getInitialStates());
@@ -71,6 +72,18 @@ public class ChessController implements Controller {
         myGame =  new Game(myBoard,  myData);
         FIRSTCLICK = true;
         numTurns = 2;
+    }
+    public int getHeight(){
+        return BOARDHEIGHT;
+    }
+
+    private void initializeGame(){
+
+    }
+
+
+    private void selectPiece(int i, int j){
+
     }
 
     @Override
@@ -98,7 +111,7 @@ public class ChessController implements Controller {
 
     }
     @Override
-    public void clickState(int row, int column){
+    public void clickedCoordinates(int row, int column){
         if (FIRSTCLICK){
             handleFirstClick(row, column);
         }
@@ -119,7 +132,7 @@ public class ChessController implements Controller {
         nextMove = new GameCoordinate(row, column);
         if(nextMove==clickedPiece){
             FIRSTCLICK = true;
-            clickState(row, column);
+            clickedCoordinates(row, column);
         }
         //TODO: if piece belongs to player (currentPlayer)
         if (myGame.getPossibleCoordinates().contains(nextMove)){
@@ -140,4 +153,19 @@ public class ChessController implements Controller {
         numTurns++;
         currentPlayer = players[numTurns%2];
     }
+    @Override
+    public void undoMove() {
+
+    }
+
+    @Override
+    public void redoMove() {
+
+    }
+
+    @Override
+    public void changeVariant(String variant) {
+
+    }
+
 }

@@ -1,9 +1,11 @@
 package ooga.logic.game;
 
+import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.logic.board.board.Board;
 import ooga.logic.board.board.GameBoard;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
+import ooga.logic.board.spot.GameSpot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +18,14 @@ public class Game {
     private Map<String, String> metadata;
     private GameCoordinate selected;
     private List<Integer> scores;
+    private GameSpot selectedSpot;
     private List<GameCoordinate> possibleCoordinates;
 
 
     public Game(GameBoard board,  Map<String, String> metadata){
         makeBoard(board);
         this.metadata = metadata;
+        this.possibleCoordinates = new ArrayList<>();
     }
 
     private List<GameCoordinate> getJumpPossibleCoordinate(List<GameCoordinate> list){
@@ -72,6 +76,7 @@ public class Game {
 
     public void update(GameCoordinate selected){
         this.selected = selected;
+        this.selectedSpot = myBoard.getSpot(selected);
 
         List<GameCoordinate> possiblePositions = myBoard.getPossibleCoordinates(selected);
 
@@ -79,8 +84,6 @@ public class Game {
 
         if(isJump) possibleCoordinates =  getJumpPossibleCoordinate(possiblePositions);
         else possibleCoordinates = getStandardPossibleCoordinate(possiblePositions);
-
-
     }
 
     public List<GameCoordinate> getPossibleCoordinates(){
@@ -89,11 +92,6 @@ public class Game {
 
     protected void makeBoard(GameBoard newBoard){
         this.myBoard = newBoard;
-    }
-
-    public Board getBoard() {
-
-        return myBoard;
     }
 
     /**
@@ -105,5 +103,8 @@ public class Game {
         return metadata;
     }
 
+    public void resetClick(){
+
+    }
 
 }
