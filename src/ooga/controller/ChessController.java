@@ -5,12 +5,14 @@ import javafx.stage.Stage;
 import ooga.Parser.CSVParser;
 import ooga.Parser.SIMParser;
 import ooga.logic.board.board.GameBoard;
+import ooga.logic.board.coordinate.GameCoordinate;
 import ooga.logic.game.Game;
 import ooga.view.GameView;
 import ooga.view.View;
-
+import java.util.List;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 
@@ -25,14 +27,19 @@ public class ChessController implements Controller {
 
     private int BOARDWIDTH;
     private int BOARDHEIGHT;
-    private String[][] myBoard;
-    private String[][] initialBoard;
+    private GameBoard myBoard;
+
+
+    private GameBoard initialBoard;
     private Map<String, String> myData;
     private CSVParser myCSVParser = new CSVParser();
     private SIMParser mySIMParser = new SIMParser();
 
     private Game myGame;
-    private GameBoard myGameBoard;
+
+    private boolean FIRSTCLICK;
+    private GameCoordinate clickedPiece;
+    private GameCoordinate nextMove;
 
     public ChessController(int width, int height, String background, String filename){
         myGameView = new GameView(width, height, background, filename, this);
@@ -43,26 +50,21 @@ public class ChessController implements Controller {
         new ChessController(width, height, background, "Standard.sim");
     }
 
+    @Override
+    public void initializeFromFile(File file) throws CsvValidationException, IOException, ClassNotFoundException,
+            InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
-    private void setData() throws CsvValidationException, IOException {
-        File simfile= new File("data/Standard.sim"); //TODO: Set up choosing files
-        File csvfile= new File("data/Standard.csv");
-        myCSVParser.readCSVFile(csvfile);
-
-        myData = mySIMParser.readSimFile(simfile);
+        File simFile= new File(file.toString());
+        myData = mySIMParser.readSimFile(simFile);
+        File csvFile= new File("data/Standard.csv");
+        myCSVParser.readCSVFile(csvFile);
 
         BOARDWIDTH = myCSVParser.getDimensions()[0];
         BOARDHEIGHT = myCSVParser.getDimensions()[1];
-        myBoard = myCSVParser.getInitialStates();
-    }
-
-
-    @Override
-    public void initializeFromFile(File file) {
-
-
-
-
+        initialBoard.setupBoard(myCSVParser.getInitialStates());
+        myBoard = initialBoard;
+        myGame =  new Game(myBoard,  myData);
+        FIRSTCLICK = true;
     }
 
     @Override
@@ -89,5 +91,41 @@ public class ChessController implements Controller {
     public void setTime(int speed) {
 
     }
+    @Override
+    public void clickState(int row, int column){
+        if (FIRSTCLICK){
+            handleFirstClick(row, column);
+        }
+        else {
+            handleSecondClick(row, column);
+        }
+    }
+
+    private void handleFirstClick(int row, int column) {
+        clickedPiece = new GameCoordinate(row, column);
+        //TODO: if piece belongs to player
+        myGame.update(clickedPiece);
+        FIRSTCLICK = false;
+        clickState(row, column);
+    }
+
+    private void handleSecondClick(int row, int column) {
+        nextMove = new GameCoordinate(row, column);
+        if(nextMove==clickedPiece){
+            FIRSTCLICK = true;
+            clickState(row, column);
+        }
+        //TODO: if piece belongs to player
+        if (myGame.getPossibleCoordinates().contains(nextMove)){
+            clickedPiece.setCoordinate(nextMove);
+            //update the board with clicked piece at nextMove Coordinate
+        }
+        else{
+            clickState(row, column);
+        }
+
+
+    }
+
 
 }

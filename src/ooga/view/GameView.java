@@ -2,8 +2,12 @@ package ooga.view;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import com.opencsv.exceptions.CsvValidationException;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -404,7 +408,7 @@ public class GameView extends Application implements PanelListener {
    * @param filename name of the file to load
    */
   @Override
-  public void loadNewFile(String filename) {
+  public void loadNewFile(String filename) throws CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     myFilename = filename;
 
     myGameController.initializeFromFile(new File(myFilename));

@@ -1,6 +1,10 @@
 package ooga.view;
 
+import com.opencsv.exceptions.CsvValidationException;
 import javafx.scene.paint.Color;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 public interface PanelListener {
     void updateLanguage(String newLanguage);
@@ -9,7 +13,7 @@ public interface PanelListener {
 
     void updateColorScheme(Color newColor);
 
-    void loadNewFile(String filename);
+    void loadNewFile(String filename) throws CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 
     void saveCurrentFile();
 
