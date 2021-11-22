@@ -1,5 +1,6 @@
 package ooga.view.ui.gameplaypanel;
 
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Priority;
@@ -14,28 +15,24 @@ public class GraveyardPanel extends SharedUIComponents {
     myGraveyardContent = new VBox();
   }
 
-  public Node createGraveyardPanel(){
-    VBox graveyardPanel = new VBox();
-    return graveyardPanel;
-  }
-
   /**
    * Create the details panel that displays colour legend and parameters of the simulation
    *
    * @return the JavaFX HBox that constitutes the details panel
    */
-  public Node createHistoryPanel() {
-    VBox myHistoryPanel = new VBox();
-    myHistoryPanel.setSpacing(getInt("gameplay_subpanel_spacing"));
-    myHistoryPanel.setId("graveyard-panel");
+  public Node createGraveyardPanel() {
+    VBox myGraveyardPanel = new VBox();
+    myGraveyardPanel.setSpacing(getInt("gameplay_subpanel_spacing"));
+    myGraveyardPanel.setId("graveyard-panel");
 
-    Text graveyardPanelTitle = makeText(getWord("graveyard_panel_title"));
+    Group graveyardPanelTitle = makePanelTitle(getWord("graveyard_panel_title"), getInt("pref_graveyard_scrollpane_width"));
+    graveyardPanelTitle.setId("graveyard-panel-title");
     ScrollPane graveyardScrollPane = makeGraveyardScrollPane();
-    myHistoryPanel.getChildren().addAll(graveyardPanelTitle, graveyardScrollPane);
+    myGraveyardPanel.getChildren().addAll(graveyardPanelTitle, graveyardScrollPane);
 
-    myHistoryPanel.setVgrow(graveyardScrollPane, Priority.ALWAYS);
+    myGraveyardPanel.setVgrow(graveyardScrollPane, Priority.ALWAYS);
 
-    return myHistoryPanel;
+    return myGraveyardPanel;
   }
 
   private ScrollPane makeGraveyardScrollPane(){
@@ -55,7 +52,7 @@ public class GraveyardPanel extends SharedUIComponents {
     return newScrollPane;
   }
 
-  public void addHistory(String action){
+  public void addGraveyardEntry(String action){
     Text newGraveyardEntry = makeText(action);
     myGraveyardContent.getChildren().add(newGraveyardEntry);
   }

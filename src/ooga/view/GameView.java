@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.controller.Controller;
 import ooga.logic.board.spot.Spot;
+import ooga.view.ui.InformationPanel;
 import ooga.view.ui.gameplaypanel.GameplayPanel;
 import ooga.view.ui.controlpanel.ControlPanel;
 
@@ -66,6 +67,7 @@ public class GameView extends Application implements PanelListener {
   private int controlPanelX;
   private Node myControlPanel;
   private Node myGameplayPanel;
+  private Node myInformationPanel;
   private Node myViewControlPanel;
   private Node myAnimationControlPanel;
   private Node myLoadControlPanel;
@@ -230,9 +232,17 @@ public class GameView extends Application implements PanelListener {
 
     // Control (right) panel:
     myControlPanel = createControlPanel();
+
+    // Information (top) panel:
+    myInformationPanel = createInformationPanel();
   }
 
-
+  //create information panel on top of screen to display title as well as user information
+  private Node createInformationPanel(){
+    InformationPanel newInformationPanel = new InformationPanel();
+    newInformationPanel.setPanelListener(this);
+    return newInformationPanel.createInformationPanel();
+  }
 
   //create control panel on right of screen to control view, animation/gameplay, and loading/saving
   private Node createControlPanel(){
