@@ -3,11 +3,14 @@ package ooga.view.ui.gameplaypanel;
 import static java.util.Map.entry;
 
 import java.util.Map;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Paint;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import ooga.view.ui.SharedUIComponents;
 
 /**
@@ -18,18 +21,7 @@ import ooga.view.ui.SharedUIComponents;
  */
 public class HistoryPanel extends SharedUIComponents {
 
-  private final Map<String, String[]> colourLabelNames = Map.ofEntries(
-      entry("GameOfLife",
-          new String[]{getWord("gameoflife_cellstate1"), getWord("gameoflife_cellstate2")}),
-      entry("SpreadingOfFire", new String[]{getWord("fire_cellstate1"), getWord("fire_cellstate2"),
-          getWord("fire_cellstate3")}),
-      entry("Segregation", new String[]{getWord("segregation_cellstate1"), getWord("segregation_cellstate2"),
-          getWord("segregation_cellstate3")}),
-      entry("WatorWorld", new String[]{getWord("wator_cellstate1"), getWord("wator_cellstate2"),
-          getWord("wator_cellstate3")}),
-      entry("Percolation", new String[]{getWord("percolation_cellstate1"), getWord("percolation_cellstate2"),
-          getWord("percolation_cellstate3")})
-  );
+  private VBox myHistoryContent;
 
 
   /**
@@ -37,7 +29,7 @@ public class HistoryPanel extends SharedUIComponents {
    *
    */
   public HistoryPanel() {
-    createHistoryPanel();
+    myHistoryContent = new VBox();
   }
 
   /**
@@ -46,12 +38,44 @@ public class HistoryPanel extends SharedUIComponents {
    * @return the JavaFX HBox that constitutes the details panel
    */
   public Node createHistoryPanel() {
-    HBox myDetailsPanel = new HBox();
-    myDetailsPanel.setSpacing(getInt("gameplay_subpanel_spacing"));
+    VBox myHistoryPanel = new VBox();
+    myHistoryPanel.setSpacing(getInt("gameplay_subpanel_spacing"));
+    myHistoryPanel.setAlignment(Pos.CENTER);
+    myHistoryPanel.setId("history-panel");
 
-    myDetailsPanel.setId("details-panel");
+    Group historyPanelTitle = makePanelTitle(getWord("history_panel_title"), getInt("pref_history_scrollpane_width"));
+    historyPanelTitle.setId("history-panel-title");
+    ScrollPane historyScrollPane = makeHistoryScrollPane();
+    myHistoryPanel.getChildren().addAll(historyPanelTitle, historyScrollPane);
 
-    return myDetailsPanel;
+    myHistoryPanel.setVgrow(historyScrollPane, Priority.ALWAYS);
+    return myHistoryPanel;
+  }
+
+  private ScrollPane makeHistoryScrollPane(){
+    ScrollPane newScrollPane = new ScrollPane();
+    newScrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
+    newScrollPane.fitToWidthProperty().set(true);
+
+    newScrollPane.setVmax(getInt("max_history_scrollpane_height"));
+    newScrollPane.setPrefSize(getInt("pref_history_scrollpane_width"), getInt("pref_history_scrollpane_height"));
+    newScrollPane.setContent(myHistoryContent);
+
+//    sp.vvalueProperty().addListener((ObservableValue<? extends Number> ov,
+//        Number old_val, Number new_val) -> {
+//      fileName.setText(imageNames[(new_val.intValue() - 1)/100]);
+//    });
+
+    return newScrollPane;
+  }
+
+  public void addHistory(String action){
+    Text newHistoryEntry = makeText(action);
+    myHistoryContent.getChildren().add(newHistoryEntry);
+  }
+
+  public void removeHistory(){
+    //TODO: implement way to remove content without hbeing able gto address it
   }
 
 }

@@ -1,7 +1,9 @@
 package ooga.controller;
 
 import javafx.stage.Stage;
+
 import ooga.logic.game.Game;
+
 import ooga.view.View;
 
 import java.io.File;
@@ -17,13 +19,20 @@ public interface Controller {
     //Returns the stage of the active display.
     public Stage getStage();
 
-    //gets the current game class
-    public Game getCurrentGame();
+  Game getCurrentGame();
 
-    //Resets the active game and the display.
+  //Resets the active game and the display.
     public void resetGame();
 
     //sets time limit of each round in the game
     public void setTime(int speed);
+
+    public void undoMove();
+
+    public void redoMove();
+
+    public void changeVariant(String variant);
+
+    public void clickedCoordinates(int x, int y);
 
 }

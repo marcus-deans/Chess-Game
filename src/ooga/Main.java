@@ -14,14 +14,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import ooga.controller.ChessController;
 import ooga.controller.Controller;
-import ooga.controller.GameController;
 
 /**
  * Feel free to completely change this code or delete it entirely. 
  */
 public class Main extends Application {
-    private static final String MAIN_WORDS_PATH = "ooga.view.viewresources.MainWords";
+    private static final String MAIN_WORDS_PATH = "ooga.view.viewresources.MainResources";
     private static final ResourceBundle gameTitleWords = ResourceBundle.getBundle(MAIN_WORDS_PATH);
 
     /**
@@ -92,7 +92,7 @@ public class Main extends Application {
 
     //create a new game animation based on the default app file provided
     private void startNewGame(String appFileName) {
-        Controller newGame = new GameController(getInt("frameWidth"), getInt("frameHeight"),
+        Controller newGame = new ChessController(getInt("frameWidth"), getInt("frameHeight"),
             getString("backgroundColor"), appFileName);
 //        newGameView.start(new Stage());
     }
