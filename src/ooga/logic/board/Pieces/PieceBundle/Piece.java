@@ -32,6 +32,17 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     setDefaultProperties();
     setTeam(team);
     setCoordinate(myCoordinate);
+    setJump();
+
+  }
+
+  private void setJump() {
+    try{
+      setCanJump(Boolean.parseBoolean(getPieceProperties().getString("jump")));
+    }
+    catch (Exception e){
+      setCanJump(Boolean.parseBoolean(getDefaultProperties().getString("jump")));
+    }
   }
 
 

@@ -11,17 +11,8 @@ public class Bishop extends Piece {
     super(PIECE_TO_STRING, team, new GameCoordinate(xPosition,yPosition));
     setMovement();
     setCapture();
-    setJump();
   }
-
-  private void setJump() {
-    try{
-      setCanJump(Boolean.parseBoolean(getPieceProperties().getString("jump")));
-    }
-    catch (Exception e){
-      setCanJump(Boolean.parseBoolean(getDefaultProperties().getString("jump")));
-    }
-  }
+  
 
   private void setMovement() {
     try{
