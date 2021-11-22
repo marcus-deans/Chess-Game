@@ -7,10 +7,8 @@ public class Rook extends Piece {
   private static final String PIECE_TO_STRING = "Rook";
 
   public Rook(int xPosition, int yPosition, int team){
-    super(PIECE_TO_STRING);
+    super(PIECE_TO_STRING, team, new GameCoordinate(xPosition,yPosition));
 
-    setTeam(team);
-    setCoordinate(new GameCoordinate(xPosition,yPosition));
     setMyMovement(new RookMovement());
     setMyCapture(new RookMovement());
   }

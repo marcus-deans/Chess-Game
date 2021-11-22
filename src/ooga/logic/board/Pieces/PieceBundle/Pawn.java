@@ -17,10 +17,8 @@ public class Pawn extends Piece {
   private static final String PIECE_TO_STRING = "Pawn";
 
   public Pawn(int xPosition, int yPosition, int team){
-    super(PIECE_TO_STRING);
+    super(PIECE_TO_STRING, team, new GameCoordinate(xPosition,yPosition));
 
-    setTeam(team);
-    setCoordinate(new GameCoordinate(xPosition,yPosition));
     setMyMovement(new PawnMovement());
     setMyCapture(new PawnCapture());
     setMyPromotionSpots(new PromotionSpots());
