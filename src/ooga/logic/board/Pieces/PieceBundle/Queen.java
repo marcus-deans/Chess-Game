@@ -8,7 +8,6 @@ public class Queen extends Piece {
 
   public Queen(int xPosition, int yPosition, int team){
     super(PIECE_TO_STRING, team, new GameCoordinate(xPosition,yPosition));
-    setMyMovement(new QueenMovement());
     setMyCapture(new QueenMovement());
   }
 

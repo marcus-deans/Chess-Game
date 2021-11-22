@@ -33,6 +33,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     setTeam(team);
     setCoordinate(myCoordinate);
     setJump();
+    setMovement(pieceToString);
 
   }
 
@@ -144,5 +145,32 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   @Override
   public boolean getCanJump() {
     return this.canJump;
+  }
+
+  private void setMovement(String pieceToString) {
+    try{
+      setMyMovement(
+          (SpotCollection) Class.forName(
+              String.format("ooga.logic.board.Pieces.SpotCollection.%s", getPieceProperties().
+                  getString("movement"))).getConstructor().newInstance()
+      );
+    }
+    catch (Exception e){
+      setDefaultMovement(pieceToString);
+    }
+  }
+
+  private void setDefaultMovement(String pieceToString) {
+    try{
+      setMyMovement(
+          (SpotCollection) Class.forName(
+              String.format("%s%s",pieceToString,"Movement")
+          ).getConstructor().newInstance()
+      );
+
+    }
+    catch(Exception e){
+      e.printStackTrace();
+    }
   }
 }

@@ -18,8 +18,6 @@ public class Pawn extends Piece {
 
   public Pawn(int xPosition, int yPosition, int team){
     super(PIECE_TO_STRING, team, new GameCoordinate(xPosition,yPosition));
-
-    setMyMovement(new PawnMovement());
     setMyCapture(new PawnCapture());
     setMyPromotionSpots(new PromotionSpots());
     setMyPromotionPieces(new DefaultPromotionPieces());
