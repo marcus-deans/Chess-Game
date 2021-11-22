@@ -6,19 +6,11 @@ import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 import ooga.logic.board.coordinate.GameCoordinate;
 
 public class Bishop extends Piece {
-
-  private ResourceBundle PieceProperties;
-  private ResourceBundle DefaultProperties;
-
-  private static final String PIECES_PACKAGE = Bishop.class.getPackageName() + ".resources.";
-  private static final String DEFAULT_TO_STRING = "Default";
   private static final String PIECE_TO_STRING = "Bishop";
-  //private static final String PIECE_PATH="ooga.logic.board.Pieces.PieceBundle.";
-
 
   public Bishop(int xPosition, int yPosition, int team){
-    PieceProperties=ResourceBundle.getBundle(PIECES_PACKAGE+PIECE_TO_STRING);
-    DefaultProperties=ResourceBundle.getBundle(PIECES_PACKAGE+DEFAULT_TO_STRING);
+    setPieceProperties(PIECE_TO_STRING);
+    setDefaultProperties();
 
     setTeam(team);
     setCoordinate(new GameCoordinate(xPosition,yPosition));
@@ -29,10 +21,10 @@ public class Bishop extends Piece {
 
   private void setJump() {
     try{
-      setCanJump(Boolean.parseBoolean(PieceProperties.getString("jump")));
+      setCanJump(Boolean.parseBoolean(getPieceProperties().getString("jump")));
     }
     catch (Exception e){
-      setCanJump(Boolean.parseBoolean(DefaultProperties.getString("jump")));
+      setCanJump(Boolean.parseBoolean(getDefaultProperties().getString("jump")));
     }
   }
 
@@ -40,7 +32,7 @@ public class Bishop extends Piece {
     try{
       setMyMovement(
           (SpotCollection) Class.forName(
-                  String.format("ooga.logic.board.Pieces.SpotCollection.%s", PieceProperties.
+                  String.format("ooga.logic.board.Pieces.SpotCollection.%s", getPieceProperties().
                       getString("movement"))).getConstructor().newInstance()
       );
     }
@@ -54,7 +46,7 @@ public class Bishop extends Piece {
     try{
       setMyCapture(
           (SpotCollection) Class.forName(
-              String.format("ooga.logic.board.Pieces.SpotCollection.%s", PieceProperties.
+              String.format("ooga.logic.board.Pieces.SpotCollection.%s", getPieceProperties().
                   getString("capture"))).getConstructor().newInstance()
       );
     }

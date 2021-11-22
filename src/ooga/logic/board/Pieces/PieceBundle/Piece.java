@@ -1,6 +1,7 @@
 package ooga.logic.board.Pieces.PieceBundle;
 
 import java.util.List;
+import java.util.ResourceBundle;
 import ooga.logic.board.Pieces.Interfaces.CaptureLogic;
 import ooga.logic.board.Pieces.Interfaces.MoveLogic;
 import ooga.logic.board.Pieces.Interfaces.PieceLogic;
@@ -18,6 +19,31 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private int team;
   private int pieceValue;
   private boolean canJump;
+
+
+  private ResourceBundle PieceProperties;
+  private ResourceBundle DefaultProperties;
+
+  private static final String PIECES_PACKAGE = Piece.class.getPackageName() + ".resources.";
+  private static final String DEFAULT_TO_STRING = "Default";
+
+
+
+  protected ResourceBundle getPieceProperties() {
+    return PieceProperties;
+  }
+
+  protected void setPieceProperties(String PIECE_AS_STRING) {
+    PieceProperties=ResourceBundle.getBundle(PIECES_PACKAGE+PIECE_AS_STRING);
+  }
+
+  protected ResourceBundle getDefaultProperties() {
+    return DefaultProperties;
+  }
+
+  protected void setDefaultProperties() {
+    DefaultProperties=ResourceBundle.getBundle(PIECES_PACKAGE+DEFAULT_TO_STRING);
+  }
 
 
   @Override

@@ -12,6 +12,9 @@ import ooga.logic.board.coordinate.GameCoordinate;
  * can capture top right and top left immediate
  */
 public class King extends Piece {
+  private static final String PIECE_TO_STRING = "King";
+
+
 
   public King(int xPosition, int yPosition, int team){
     setTeam(team);

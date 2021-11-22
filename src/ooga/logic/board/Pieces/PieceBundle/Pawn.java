@@ -14,6 +14,8 @@ import ooga.logic.board.coordinate.GameCoordinate;
  * can capture top right and top left immediate
  */
 public class Pawn extends Piece {
+  private static final String PIECE_TO_STRING = "Pawn";
+
   public Pawn(int xPosition, int yPosition, int team){
     setTeam(team);
     setCoordinate(new GameCoordinate(xPosition,yPosition));
