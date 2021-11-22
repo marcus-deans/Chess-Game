@@ -1,9 +1,11 @@
 package ooga.view.ui.gameplaypanel;
 
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import ooga.view.ui.SharedUIComponents;
@@ -24,8 +26,9 @@ public class GraveyardPanel extends SharedUIComponents {
     VBox myGraveyardPanel = new VBox();
     myGraveyardPanel.setSpacing(getInt("gameplay_subpanel_spacing"));
     myGraveyardPanel.setId("graveyard-panel");
+    myGraveyardPanel.setAlignment(Pos.CENTER);
 
-    Group graveyardPanelTitle = makePanelTitle(getWord("graveyard_panel_title"), getInt("pref_graveyard_scrollpane_width"));
+    StackPane graveyardPanelTitle = makePanelTitle(getWord("graveyard_panel_title"), getInt("pref_graveyard_scrollpane_width"));
     graveyardPanelTitle.setId("graveyard-panel-title");
     ScrollPane graveyardScrollPane = makeGraveyardScrollPane();
     myGraveyardPanel.getChildren().addAll(graveyardPanelTitle, graveyardScrollPane);

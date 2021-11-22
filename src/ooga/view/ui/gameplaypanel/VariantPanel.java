@@ -70,8 +70,8 @@ public class VariantPanel extends SharedUIComponents {
       alert.setContentText(myDescription);
       alert.showAndWait();
     });
-    variantDescriptionButton.setMaxHeight(getInt("game_description_height"));
-    variantDescriptionButton.setPrefWidth(getInt("game_description_width"));
+    variantDescriptionButton.setMaxHeight(getInt("button_height"));
+    variantDescriptionButton.setPrefWidth(getInt("button_width"));
     return variantDescriptionButton;
   }
 }

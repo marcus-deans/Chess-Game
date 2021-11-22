@@ -1,6 +1,8 @@
 package ooga.view.ui;
 
 import javafx.scene.Group;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import ooga.view.PanelListener;
 import java.util.List;
@@ -56,12 +58,14 @@ public abstract class SharedUIComponents {
   }
 
   //method to create title text for panel
-  protected Group makePanelTitle(String text, int width) {
-    Group panelTitle = new Group();
+  protected StackPane makePanelTitle(String text, int width) {
+    StackPane panelTitle = new StackPane();
     panelTitle.setId("panel-title");
     Rectangle colorBox = new Rectangle();
-    colorBox.setId("panel-title-colour-box");
+//    colorBox.setId("panel-title-colour-box");
+    colorBox.setFill(Color.web("#FFFFFF"));
     colorBox.setWidth(width);
+//    panelTitle.getChildren().add(colorBox);
     Text panelTitleText = makeText(text);
     panelTitle.getChildren().addAll(colorBox, panelTitleText);
     return panelTitle;
