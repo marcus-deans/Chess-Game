@@ -138,7 +138,7 @@ public class GridView implements GridListener {
       String teamName = determineTeamColour(spot.getPiece().getTeam());
       String pieceName = spot.getClass().getSimpleName();
       String capitalizedPieceName = pieceName.substring(0, 1).toUpperCase() + pieceName.substring(1);
-      newPieceImageView = new ImageView(new Image(String.format("ooga.view.viewresources.pieceimages.%s-%s.png",teamName, pieceName)));
+      newPieceImageView = new ImageView(new Image(String.format("ooga.view.viewresources.pieceimages.%s-%s.png",teamName, capitalizedPieceName)));
     } catch(Exception e){
       newPieceImageView = new ImageView(new Image("White-Bishop.png"));
       System.out.println("Error making piece image representation");
