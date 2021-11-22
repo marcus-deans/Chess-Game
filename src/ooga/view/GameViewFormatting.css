@@ -138,3 +138,7 @@
 #cell-view {
   -fx-stroke: white;
 }
+
+#game-title-text {
+  -fx-font-size: 30px;
+}
