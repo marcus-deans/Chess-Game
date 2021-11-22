@@ -52,7 +52,7 @@ public class GraveyardPanel extends SharedUIComponents {
     return newScrollPane;
   }
 
-  public void addHistory(String action){
+  public void addGraveyardEntry(String action){
     Text newGraveyardEntry = makeText(action);
     myGraveyardContent.getChildren().add(newGraveyardEntry);
   }
