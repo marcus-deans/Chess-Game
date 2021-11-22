@@ -18,7 +18,6 @@ public class King extends Piece {
     super(PIECE_TO_STRING, team, new GameCoordinate(xPosition,yPosition));
     setMyMovement(new KingMovement());
     setMyCapture(new KingMovement());
-//    setMyPromotionSpots(new finalRankPromotionSpots());
   }
 
 }

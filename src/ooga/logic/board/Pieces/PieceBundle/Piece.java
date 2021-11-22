@@ -98,9 +98,11 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   protected void setMyMovement(SpotCollection movementToSet){
     myMovement = movementToSet;
   }
+
   protected void setMyCapture(SpotCollection captureToSet){
     myCapture = captureToSet;
   }
+
   protected void setMyPromotionSpots(SpotCollection promotionToSet){
     myPromotionSpots = promotionToSet;
   }

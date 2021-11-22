@@ -12,7 +12,7 @@ public class Bishop extends Piece {
     setMovement();
     setCapture();
   }
-  
+
 
   private void setMovement() {
     try{
@@ -23,8 +23,23 @@ public class Bishop extends Piece {
       );
     }
     catch (Exception e){
-      setMyMovement(new BishopMovement());
+      setDefaultMovement();
     }
+  }
+
+  private void setDefaultMovement() {
+    try{
+      setMyMovement(
+          (SpotCollection) Class.forName(
+              String.format("%s%s",PIECE_TO_STRING,"Movement")
+          ).getConstructor().newInstance()
+      );
+
+    }
+    catch(Exception e){
+      e.printStackTrace();
+    }
+
   }
 
 
