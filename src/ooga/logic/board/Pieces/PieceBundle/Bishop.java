@@ -12,7 +12,6 @@ public class Bishop extends Piece {
     setCapture();
   }
 
-
   private void setCapture() {
     try{
       setMyCapture(
@@ -23,6 +22,20 @@ public class Bishop extends Piece {
     }
     catch (Exception e){
       setMyCapture(new BishopMovement());
+    }
+  }
+
+  private void setDefaultCapture(String pieceToString) {
+    try{
+      setMyCapture(
+          (SpotCollection) Class.forName(
+              String.format("%s%s",pieceToString,"Capture")
+          ).getConstructor().newInstance()
+      );
+
+    }
+    catch(Exception e){
+      //setMyCapture();
     }
   }
 
