@@ -27,6 +27,10 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private static final String PIECES_PACKAGE = Piece.class.getPackageName() + ".resources.";
   private static final String DEFAULT_TO_STRING = "Default";
 
+  public Piece(String pieceToString) {
+    setPieceProperties(pieceToString);
+    setDefaultProperties();
+  }
 
 
   protected ResourceBundle getPieceProperties() {

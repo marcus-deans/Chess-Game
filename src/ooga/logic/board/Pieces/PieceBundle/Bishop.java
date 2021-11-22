@@ -1,6 +1,5 @@
 package ooga.logic.board.Pieces.PieceBundle;
 
-import java.util.ResourceBundle;
 import ooga.logic.board.Pieces.SpotCollection.BishopMovement;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 import ooga.logic.board.coordinate.GameCoordinate;
@@ -9,8 +8,7 @@ public class Bishop extends Piece {
   private static final String PIECE_TO_STRING = "Bishop";
 
   public Bishop(int xPosition, int yPosition, int team){
-    setPieceProperties(PIECE_TO_STRING);
-    setDefaultProperties();
+    super(PIECE_TO_STRING);
 
     setTeam(team);
     setCoordinate(new GameCoordinate(xPosition,yPosition));
