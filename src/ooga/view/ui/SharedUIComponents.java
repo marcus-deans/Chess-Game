@@ -62,11 +62,11 @@ public abstract class SharedUIComponents {
     StackPane panelTitle = new StackPane();
     panelTitle.setId("panel-title");
     Rectangle colorBox = new Rectangle();
-//    colorBox.setId("panel-title-colour-box");
-    colorBox.setFill(Color.web("#FFFFFF"));
+    colorBox.setId("panel-title-colour-box");
     colorBox.setWidth(width);
-//    panelTitle.getChildren().add(colorBox);
+    colorBox.setHeight(getInt("button_height"));
     Text panelTitleText = makeText(text);
+    panelTitleText.setId("panel-title-text");
     panelTitle.getChildren().addAll(colorBox, panelTitleText);
     return panelTitle;
   }

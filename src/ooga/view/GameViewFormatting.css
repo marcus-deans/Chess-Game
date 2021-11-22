@@ -41,9 +41,7 @@
 }
 
 #panel-title-colour-box{
-  -fx-fill: #702121;
-  -fx-background-fill: #702121;
-  -fx-background-color: linear-gradient(#e5aea2, #EF350E);
+  -fx-fill: linear-gradient(#e5aea2, #EF350E);
   -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
 }
 
@@ -78,6 +76,13 @@
 #boundary-line {
   -fx-stroke: white;
   -fx-stroke-width: 3;
+}
+
+#panel-title-text {
+  -fx-font-family: "Arial";
+  -fx-font-size: 14px;
+  -fx-stroke: white;
+  -fx-fill: white;
 }
 
 #information-text {
