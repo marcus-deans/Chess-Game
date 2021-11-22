@@ -27,11 +27,6 @@ public interface MoveLogic {
   public List<Coordinate> getPossibleMoves();
 
   /**
-   * Updates the internal coordinate of the piece after it is moved
-   */
-  public void updatePosition(Coordinate passedCoordinate);
-
-  /**
    * Changes the coordinate set for the piece
    */
   public void setCoordinate(Coordinate passedCoordinate);

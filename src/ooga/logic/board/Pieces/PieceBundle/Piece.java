@@ -31,13 +31,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     return getPossibleCaptures().contains(captureCoordinate);
   }
 
-
-  @Override
-  public void updatePosition(Coordinate passedCoordinate) {
-    setCoordinate(passedCoordinate);
-  }
-
-
   @Override
   public void setCoordinate(Coordinate passedCoordinate) {
     myCoordinate = passedCoordinate;
@@ -47,11 +40,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   @Override
   public List<Piece> possiblePromotionPieces(){
     return myPromotionOptions.getPossiblePieces();
-  }
-
-  @Override
-  public void setState() {
-
   }
 
   @Override
