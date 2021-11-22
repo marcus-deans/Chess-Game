@@ -12,7 +12,7 @@ public class Rook extends Piece {
     setMyMovement(new RookMovement());
     setMyCapture(new RookMovement());
   }
-  
+
 
 
 }
