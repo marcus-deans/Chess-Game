@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -31,7 +34,7 @@ public class GridView implements GridListener {
 
   private static final String GRID_VIEW_RESOURCES_PATH = "ooga.view.viewresources.GridViewResources";
   private static final ResourceBundle gridViewResources = ResourceBundle.getBundle(GRID_VIEW_RESOURCES_PATH);
-  private final List<String> piecesNames= Arrays.asList(gridViewResources.getString("PieceNames").split(","));
+  private final List<String> piecesNames= Arrays.asList(gridViewResources.getString("pieceTypes").split(","));
 
   public GridView(int height, int width, String[] gridColours, int gridDisplayLength, PanelListener gameView) {
     myGameGrid = new GridPane();
@@ -59,6 +62,12 @@ public class GridView implements GridListener {
     newCell.setId("cell-view");
     newCell.setFill(Color.web(myGridColours[state]));
     return newCell;
+  }
+
+  private Group createNewCellWithPiece(int state, ImageView pieceImage){
+    Group newCellGroup = new Group();
+    newCellGroup.getChildren().addAll(createNewCellView(state), pieceImage);
+    return newCellGroup;
   }
 
   //a chess board alternates in colour hence the state must switch depending on position
@@ -114,9 +123,39 @@ public class GridView implements GridListener {
   public void updateChessCell(Spot spot){
     int columnIndex = spot.getCoordinate().getX_pos();
     int rowIndex = spot.getCoordinate().getY_pos();
-    int team = spot.getPiece().getTeam();
 
+    ImageView pieceImageview = createNewPieceImageView(spot);
+    pieceImageview.setFitHeight(myCellHeight-4);
+    pieceImageview.setFitWidth(myCellWidth-4);
+    Group newCellRepresentation = createNewCellWithPiece(determineCellColour(columnIndex, rowIndex), pieceImageview);
+    myGameGrid.add(newCellRepresentation, columnIndex, rowIndex);
     //TODO: make cell updates
+  }
+
+  private ImageView createNewPieceImageView(Spot spot){
+    ImageView newPieceImageView;
+    try {
+      String teamName = determineTeamColour(spot.getPiece().getTeam());
+      String pieceName = spot.getClass().getSimpleName();
+      String capitalizedPieceName = pieceName.substring(0, 1).toUpperCase() + pieceName.substring(1);
+      newPieceImageView = new ImageView(new Image(String.format("ooga.view.viewresources.pieceimages.%s-%s.png",teamName, pieceName)));
+    } catch(Exception e){
+      newPieceImageView = new ImageView(new Image("White-Bishop.png"));
+      System.out.println("Error making piece image representation");
+    }
+    return newPieceImageView;
+  }
+
+  private String determineTeamColour(int teamNumber){
+    switch(teamNumber){
+      case 0 -> {
+        return "Black";
+      }
+      case 1 -> {return "White";}
+      default -> {
+        return "Error";
+      }
+    }
   }
 
 
