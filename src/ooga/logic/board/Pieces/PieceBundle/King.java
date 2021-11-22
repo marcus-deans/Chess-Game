@@ -1,7 +1,5 @@
 package ooga.logic.board.Pieces.PieceBundle;
 
-
-import ooga.logic.board.Pieces.SpotCollection.KingMovement;
 import ooga.logic.board.coordinate.GameCoordinate;
 
 /**
@@ -15,6 +13,5 @@ public class King extends Piece {
   private static final String PIECE_TO_STRING = "King";
   public King(int xPosition, int yPosition, int team){
     super(PIECE_TO_STRING, team, new GameCoordinate(xPosition,yPosition));
-    setMyCapture(new KingMovement());
   }
 }

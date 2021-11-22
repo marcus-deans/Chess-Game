@@ -1,7 +1,5 @@
 package ooga.logic.board.Pieces.PieceBundle;
 
-import ooga.logic.board.Pieces.SpotCollection.RookMovement;
-import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 import ooga.logic.board.coordinate.GameCoordinate;
 
 public class Rook extends Piece {
@@ -9,6 +7,5 @@ public class Rook extends Piece {
 
   public Rook(int xPosition, int yPosition, int team){
     super(PIECE_TO_STRING, team, new GameCoordinate(xPosition,yPosition));
-    setMyCapture(new RookMovement());
   }
 }

@@ -1,8 +1,6 @@
 package ooga.logic.board.Pieces.PieceBundle;
 
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
-import ooga.logic.board.Pieces.SpotCollection.PawnCapture;
-import ooga.logic.board.Pieces.SpotCollection.PawnMovement;
 import ooga.logic.board.Pieces.SpotCollection.PromotionSpots;
 import ooga.logic.board.coordinate.GameCoordinate;
 
@@ -18,7 +16,6 @@ public class Pawn extends Piece {
 
   public Pawn(int xPosition, int yPosition, int team){
     super(PIECE_TO_STRING, team, new GameCoordinate(xPosition,yPosition));
-    setMyCapture(new PawnCapture());
     setMyPromotionSpots(new PromotionSpots());
     setMyPromotionPieces(new DefaultPromotionPieces());
   }
