@@ -239,7 +239,7 @@ public class GameView extends Application implements PanelListener {
 
   //create information panel on top of screen to display title as well as user information
   private Node createInformationPanel(){
-    InformationPanel newInformationPanel = new InformationPanel();
+    InformationPanel newInformationPanel = new InformationPanel(gameGridViewX);
     newInformationPanel.setPanelListener(this);
     return newInformationPanel.createInformationPanel();
   }
