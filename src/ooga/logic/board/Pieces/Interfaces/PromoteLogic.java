@@ -8,6 +8,6 @@ import ooga.logic.board.coordinate.Coordinate;
 public interface PromoteLogic {
   public List<Coordinate> promotionSquares();
 
-  public List<Piece> possiblePromotionPieces();
+  public List<String> possiblePromotionPieces();
 
 }

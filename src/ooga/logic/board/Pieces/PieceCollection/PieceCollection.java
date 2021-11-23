@@ -4,7 +4,7 @@ import java.util.List;
 import ooga.logic.board.Pieces.PieceBundle.Piece;
 
 abstract public class PieceCollection {
-  private List<Piece> myPieceList;
+  private List<String> myPieceList;
 
-  public abstract List<Piece> getPossiblePieces();
+  public abstract List<String> getPossiblePieces();
 }

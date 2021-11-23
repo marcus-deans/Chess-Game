@@ -91,7 +91,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
 
   @Override
-  public List<Piece> possiblePromotionPieces(){
+  public List<String> possiblePromotionPieces(){
     return myPromotionOptions.getPossiblePieces();
   }
 
