@@ -6,37 +6,26 @@ import java.util.List;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
 
-public class PromotionSpots extends SpotCollection {
-  private List<Integer> rank;
-  private List<Integer> file;
+public class PromotionSpots extends SpotCollection implements AcceptsCoordinates {
   private final List<Integer> DEFAULT_RANK = Arrays.asList(7);
   private final List<Integer> DEFAULT_FILE = Arrays.asList(0,1,2,3,4,5,6,7);
 
+  private List<Coordinate> myCoordinates;
+
   public PromotionSpots(){
-    rank = DEFAULT_RANK;
-    file = DEFAULT_FILE;
+    myCoordinates = getDefaultPossibleSpots();
   }
 
-  public void setRank(List<Integer> rankList){
-    this.rank = rankList;
-  }
-  public void setFile(List<Integer> fileList){
-    this.file = fileList;
-  }
-
-
-
-  @Override
-  public List<Coordinate> getPossibleSpots(Coordinate myCoordinate) {
+  private List<Coordinate> getDefaultPossibleSpots() {
     List<Coordinate> myCoordinateList = new ArrayList<>();
     Coordinate newCapture;
 
     List<Integer> xOfSquares = new ArrayList<>();
-    for (int x : file){
+    for (int x : DEFAULT_FILE){
       xOfSquares.add(x);
     }
     List<Integer> yOfSquares = new ArrayList<>();
-    for (int y : rank){
+    for (int y : DEFAULT_RANK){
       yOfSquares.add(y);
     }
 
@@ -49,4 +38,26 @@ public class PromotionSpots extends SpotCollection {
     return myCoordinateList;
   }
 
+
+
+
+  @Override
+  public List<Coordinate> getPossibleSpots(Coordinate coordinate) {
+    return myCoordinates;
+  }
+
+  @Override
+  public void addCoordinates(List<Coordinate> newCoords) {
+    myCoordinates.addAll(newCoords);
+  }
+
+  @Override
+  public void removeCoordinates(List<Coordinate> removeCoords) {
+    myCoordinates.removeAll(removeCoords);
+  }
+
+  @Override
+  public void removeAllCoordinates() {
+    myCoordinates = new ArrayList<>();
+  }
 }

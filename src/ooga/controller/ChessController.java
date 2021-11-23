@@ -89,6 +89,11 @@ public class ChessController implements Controller {
         return null;
     }
 
+//    @Override
+//    public Game getCurrentGame() {
+//        return null;
+//    }
+
     @Override
     public void resetGame() {
         myBoard = initialBoard;
