@@ -124,7 +124,7 @@ public class ChessController implements Controller {
 
     private void handleFirstClick(int row, int column) {
         clickedPiece = new GameCoordinate(row, column);
-        //TODO: if piece belongs to player
+        //TODO: if piece belongs to player (currentPlayer)
         myGame.update(clickedPiece);
         GameView.highlightCellOptions(myGame.getPossibleCoordinates());
         System.out.println("Called first Click");
@@ -135,11 +135,16 @@ public class ChessController implements Controller {
     private void handleSecondClick(int row, int column) {
         System.out.println("Called second Click");
         nextMove = new GameCoordinate(row, column);
+
+        //send current and new to the Game Class
+        //myGame.updateMove (currentPos, newPos)
+
+        //myGame.getUpdatedBoard();
         if(nextMove==clickedPiece){
             FIRSTCLICK = true;
             clickedCoordinates(row, column);
         }
-        //TODO: if piece belongs to player (currentPlayer)
+
         if (myGame.getPossibleCoordinates().contains(nextMove)){
             //update the board with clicked piece at nextMove Coordinate: Works?
             clickedPiece.setCoordinate(nextMove);
