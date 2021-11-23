@@ -80,7 +80,7 @@ public class GameBoard implements Board {
         return false;
     }
 
-    public List<GameCoordinate> getPossibleCoordinates(GameCoordinate selected) {
+    public List<GameCoordinate> getPossibleCoordinates() {
         return new ArrayList<>();
     }
 

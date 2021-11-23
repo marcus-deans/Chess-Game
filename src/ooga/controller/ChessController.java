@@ -11,13 +11,11 @@ import ooga.util.IncorrectCSVFormatException;
 import ooga.util.IncorrectSimFormatException;
 import ooga.view.GameView;
 import ooga.view.View;
-import java.util.List;
+
+import java.util.*;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
-import java.util.Random;
-import java.util.ResourceBundle;
 
 
 /**
