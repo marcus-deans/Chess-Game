@@ -53,7 +53,7 @@ public class VariantPanel extends SharedUIComponents {
 
   //create the specific dropdown allowing the user to select which view mode they prefer
   private Node initializeVariantControlDropdown() {
-    variantControlDropdown = makeComboBox(getWord("view_selection"), variantOptions, (event) -> {
+    variantControlDropdown = makeComboBox(getWord("variant_selection"), variantOptions, (event) -> {
       String myVariantSelection = variantControlDropdown.getSelectionModel().getSelectedItem().toString();
       if(this.getPanelListener() != null){
         this.getPanelListener().changeVariant(myVariantSelection);
@@ -63,15 +63,15 @@ public class VariantPanel extends SharedUIComponents {
   }
 
   private Button initializeVariantDescriptionButton(){
-    Button variantDescriptionButton = makeButton(getWord("game_description_button"), event -> {
+    Button variantDescriptionButton = makeButton(getWord("variant_description_button"), event -> {
       Alert alert = new Alert(AlertType.INFORMATION);
-      alert.setTitle(getWord("game_description_popup_title"));
-      alert.setHeaderText(getWord("game_description_popup_header"));
+      alert.setTitle(getWord("variant_description_popup_title"));
+      alert.setHeaderText(getWord("variant_description_popup_header"));
       alert.setContentText(myDescription);
       alert.showAndWait();
     });
-    variantDescriptionButton.setMaxHeight(getInt("game_description_height"));
-    variantDescriptionButton.setPrefWidth(getInt("game_description_width"));
+    variantDescriptionButton.setMaxHeight(getInt("button_height"));
+    variantDescriptionButton.setPrefWidth(getInt("button_width"));
     return variantDescriptionButton;
   }
 }

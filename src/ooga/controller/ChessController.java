@@ -39,7 +39,7 @@ public class ChessController implements Controller {
     public ChessController(int width, int height, String background, String filename){
         myGameView = new GameView(width, height, background, filename, this);
         //TODO: Uncomment the next line when functional
-//        myGameView.start(new Stage());
+        myGameView.start(new Stage());
     }
 
 //    public ChessController(int width, int height, String background){
@@ -67,6 +67,7 @@ public class ChessController implements Controller {
 
     @Override
     public void initializeFromFile(File file) {
+        //TODO: use file to populate chessboard and reset everything
     }
 
     private void selectPiece(int i, int j){
@@ -111,6 +112,16 @@ public class ChessController implements Controller {
     @Override
     public void changeVariant(String variant) {
 
+    }
+
+    @Override
+    public void clickedCoordinates(int column, int row) {
+        //TODO: compute actual chess logic
+        // could make List<ChessCells> -> each one has x, y -> GameView iterates and highlights each of those cells
+        //jut give GameView list of coordinates/cells for possible moves -> highlighting handled there
+        //myGameView.displayPossibleMoves()
+
+        //myGameView.updateChessCell(spot)
     }
 
 }

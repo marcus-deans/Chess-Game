@@ -33,4 +33,6 @@ public interface Controller {
 
     public void changeVariant(String variant);
 
+    public void clickedCoordinates(int x, int y);
+
 }
