@@ -16,7 +16,7 @@ public class Game {
     //A map containing the game's data collected from the game's sim files.
     private Map<String, String> metadata;
     private GameCoordinate selected;
-    private List<Integer> scores;
+    private List<Player> players;
     private GameSpot selectedSpot;
     private List<Coordinate> possibleCoordinates;
     private boolean isGameOver;
@@ -25,6 +25,7 @@ public class Game {
         makeBoard(board);
         this.metadata = metadata;
         this.possibleCoordinates = new ArrayList<>();
+        this.players = new ArrayList<>();
     }
 
     private List<Coordinate> getJumpPossibleCoordinate(List<Coordinate> list){
