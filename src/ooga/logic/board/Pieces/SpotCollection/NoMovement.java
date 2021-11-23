@@ -1,7 +1,6 @@
 package ooga.logic.board.Pieces.SpotCollection;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import ooga.logic.board.coordinate.Coordinate;
 

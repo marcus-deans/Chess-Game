@@ -12,3 +12,4 @@ public class DefaultPromotionPieces extends PieceCollection{
     return myPieces;
   }
 }
+
