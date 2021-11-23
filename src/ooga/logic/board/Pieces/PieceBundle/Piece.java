@@ -6,6 +6,7 @@ import ooga.logic.board.Pieces.Interfaces.CaptureLogic;
 import ooga.logic.board.Pieces.Interfaces.MoveLogic;
 import ooga.logic.board.Pieces.Interfaces.PieceLogic;
 import ooga.logic.board.Pieces.Interfaces.PromoteLogic;
+import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
 import ooga.logic.board.Pieces.PieceCollection.PieceCollection;
 import ooga.logic.board.Pieces.SpotCollection.LastRankSpots;
 import ooga.logic.board.Pieces.SpotCollection.FlexibleCoordinateCollection.PromotionSpotsAbstract;
@@ -41,7 +42,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   protected void setPromotionSpots(){
     if (PieceProperties.containsKey("promotion")){
-      setMyPromotionSpots(new LastRankSpots());
+      setMyPromotionSpots(new LastRankSpots(new DefaultPromotionPieces()));
     }
 
   }

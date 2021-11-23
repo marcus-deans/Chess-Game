@@ -3,6 +3,7 @@ package ooga.logic.board.Pieces.SpotCollection;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +17,7 @@ class LastRankSpotsTest {
 
   @BeforeEach
   void setUp() {
-    mySpotCollection = new LastRankSpots();
+    mySpotCollection = new LastRankSpots(new DefaultPromotionPieces());
     innerCoordinate = new GameCoordinate(2,2);
     outerCoordinate = new GameCoordinate(0,0);
     topCoordinate = new GameCoordinate(3,7);
