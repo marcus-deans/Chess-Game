@@ -7,6 +7,7 @@ import ooga.logic.board.Pieces.Interfaces.MoveLogic;
 import ooga.logic.board.Pieces.Interfaces.PieceLogic;
 import ooga.logic.board.Pieces.Interfaces.PromoteLogic;
 import ooga.logic.board.Pieces.PieceCollection.PieceCollection;
+import ooga.logic.board.Pieces.SpotCollection.FlexibleCoordinateCollection.PromotionSpots;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 import ooga.logic.board.coordinate.Coordinate;
 
@@ -14,7 +15,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private Coordinate myCoordinate;
   private SpotCollection myMovement;
   private SpotCollection myCapture;
-  private SpotCollection myPromotionSpots;
+  private PromotionSpots myPromotionSpots;
   private PieceCollection myPromotionOptions;
   private int team;
   private int pieceValue;
@@ -105,7 +106,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     myCapture = captureToSet;
   }
 
-  protected void setMyPromotionSpots(SpotCollection promotionToSet){
+  protected void setMyPromotionSpots(PromotionSpots promotionToSet){
     myPromotionSpots = promotionToSet;
   }
 

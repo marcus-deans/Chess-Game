@@ -2,13 +2,15 @@ package ooga.logic.board.Pieces.SpotCollection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import ooga.logic.board.Pieces.SpotCollection.FlexibleCoordinateCollection.PromotionSpots;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class PromotionSpotsTest {
-  private SpotCollection myPromotionSpots;
+  private PromotionSpots myPromotionSpots;
   private Coordinate myCoord;
   @BeforeEach
   void setUp() {
@@ -29,7 +31,7 @@ class PromotionSpotsTest {
 
   @Test
   void removeAllCoordinates() {
-
+    myPromotionSpots.removeAllCoordinates();
   }
 
   @Test

@@ -1,4 +1,4 @@
-package ooga.logic.board.Pieces.SpotCollection;
+package ooga.logic.board.Pieces.SpotCollection.FlexibleCoordinateCollection;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,7 +6,7 @@ import java.util.List;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
 
-public class PromotionSpots extends SpotCollection implements AcceptsCoordinates {
+public class PromotionSpots implements AcceptsCoordinates {
   private final List<Integer> DEFAULT_RANK = Arrays.asList(7);
   private final List<Integer> DEFAULT_FILE = Arrays.asList(0,1,2,3,4,5,6,7);
 
@@ -38,10 +38,6 @@ public class PromotionSpots extends SpotCollection implements AcceptsCoordinates
     return myCoordinateList;
   }
 
-
-
-
-  @Override
   public List<Coordinate> getPossibleSpots(Coordinate coordinate) {
     return myCoordinates;
   }
@@ -60,4 +56,5 @@ public class PromotionSpots extends SpotCollection implements AcceptsCoordinates
   public void removeAllCoordinates() {
     myCoordinates = new ArrayList<>();
   }
+
 }

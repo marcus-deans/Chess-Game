@@ -1,7 +1,7 @@
 package ooga.logic.board.Pieces.PieceBundle;
 
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
-import ooga.logic.board.Pieces.SpotCollection.PromotionSpots;
+import ooga.logic.board.Pieces.SpotCollection.FlexibleCoordinateCollection.PromotionSpots;
 import ooga.logic.board.coordinate.GameCoordinate;
 
 /**
