@@ -6,10 +6,9 @@ import ooga.logic.board.board.GameBoard;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
 import ooga.logic.board.spot.GameSpot;
+import ooga.logic.board.spot.Spot;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Game {
     private GameBoard myBoard;
@@ -19,8 +18,8 @@ public class Game {
     private GameCoordinate selected;
     private List<Integer> scores;
     private GameSpot selectedSpot;
-    private List<GameCoordinate> possibleCoordinates;
-
+    private List<Coordinate> possibleCoordinates;
+    private boolean isGameOver;
 
     public Game(GameBoard board,  Map<String, String> metadata){
         makeBoard(board);
@@ -28,7 +27,7 @@ public class Game {
         this.possibleCoordinates = new ArrayList<>();
     }
 
-    private List<GameCoordinate> getJumpPossibleCoordinate(List<GameCoordinate> list){
+    private List<Coordinate> getJumpPossibleCoordinate(List<Coordinate> list){
         for(int i = 0; i < list.size(); i++){
             if(myBoard.hasPiece(list.get(i))){
                 list.remove(i);
@@ -38,7 +37,7 @@ public class Game {
         return list;
     }
 
-    private List<GameCoordinate> getStandardPossibleCoordinate(List<GameCoordinate> list){
+    private List<Coordinate> getStandardPossibleCoordinate(List<Coordinate> list){
         int maxX = Integer.MIN_VALUE;
         int maxY = Integer.MIN_VALUE;
         int minX = Integer.MAX_VALUE;
@@ -61,7 +60,7 @@ public class Game {
             }
         }
 
-        List<GameCoordinate> possiblePositions = new ArrayList<>();
+        List<Coordinate> possiblePositions = new ArrayList<>();
 
         for(int i = 0; i < list.size(); i++){
             if(list.get(i).getY_pos() < maxY && list.get(i).getY_pos() > minY
@@ -74,24 +73,84 @@ public class Game {
         return possiblePositions;
     }
 
-    public void update(GameCoordinate selected){
-        this.selected = selected;
-        this.selectedSpot = myBoard.getSpot(selected);
-
-        List<GameCoordinate> possiblePositions = myBoard.getPossibleCoordinates(selected);
-
-        Boolean isJump = myBoard.getIsJump(selected);
-
-        if(isJump) possibleCoordinates =  getJumpPossibleCoordinate(possiblePositions);
-        else possibleCoordinates = getStandardPossibleCoordinate(possiblePositions);
+    private void addCapturePositions(List<Coordinate> possibleCapture){
+        for(Coordinate current : possibleCapture){
+            if(myBoard.hasPiece(current)) possibleCoordinates.add(current);
+        }
     }
 
-    public List<GameCoordinate> getPossibleCoordinates(){
-        return possibleCoordinates;
+    public void searchPossiblePositions(GameCoordinate selected){
+        this.selectedSpot = myBoard.getSpot(selected);
+
+        List<Coordinate> possibleMovePositions = selectedSpot.getPiece().getPossibleMoves();
+        List<Coordinate> possibleCapturePositions = selectedSpot.getPiece().getPossibleCaptures();
+
+        Boolean isJump = selectedSpot.getPiece().isJump();
+
+        if(isJump) possibleCoordinates =  getJumpPossibleCoordinate(possibleMovePositions);
+        else possibleCoordinates = getStandardPossibleCoordinate(possibleMovePositions);
+
+        if(possibleCapturePositions.size() > 0) addCapturePositions(possibleCapturePositions);
+    }
+
+    public Set<Spot> getPossibleCoordinates(GameCoordinate selected){
+        searchPossiblePositions(selected);
+
+        Set<Spot> possibleSet = new HashSet<>();
+
+        for(int i = 0; i < possibleCoordinates.size(); i++){
+            possibleSet.add(myBoard.getSpot(possibleCoordinates.get(i)));
+        }
+
+        return possibleSet;
     }
 
     protected void makeBoard(GameBoard newBoard){
         this.myBoard = newBoard;
+    }
+
+    private Piece getMovingPiece(GameCoordinate piecePosition, List<Spot> board){
+        Piece movingPiece = null;
+        for(int i = 0; i < board.size(); i++){
+            Spot spot = board.get(i);
+            if(spot.getCoordinate() == piecePosition){
+                movingPiece = spot.getPiece();
+                spot.setPiece(null);
+                break;
+            }
+        }
+        return movingPiece;
+    }
+
+    private void removePieceFromGame(Piece capturedPiece){
+        if(capturedPiece.isCheckable()) isGameOver = true;
+    }
+
+    private List<Spot> setMovingPiece(GameCoordinate newPosition, List<Spot> board, Piece movingPiece){
+        for(int i = 0; i < board.size(); i++){
+            Spot spot = board.get(i);
+            if(spot.getCoordinate() == newPosition){
+                if(spot.isEmpty()) spot.setPiece(movingPiece);
+                else {
+                    removePieceFromGame(spot.getPiece());
+                    spot.setPiece(movingPiece);
+                }
+                break;
+            }
+        }
+        return board;
+    }
+
+    public List<Spot> movePiece(GameCoordinate prevPosition, GameCoordinate newPosition){
+        List<Spot> board = myBoard.getFullBoard();
+
+        Piece movingPiece = getMovingPiece(prevPosition, board);
+
+        return setMovingPiece(newPosition, board, movingPiece);
+    }
+
+    public boolean getIsGameOver(){
+        return isGameOver;
     }
 
     /**

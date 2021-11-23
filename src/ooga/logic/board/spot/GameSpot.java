@@ -26,11 +26,11 @@ public class GameSpot implements Spot{
         this.coordinate=new GameCoordinate(x,y);
     }
 
+
     @Override
     public Coordinate getCoordinate() {
         return coordinate;
     }
-
 
     @Override
     public void setPiece(Piece piece) {
@@ -39,6 +39,11 @@ public class GameSpot implements Spot{
         {
             this.empty=true;
         }
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return empty;
     }
 
     @Override

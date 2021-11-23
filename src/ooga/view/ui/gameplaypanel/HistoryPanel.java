@@ -3,10 +3,14 @@ package ooga.view.ui.gameplaypanel;
 import static java.util.Map.entry;
 
 import java.util.Map;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import ooga.view.ui.SharedUIComponents;
 
@@ -17,19 +21,6 @@ import ooga.view.ui.SharedUIComponents;
  * @author marcusdeans, drewpeterson
  */
 public class HistoryPanel extends SharedUIComponents {
-
-  private final Map<String, String[]> colourLabelNames = Map.ofEntries(
-      entry("GameOfLife",
-          new String[]{getWord("gameoflife_cellstate1"), getWord("gameoflife_cellstate2")}),
-      entry("SpreadingOfFire", new String[]{getWord("fire_cellstate1"), getWord("fire_cellstate2"),
-          getWord("fire_cellstate3")}),
-      entry("Segregation", new String[]{getWord("segregation_cellstate1"), getWord("segregation_cellstate2"),
-          getWord("segregation_cellstate3")}),
-      entry("WatorWorld", new String[]{getWord("wator_cellstate1"), getWord("wator_cellstate2"),
-          getWord("wator_cellstate3")}),
-      entry("Percolation", new String[]{getWord("percolation_cellstate1"), getWord("percolation_cellstate2"),
-          getWord("percolation_cellstate3")})
-  );
 
   private VBox myHistoryContent;
 
@@ -50,14 +41,15 @@ public class HistoryPanel extends SharedUIComponents {
   public Node createHistoryPanel() {
     VBox myHistoryPanel = new VBox();
     myHistoryPanel.setSpacing(getInt("gameplay_subpanel_spacing"));
+    myHistoryPanel.setAlignment(Pos.CENTER);
     myHistoryPanel.setId("history-panel");
 
-    Text historyPanelTitle = makeText(getWord("history_panel_title"));
+    StackPane historyPanelTitle = makePanelTitle(getWord("history_panel_title"), getInt("pref_history_scrollpane_width"));
+    historyPanelTitle.setId("history-panel-title");
     ScrollPane historyScrollPane = makeHistoryScrollPane();
     myHistoryPanel.getChildren().addAll(historyPanelTitle, historyScrollPane);
 
     myHistoryPanel.setVgrow(historyScrollPane, Priority.ALWAYS);
-
     return myHistoryPanel;
   }
 

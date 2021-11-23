@@ -21,7 +21,7 @@ import ooga.controller.Controller;
  * Feel free to completely change this code or delete it entirely. 
  */
 public class Main extends Application {
-    private static final String MAIN_WORDS_PATH = "ooga.view.viewresources.MainWords";
+    private static final String MAIN_WORDS_PATH = "ooga.view.viewresources.MainResources";
     private static final ResourceBundle gameTitleWords = ResourceBundle.getBundle(MAIN_WORDS_PATH);
 
     /**
@@ -61,7 +61,7 @@ public class Main extends Application {
         HBox menuButtonPanel = new HBox();
 
         Button newGameButton = makeButton(getString("newGameButtonText"), value -> {
-            startNewGame(getString("defaultSetup"));
+            startNewGame("Standard.sim");
         });
 
         // Create a button to load new files
