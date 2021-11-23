@@ -108,6 +108,46 @@ public class Game {
         this.myBoard = newBoard;
     }
 
+    private Piece getMovingPiece(GameCoordinate piecePosition, List<Spot> board){
+        Piece movingPiece = null;
+        for(int i = 0; i < board.size(); i++){
+            Spot spot = board.get(i);
+            if(spot.getCoordinate() == piecePosition){
+                movingPiece = spot.getPiece();
+                spot.setPiece(null);
+                break;
+            }
+        }
+        return movingPiece;
+    }
+
+    private void removePieceFromGame(Piece deadPiece){
+
+    }
+
+    private List<Spot> setMovingPiece(GameCoordinate newPosition, List<Spot> board, Piece movingPiece){
+        for(int i = 0; i < board.size(); i++){
+            Spot spot = board.get(i);
+            if(spot.getCoordinate() == newPosition){
+                if(spot.isEmpty()) spot.setPiece(movingPiece);
+                else {
+                    removePieceFromGame(spot.getPiece());
+                    spot.setPiece(movingPiece);
+                }
+                break;
+            }
+        }
+        return board;
+    }
+
+    public List<Spot> movePiece(GameCoordinate prevPosition, GameCoordinate newPosition){
+        List<Spot> board = myBoard.getFullBoard();
+
+        Piece movingPiece = getMovingPiece(prevPosition, board);
+
+        return setMovingPiece(newPosition, board, movingPiece);
+    }
+
     /**
      * Returns the metadata of the game.
      *
