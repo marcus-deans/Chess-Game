@@ -94,6 +94,7 @@ public class Game {
         this.myBoard = newBoard;
     }
 
+
     /**
      * Returns the metadata of the game.
      *
