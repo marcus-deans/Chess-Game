@@ -1,5 +1,4 @@
 package ooga.logic.board.Pieces.PieceBundle;
-
 import ooga.logic.board.coordinate.GameCoordinate;
 
 /**

@@ -9,6 +9,4 @@ public class Bishop extends Piece {
     super(PIECE_TO_STRING, team, new GameCoordinate(xPosition,yPosition));
   }
 
-
-
 }

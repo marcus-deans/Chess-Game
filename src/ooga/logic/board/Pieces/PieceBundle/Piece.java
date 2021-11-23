@@ -193,7 +193,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     try{
       setMyCapture(
           (SpotCollection) Class.forName(
-              String.format("%s%s",pieceToString,"Capture")
+              String.format("%s%s",pieceToString,"Movement")
           ).getConstructor().newInstance()
       );
 
