@@ -121,7 +121,7 @@ public class Game {
         return movingPiece;
     }
 
-    private void removePieceFromGame(Piece deadPiece){
+    private void removePieceFromGame(Piece capturedPiece){
 
     }
 
