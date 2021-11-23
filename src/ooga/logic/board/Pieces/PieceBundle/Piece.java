@@ -7,8 +7,7 @@ import ooga.logic.board.Pieces.Interfaces.MoveLogic;
 import ooga.logic.board.Pieces.Interfaces.PieceLogic;
 import ooga.logic.board.Pieces.Interfaces.PromoteLogic;
 import ooga.logic.board.Pieces.PieceCollection.PieceCollection;
-import ooga.logic.board.Pieces.SpotCollection.FlexibleCoordinateCollection.LastRankSpots;
-import ooga.logic.board.Pieces.SpotCollection.FlexibleCoordinateCollection.PromotionSpots;
+import ooga.logic.board.Pieces.SpotCollection.LastRankSpots;
 import ooga.logic.board.Pieces.SpotCollection.FlexibleCoordinateCollection.PromotionSpotsAbstract;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 import ooga.logic.board.coordinate.Coordinate;
@@ -17,12 +16,11 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private Coordinate myCoordinate;
   private SpotCollection myMovement;
   private SpotCollection myCapture;
-  private PromotionSpotsAbstract myPromotionSpots;
+  private SpotCollection myPromotionSpots;
   private PieceCollection myPromotionOptions;
   private int team;
   private int pieceValue;
   private boolean canJump;
-
 
   private ResourceBundle PieceProperties;
   private ResourceBundle DefaultProperties;
@@ -45,7 +43,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     if (PieceProperties.containsKey("promotion")){
       setMyPromotionSpots(new LastRankSpots());
     }
-
 
   }
 
@@ -116,7 +113,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     myCapture = captureToSet;
   }
 
-  protected void setMyPromotionSpots(PromotionSpotsAbstract promotionToSet){
+  protected void setMyPromotionSpots(SpotCollection promotionToSet){
     myPromotionSpots = promotionToSet;
   }
 
