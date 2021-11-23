@@ -1,5 +1,9 @@
 package ooga.view.ui;
 
+import javafx.scene.Group;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import ooga.view.PanelListener;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -53,11 +57,18 @@ public abstract class SharedUIComponents {
     return newText;
   }
 
-  //method to create individual progress label
-  protected Label makeInformationLabel(String text) {
-    Label label = new Label(text);
-    label.setId("information-label");
-    return label;
+  //method to create title text for panel
+  protected StackPane makePanelTitle(String text, int width) {
+    StackPane panelTitle = new StackPane();
+    panelTitle.setId("panel-title");
+    Rectangle colorBox = new Rectangle();
+    colorBox.setId("panel-title-colour-box");
+    colorBox.setWidth(width);
+    colorBox.setHeight(getInt("button_height"));
+    Text panelTitleText = makeText(text);
+    panelTitleText.setId("panel-title-text");
+    panelTitle.getChildren().addAll(colorBox, panelTitleText);
+    return panelTitle;
   }
 
   //create a JavaFX Button with the appropriate text as well as provided EventHandler

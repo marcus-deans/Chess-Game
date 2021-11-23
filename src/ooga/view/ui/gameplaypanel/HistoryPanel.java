@@ -3,10 +3,14 @@ package ooga.view.ui.gameplaypanel;
 import static java.util.Map.entry;
 
 import java.util.Map;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import ooga.view.ui.SharedUIComponents;
 
@@ -37,14 +41,15 @@ public class HistoryPanel extends SharedUIComponents {
   public Node createHistoryPanel() {
     VBox myHistoryPanel = new VBox();
     myHistoryPanel.setSpacing(getInt("gameplay_subpanel_spacing"));
+    myHistoryPanel.setAlignment(Pos.CENTER);
     myHistoryPanel.setId("history-panel");
 
-    Text historyPanelTitle = makeText(getWord("history_panel_title"));
+    StackPane historyPanelTitle = makePanelTitle(getWord("history_panel_title"), getInt("pref_history_scrollpane_width"));
+    historyPanelTitle.setId("history-panel-title");
     ScrollPane historyScrollPane = makeHistoryScrollPane();
     myHistoryPanel.getChildren().addAll(historyPanelTitle, historyScrollPane);
 
     myHistoryPanel.setVgrow(historyScrollPane, Priority.ALWAYS);
-
     return myHistoryPanel;
   }
 

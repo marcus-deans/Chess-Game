@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
+import java.util.Stack;
 
 
 /**
@@ -30,6 +31,7 @@ public class ChessController implements Controller {
     private int BOARDWIDTH;
     private int BOARDHEIGHT;
     private GameBoard myBoard;
+    private Stack<GameCoordinate[]> history;
 
 
     private GameBoard initialBoard;
@@ -79,23 +81,10 @@ public class ChessController implements Controller {
         return BOARDHEIGHT;
     }
 
-    private void initializeGame(){
-
-    }
-
-
-    private void selectPiece(int i, int j){
-
-    }
 
     @Override
     public void setDisplay(View view) {
 
-    }
-
-    @Override
-    public Stage getStage() {
-        return null;
     }
 
     @Override
@@ -125,8 +114,8 @@ public class ChessController implements Controller {
     private void handleFirstClick(int row, int column) {
         clickedPiece = new GameCoordinate(row, column);
         //TODO: if piece belongs to player (currentPlayer)
-        myGame.update(clickedPiece);
-        GameView.highlightCellOptions(myGame.getPossibleCoordinates());
+        myGame.searchPossiblePositions(clickedPiece);
+        myGameView.highlightCellOptions(myGame.getPossibleCoordinates(clickedPiece));
         System.out.println("Called first Click");
         FIRSTCLICK = false;
 
@@ -145,7 +134,7 @@ public class ChessController implements Controller {
             clickedCoordinates(row, column);
         }
 
-        if (myGame.getPossibleCoordinates().contains(nextMove)){
+        if (myGame.getPossibleCoordinates(clickedPiece).contains(nextMove)){
             //update the board with clicked piece at nextMove Coordinate: Works?
             clickedPiece.setCoordinate(nextMove);
             //myGameView.updateChessCell(/*A spot goes in here*/);
@@ -155,22 +144,19 @@ public class ChessController implements Controller {
         else{
             //do nothing
         }
-
-
     }
 
     private void nextTurn(){
         numTurns++;
         currentPlayer = players[numTurns%2];
+        GameCoordinate[] moveRecord = {clickedPiece, nextMove};
+        history.push(moveRecord);
     }
+
     @Override
     public void undoMove() {
-
-    }
-
-    @Override
-    public void redoMove() {
-
+        GameCoordinate[] recentMove = history.pop();
+        recentMove[1].setCoordinate(recentMove[0]);
     }
 
     @Override

@@ -20,9 +20,6 @@ public interface Controller {
     //Initializes the passed display in this logic controller. @Param - Display
     public void setDisplay(View view);
 
-    //Returns the stage of the active display.
-    public Stage getStage();
-
     //gets the current game class
     public Game getCurrentGame();
 
@@ -34,8 +31,6 @@ public interface Controller {
     public void setTime(int speed);
 
     public void undoMove();
-
-    public void redoMove();
 
     public void changeVariant(String variant);
 

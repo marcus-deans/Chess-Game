@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import com.opencsv.exceptions.CsvValidationException;
 import javafx.animation.KeyFrame;
@@ -29,6 +30,9 @@ import ooga.logic.board.coordinate.GameCoordinate;
 import ooga.logic.board.spot.Spot;
 
 import ooga.util.IncorrectCSVFormatException;
+
+import ooga.view.ui.InformationPanel;
+
 import ooga.view.ui.gameplaypanel.GameplayPanel;
 import ooga.view.ui.controlpanel.ControlPanel;
 
@@ -76,6 +80,7 @@ public class GameView extends Application implements PanelListener {
   private int controlPanelX;
   private Node myControlPanel;
   private Node myGameplayPanel;
+  private Node myInformationPanel;
   private Node myViewControlPanel;
   private Node myAnimationControlPanel;
   private Node myLoadControlPanel;
@@ -140,7 +145,7 @@ public class GameView extends Application implements PanelListener {
     myGameViewRoot = new Group();
   }
 
-  public static void highlightCellOptions(List<GameCoordinate> possibleMoves) {
+  public static void highlightCellOptions(Set<Spot> possibleMoves) {
     //TODO: add highlight to possible neighbors
 
   }
@@ -246,9 +251,17 @@ public class GameView extends Application implements PanelListener {
 
     // Control (right) panel:
     myControlPanel = createControlPanel();
+
+    // Information (top) panel:
+    myInformationPanel = createInformationPanel();
   }
 
-
+  //create information panel on top of screen to display title as well as user information
+  private Node createInformationPanel(){
+    InformationPanel newInformationPanel = new InformationPanel();
+    newInformationPanel.setPanelListener(this);
+    return newInformationPanel.createInformationPanel();
+  }
 
   //create control panel on right of screen to control view, animation/gameplay, and loading/saving
   private Node createControlPanel(){
