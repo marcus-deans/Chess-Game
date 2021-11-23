@@ -8,6 +8,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -43,7 +44,7 @@ public class HistoryPanel extends SharedUIComponents {
     myHistoryPanel.setAlignment(Pos.CENTER);
     myHistoryPanel.setId("history-panel");
 
-    Group historyPanelTitle = makePanelTitle(getWord("history_panel_title"), getInt("pref_history_scrollpane_width"));
+    StackPane historyPanelTitle = makePanelTitle(getWord("history_panel_title"), getInt("pref_history_scrollpane_width"));
     historyPanelTitle.setId("history-panel-title");
     ScrollPane historyScrollPane = makeHistoryScrollPane();
     myHistoryPanel.getChildren().addAll(historyPanelTitle, historyScrollPane);
