@@ -103,4 +103,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   }
 
   public abstract boolean isJump();
+
+  public abstract boolean isCheckable();
 }

@@ -19,6 +19,7 @@ public class Game {
     private List<Integer> scores;
     private GameSpot selectedSpot;
     private List<Coordinate> possibleCoordinates;
+    private boolean isGameOver;
 
     public Game(GameBoard board,  Map<String, String> metadata){
         makeBoard(board);
@@ -122,7 +123,7 @@ public class Game {
     }
 
     private void removePieceFromGame(Piece capturedPiece){
-
+        if(capturedPiece.isCheckable()) isGameOver = true;
     }
 
     private List<Spot> setMovingPiece(GameCoordinate newPosition, List<Spot> board, Piece movingPiece){
@@ -146,6 +147,10 @@ public class Game {
         Piece movingPiece = getMovingPiece(prevPosition, board);
 
         return setMovingPiece(newPosition, board, movingPiece);
+    }
+
+    public boolean getIsGameOver(){
+        return isGameOver;
     }
 
     /**
