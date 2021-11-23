@@ -2,8 +2,14 @@ package ooga.view;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.Set;
+
+import com.opencsv.exceptions.CsvValidationException;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -18,8 +24,15 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.controller.Controller;
+
+import ooga.logic.board.coordinate.GameCoordinate;
+
 import ooga.logic.board.spot.Spot;
+
+import ooga.util.IncorrectCSVFormatException;
+
 import ooga.view.ui.InformationPanel;
+
 import ooga.view.ui.gameplaypanel.GameplayPanel;
 import ooga.view.ui.controlpanel.ControlPanel;
 
@@ -131,6 +144,12 @@ public class GameView extends Application implements PanelListener {
     gridDisplayLength = controlPanelX - gameGridViewX - getInt("width_buffer")  - 2*getInt("line_offset");
     myGameViewRoot = new Group();
   }
+
+  public static void highlightCellOptions(Set<Spot> possibleMoves) {
+    //TODO: add highlight to possible neighbors
+
+  }
+
 
   /**
    * Returns the PanelListener, allowing UI panel subclasses to interact with the listener
@@ -352,7 +371,7 @@ public class GameView extends Application implements PanelListener {
    * @param filename name of the file to load
    */
   @Override
-  public void loadNewFile(String filename) {
+  public void loadNewFile(String filename) throws CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IncorrectCSVFormatException {
     myFilename = filename;
 
     myChessController.initializeFromFile(new File(myFilename));
@@ -473,5 +492,4 @@ public class GameView extends Application implements PanelListener {
     }
     return value;
   }
-
 }
