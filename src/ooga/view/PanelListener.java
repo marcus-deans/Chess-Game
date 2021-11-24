@@ -19,11 +19,6 @@ public interface PanelListener {
     void saveCurrentFile();
 
     /**
-     * Redo a move that was previously undone
-     */
-    void redoMove();
-
-    /**
      * Undo the previous move
      */
     void undoMove();
