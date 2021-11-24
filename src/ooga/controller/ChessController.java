@@ -11,11 +11,12 @@ import ooga.util.IncorrectCSVFormatException;
 import ooga.util.IncorrectSimFormatException;
 import ooga.view.GameView;
 import ooga.view.View;
-
-import java.util.*;
+import java.util.List;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
+import java.util.Stack;
 
 
 /**
@@ -38,12 +39,6 @@ public class ChessController implements Controller {
     private CSVParser myCSVParser = new CSVParser();
     private SIMParser mySIMParser = new SIMParser();
 
-    private static final String PIECES_PACKAGE =
-            ChessController.class.getPackageName() + ".resources.";
-    private static final String PUZZLE_CSV_MAP = "Puzzle";
-    private ResourceBundle puzzleMap;
-    private int puzzleNumber;
-
     private Game myGame;
 
     private boolean FIRSTCLICK = true;
@@ -55,33 +50,40 @@ public class ChessController implements Controller {
     private String[] players = {"A", "B"};
     private String currentPlayer;
 
+
+    /**
+     * Instantiates the chess controller and allow the game to be initiated.
+     * @param width
+     * @param height
+     * @param background
+     * @param filename
+     */
     public ChessController(int width, int height, String background, String filename){
         myGameView = new GameView(width, height, background, filename, this);
         myGame =  new Game(myBoard,  myData);
-        //TODO: Uncomment the next line when functional
         myGameView.start(new Stage());
     }
-    //    public ChessController(int width, int height, String background){
-//        new ChessController(width, height, background, "Standard.sim");
-//    }
 
+    /**
+     * Takes in the information from the SIM FILE, thus the CSV as well, and instantiates backend classes
+     * with the required data
+     * @param file
+     * @throws CsvValidationException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws InvocationTargetException
+     * @throws NoSuchMethodException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws IncorrectCSVFormatException
+     */
     @Override
     public void initializeFromFile(File file) throws CsvValidationException, IOException, ClassNotFoundException,
             InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IncorrectCSVFormatException {
 
         File simFile= new File(file.toString());
         myData = mySIMParser.readSimFile(simFile);
-        File csvFile;
-        if (myData.get("Type")=="Puzzles")
-        {
-            puzzleMap=ResourceBundle.getBundle(PIECES_PACKAGE+PUZZLE_CSV_MAP);
-            puzzleNumber=1+new Random().nextInt(Integer.parseInt(puzzleMap.getString("numPuzzles")));
-            csvFile=new File(puzzleMap.getString(Integer.toString(puzzleNumber)));
-        }
-        else
-        {
-            csvFile= new File(myData.get("GameConfiguration"));
-        }
+        File csvFile= new File(myData.get("GameConfiguration"));
         myCSVParser.readCSVFile(csvFile);
         BOARDWIDTH = myCSVParser.getDimensions()[0];
         BOARDHEIGHT = myCSVParser.getDimensions()[1];
@@ -92,19 +94,21 @@ public class ChessController implements Controller {
         myGame =  new Game(myBoard,  myData);
         numTurns = 2;
     }
+
+    /**
+     * Gives BOARDHEIGHT
+     * @return
+     */
     public int getHeight(){
         return BOARDHEIGHT;
     }
 
-
-    @Override
-    public void setDisplay(View view) {
-
-    }
-
-    @Override
-    public Game getCurrentGame() {
-        return myGame;
+    /**
+     * Gives BOARDWIDTH
+     * @return
+     */
+    public int getWidth(){
+        return BOARDWIDTH;
     }
 
     @Override
@@ -131,33 +135,29 @@ public class ChessController implements Controller {
         //TODO: if piece belongs to player (currentPlayer)
         myGame.searchPossiblePositions(clickedPiece);
         myGameView.highlightCellOptions(myGame.getPossibleCoordinates(clickedPiece));
-        System.out.println("Called first Click");
+        //System.out.println("Called first Click");
         FIRSTCLICK = false;
 
     }
 
     private void handleSecondClick(int row, int column) {
-        System.out.println("Called second Click");
         nextMove = new GameCoordinate(row, column);
-
-        //send current and new to the Game Class
-        //myGame.updateMove (currentPos, newPos)
-
-        //myGame.getUpdatedBoard();
+        //clicking same piece to deselect
         if(nextMove==clickedPiece){
             FIRSTCLICK = true;
-            clickedCoordinates(row, column);
+            myGameView.highlightCellOptions(myGame.getPossibleCoordinates(null));
         }
-
+        //update board with next possible move
         if (myGame.getPossibleCoordinates(clickedPiece).contains(nextMove)){
-            //update the board with clicked piece at nextMove Coordinate: Works?
             clickedPiece.setCoordinate(nextMove);
-            //myGameView.updateChessCell(/*A spot goes in here*/);
-            //updates board
+            myGame.movePiece(clickedPiece, nextMove);
+            myGameView.updateChessCell(myGame.getSpot(clickedPiece));
             nextTurn();
         }
+        //display the possible neighbors of the first selected piece
         else{
-            //do nothing
+            FIRSTCLICK = true;
+            clickedCoordinates(row, column);
         }
     }
 
@@ -171,11 +171,14 @@ public class ChessController implements Controller {
     @Override
     public void undoMove() {
         GameCoordinate[] recentMove = history.pop();
-        recentMove[1].setCoordinate(recentMove[0]);
+        myGame.movePiece(recentMove[1], recentMove[0]);
+        numTurns -= numTurns;
     }
 
     @Override
     public void changeVariant(String variant) {
+        //Here we will probably want to change up the Map of Data
+        //Similar initialization mehtod but without changing the csv data
 
     }
 

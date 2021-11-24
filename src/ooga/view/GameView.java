@@ -406,15 +406,6 @@ public class GameView extends Application implements PanelListener {
   }
 
   /**
-   * Redo a move that was previously undone
-   */
-  @Override
-  public void redoMove() {
-    //TODO: callback to controller
-    myChessController.redoMove();
-  }
-
-  /**
    * Undo the previous move
    */
   @Override

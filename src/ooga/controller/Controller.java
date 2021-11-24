@@ -17,13 +17,6 @@ public interface Controller {
     //Initializes a new game based on a SIM file input.
     public void initializeFromFile(File file) throws CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IncorrectCSVFormatException;
 
-    //Initializes the passed display in this logic controller. @Param - Display
-    public void setDisplay(View view);
-
-    //gets the current game class
-    public Game getCurrentGame();
-
-
   //Resets the active game and the display.
     public void resetGame();
 
