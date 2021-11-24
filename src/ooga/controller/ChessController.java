@@ -92,7 +92,7 @@ public class ChessController implements Controller {
         initialBoard.setupBoard(myCSVParser.getInitialStates());
         myBoard = initialBoard;
         myGame =  new Game(myBoard,  myData);
-        numTurns = 2;
+        numTurns = 0;
     }
 
     /**
@@ -120,6 +120,7 @@ public class ChessController implements Controller {
     public void setTime(int speed) {
 
     }
+
     @Override
     public void clickedCoordinates(int row, int column){
         if (FIRSTCLICK){
@@ -149,7 +150,7 @@ public class ChessController implements Controller {
         }
         //update board with next possible move
         if (myGame.getPossibleCoordinates(clickedPiece).contains(nextMove)){
-            clickedPiece.setCoordinate(nextMove);
+            /* TODO: is not in check, or if selected move moves out of check, smt like accept move claus */
             myGame.movePiece(clickedPiece, nextMove);
             myGameView.updateChessCell(myGame.getSpot(clickedPiece));
             nextTurn();
@@ -161,6 +162,7 @@ public class ChessController implements Controller {
         }
     }
 
+    // Increments turn and changes current player, also adds moves to history
     private void nextTurn(){
         numTurns++;
         currentPlayer = players[numTurns%2];
@@ -168,6 +170,9 @@ public class ChessController implements Controller {
         history.push(moveRecord);
     }
 
+    /**
+     *Uses most recent move to update the board backwards
+     */
     @Override
     public void undoMove() {
         GameCoordinate[] recentMove = history.pop();
@@ -175,11 +180,22 @@ public class ChessController implements Controller {
         numTurns -= numTurns;
     }
 
+    /**
+     * This should allow the player to change the rules using a menubar
+     * The game should also be re-initialized without changing the current piece positions, csv will be ignored
+     * @param variant
+     */
     @Override
     public void changeVariant(String variant) {
         //Here we will probably want to change up the Map of Data
         //Similar initialization mehtod but without changing the csv data
+//        GameBoard currentLayout = new GameBoard(BOARDHEIGHT, BOARDWIDTH);
+//        myBoard.getFullBoard();
+        myData.put(myData.get("type"), variant);
+//        myGame =  new Game(currentLayout,  myData);
+        //needs to be more flexible, this can only change the type, which actually doesn't do anything
+        //the conditions for the type of game should probably be stored in properties files unless we want
+        //lots of menus for each of the types of change we could make
 
     }
-
 }
