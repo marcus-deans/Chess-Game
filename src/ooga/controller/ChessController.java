@@ -53,20 +53,22 @@ public class ChessController implements Controller {
 
     /**
      * Instantiates the chess controller and allow the game to be initiated.
+     *
      * @param width
      * @param height
      * @param background
      * @param filename
      */
-    public ChessController(int width, int height, String background, String filename){
+    public ChessController(int width, int height, String background, String filename) {
         myGameView = new GameView(width, height, background, filename, this);
-        myGame =  new Game(myBoard,  myData);
+        myGame = new Game(myBoard, myData);
         myGameView.start(new Stage());
     }
 
     /**
      * Takes in the information from the SIM FILE, thus the CSV as well, and instantiates backend classes
      * with the required data
+     *
      * @param file
      * @throws CsvValidationException
      * @throws IOException
@@ -81,9 +83,9 @@ public class ChessController implements Controller {
     public void initializeFromFile(File file) throws CsvValidationException, IOException, ClassNotFoundException,
             InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IncorrectCSVFormatException {
 
-        File simFile= new File(file.toString());
+        File simFile = new File(file.toString());
         myData = mySIMParser.readSimFile(simFile);
-        File csvFile= new File(myData.get("GameConfiguration"));
+        File csvFile = new File(myData.get("GameConfiguration"));
         myCSVParser.readCSVFile(csvFile);
         BOARDWIDTH = myCSVParser.getDimensions()[0];
         BOARDHEIGHT = myCSVParser.getDimensions()[1];
@@ -91,23 +93,25 @@ public class ChessController implements Controller {
         myBoard = new GameBoard(BOARDHEIGHT, BOARDWIDTH);
         initialBoard.setupBoard(myCSVParser.getInitialStates());
         myBoard = initialBoard;
-        myGame =  new Game(myBoard,  myData);
+        myGame = new Game(myBoard, myData);
         numTurns = 0;
     }
 
     /**
      * Gives BOARDHEIGHT
+     *
      * @return
      */
-    public int getHeight(){
+    public int getHeight() {
         return BOARDHEIGHT;
     }
 
     /**
      * Gives BOARDWIDTH
+     *
      * @return
      */
-    public int getWidth(){
+    public int getWidth() {
         return BOARDWIDTH;
     }
 
@@ -122,11 +126,10 @@ public class ChessController implements Controller {
     }
 
     @Override
-    public void clickedCoordinates(int row, int column){
-        if (FIRSTCLICK){
+    public void clickedCoordinates(int row, int column) {
+        if (FIRSTCLICK) {
             handleFirstClick(row, column);
-        }
-        else {
+        } else {
             handleSecondClick(row, column);
         }
     }
@@ -138,75 +141,76 @@ public class ChessController implements Controller {
         myGameView.highlightCellOptions(myGame.getPossibleCoordinates(clickedPiece));
         //System.out.println("Called first Click");
         FIRSTCLICK = false;
+    }
 
-<<<<<<< HEAD
+
 //    @Override
 //    public Game getCurrentGame() {
 //        return null;
 //    }
 
-    @Override
-    public void resetGame() {
-        myBoard = initialBoard;
-=======
->>>>>>> a1edf3b4f5a3178bf23ed36990142dbffa74e868
-    }
+//        @Override
+//        public void resetGame() {
+//            myBoard = initialBoard;
+//
+//        }
 
-    private void handleSecondClick(int row, int column) {
-        nextMove = new GameCoordinate(row, column);
-        //clicking same piece to deselect
-        if(nextMove==clickedPiece){
-            FIRSTCLICK = true;
-            myGameView.highlightCellOptions(myGame.getPossibleCoordinates(null));
+        private void handleSecondClick ( int row, int column){
+            nextMove = new GameCoordinate(row, column);
+            //clicking same piece to deselect
+            if (nextMove == clickedPiece) {
+                FIRSTCLICK = true;
+                myGameView.highlightCellOptions(myGame.getPossibleCoordinates(null));
+            }
+            //update board with next possible move
+            if (myGame.getPossibleCoordinates(clickedPiece).contains(nextMove)) {
+                /* TODO: is not in check, or if selected move moves out of check, smt like accept move claus */
+                myGame.movePiece(clickedPiece, nextMove);
+                myGameView.updateChessCell(myGame.getSpot(clickedPiece));
+                nextTurn();
+            }
+            //display the possible neighbors of the first selected piece
+            else {
+                FIRSTCLICK = true;
+                clickedCoordinates(row, column);
+            }
         }
-        //update board with next possible move
-        if (myGame.getPossibleCoordinates(clickedPiece).contains(nextMove)){
-            /* TODO: is not in check, or if selected move moves out of check, smt like accept move claus */
-            myGame.movePiece(clickedPiece, nextMove);
-            myGameView.updateChessCell(myGame.getSpot(clickedPiece));
-            nextTurn();
+
+        // Increments turn and changes current player, also adds moves to history
+        private void nextTurn () {
+            numTurns++;
+            currentPlayer = players[numTurns % 2];
+            GameCoordinate[] moveRecord = {clickedPiece, nextMove};
+            history.push(moveRecord);
         }
-        //display the possible neighbors of the first selected piece
-        else{
-            FIRSTCLICK = true;
-            clickedCoordinates(row, column);
+
+        /**
+         *Uses most recent move to update the board backwards
+         */
+        @Override
+        public void undoMove () {
+            GameCoordinate[] recentMove = history.pop();
+            myGame.movePiece(recentMove[1], recentMove[0]);
+            numTurns -= numTurns;
         }
-    }
 
-    // Increments turn and changes current player, also adds moves to history
-    private void nextTurn(){
-        numTurns++;
-        currentPlayer = players[numTurns%2];
-        GameCoordinate[] moveRecord = {clickedPiece, nextMove};
-        history.push(moveRecord);
-    }
-
-    /**
-     *Uses most recent move to update the board backwards
-     */
-    @Override
-    public void undoMove() {
-        GameCoordinate[] recentMove = history.pop();
-        myGame.movePiece(recentMove[1], recentMove[0]);
-        numTurns -= numTurns;
-    }
-
-    /**
-     * This should allow the player to change the rules using a menubar
-     * The game should also be re-initialized without changing the current piece positions, csv will be ignored
-     * @param variant
-     */
-    @Override
-    public void changeVariant(String variant) {
-        //Here we will probably want to change up the Map of Data
-        //Similar initialization mehtod but without changing the csv data
+        /**
+         * This should allow the player to change the rules using a menubar
+         * The game should also be re-initialized without changing the current piece positions, csv will be ignored
+         * @param variant
+         */
+        @Override
+        public void changeVariant(String variant){
+            //Here we will probably want to change up the Map of Data
+            //Similar initialization mehtod but without changing the csv data
 //        GameBoard currentLayout = new GameBoard(BOARDHEIGHT, BOARDWIDTH);
 //        myBoard.getFullBoard();
-        myData.put(myData.get("type"), variant);
+            myData.put(myData.get("type"), variant);
 //        myGame =  new Game(currentLayout,  myData);
-        //needs to be more flexible, this can only change the type, which actually doesn't do anything
-        //the conditions for the type of game should probably be stored in properties files unless we want
-        //lots of menus for each of the types of change we could make
+            //needs to be more flexible, this can only change the type, which actually doesn't do anything
+            //the conditions for the type of game should probably be stored in properties files unless we want
+            //lots of menus for each of the types of change we could make
 
+        }
     }
-}
+

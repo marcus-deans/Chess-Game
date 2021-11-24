@@ -86,7 +86,7 @@ public class Game {
         List<Coordinate> possibleMovePositions = selectedSpot.getPiece().getPossibleMoves();
         List<Coordinate> possibleCapturePositions = selectedSpot.getPiece().getPossibleCaptures();
 
-        Boolean isJump = selectedSpot.getPiece().isJump();
+        Boolean isJump = selectedSpot.getPiece().getCanJump();
 
         if(isJump) possibleCoordinates =  getJumpPossibleCoordinate(possibleMovePositions);
         else possibleCoordinates = getStandardPossibleCoordinate(possibleMovePositions);
@@ -124,7 +124,7 @@ public class Game {
     }
 
     private void removePieceFromGame(Piece capturedPiece){
-        if(capturedPiece.isCheckable()) isGameOver = true;
+        if(capturedPiece.getCheckable()) isGameOver = true;
     }
 
     private List<Spot> setMovingPiece(GameCoordinate newPosition, List<Spot> board, Piece movingPiece){
