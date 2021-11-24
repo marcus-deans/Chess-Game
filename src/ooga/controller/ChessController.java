@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -49,6 +51,8 @@ public class ChessController implements Controller {
     private int numTurns;
     private String[] players = {"A", "B"};
     private String currentPlayer;
+
+    private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 
     /**
@@ -140,7 +144,7 @@ public class ChessController implements Controller {
         //TODO: if piece belongs to player (currentPlayer)
         myGame.searchPossiblePositions(clickedPiece);
         myGameView.highlightCellOptions(myGame.getPossibleCoordinates(clickedPiece));
-        System.out.println("Called first Click");
+        myLogger.log(Level.INFO, "FIRST CLICK");
         FIRSTCLICK = false;
     }
 
@@ -160,7 +164,7 @@ public class ChessController implements Controller {
             nextMove = new GameCoordinate(row, column);
             //clicking same piece to deselect
             if (nextMove.equals(clickedPiece)) {
-                System.out.println("Same Piece");
+                myLogger.log(Level.INFO, "SAME PIECE");
                 FIRSTCLICK = true;
                 myGameView.highlightCellOptions(myGame.getPossibleCoordinates(null));
             }
@@ -169,14 +173,16 @@ public class ChessController implements Controller {
                 /* TODO: is not in check, or if selected move moves out of check, smt like accept move claus */
                 myGame.movePiece(clickedPiece, nextMove);
                 myGameView.updateChessCell(myGame.getSpot(clickedPiece));
-                System.out.println("Moved");
+                myLogger.log(Level.INFO, "MOVED");
+
                 nextTurn();
             }
+            myLogger.log(Level.WARNING, "Invalid Position Chosen");
             //display the possible neighbors of the first selected piece
-            else {
-                FIRSTCLICK = true;
-                clickedCoordinates(row, column);
-            }
+//            else {
+//                FIRSTCLICK = true;
+//                clickedCoordinates(row, column);
+//            }
         }
 
         // Increments turn and changes current player, also adds moves to history
