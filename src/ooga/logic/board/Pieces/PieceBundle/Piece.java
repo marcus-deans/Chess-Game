@@ -211,4 +211,5 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
       e.printStackTrace();
     }
   }
+
 }

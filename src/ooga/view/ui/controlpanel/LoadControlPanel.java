@@ -1,11 +1,16 @@
 package ooga.view.ui.controlpanel;
 
 import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+
+import com.opencsv.exceptions.CsvValidationException;
 import javafx.animation.Timeline;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import ooga.util.IncorrectCSVFormatException;
 import ooga.view.ui.SharedUIComponents;
 
 /**
@@ -53,7 +58,25 @@ public class LoadControlPanel extends SharedUIComponents {
       File selectedCSVFile = makeFileChooser("SIM files (*.sim)", "*.sim");
       if(selectedCSVFile != null && this.getPanelListener() != null) {
         String filename = selectedCSVFile.getAbsolutePath();
-        this.getPanelListener().loadNewFile(filename);
+        try {
+          this.getPanelListener().loadNewFile(filename);
+        } catch (CsvValidationException e) {
+          e.printStackTrace();
+        } catch (IOException e) {
+          e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+          e.printStackTrace();
+        } catch (InvocationTargetException e) {
+          e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+          e.printStackTrace();
+        } catch (InstantiationException e) {
+          e.printStackTrace();
+        } catch (IllegalAccessException e) {
+          e.printStackTrace();
+        } catch (IncorrectCSVFormatException e) {
+          e.printStackTrace();
+        }
       }
     });
     return loadFileButton;

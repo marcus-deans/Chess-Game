@@ -61,7 +61,7 @@ public class Main extends Application {
         HBox menuButtonPanel = new HBox();
 
         Button newGameButton = makeButton(getString("newGameButtonText"), value -> {
-            startNewGame(getString("defaultSetup"));
+            startNewGame("Standard.sim");
         });
 
         // Create a button to load new files

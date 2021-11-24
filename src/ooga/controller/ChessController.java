@@ -5,15 +5,18 @@ import javafx.stage.Stage;
 import ooga.Parser.CSVParser;
 import ooga.Parser.SIMParser;
 import ooga.logic.board.board.GameBoard;
+import ooga.logic.board.coordinate.GameCoordinate;
 import ooga.logic.game.Game;
 import ooga.util.IncorrectCSVFormatException;
 import ooga.util.IncorrectSimFormatException;
 import ooga.view.GameView;
 import ooga.view.View;
-
+import java.util.List;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
+import java.util.Stack;
 
 
 /**
@@ -27,72 +30,86 @@ public class ChessController implements Controller {
 
     private int BOARDWIDTH;
     private int BOARDHEIGHT;
-    private String[][] myBoard;
-    private String[][] initialBoard;
+    private GameBoard myBoard;
+    private Stack<GameCoordinate[]> history;
+
+
+    private GameBoard initialBoard;
     private Map<String, String> myData;
     private CSVParser myCSVParser = new CSVParser();
     private SIMParser mySIMParser = new SIMParser();
 
     private Game myGame;
-    private GameBoard myGameBoard;
 
+    private boolean FIRSTCLICK = true;
+    private GameCoordinate clickedPiece;
+    private GameCoordinate nextMove;
+
+    //TODO: Replace with player class and login
+    private int numTurns;
+    private String[] players = {"A", "B"};
+    private String currentPlayer;
+
+
+    /**
+     * Instantiates the chess controller and allow the game to be initiated.
+     * @param width
+     * @param height
+     * @param background
+     * @param filename
+     */
     public ChessController(int width, int height, String background, String filename){
         myGameView = new GameView(width, height, background, filename, this);
-        //TODO: Uncomment the next line when functional
+        myGame =  new Game(myBoard,  myData);
         myGameView.start(new Stage());
     }
 
-//    public ChessController(int width, int height, String background){
-//        new ChessController(width, height, background, "Standard.sim");
-//    }
+    /**
+     * Takes in the information from the SIM FILE, thus the CSV as well, and instantiates backend classes
+     * with the required data
+     * @param file
+     * @throws CsvValidationException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws InvocationTargetException
+     * @throws NoSuchMethodException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws IncorrectCSVFormatException
+     */
+    @Override
+    public void initializeFromFile(File file) throws CsvValidationException, IOException, ClassNotFoundException,
+            InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IncorrectCSVFormatException {
 
-
-    void setData(File file) throws CsvValidationException, IOException, IncorrectCSVFormatException, IncorrectSimFormatException {
-        File simFile= new File(String.valueOf(file)); //TODO: Set up choosing files
+        File simFile= new File(file.toString());
         myData = mySIMParser.readSimFile(simFile);
         File csvFile= new File(myData.get("GameConfiguration"));
         myCSVParser.readCSVFile(csvFile);
         BOARDWIDTH = myCSVParser.getDimensions()[0];
         BOARDHEIGHT = myCSVParser.getDimensions()[1];
-        myBoard = myCSVParser.getInitialStates();
+        initialBoard = new GameBoard(BOARDHEIGHT, BOARDWIDTH);
+        myBoard = new GameBoard(BOARDHEIGHT, BOARDWIDTH);
+        initialBoard.setupBoard(myCSVParser.getInitialStates());
+        myBoard = initialBoard;
+        myGame =  new Game(myBoard,  myData);
+        numTurns = 0;
     }
+
+    /**
+     * Gives BOARDHEIGHT
+     * @return
+     */
     public int getHeight(){
         return BOARDHEIGHT;
     }
 
-    private void initializeGame(){
-
+    /**
+     * Gives BOARDWIDTH
+     * @return
+     */
+    public int getWidth(){
+        return BOARDWIDTH;
     }
-
-
-    @Override
-    public void initializeFromFile(File file) {
-        //TODO: use file to populate chessboard and reset everything
-    }
-
-    private void selectPiece(int i, int j){
-
-    }
-
-    @Override
-    public void setDisplay(View view) {
-
-    }
-
-    @Override
-    public Stage getStage() {
-        return null;
-    }
-
-    @Override
-    public Game getCurrentGame() {
-        return null;
-    }
-
-//    @Override
-//    public Game getCurrentGame() {
-//        return null;
-//    }
 
     @Override
     public void resetGame() {
@@ -105,28 +122,91 @@ public class ChessController implements Controller {
     }
 
     @Override
-    public void undoMove() {
-
+    public void clickedCoordinates(int row, int column){
+        if (FIRSTCLICK){
+            handleFirstClick(row, column);
+        }
+        else {
+            handleSecondClick(row, column);
+        }
     }
+
+    private void handleFirstClick(int row, int column) {
+        clickedPiece = new GameCoordinate(row, column);
+        //TODO: if piece belongs to player (currentPlayer)
+        myGame.searchPossiblePositions(clickedPiece);
+        myGameView.highlightCellOptions(myGame.getPossibleCoordinates(clickedPiece));
+        //System.out.println("Called first Click");
+        FIRSTCLICK = false;
+
+<<<<<<< HEAD
+//    @Override
+//    public Game getCurrentGame() {
+//        return null;
+//    }
 
     @Override
-    public void redoMove() {
-
+    public void resetGame() {
+        myBoard = initialBoard;
+=======
+>>>>>>> a1edf3b4f5a3178bf23ed36990142dbffa74e868
     }
 
+    private void handleSecondClick(int row, int column) {
+        nextMove = new GameCoordinate(row, column);
+        //clicking same piece to deselect
+        if(nextMove==clickedPiece){
+            FIRSTCLICK = true;
+            myGameView.highlightCellOptions(myGame.getPossibleCoordinates(null));
+        }
+        //update board with next possible move
+        if (myGame.getPossibleCoordinates(clickedPiece).contains(nextMove)){
+            /* TODO: is not in check, or if selected move moves out of check, smt like accept move claus */
+            myGame.movePiece(clickedPiece, nextMove);
+            myGameView.updateChessCell(myGame.getSpot(clickedPiece));
+            nextTurn();
+        }
+        //display the possible neighbors of the first selected piece
+        else{
+            FIRSTCLICK = true;
+            clickedCoordinates(row, column);
+        }
+    }
+
+    // Increments turn and changes current player, also adds moves to history
+    private void nextTurn(){
+        numTurns++;
+        currentPlayer = players[numTurns%2];
+        GameCoordinate[] moveRecord = {clickedPiece, nextMove};
+        history.push(moveRecord);
+    }
+
+    /**
+     *Uses most recent move to update the board backwards
+     */
+    @Override
+    public void undoMove() {
+        GameCoordinate[] recentMove = history.pop();
+        myGame.movePiece(recentMove[1], recentMove[0]);
+        numTurns -= numTurns;
+    }
+
+    /**
+     * This should allow the player to change the rules using a menubar
+     * The game should also be re-initialized without changing the current piece positions, csv will be ignored
+     * @param variant
+     */
     @Override
     public void changeVariant(String variant) {
+        //Here we will probably want to change up the Map of Data
+        //Similar initialization mehtod but without changing the csv data
+//        GameBoard currentLayout = new GameBoard(BOARDHEIGHT, BOARDWIDTH);
+//        myBoard.getFullBoard();
+        myData.put(myData.get("type"), variant);
+//        myGame =  new Game(currentLayout,  myData);
+        //needs to be more flexible, this can only change the type, which actually doesn't do anything
+        //the conditions for the type of game should probably be stored in properties files unless we want
+        //lots of menus for each of the types of change we could make
 
     }
-
-    @Override
-    public void clickedCoordinates(int column, int row) {
-        //TODO: compute actual chess logic
-        // could make List<ChessCells> -> each one has x, y -> GameView iterates and highlights each of those cells
-        //jut give GameView list of coordinates/cells for possible moves -> highlighting handled there
-        //myGameView.displayPossibleMoves()
-
-        //myGameView.updateChessCell(spot)
-    }
-
 }
