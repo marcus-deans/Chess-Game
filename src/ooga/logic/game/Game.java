@@ -85,17 +85,22 @@ public class Game {
     }
 
     public void searchPossiblePositions(GameCoordinate selected){
-        this.selectedSpot = myBoard.getSpot(selected);
+        if (myBoard.getSpot(selected)!=null)
+        {
+            this.selectedSpot = myBoard.getSpot(selected);
+        }
+        if (selectedSpot.getPiece()!=null) {
+            List<Coordinate> possibleMovePositions = selectedSpot.getPiece().getPossibleMoves();
+            List<Coordinate> possibleCapturePositions = selectedSpot.getPiece().getPossibleCaptures();
 
-        List<Coordinate> possibleMovePositions = selectedSpot.getPiece().getPossibleMoves();
-        List<Coordinate> possibleCapturePositions = selectedSpot.getPiece().getPossibleCaptures();
 
-        Boolean isJump = selectedSpot.getPiece().getCanJump();
+            Boolean isJump = selectedSpot.getPiece().getCanJump();
 
-        if(isJump) possibleCoordinates =  getJumpPossibleCoordinate(possibleMovePositions);
-        else possibleCoordinates = getStandardPossibleCoordinate(possibleMovePositions);
+            if (isJump) possibleCoordinates = getJumpPossibleCoordinate(possibleMovePositions);
+            else possibleCoordinates = getStandardPossibleCoordinate(possibleMovePositions);
 
-        if(possibleCapturePositions.size() > 0) addCapturePositions(possibleCapturePositions);
+            if (possibleCapturePositions.size() > 0) addCapturePositions(possibleCapturePositions);
+        }
     }
 
     public Set<Spot> getPossibleCoordinates(GameCoordinate selected){
