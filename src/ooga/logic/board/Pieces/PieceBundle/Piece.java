@@ -212,7 +212,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     try{
       setMyCapture(
           (SpotCollection) Class.forName(
-              String.format("%s%s",pieceToString,"Movement")
+              String.format("ooga.logic.board.Pieces.SpotCollection.%s%s",pieceToString,"Movement")
           ).getConstructor().newInstance()
       );
 
