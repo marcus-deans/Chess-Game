@@ -154,6 +154,10 @@ public class Game {
         return isGameOver;
     }
 
+    public Spot getSpot(GameCoordinate coordinate){
+        return myBoard.getSpot(coordinate);
+    }
+
     /**
      * Returns the metadata of the game.
      *
