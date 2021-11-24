@@ -9,7 +9,6 @@ import ooga.logic.board.Pieces.Interfaces.PromoteLogic;
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
 import ooga.logic.board.Pieces.PieceCollection.PieceCollection;
 import ooga.logic.board.Pieces.SpotCollection.LastRankSpots;
-import ooga.logic.board.Pieces.SpotCollection.FlexibleCoordinateCollection.PromotionSpotsAbstract;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 import ooga.logic.board.coordinate.Coordinate;
 
@@ -22,6 +21,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private int team;
   private int pieceValue;
   private boolean canJump;
+  private boolean isCheckable;
 
   private ResourceBundle PieceProperties;
   private ResourceBundle DefaultProperties;
@@ -38,6 +38,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     setMovement(pieceToString);
     setCapture(pieceToString);
     setPromotionSpots();
+    setMyCheckable();
   }
 
   protected void setPromotionSpots(){
@@ -53,6 +54,15 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     }
     catch (Exception e){
       setCanJump(Boolean.parseBoolean(getDefaultProperties().getString("jump")));
+    }
+  }
+
+  private void setMyCheckable() {
+    try{
+      setCanJump(Boolean.parseBoolean(getPieceProperties().getString("isCheckable")));
+    }
+    catch (Exception e){
+      setCanJump(Boolean.parseBoolean(getDefaultProperties().getString("isCheckable")));
     }
   }
 
@@ -210,6 +220,16 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     catch(Exception e){
       e.printStackTrace();
     }
+  }
+
+  @Override
+  public void setCheckable(boolean checkable) {
+    this.isCheckable = checkable;
+  }
+
+  @Override
+  public boolean getCheckable() {
+    return isCheckable;
   }
 
 }

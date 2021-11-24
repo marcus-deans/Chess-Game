@@ -24,4 +24,8 @@ public interface PieceLogic {
 
     int getValue();
 
+    void setCheckable(boolean checkable);
+
+    boolean getCheckable();
+
 }
