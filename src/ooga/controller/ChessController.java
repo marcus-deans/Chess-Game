@@ -136,10 +136,11 @@ public class ChessController implements Controller {
 
     private void handleFirstClick(int row, int column) {
         clickedPiece = new GameCoordinate(row, column);
+        myGame.setSelected(clickedPiece);
         //TODO: if piece belongs to player (currentPlayer)
         myGame.searchPossiblePositions(clickedPiece);
         myGameView.highlightCellOptions(myGame.getPossibleCoordinates(clickedPiece));
-        //System.out.println("Called first Click");
+        System.out.println("Called first Click");
         FIRSTCLICK = false;
     }
 
@@ -158,7 +159,8 @@ public class ChessController implements Controller {
         private void handleSecondClick ( int row, int column){
             nextMove = new GameCoordinate(row, column);
             //clicking same piece to deselect
-            if (nextMove == clickedPiece) {
+            if (nextMove.equals(clickedPiece)) {
+                System.out.println("Same Piece");
                 FIRSTCLICK = true;
                 myGameView.highlightCellOptions(myGame.getPossibleCoordinates(null));
             }
@@ -167,6 +169,7 @@ public class ChessController implements Controller {
                 /* TODO: is not in check, or if selected move moves out of check, smt like accept move claus */
                 myGame.movePiece(clickedPiece, nextMove);
                 myGameView.updateChessCell(myGame.getSpot(clickedPiece));
+                System.out.println("Moved");
                 nextTurn();
             }
             //display the possible neighbors of the first selected piece

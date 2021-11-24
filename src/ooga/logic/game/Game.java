@@ -28,6 +28,10 @@ public class Game {
         this.players = new ArrayList<>();
     }
 
+    public void setSelected(GameCoordinate select){
+        selected = select;
+    }
+
     private List<Coordinate> getJumpPossibleCoordinate(List<Coordinate> list){
         for(int i = 0; i < list.size(); i++){
             if(myBoard.hasPiece(list.get(i))){
