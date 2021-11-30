@@ -98,6 +98,7 @@ public class ChessController implements Controller {
         initialBoard.setupBoard(myCSVParser.getInitialStates());
         myBoard = initialBoard;
         myGame = new Game(myBoard, myData);
+        myBoard.setEdgePolicy(myData.get("EdgePolicy"));
         numTurns = 0;
     }
 

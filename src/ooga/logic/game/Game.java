@@ -21,6 +21,8 @@ public class Game {
     private List<Coordinate> possibleCoordinates;
     private boolean isGameOver;
 
+
+
     public Game(GameBoard board,  Map<String, String> metadata){
         makeBoard(board);
         this.metadata = metadata;
@@ -90,8 +92,8 @@ public class Game {
             this.selectedSpot = myBoard.getSpot(selected);
         }
         if (selectedSpot.getPiece()!=null) {
-            List<Coordinate> possibleMovePositions = selectedSpot.getPiece().getPossibleMoves();
-            List<Coordinate> possibleCapturePositions = selectedSpot.getPiece().getPossibleCaptures();
+            List<Coordinate> possibleMovePositions = myBoard.getEdgePolicy().filterList(selectedSpot.getPiece().getPossibleMoves());
+            List<Coordinate> possibleCapturePositions = myBoard.getEdgePolicy().filterList(selectedSpot.getPiece().getPossibleCaptures());
 
 
             Boolean isJump = selectedSpot.getPiece().getCanJump();
@@ -175,6 +177,7 @@ public class Game {
     public Map<String, String> getMetaData() {
         return metadata;
     }
+
 
     public void resetClick(){
 

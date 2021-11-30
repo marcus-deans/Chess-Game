@@ -17,8 +17,8 @@ public class BasicEdgePoliciesTest {
         a.add(new GameCoordinate(3,4));
         a.add(new GameCoordinate(0,0));
         a.add(new GameCoordinate(2,1));
-        BasicEdgePolicies b=new BasicEdgePolicies(a,5,5);
-        c=b.filterList();
+        BasicEdgePolicies b=new BasicEdgePolicies(5,5);
+        c=b.filterList(a);
         Assertions.assertEquals(a.size(),c.size());
     }
 
@@ -35,8 +35,8 @@ public class BasicEdgePoliciesTest {
         a.add(new GameCoordinate(8,-2));
         a.add(new GameCoordinate(-2,8));
         a.add(new GameCoordinate(2,1));
-        BasicEdgePolicies b=new BasicEdgePolicies(a,5,5);
-        c=b.filterList();
+        BasicEdgePolicies b=new BasicEdgePolicies(5,5);
+        c=b.filterList(a);
         Assertions.assertEquals(2,c.size());
     }
 
@@ -51,8 +51,8 @@ public class BasicEdgePoliciesTest {
         a.add(new GameCoordinate(0,-2));
         a.add(new GameCoordinate(8,-2));
         a.add(new GameCoordinate(-2,8));
-        BasicEdgePolicies b=new BasicEdgePolicies(a,5,5);
-        c=b.filterList();
+        BasicEdgePolicies b=new BasicEdgePolicies(5,5);
+        c=b.filterList(a);
         Assertions.assertEquals(0,c.size());
     }
 }
