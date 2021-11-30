@@ -108,7 +108,7 @@ public class ChessController implements Controller {
         String twoDBoard[][] = initialStates;
         for(String row[]: twoDBoard){
             for(String i: row){
-                //board./*TODO: call board setup method for each string*/(i);
+                board.setupBoard(i); //parameter change to be done
             }
         }
     }
