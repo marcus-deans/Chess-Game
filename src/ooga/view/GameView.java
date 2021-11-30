@@ -239,7 +239,7 @@ public class GameView extends Application implements PanelListener {
 
     myGridPanel = createGrid();
 //    myGameViewRoot.getChildren().addAll(myInfoPanel, myDetailsPanel, myAnimationControlPanel, myLoadControlPanel, myViewControlPanel, myGridPanel);
-    myGameViewRoot.getChildren().addAll(myGameplayPanel, myControlPanel, myGridPanel);
+    myGameViewRoot.getChildren().addAll(myGameplayPanel, myControlPanel, myInformationPanel, myGridPanel);
 
     myGameViewScene.getStylesheets().add(GameView.class.getResource("GameViewFormatting.css").toExternalForm());
   }
