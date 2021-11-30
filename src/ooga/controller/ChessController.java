@@ -11,6 +11,8 @@ import ooga.util.IncorrectCSVFormatException;
 import ooga.util.IncorrectSimFormatException;
 import ooga.view.GameView;
 import ooga.view.View;
+
+import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.util.List;
 import java.io.File;
 import java.io.IOException;
@@ -105,10 +107,9 @@ public class ChessController implements Controller {
     }
 
     public void boardInitializer(String[][] initialStates, GameBoard board){
-        String twoDBoard[][] = initialStates;
-        for(String row[]: twoDBoard){
-            for(String i: row){
-                board.setupBoard(i); //parameter change to be done
+        for(int rowPosition = 0; rowPosition < BOARDWIDTH; rowPosition++){
+            for(int columnPosition =0; columnPosition< BOARDHEIGHT; columnPosition++){
+                board.setupBoard(rowPosition, columnPosition, initialStates[rowPosition][columnPosition]); //parameter change to be done
             }
         }
     }
