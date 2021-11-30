@@ -424,12 +424,18 @@ public class GameView extends Application implements PanelListener {
   }
 
   /**
-   *
-   * @param spot
+   *  Allow controller to update the apperance of a specific cell on the chess board
+   * @param spot the spot that will have a piece on it or not
    */
   public void updateChessCell(Spot spot){
     myGridView.updateChessCell(spot);
   }
+
+  /**
+   * Allow controller to highlight a specific cell on the chess board
+   * @param spot the cell that should be highlighted
+   */
+  public void highlightChessCell(Spot spot) {myGridView.highlightChessCell(spot);}
 
   //get the filename for the simulation file that the user wants to save the current simulation to
   private String getUserSaveFileName(String message) {

@@ -125,11 +125,15 @@ public class GridView implements GridListener {
     int rowIndex = spot.getCoordinate().getY_pos();
 
     ImageView pieceImageview = createNewPieceImageView(spot);
-    pieceImageview.setFitHeight(myCellHeight-4);
-    pieceImageview.setFitWidth(myCellWidth-4);
+    pieceImageview.setFitHeight(myCellHeight-getInt("cell-piece-spacing"));
+    pieceImageview.setFitWidth(myCellWidth-getInt("cell-piece-spacing"));
     Group newCellRepresentation = createNewCellWithPiece(determineCellColour(columnIndex, rowIndex), pieceImageview);
     myGameGrid.add(newCellRepresentation, columnIndex, rowIndex);
     //TODO: make cell updates
+  }
+
+  public void highlightChessCell(Spot spot){
+
   }
 
   private ImageView createNewPieceImageView(Spot spot){
