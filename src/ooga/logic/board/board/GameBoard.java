@@ -22,6 +22,7 @@ public class GameBoard implements Board {
             GameBoard.class.getPackageName() + ".resources.";
     private static final String STRING_TO_PIECE_MAP = "PieceMap";
     private ResourceBundle pieceMap;
+    private int spotType;
     private static final String PIECE_PATH="ooga.logic.board.Pieces.PieceBundle.";
 
 
@@ -44,6 +45,7 @@ public class GameBoard implements Board {
                 pieceName=PIECE_PATH+pieceMap.getString(setup[i][j].substring(0,1));
                 Class[] params={int.class,int.class,int.class};
                 team=Integer.parseInt(setup[i][j].substring(1,2));
+                spotType=Integer.parseInt(setup[i][j].substring(2,3));
                 Piece p;
                 try
                 {
