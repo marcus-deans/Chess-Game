@@ -49,7 +49,7 @@ public class ChessController implements Controller {
 
     //TODO: Replace with player class and login
     private int numTurns;
-    private String[] players = {"A", "B"};
+    private String[] players = {"Player 1", "Player 2"};
     private String currentPlayer;
 
     private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -95,15 +95,26 @@ public class ChessController implements Controller {
         BOARDHEIGHT = myCSVParser.getDimensions()[1];
         initialBoard = new GameBoard(BOARDHEIGHT, BOARDWIDTH);
         myBoard = new GameBoard(BOARDHEIGHT, BOARDWIDTH);
-        initialBoard.setupBoard(myCSVParser.getInitialStates());
+
+        boardInitializer(myCSVParser.getInitialStates(), initialBoard);
+
+
         myBoard = initialBoard;
         myGame = new Game(myBoard, myData);
         numTurns = 0;
     }
 
+    public void boardInitializer(String[][] initialStates, GameBoard board){
+        String twoDBoard[][] = initialStates;
+        for(String row[]: twoDBoard){
+            for(String i: row){
+                //board./*TODO: call board setup method for each string*/(i);
+            }
+        }
+    }
+
     /**
      * Gives BOARDHEIGHT
-     *
      * @return
      */
     public int getHeight() {
@@ -112,7 +123,6 @@ public class ChessController implements Controller {
 
     /**
      * Gives BOARDWIDTH
-     *
      * @return
      */
     public int getWidth() {
@@ -147,18 +157,6 @@ public class ChessController implements Controller {
         myLogger.log(Level.INFO, "FIRST CLICK");
         FIRSTCLICK = false;
     }
-
-
-//    @Override
-//    public Game getCurrentGame() {
-//        return null;
-//    }
-
-//        @Override
-//        public void resetGame() {
-//            myBoard = initialBoard;
-//
-//        }
 
         private void handleSecondClick ( int row, int column){
             nextMove = new GameCoordinate(row, column);
