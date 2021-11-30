@@ -44,7 +44,7 @@ public class GameBoard implements Board {
             throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException,
             InstantiationException, IllegalAccessException {
 
-            pieceName=PIECE_PATH+pieceMap.getString(spot.substring(0,1));
+            pieceName=PIECE_PATH+resourceMap.getString(spot.substring(0,1));
             Class[] params={int.class,int.class,int.class};
             team=Integer.parseInt(spot.substring(1,2));
             Piece p;
