@@ -10,14 +10,14 @@ public class BasicEdgePolicies {
     private int height;
     private int width;
 
-    public BasicEdgePolicies(List<Coordinate> allMoves, int height, int width)
+    public BasicEdgePolicies(int height, int width)
     {
         this.allMoves=allMoves;
         this.width=width;
         this.height=height;
     }
 
-    public List<Coordinate> filterList()
+    public List<Coordinate> filterList(List<Coordinate> allMoves)
     {
         List<Coordinate> possibleMoves=new ArrayList<>();
         for (Coordinate c: allMoves)
