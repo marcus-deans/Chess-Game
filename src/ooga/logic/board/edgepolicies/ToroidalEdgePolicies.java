@@ -9,14 +9,14 @@ public class ToroidalEdgePolicies implements EdgePolicies{
     private List<Coordinate> allMoves;
     private int height;
     private int width;
-    public ToroidalEdgePolicies(List<Coordinate> allMoves, int height, int width)
+    public ToroidalEdgePolicies(int height, int width)
     {
         this.allMoves=allMoves;
         this.width=width;
         this.height=height;
     }
 
-    public List<Coordinate> filterList()
+    public List<Coordinate> filterList(List<Coordinate> allMoves)
     {
         List<Coordinate> possibleMoves=new ArrayList<>();
         for (Coordinate c: allMoves)
