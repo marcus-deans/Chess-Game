@@ -140,6 +140,13 @@
   -fx-stroke: white;
 }
 
+#highlighted-cell-view {
+  -fx-background-fill: red, black ;
+  -fx-background-insets: 0, 2 ;
+  -fx-background-color: red ;
+  -fx-padding: 2 ;
+}
+
 #game-title-text {
   -fx-font-size: 45px;
   -fx-font-family: Chomsky;
