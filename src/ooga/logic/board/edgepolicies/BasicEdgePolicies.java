@@ -6,13 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BasicEdgePolicies {
-    private List<Coordinate> allMoves;
     private int height;
     private int width;
 
     public BasicEdgePolicies(int height, int width)
     {
-        this.allMoves=allMoves;
         this.width=width;
         this.height=height;
     }
