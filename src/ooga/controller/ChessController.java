@@ -106,10 +106,11 @@ public class ChessController implements Controller {
         numTurns = 0;
     }
 
-    public void boardInitializer(String[][] initialStates, GameBoard board){
+    public void boardInitializer(String[][] initialStates, GameBoard board)
+            throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         for(int rowPosition = 0; rowPosition < BOARDWIDTH; rowPosition++){
             for(int columnPosition =0; columnPosition< BOARDHEIGHT; columnPosition++){
-                board.setupBoard(rowPosition, columnPosition, initialStates[rowPosition][columnPosition]); //parameter change to be done
+                board.setupBoard(initialStates[rowPosition][columnPosition],rowPosition, columnPosition); //parameter change to be done
             }
         }
     }

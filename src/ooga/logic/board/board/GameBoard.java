@@ -34,29 +34,24 @@ public class GameBoard implements Board {
     }
 
     @Override
-    public void setupBoard(String[][] setup)
+    public void setupBoard(String spot, int i, int j)
             throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException,
             InstantiationException, IllegalAccessException {
-        for(int i=0;i<rows;i++)
-        {
-            for(int j=0;j<columns;j++)
-            {
-                pieceName=PIECE_PATH+pieceMap.getString(setup[i][j].substring(0,1));
-                Class[] params={int.class,int.class,int.class};
-                team=Integer.parseInt(setup[i][j].substring(1,2));
-                Piece p;
-                try
-                {
-                    p=(Piece) Class.forName(pieceName).getDeclaredConstructor(params).newInstance(team,j,i);
-                }
-                catch(Exception e)
-                {
-                    p=null;
-                }
 
-                board.add(new GameSpot(p,j,i,0,(i+j)%2==0));
+            pieceName=PIECE_PATH+pieceMap.getString(spot.substring(0,1));
+            Class[] params={int.class,int.class,int.class};
+            team=Integer.parseInt(spot.substring(1,2));
+            Piece p;
+            try
+            {
+                p=(Piece) Class.forName(pieceName).getDeclaredConstructor(params).newInstance(team,j,i);
             }
-        }
+            catch(Exception e)
+            {
+                p=null;
+            }
+
+            board.add(new GameSpot(p,j,i,0,(i+j)%2==0));
     }
 
     @Override
