@@ -13,6 +13,7 @@
   -fx-alignment: center;
 }
 
+
 .combo-box {
   -fx-font-size: 12px;
   -fx-fill: #702121;
@@ -61,7 +62,7 @@
 
 .combo-box-base:hover
 {
-  -fx-color: #A1B70D;
+  -fx-background-color: linear-gradient(#2A5058, #61a2b1);
 }
 
 .scroll-pane{
@@ -140,5 +141,13 @@
 }
 
 #game-title-text {
-  -fx-font-size: 30px;
+  -fx-font-size: 45px;
+  -fx-font-family: Chomsky;
+  -fx-fill: red;
+}
+
+#game-subtitle-text {
+  -fx-font-size: 25px;
+  -fx-font-family: "American Typewriter";
+  -fx-fill: white;
 }

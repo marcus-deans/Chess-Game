@@ -8,23 +8,30 @@ import javafx.scene.text.Text;
 
 public class InformationPanel extends SharedUIComponents{
   private int myInformationPanelX;
+  private int myTitleWidth;
+  private VBox myInformationPanel;
 
-  public InformationPanel(int informationPanelX){
-    myInformationPanelX = informationPanelX;
+  public InformationPanel(int gridPanelX, int gridDisplayLength){
+    myInformationPanelX = gridPanelX+(gridDisplayLength/2);
+    myInformationPanel = new VBox();
   }
 
   public Node createInformationPanel(){
-    VBox informationPanel = new VBox();
-    informationPanel.setSpacing(getInt("information_panel_spacing"));
-    informationPanel.setAlignment(Pos.CENTER);
+    myInformationPanel.setSpacing(getInt("information_panel_spacing"));
+    myInformationPanel.setAlignment(Pos.CENTER);
 
     Text titleText = makeTitleText();
     Text subtitleText = makeSubtitleText();
-    informationPanel.getChildren().addAll(titleText, subtitleText);
+    myInformationPanel.getChildren().addAll(titleText, subtitleText);
 
-    informationPanel.setLayoutX(myInformationPanelX);
-    informationPanel.setLayoutY(getInt("information_panel_y"));
-    return informationPanel;
+    myInformationPanel.setLayoutX(myInformationPanelX);
+    myInformationPanel.setLayoutY(getInt("information_panel_y"));
+    return myInformationPanel;
+  }
+
+  public void adjustInformationPanelPosition(){
+    int newInformationPanelX = (int) (myInformationPanelX-(myInformationPanel.getWidth()/2));
+    myInformationPanel.setLayoutX(newInformationPanelX);
   }
 
   private Text makeTitleText(){

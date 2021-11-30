@@ -74,16 +74,13 @@ public class GameView extends Application implements PanelListener {
   private String myTitle;
   private String myType;
   private String myAuthor;
-  private Node myInfoPanel;
 
   //Control Panel on Right Side of Screen
   private int controlPanelX;
   private Node myControlPanel;
   private Node myGameplayPanel;
   private Node myInformationPanel;
-  private Node myViewControlPanel;
-  private Node myAnimationControlPanel;
-  private Node myLoadControlPanel;
+  private InformationPanel myPhysicalInformationPanel;
 
   //Gameplay Panel on Left Side of Screen
   private int gameplayPanelX;
@@ -95,7 +92,6 @@ public class GameView extends Application implements PanelListener {
   private String[] myGameParameters;
   private String myDescription;
   private String[] myGridColours;
-  private Node myDetailsPanel;
 
   //Grid display
   private Node myGridPanel;
@@ -225,6 +221,7 @@ public class GameView extends Application implements PanelListener {
       primaryStage.setScene(myGameViewScene);
       primaryStage.setTitle(getWord("simulation_title"));
       primaryStage.show();
+      myPhysicalInformationPanel.adjustInformationPanelPosition();
 
       myAnimation.getKeyFrames().add(new KeyFrame(Duration.seconds(SECOND_DELAY), e -> step()));
     }
@@ -238,9 +235,7 @@ public class GameView extends Application implements PanelListener {
     createUIPanels();
 
     myGridPanel = createGrid();
-//    myGameViewRoot.getChildren().addAll(myInfoPanel, myDetailsPanel, myAnimationControlPanel, myLoadControlPanel, myViewControlPanel, myGridPanel);
     myGameViewRoot.getChildren().addAll(myGameplayPanel, myControlPanel, myInformationPanel, myGridPanel);
-
     myGameViewScene.getStylesheets().add(GameView.class.getResource("GameViewFormatting.css").toExternalForm());
   }
 
@@ -258,9 +253,9 @@ public class GameView extends Application implements PanelListener {
 
   //create information panel on top of screen to display title as well as user information
   private Node createInformationPanel(){
-    InformationPanel newInformationPanel = new InformationPanel(gameGridViewX);
-    newInformationPanel.setPanelListener(this);
-    return newInformationPanel.createInformationPanel();
+    myPhysicalInformationPanel = new InformationPanel(gameGridViewX, gridDisplayLength);
+    myPhysicalInformationPanel.setPanelListener(this);
+    return myPhysicalInformationPanel.createInformationPanel();
   }
 
   //create control panel on right of screen to control view, animation/gameplay, and loading/saving
@@ -320,9 +315,9 @@ public class GameView extends Application implements PanelListener {
 
   // refreshes the UI panels by removing them from the scene before creating new panels and adding them back
   private void refreshUIPanels(){
-    myGameViewRoot.getChildren().removeAll(myInfoPanel, myDetailsPanel, myAnimationControlPanel, myLoadControlPanel, myViewControlPanel);
+    myGameViewRoot.getChildren().removeAll(myGameplayPanel, myControlPanel, myInformationPanel);
     createUIPanels();
-    myGameViewRoot.getChildren().addAll(myInfoPanel, myDetailsPanel, myAnimationControlPanel, myLoadControlPanel, myViewControlPanel);
+    myGameViewRoot.getChildren().addAll(myGameplayPanel, myControlPanel, myInformationPanel);
     myStage.setTitle(getWord("simulation_title"));
   }
 
