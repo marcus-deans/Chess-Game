@@ -14,7 +14,7 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>16</version>
+            <version>17.0.1</version>
         </dependency>
         <!-- framework for writing repeatable tests by using assertions about your code's values -->
         <dependency>
@@ -60,6 +60,14 @@
         </resources>
         <plugins>
             <!-- compiles project source code using correct version and flags -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>hellofx/org.openjfx.App</mainClass>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
