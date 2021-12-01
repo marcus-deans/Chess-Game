@@ -5,10 +5,7 @@ import ooga.logic.board.coordinate.Coordinate;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class BasicEdgePolicies implements EdgePolicies{
-    private List<Coordinate> allMoves;
-
     private int height;
     private int width;
 
