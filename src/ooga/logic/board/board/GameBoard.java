@@ -50,7 +50,7 @@ public class GameBoard implements Board {
             Piece p;
             try
             {
-                p=(Piece) Class.forName(pieceName).getDeclaredConstructor(params).newInstance(team,j,i);
+                p=(Piece) Class.forName(pieceName).getDeclaredConstructor(params).newInstance(j,i,team);
             }
             catch(Exception e)
             {
