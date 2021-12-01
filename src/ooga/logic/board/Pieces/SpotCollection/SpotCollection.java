@@ -31,4 +31,5 @@ abstract public class SpotCollection {
     return xAmt == 0 && yAmt == 0;
   }
 
+
 }
