@@ -54,19 +54,22 @@ public class GridView implements GridListener {
   }
 
   //create an individual cell on the grid representing a square of provided colour
-  private Rectangle createNewCellView(int state) {
+  private Rectangle createNewCellView(int state, boolean isHighlighted) {
     Rectangle newCell = new Rectangle();
     newCell.setOnMouseClicked(this::clickOnGrid);
     newCell.setWidth(myCellWidth);
     newCell.setHeight(myCellHeight);
     newCell.setId("cell-view");
+    if(isHighlighted){
+      newCell.setId("highlighted-cell-view");
+    }
     newCell.setFill(Color.web(myGridColours[state]));
     return newCell;
   }
 
-  private Group createNewCellWithPiece(int state, ImageView pieceImage){
+  private Group createNewCellWithPiece(int state, ImageView pieceImage, boolean isHighlighted){
     Group newCellGroup = new Group();
-    newCellGroup.getChildren().addAll(createNewCellView(state), pieceImage);
+    newCellGroup.getChildren().addAll(createNewCellView(state, isHighlighted), pieceImage);
     return newCellGroup;
   }
 
@@ -87,7 +90,7 @@ public class GridView implements GridListener {
   private void populateNewGrid() {
     for (int column = 0; column < myWidthNumber; column++) {
       for (int row = 0; row < myHeightNumber; row++) {
-        myGameGrid.add(createNewCellView(determineCellColour(column, row)), column, row);
+        myGameGrid.add(createNewCellView(determineCellColour(column, row), false), column, row);
       }
     }
   }
@@ -121,13 +124,22 @@ public class GridView implements GridListener {
   // row, column, colour, piece type
   //Spot -> extract row, column, 'team'=colour, Spot.getPiece() -> reflect on the piece, makes corresponding JavaFX images
   public void updateChessCell(Spot spot){
+    changeChessCell(spot, false);
+  }
+
+  public void highlightChessCell(Spot spot){
+    changeChessCell(spot, true);
+  }
+
+  private void changeChessCell(Spot spot, boolean isHighlighted){
     int columnIndex = spot.getCoordinate().getX_pos();
     int rowIndex = spot.getCoordinate().getY_pos();
 
     ImageView pieceImageview = createNewPieceImageView(spot);
-    pieceImageview.setFitHeight(myCellHeight-4);
-    pieceImageview.setFitWidth(myCellWidth-4);
-    Group newCellRepresentation = createNewCellWithPiece(determineCellColour(columnIndex, rowIndex), pieceImageview);
+    pieceImageview.setFitHeight(myCellHeight-getInt("cell-piece-spacing"));
+    pieceImageview.setFitWidth(myCellWidth-getInt("cell-piece-spacing"));
+
+    Group newCellRepresentation = createNewCellWithPiece(determineCellColour(columnIndex, rowIndex), pieceImageview, isHighlighted);
     myGameGrid.add(newCellRepresentation, columnIndex, rowIndex);
     //TODO: make cell updates
   }
@@ -161,7 +173,7 @@ public class GridView implements GridListener {
 
   @Override
   public void update(int row, int column, int state) {
-    myGameGrid.add(createNewCellView(determineCellColour(column, row)), column, row);
+    myGameGrid.add(createNewCellView(determineCellColour(column, row), false), column, row);
     //TODO: built iterator interface to extract which pieces are in what location ont the board, interact wi the model's list
   }
 

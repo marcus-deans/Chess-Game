@@ -6,12 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ToroidalEdgePolicies implements EdgePolicies{
-    private List<Coordinate> allMoves;
     private int height;
     private int width;
     public ToroidalEdgePolicies(int height, int width)
     {
-        this.allMoves=allMoves;
         this.width=width;
         this.height=height;
     }
