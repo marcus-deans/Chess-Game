@@ -6,8 +6,6 @@ import ooga.logic.board.coordinate.Coordinate;
 
 public interface CaptureLogic {
 
-//  public void captures(Coordinate captureCoordinate);
-
   public SpotCollection getPossibleCaptures();
 
   public boolean canCapture(Coordinate captureCoordinate);
