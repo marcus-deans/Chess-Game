@@ -45,6 +45,10 @@ public class ControlPanel extends SharedUIComponents {
     myLoadControlPanel.setPanelListener(this.getPanelListener());
     newControlPanel.getChildren().add(myLoadControlPanel.createLoadControlPanel());
 
+    PlayerControlPanel myPlayerControlPanel = new PlayerControlPanel();
+    myPlayerControlPanel.setPanelListener(this.getPanelListener());
+    newControlPanel.getChildren().add(myPlayerControlPanel.createPlayerControlPanel());
+
     return newControlPanel;
   }
 }
