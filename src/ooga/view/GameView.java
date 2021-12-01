@@ -143,9 +143,7 @@ public class GameView extends Application implements PanelListener {
 
   public static void highlightCellOptions(Set<Spot> possibleMoves) {
     //TODO: add highlight to possible neighbors
-
   }
-
 
   /**
    * Returns the PanelListener, allowing UI panel subclasses to interact with the listener
