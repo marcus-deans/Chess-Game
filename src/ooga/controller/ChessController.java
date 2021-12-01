@@ -7,10 +7,14 @@ import ooga.Parser.SIMParser;
 import ooga.logic.board.board.GameBoard;
 import ooga.logic.board.coordinate.GameCoordinate;
 import ooga.logic.game.Game;
+import ooga.logic.game.Player;
 import ooga.util.IncorrectCSVFormatException;
 import ooga.util.IncorrectSimFormatException;
 import ooga.view.GameView;
 import ooga.view.View;
+
+import javax.swing.plaf.basic.BasicSplitPaneUI;
+import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
 import java.io.IOException;
@@ -49,8 +53,10 @@ public class ChessController implements Controller {
 
     //TODO: Replace with player class and login
     private int numTurns;
-    private String[] players = {"A", "B"};
-    private String currentPlayer;
+    private Player currentPlayer;
+    private List<Player> thePlayers;
+    private int numPlayers;
+    private int turnIterator;
 
     private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
@@ -95,24 +101,61 @@ public class ChessController implements Controller {
         BOARDHEIGHT = myCSVParser.getDimensions()[1];
         initialBoard = new GameBoard(BOARDHEIGHT, BOARDWIDTH);
         myBoard = new GameBoard(BOARDHEIGHT, BOARDWIDTH);
-        initialBoard.setupBoard(myCSVParser.getInitialStates());
+        boardInitializer(myCSVParser.getInitialStates(), initialBoard);
         myBoard = initialBoard;
         myGame = new Game(myBoard, myData);
+        myBoard.setEdgePolicy(myData.get("EdgePolicy"));
         numTurns = 0;
+        //temporary
+        thePlayers = new ArrayList<>();
+        setPlayer("Player1",0);
+        setPlayer("Player2",1);
+
+        currentPlayer = thePlayers.get(0);
+        numPlayers = thePlayers.size();
+        myLogger.log(Level.INFO, "Inititalized: "+myData.get("Type") + " gametype");
     }
+
+    public void boardInitializer(String[][] initialStates, GameBoard board)
+            throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        for(int rowPosition = 0; rowPosition < BOARDWIDTH; rowPosition++){
+            for(int columnPosition =0; columnPosition< BOARDHEIGHT; columnPosition++){
+                board.setupBoard(initialStates[rowPosition][columnPosition],rowPosition, columnPosition); //parameter change to be done
+            }
+        }
+    }
+
+//    public void boardViewBuild(){
+//        for (){
+//            for (){
+//
+//            }
+//        }
+
+
+    //}
+    // invoke the updatechessCell -> use it for every cell on the board
+    // use iterator class later
+
+
+
+
 
     /**
      * Gives BOARDHEIGHT
-     *
      * @return
      */
     public int getHeight() {
         return BOARDHEIGHT;
     }
 
+    public void setPlayer(String userName, int team){
+        Player addPlayer = new Player(userName, team);
+        thePlayers.add(addPlayer);
+    }
+
     /**
      * Gives BOARDWIDTH
-     *
      * @return
      */
     public int getWidth() {
@@ -141,24 +184,13 @@ public class ChessController implements Controller {
     private void handleFirstClick(int row, int column) {
         clickedPiece = new GameCoordinate(row, column);
         myGame.setSelected(clickedPiece);
-        //TODO: if piece belongs to player (currentPlayer)
-        myGame.searchPossiblePositions(clickedPiece);
-        myGameView.highlightCellOptions(myGame.getPossibleCoordinates(clickedPiece));
-        myLogger.log(Level.INFO, "FIRST CLICK");
-        FIRSTCLICK = false;
+        //if(currentPlayer.getTeam() == myGame.getPieceTeam()) {
+            myGame.searchPossiblePositions(clickedPiece);
+            myGameView.highlightCellOptions(myGame.getPossibleCoordinates(clickedPiece));
+            myLogger.log(Level.INFO, "FIRST CLICK");
+            FIRSTCLICK = false;
+        //}
     }
-
-
-//    @Override
-//    public Game getCurrentGame() {
-//        return null;
-//    }
-
-//        @Override
-//        public void resetGame() {
-//            myBoard = initialBoard;
-//
-//        }
 
         private void handleSecondClick ( int row, int column){
             nextMove = new GameCoordinate(row, column);
@@ -188,7 +220,7 @@ public class ChessController implements Controller {
         // Increments turn and changes current player, also adds moves to history
         private void nextTurn () {
             numTurns++;
-            currentPlayer = players[numTurns % 2];
+            switchPlayers();
             GameCoordinate[] moveRecord = {clickedPiece, nextMove};
             history.push(moveRecord);
         }
@@ -201,6 +233,7 @@ public class ChessController implements Controller {
             GameCoordinate[] recentMove = history.pop();
             myGame.movePiece(recentMove[1], recentMove[0]);
             numTurns -= numTurns;
+            switchPlayers();
         }
 
         /**
@@ -221,5 +254,10 @@ public class ChessController implements Controller {
             //lots of menus for each of the types of change we could make
 
         }
-    }
+
+        private void switchPlayers(){
+            turnIterator = numTurns%numPlayers;
+            currentPlayer = thePlayers.get(turnIterator);
+            }
+}
 

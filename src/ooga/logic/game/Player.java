@@ -6,10 +6,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
+
+    String myUsername;
+    int myTeam;
+
+
     List<Piece> graveyard;
 
-    public Player(){
+    public Player(String username, int team){
         graveyard = new ArrayList<Piece>();
+        myUsername = username;
+        myTeam = team;
+    }
+    public String getUsername() {
+        return myUsername;
+    }
+    public int getTeam(){
+        return myTeam;
     }
 
     public void addPieceToGraveyard(Piece piece){
