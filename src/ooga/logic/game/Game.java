@@ -128,6 +128,8 @@ public class Game {
     }
 
     private Piece getMovingPiece(GameCoordinate piecePosition, List<Spot> board){
+
+
         Piece movingPiece = null;
         for(int i = 0; i < board.size(); i++){
             Spot spot = board.get(i);
@@ -160,12 +162,20 @@ public class Game {
         return board;
     }
 
+    private void setMovingPiece(GameCoordinate newPosition, Piece movingPiece){
+
+    }
+
     public List<Spot> movePiece(GameCoordinate prevPosition, GameCoordinate newPosition){
         List<Spot> board = myBoard.getFullBoard();
 
         Piece movingPiece = getMovingPiece(prevPosition, board);
 
-        return setMovingPiece(newPosition, board, movingPiece);
+        List<Spot> updatedBoard = setMovingPiece(newPosition, board, movingPiece);
+
+        myBoard.updateBoard(updatedBoard);
+
+        return myBoard.getFullBoard();
     }
 
     public boolean getIsGameOver(){
@@ -175,16 +185,6 @@ public class Game {
     public Spot getSpot(GameCoordinate coordinate){
         return myBoard.getSpot(coordinate);
     }
-
-    /**
-     * Returns the metadata of the game.
-     *
-     * @return the metadata of the game.
-     */
-    public Map<String, String> getMetaData() {
-        return metadata;
-    }
-
 
     public void resetClick(){
 

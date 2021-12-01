@@ -190,7 +190,6 @@ public class ChessController implements Controller {
         clickedPiece = new GameCoordinate(row, column);
         myGame.setSelected(clickedPiece);
         //if(currentPlayer.getTeam() == myGame.getPieceTeam()) {
-            myGame.searchPossiblePositions(clickedPiece);
             myGameView.highlightCellOptions(myGame.getPossibleCoordinates(clickedPiece));
             myLogger.log(Level.INFO, "FIRST CLICK");
             FIRSTCLICK = false;
