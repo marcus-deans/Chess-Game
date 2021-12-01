@@ -6,10 +6,12 @@ import java.util.*;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -66,9 +68,10 @@ public class GridView implements GridListener {
     return newCell;
   }
 
-  private Group createNewCellWithPiece(int state, ImageView pieceImage, boolean isHighlighted){
-    Group newCellGroup = new Group();
+  private Pane createNewCellWithPiece(int state, ImageView pieceImage, boolean isHighlighted){
+    Pane newCellGroup = new Pane();
     newCellGroup.getChildren().addAll(createNewCellView(state, isHighlighted), pieceImage);
+    newCellGroup.setOnMouseClicked(this::clickOnGrid);
     return newCellGroup;
   }
 
@@ -106,12 +109,19 @@ public class GridView implements GridListener {
   }
 
   private void clickOnGrid(MouseEvent event){
-    Node clickedNode = event.getPickResult().getIntersectedNode();
-    if(clickedNode != myGameGrid){
-      Integer colIndex = GridPane.getColumnIndex(clickedNode);
-      Integer rowIndex = GridPane.getRowIndex(clickedNode);
-      myGameView.getBoardClick(colIndex, rowIndex);
+    Node nod = (Node) event.getSource();
+    Parent par = nod.getParent();
+
+    while (par != myGameGrid){
+      nod = par;
+      par = par.getParent();
     }
+
+    Integer colIndex = GridPane.getColumnIndex(nod);
+    Integer rowIndex = GridPane.getRowIndex(nod);
+    System.out.println("ColumnIndex: " + colIndex + "RowIndex: " + rowIndex);
+    myGameView.getBoardClick(colIndex, rowIndex);
+
   }
 
 
@@ -140,7 +150,7 @@ public class GridView implements GridListener {
       pieceImageview.setFitHeight(myCellHeight-getInt("cell-piece-spacing"));
       pieceImageview.setFitWidth(myCellWidth-getInt("cell-piece-spacing"));
 
-      Group newCellWithPiece = createNewCellWithPiece(determineCellColour(columnIndex, rowIndex), pieceImageview, isHighlighted);
+      Pane newCellWithPiece = createNewCellWithPiece(determineCellColour(columnIndex, rowIndex), pieceImageview, isHighlighted);
       myGameGrid.add(newCellWithPiece, columnIndex, rowIndex);
 
     } else {
@@ -157,18 +167,12 @@ public class GridView implements GridListener {
       String teamName = determineTeamColour(spot.getPiece().getTeam());
       String pieceName = spot.getPiece().getClass().getSimpleName();
       String capitalizedPieceName = pieceName.substring(0, 1).toUpperCase() + pieceName.substring(1);
-//      newPieceImageView = new ImageView(new Image(String.format("ooga.view.viewresources.pieceimages.%s-%s.png",teamName, capitalizedPieceName)));
       String pieceImageResource = String.format("%s-%s.png",teamName, capitalizedPieceName);
       System.out.println("spot.getPiece().getTeam(): " + spot.getPiece().getTeam() + "Team Name:" + teamName + " CapitalizedPieceName:" + capitalizedPieceName + " PieceImageResource: " + pieceImageResource);
-//      newPieceImageView = new ImageView(new Image(getClass().getResourceAsStream(pieceImageResource)));
       FileInputStream input = new FileInputStream("data/" + pieceImageResource);
-      Image newImage = new Image(input);
-      newPieceImageView = new ImageView(newImage);
+      newPieceImageView = new ImageView(new Image(input));
     } catch(Exception e){
-//      newPieceImageView = new ImageView(new Image("White-Bishop.png"));
-      System.out.println("In the catch part...");
       newPieceImageView = new ImageView(new Image(getClass().getResourceAsStream("White-Bishop.png")));
-      System.out.println("Error making piece image representation");
     }
     return newPieceImageView;
   }
