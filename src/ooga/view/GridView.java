@@ -155,12 +155,17 @@ public class GridView implements GridListener {
   private ImageView createNewPieceImageView(Spot spot){
     ImageView newPieceImageView;
     try {
-      String teamName = determineTeamColour(spot.getPiece().getTeam());
-      String pieceName = spot.getClass().getSimpleName();
+      //TODO: remove the mod 6
+      String teamName = determineTeamColour((spot.getPiece().getTeam())%6);
+      String pieceName = spot.getPiece().getClass().getSimpleName();
       String capitalizedPieceName = pieceName.substring(0, 1).toUpperCase() + pieceName.substring(1);
-      newPieceImageView = new ImageView(new Image(String.format("ooga.view.viewresources.pieceimages.%s-%s.png",teamName, capitalizedPieceName)));
+//      newPieceImageView = new ImageView(new Image(String.format("ooga.view.viewresources.pieceimages.%s-%s.png",teamName, capitalizedPieceName)));
+      String pieceImageResource = String.format("%s-%s.png",teamName, capitalizedPieceName);
+      System.out.println("spot.getPiece().getTeam(): " + spot.getPiece().getTeam() + "Team Name:" + teamName + " CapitalizedPieceName:" + capitalizedPieceName + "Piece Image Resource: " + pieceImageResource);
+      newPieceImageView = new ImageView(new Image(getClass().getResourceAsStream(pieceImageResource)));
     } catch(Exception e){
-      newPieceImageView = new ImageView(new Image("bB.png"));
+//      newPieceImageView = new ImageView(new Image("White-Bishop.png"));
+      newPieceImageView = new ImageView(new Image(getClass().getResourceAsStream("White-Bishop.png")));
       System.out.println("Error making piece image representation");
     }
     return newPieceImageView;
@@ -171,7 +176,9 @@ public class GridView implements GridListener {
       case 0 -> {
         return "Black";
       }
-      case 1 -> {return "White";}
+      case 1 -> {
+        return "White";
+      }
       default -> {
         return "Error";
       }
