@@ -16,7 +16,7 @@ public class Game {
     //A map containing the game's data collected from the game's sim files.
     private Map<String, String> metadata;
     private GameCoordinate selected;
-    private List<Player> players;
+    private Player currentPlayer;
     private GameSpot selectedSpot;
     private List<Coordinate> possibleCoordinates;
     private boolean isGameOver;
@@ -27,11 +27,14 @@ public class Game {
         makeBoard(board);
         this.metadata = metadata;
         this.possibleCoordinates = new ArrayList<>();
-        this.players = new ArrayList<>();
     }
 
     public void setSelected(GameCoordinate select){
         selected = select;
+    }
+
+    public int getSelectedTeam(){
+        return myBoard.getSpot(selected).getPiece().getTeam();
     }
 
     private List<Coordinate> getJumpPossibleCoordinate(List<Coordinate> list){
@@ -43,6 +46,7 @@ public class Game {
         }
         return list;
     }
+
 
     private List<Coordinate> getStandardPossibleCoordinate(List<Coordinate> list){
         int maxX = Integer.MIN_VALUE;
@@ -69,6 +73,8 @@ public class Game {
 
         List<Coordinate> possiblePositions = new ArrayList<>();
 
+
+
         for(int i = 0; i < list.size(); i++){
             if(list.get(i).getY_pos() < maxY && list.get(i).getY_pos() > minY
             && list.get(i).getX_pos() < maxX && list.get(i).getX_pos() > minX
@@ -92,8 +98,9 @@ public class Game {
             this.selectedSpot = myBoard.getSpot(selected);
         }
         if (selectedSpot.getPiece()!=null) {
-            List<Coordinate> possibleMovePositions = myBoard.getEdgePolicy().filterList(selectedSpot.getPiece().getPossibleMoves());
-            List<Coordinate> possibleCapturePositions = myBoard.getEdgePolicy().filterList(selectedSpot.getPiece().getPossibleCaptures());
+
+            List<Coordinate> possibleMovePositions = selectedSpot.getPiece().getPossibleMoves().getPossibleSpots(selected);
+            List<Coordinate> possibleCapturePositions = selectedSpot.getPiece().getPossibleCaptures().getPossibleSpots(selected);
 
 
             Boolean isJump = selectedSpot.getPiece().getCanJump();
@@ -113,7 +120,6 @@ public class Game {
         for(int i = 0; i < possibleCoordinates.size(); i++){
             possibleSet.add(myBoard.getSpot(possibleCoordinates.get(i)));
         }
-
         return possibleSet;
     }
 
@@ -136,6 +142,7 @@ public class Game {
 
     private void removePieceFromGame(Piece capturedPiece){
         if(capturedPiece.getCheckable()) isGameOver = true;
+        currentPlayer.addPieceToGraveyard(capturedPiece);
     }
 
     private List<Spot> setMovingPiece(GameCoordinate newPosition, List<Spot> board, Piece movingPiece){
@@ -182,5 +189,4 @@ public class Game {
     public void resetClick(){
 
     }
-
 }

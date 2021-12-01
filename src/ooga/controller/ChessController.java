@@ -6,13 +6,16 @@ import ooga.Parser.CSVParser;
 import ooga.Parser.SIMParser;
 import ooga.logic.board.board.GameBoard;
 import ooga.logic.board.coordinate.GameCoordinate;
+import ooga.logic.board.spot.Spot;
 import ooga.logic.game.Game;
+import ooga.logic.game.Player;
 import ooga.util.IncorrectCSVFormatException;
 import ooga.util.IncorrectSimFormatException;
 import ooga.view.GameView;
 import ooga.view.View;
 
 import javax.swing.plaf.basic.BasicSplitPaneUI;
+import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
 import java.io.IOException;
@@ -51,8 +54,10 @@ public class ChessController implements Controller {
 
     //TODO: Replace with player class and login
     private int numTurns;
-    private String[] players = {"Player 1", "Player 2"};
-    private String currentPlayer;
+    private Player currentPlayer;
+    private List<Player> thePlayers;
+    private int numPlayers;
+    private int turnIterator;
 
     private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
@@ -97,14 +102,20 @@ public class ChessController implements Controller {
         BOARDHEIGHT = myCSVParser.getDimensions()[1];
         initialBoard = new GameBoard(BOARDHEIGHT, BOARDWIDTH);
         myBoard = new GameBoard(BOARDHEIGHT, BOARDWIDTH);
-
         boardInitializer(myCSVParser.getInitialStates(), initialBoard);
-
-
         myBoard = initialBoard;
         myGame = new Game(myBoard, myData);
         myBoard.setEdgePolicy(myData.get("EdgePolicy"));
+        boardViewBuild(myBoard);
         numTurns = 0;
+        //temporary
+        thePlayers = new ArrayList<>();
+        setPlayer("Player1",0);
+        setPlayer("Player2",1);
+
+        currentPlayer = thePlayers.get(0);
+        numPlayers = thePlayers.size();
+        myLogger.log(Level.INFO, "Inititalized: "+myData.get("Type") + " gametype");
     }
 
     public void boardInitializer(String[][] initialStates, GameBoard board)
@@ -116,12 +127,36 @@ public class ChessController implements Controller {
         }
     }
 
+    // use iterator class later
+    public void boardViewBuild(GameBoard board){
+        List<Spot> fullBoard = board.getFullBoard();
+        for (Spot i: fullBoard){
+            myGameView.updateChessCell(i);
+        }
+    }
+
+
+
+//    public void highlightedBoardViewBuild(){
+////        List<Spot> highlightedCell = myBoard.g
+//        for(Spot highlightedCell : highlightedCells){
+//            myGameView.highlightChessCell(highlightedCell);
+//        }
+//    }
+
+
+
     /**
      * Gives BOARDHEIGHT
      * @return
      */
     public int getHeight() {
         return BOARDHEIGHT;
+    }
+
+    public void setPlayer(String userName, int team){
+        Player addPlayer = new Player(userName, team);
+        thePlayers.add(addPlayer);
     }
 
     /**
@@ -154,11 +189,12 @@ public class ChessController implements Controller {
     private void handleFirstClick(int row, int column) {
         clickedPiece = new GameCoordinate(row, column);
         myGame.setSelected(clickedPiece);
-        //TODO: if piece belongs to player (currentPlayer)
-        myGame.searchPossiblePositions(clickedPiece);
-        myGameView.highlightCellOptions(myGame.getPossibleCoordinates(clickedPiece));
-        myLogger.log(Level.INFO, "FIRST CLICK");
-        FIRSTCLICK = false;
+        //if(currentPlayer.getTeam() == myGame.getPieceTeam()) {
+            myGame.searchPossiblePositions(clickedPiece);
+            myGameView.highlightCellOptions(myGame.getPossibleCoordinates(clickedPiece));
+            myLogger.log(Level.INFO, "FIRST CLICK");
+            FIRSTCLICK = false;
+        //}
     }
 
         private void handleSecondClick ( int row, int column){
@@ -170,7 +206,7 @@ public class ChessController implements Controller {
                 myGameView.highlightCellOptions(myGame.getPossibleCoordinates(null));
             }
             //update board with next possible move
-            if (myGame.getPossibleCoordinates(clickedPiece).contains(nextMove)) {
+            else if (myGame.getPossibleCoordinates(clickedPiece).contains(nextMove)) {
                 /* TODO: is not in check, or if selected move moves out of check, smt like accept move claus */
                 myGame.movePiece(clickedPiece, nextMove);
                 myGameView.updateChessCell(myGame.getSpot(clickedPiece));
@@ -189,7 +225,7 @@ public class ChessController implements Controller {
         // Increments turn and changes current player, also adds moves to history
         private void nextTurn () {
             numTurns++;
-            currentPlayer = players[numTurns % 2];
+            switchPlayers();
             GameCoordinate[] moveRecord = {clickedPiece, nextMove};
             history.push(moveRecord);
         }
@@ -202,6 +238,7 @@ public class ChessController implements Controller {
             GameCoordinate[] recentMove = history.pop();
             myGame.movePiece(recentMove[1], recentMove[0]);
             numTurns -= numTurns;
+            switchPlayers();
         }
 
         /**
@@ -222,5 +259,10 @@ public class ChessController implements Controller {
             //lots of menus for each of the types of change we could make
 
         }
-    }
+
+        private void switchPlayers(){
+            turnIterator = numTurns%numPlayers;
+            currentPlayer = thePlayers.get(turnIterator);
+            }
+}
 

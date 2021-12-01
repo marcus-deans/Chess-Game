@@ -1,6 +1,7 @@
 package ooga.logic.board.Pieces.Interfaces;
 
 import java.util.List;
+import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 import ooga.logic.board.coordinate.Coordinate;
 
 public interface MoveLogic {
@@ -24,7 +25,7 @@ public interface MoveLogic {
    *
    * @return the list of possible coordinates to move to
    */
-  public List<Coordinate> getPossibleMoves();
+  public SpotCollection getPossibleMoves();
 
   /**
    * Changes the coordinate set for the piece
