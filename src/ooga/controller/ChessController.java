@@ -206,7 +206,7 @@ public class ChessController implements Controller {
                 myGameView.highlightCellOptions(myGame.getPossibleCoordinates(null));
             }
             //update board with next possible move
-            if (myGame.getPossibleCoordinates(clickedPiece).contains(nextMove)) {
+            else if (myGame.getPossibleCoordinates(clickedPiece).contains(nextMove)) {
                 /* TODO: is not in check, or if selected move moves out of check, smt like accept move claus */
                 myGame.movePiece(clickedPiece, nextMove);
                 myGameView.updateChessCell(myGame.getSpot(clickedPiece));
