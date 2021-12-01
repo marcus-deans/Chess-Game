@@ -6,7 +6,6 @@ import javafx.stage.Stage;
 import ooga.logic.game.Game;
 
 import ooga.util.IncorrectCSVFormatException;
-import ooga.view.View;
 
 import java.io.File;
 import java.io.IOException;

@@ -12,7 +12,6 @@ import ooga.logic.game.Player;
 import ooga.util.IncorrectCSVFormatException;
 import ooga.util.IncorrectSimFormatException;
 import ooga.view.GameView;
-import ooga.view.View;
 
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.util.ArrayList;
