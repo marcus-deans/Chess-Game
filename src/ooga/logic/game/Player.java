@@ -18,9 +18,15 @@ public class Player {
         myUsername = username;
         myTeam = team;
     }
+
+    public void setUsername(String username) {
+        this.myUsername = username;
+    }
+
     public String getUsername() {
         return myUsername;
     }
+
     public int getTeam(){
         return myTeam;
     }
