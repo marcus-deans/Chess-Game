@@ -175,6 +175,8 @@ public class Game {
 
         myBoard.updateBoard(updatedBoard);
 
+
+
         return myBoard.getFullBoard();
     }
 
