@@ -2,6 +2,7 @@ package ooga.view;
 
 import com.opencsv.exceptions.CsvValidationException;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import ooga.util.IncorrectCSVFormatException;
 
 import java.io.IOException;
@@ -26,4 +27,10 @@ public interface PanelListener {
     void changeVariant(String variant);
 
     void getBoardClick(int x, int y);
+
+    void openPlayerLogin();
+
+    void setNewPlayer(String username, String email, String password, int team);
+
+    void closePlayerLogin(Stage stage);
 }

@@ -2,6 +2,7 @@ package ooga.view.ui.controlpanel;
 
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import ooga.view.ui.SharedUIComponents;
 
@@ -18,14 +19,16 @@ public class PlayerControlPanel extends SharedUIComponents {
     playerControlPanel.getChildren().add(clearScreenButton);
 
     playerControlPanel.setAlignment(Pos.CENTER);
-//    panel.setLayoutX(myControlPanelX);
-//    panel.setLayoutY(getInt("animation_control_panel_y"));
-    playerControlPanel.setId("animation-control-panel");
-
+    playerControlPanel.setId("player-control-panel");
     return playerControlPanel;
   }
 
   private Node initializePlayerLoginButton(){
-    return new VBox();
+    Button playerLoginButton = makeButton(getWord("player_login_button"), event -> {
+      if(this.getPanelListener() != null){
+        this.getPanelListener().openPlayerLogin();
+      }
+    });
+    return playerLoginButton;
   }
 }

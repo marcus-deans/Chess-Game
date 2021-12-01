@@ -153,6 +153,7 @@ public class ChessController implements Controller {
         return BOARDHEIGHT;
     }
 
+    @Override
     public void setPlayer(String userName, int team){
         Player addPlayer = new Player(userName, team);
         thePlayers.add(addPlayer);

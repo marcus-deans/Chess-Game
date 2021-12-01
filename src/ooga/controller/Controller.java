@@ -28,4 +28,5 @@ public interface Controller {
 
     public void clickedCoordinates(int x, int y);
 
-}
+    public void setPlayer(String userName, int team);
+  }
