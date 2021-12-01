@@ -179,10 +179,10 @@ public class GridView implements GridListener {
 
   private String determineTeamColour(int teamNumber){
     switch(teamNumber){
-      case 0, 1 -> {
+      case 1 -> {
         return "Black";
       }
-      case 6, 7 -> {
+      case 2 -> {
         return "White";
       }
       default -> {
