@@ -15,13 +15,10 @@ import ooga.view.GameView;
 import ooga.view.View;
 
 import javax.swing.plaf.basic.BasicSplitPaneUI;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
-import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -181,29 +178,36 @@ public class ChessController implements Controller {
     public void clickedCoordinates(int row, int column) {
         if (FIRSTCLICK) {
             handleFirstClick(row, column);
-        } else {
+        }
+        else if(!FIRSTCLICK) {
+            System.out.println("Shouldn't run yet");
             handleSecondClick(row, column);
         }
+        FIRSTCLICK = false;
     }
 
     private void handleFirstClick(int row, int column) {
         clickedPiece = new GameCoordinate(row, column);
         myGame.setSelected(clickedPiece);
-        //if(currentPlayer.getTeam() == myGame.getPieceTeam()) {
-            myGame.searchPossiblePositions(clickedPiece);
-            myGameView.highlightCellOptions(myGame.getPossibleCoordinates(clickedPiece));
-            myLogger.log(Level.INFO, "FIRST CLICK");
-            FIRSTCLICK = false;
+        //if(currentPlayer.getTeam() == myBoard.getSpot(clickedPiece).getPiece().getTeam()) {
+            highlightSpots(myGame.getPossibleCoordinates(clickedPiece));
+            myLogger.log(Level.INFO, "FIRST CLICK" +FIRSTCLICK);
         //}
     }
 
-        private void handleSecondClick ( int row, int column){
+    private void highlightSpots(Set<Spot> possibleCoordinates) {
+        for(Spot s: possibleCoordinates){
+            myGameView.highlightChessCell(s);
+        }
+    }
+
+    private void handleSecondClick ( int row, int column){
             nextMove = new GameCoordinate(row, column);
             //clicking same piece to deselect
             if (nextMove.equals(clickedPiece)) {
-                myLogger.log(Level.INFO, "SAME PIECE");
+                myLogger.log(Level.INFO, "SAME PIECE" +FIRSTCLICK);
                 FIRSTCLICK = true;
-                myGameView.highlightCellOptions(myGame.getPossibleCoordinates(null));
+                boardViewBuild(myBoard);
             }
             //update board with next possible move
             else if (myGame.getPossibleCoordinates(clickedPiece).contains(nextMove)) {
@@ -214,7 +218,9 @@ public class ChessController implements Controller {
 
                 nextTurn();
             }
-            myLogger.log(Level.WARNING, "Invalid Position Chosen");
+            else {
+                myLogger.log(Level.WARNING, "Invalid Position Chosen");
+            }
             //display the possible neighbors of the first selected piece
 //            else {
 //                FIRSTCLICK = true;
@@ -228,6 +234,7 @@ public class ChessController implements Controller {
             switchPlayers();
             GameCoordinate[] moveRecord = {clickedPiece, nextMove};
             history.push(moveRecord);
+            boardViewBuild(myBoard);
         }
 
         /**

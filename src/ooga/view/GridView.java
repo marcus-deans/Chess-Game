@@ -119,7 +119,7 @@ public class GridView implements GridListener {
 
     Integer colIndex = GridPane.getColumnIndex(nod);
     Integer rowIndex = GridPane.getRowIndex(nod);
-    System.out.println("ColumnIndex: " + colIndex + "RowIndex: " + rowIndex);
+    //System.out.println("ColumnIndex: " + colIndex + "RowIndex: " + rowIndex);
     myGameView.getBoardClick(colIndex, rowIndex);
 
   }
@@ -168,7 +168,7 @@ public class GridView implements GridListener {
       String pieceName = spot.getPiece().getClass().getSimpleName();
       String capitalizedPieceName = pieceName.substring(0, 1).toUpperCase() + pieceName.substring(1);
       String pieceImageResource = String.format("%s-%s.png",teamName, capitalizedPieceName);
-      System.out.println("spot.getPiece().getTeam(): " + spot.getPiece().getTeam() + "Team Name:" + teamName + " CapitalizedPieceName:" + capitalizedPieceName + " PieceImageResource: " + pieceImageResource);
+      //System.out.println("spot.getPiece().getTeam(): " + spot.getPiece().getTeam() + "Team Name:" + teamName + " CapitalizedPieceName:" + capitalizedPieceName + " PieceImageResource: " + pieceImageResource);
       FileInputStream input = new FileInputStream("data/" + pieceImageResource);
       newPieceImageView = new ImageView(new Image(input));
     } catch(Exception e){

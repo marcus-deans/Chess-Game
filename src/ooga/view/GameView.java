@@ -419,6 +419,7 @@ public class GameView extends Application implements PanelListener {
   public void getBoardClick(int column, int row) {
     //TODO: ensure controller callback works
     myChessController.clickedCoordinates(column, row);
+    System.out.println("Got clicked");
   }
 
   /**
