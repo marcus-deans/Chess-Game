@@ -12,7 +12,6 @@ import ooga.logic.game.Player;
 import ooga.util.IncorrectCSVFormatException;
 import ooga.util.IncorrectSimFormatException;
 import ooga.view.GameView;
-import ooga.view.View;
 
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.util.*;
@@ -151,6 +150,7 @@ public class ChessController implements Controller {
         return BOARDHEIGHT;
     }
 
+    @Override
     public void setPlayer(String userName, int team){
         Player addPlayer = new Player(userName, team);
         thePlayers.add(addPlayer);

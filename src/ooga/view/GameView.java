@@ -33,6 +33,8 @@ import ooga.util.IncorrectCSVFormatException;
 
 import ooga.view.ui.InformationPanel;
 
+import ooga.view.ui.PlayerLoginInterface;
+import ooga.view.ui.PlayerLoginView;
 import ooga.view.ui.gameplaypanel.GameplayPanel;
 import ooga.view.ui.controlpanel.ControlPanel;
 
@@ -420,6 +422,23 @@ public class GameView extends Application implements PanelListener {
     //TODO: ensure controller callback works
     myChessController.clickedCoordinates(column, row);
     System.out.println("Got clicked");
+  }
+
+  @Override
+  public void openPlayerLogin() {
+    PlayerLoginInterface newPlayerLoginView = new PlayerLoginView();
+    newPlayerLoginView.setPanelListener(this);
+    newPlayerLoginView.start(new Stage());
+  }
+
+  @Override
+  public void setNewPlayer(String username, String email, String password, int team) {
+    myChessController.setPlayer(username, team);
+  }
+
+  @Override
+  public void closePlayerLogin(Stage stage) {
+    stage.close();
   }
 
   /**
