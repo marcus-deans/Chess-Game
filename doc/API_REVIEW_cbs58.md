@@ -7,7 +7,7 @@ Each game is set up with its rules for the course of that game, setting up the g
 
 
 ####What abstractions is your API built on?
-The controller uses lots of instances of classes from botth view and model. The most important instances are myGameView 
+The controller uses lots of instances of classes from botth view and model. The most important instances are myGameView
 and myBoard, both of with handle their abstractions on their respective front and back ends.
 
 
