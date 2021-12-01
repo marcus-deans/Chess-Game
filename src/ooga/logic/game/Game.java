@@ -127,54 +127,18 @@ public class Game {
         this.myBoard = newBoard;
     }
 
-    private Piece getMovingPiece(GameCoordinate piecePosition, List<Spot> board){
-
-
-        Piece movingPiece = null;
-        for(int i = 0; i < board.size(); i++){
-            Spot spot = board.get(i);
-            if(spot.getCoordinate() == piecePosition){
-                movingPiece = spot.getPiece();
-                spot.setPiece(null);
-                break;
-            }
-        }
-        return movingPiece;
-    }
-
     private void removePieceFromGame(Piece capturedPiece){
         if(capturedPiece.getCheckable()) isGameOver = true;
         currentPlayer.addPieceToGraveyard(capturedPiece);
     }
 
-    private List<Spot> setMovingPiece(GameCoordinate newPosition, List<Spot> board, Piece movingPiece){
-        for(int i = 0; i < board.size(); i++){
-            Spot spot = board.get(i);
-            if(spot.getCoordinate() == newPosition){
-                if(spot.isEmpty()) spot.setPiece(movingPiece);
-                else {
-                    removePieceFromGame(spot.getPiece());
-                    spot.setPiece(movingPiece);
-                }
-                break;
-            }
-        }
-        return board;
-    }
-
     private void setMovingPiece(GameCoordinate newPosition, Piece movingPiece){
-
+        if(myBoard.hasPiece(newPosition)) removePieceFromGame(myBoard.getSpot(newPosition).getPiece());
+        myBoard.getSpot(newPosition).setPiece(movingPiece);
     }
 
     public List<Spot> movePiece(GameCoordinate prevPosition, GameCoordinate newPosition){
-        List<Spot> board = myBoard.getFullBoard();
-
-        Piece movingPiece = getMovingPiece(prevPosition, board);
-
-        List<Spot> updatedBoard = setMovingPiece(newPosition, board, movingPiece);
-
-        myBoard.updateBoard(updatedBoard);
-
+        setMovingPiece(newPosition, myBoard.getSpot(prevPosition).getPiece());
         return myBoard.getFullBoard();
     }
 
