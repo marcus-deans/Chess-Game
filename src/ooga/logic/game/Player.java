@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
-    List<Piece> graveyard;
+    private List<Piece> graveyard;
+    private String username;
+    private String password;
 
     public Player(){
         graveyard = new ArrayList<Piece>();
@@ -19,4 +21,6 @@ public class Player {
     public List<Piece> getGraveyard(){
         return graveyard;
     }
+
+
 }

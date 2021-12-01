@@ -67,6 +67,8 @@ public class Game {
 
         List<Coordinate> possiblePositions = new ArrayList<>();
 
+
+
         for(int i = 0; i < list.size(); i++){
             if(list.get(i).getY_pos() < maxY && list.get(i).getY_pos() > minY
             && list.get(i).getX_pos() < maxX && list.get(i).getX_pos() > minX
@@ -111,7 +113,6 @@ public class Game {
         for(int i = 0; i < possibleCoordinates.size(); i++){
             possibleSet.add(myBoard.getSpot(possibleCoordinates.get(i)));
         }
-
         return possibleSet;
     }
 
@@ -179,5 +180,4 @@ public class Game {
     public void resetClick(){
 
     }
-
 }
