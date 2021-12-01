@@ -1,8 +1,6 @@
 package ooga.logic.game;
 
-import com.google.gson.Gson;
 import ooga.logic.board.Pieces.PieceBundle.Piece;
-import ooga.logic.board.board.Board;
 import ooga.logic.board.board.GameBoard;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
@@ -115,9 +113,6 @@ public class Game {
 
     public Set<Spot> getPossibleCoordinates(GameCoordinate selected){
         searchPossiblePositions(selected);
-        String json = new Gson().toJson(myBoard.getFullBoard());
-        System.out.println("PRINTING OUT");
-        System.out.println(json);
 
         Set<Spot> possibleSet = new HashSet<>();
 
