@@ -135,12 +135,20 @@ public class GridView implements GridListener {
     int columnIndex = spot.getCoordinate().getX_pos();
     int rowIndex = spot.getCoordinate().getY_pos();
 
-    ImageView pieceImageview = createNewPieceImageView(spot);
-    pieceImageview.setFitHeight(myCellHeight-getInt("cell-piece-spacing"));
-    pieceImageview.setFitWidth(myCellWidth-getInt("cell-piece-spacing"));
 
-    Group newCellRepresentation = createNewCellWithPiece(determineCellColour(columnIndex, rowIndex), pieceImageview, isHighlighted);
-    myGameGrid.add(newCellRepresentation, columnIndex, rowIndex);
+    if(spot.getPiece() != null){
+      ImageView pieceImageview = createNewPieceImageView(spot);
+      pieceImageview.setFitHeight(myCellHeight-getInt("cell-piece-spacing"));
+      pieceImageview.setFitWidth(myCellWidth-getInt("cell-piece-spacing"));
+
+      Group newCellWithPiece = createNewCellWithPiece(determineCellColour(columnIndex, rowIndex), pieceImageview, isHighlighted);
+      myGameGrid.add(newCellWithPiece, columnIndex, rowIndex);
+
+    } else {
+      Rectangle newCellWithoutPiece = createNewCellView(determineCellColour(columnIndex, rowIndex), isHighlighted);
+      myGameGrid.add(newCellWithoutPiece, columnIndex, rowIndex);
+    }
+
     //TODO: make cell updates
   }
 
@@ -152,7 +160,7 @@ public class GridView implements GridListener {
       String capitalizedPieceName = pieceName.substring(0, 1).toUpperCase() + pieceName.substring(1);
       newPieceImageView = new ImageView(new Image(String.format("ooga.view.viewresources.pieceimages.%s-%s.png",teamName, capitalizedPieceName)));
     } catch(Exception e){
-      newPieceImageView = new ImageView(new Image("White-Bishop.png"));
+      newPieceImageView = new ImageView(new Image("bB.png"));
       System.out.println("Error making piece image representation");
     }
     return newPieceImageView;

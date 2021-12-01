@@ -6,6 +6,7 @@ import ooga.Parser.CSVParser;
 import ooga.Parser.SIMParser;
 import ooga.logic.board.board.GameBoard;
 import ooga.logic.board.coordinate.GameCoordinate;
+import ooga.logic.board.spot.Spot;
 import ooga.logic.game.Game;
 import ooga.logic.game.Player;
 import ooga.util.IncorrectCSVFormatException;
@@ -105,6 +106,7 @@ public class ChessController implements Controller {
         myBoard = initialBoard;
         myGame = new Game(myBoard, myData);
         myBoard.setEdgePolicy(myData.get("EdgePolicy"));
+        boardViewBuild(myBoard);
         numTurns = 0;
         //temporary
         thePlayers = new ArrayList<>();
@@ -125,19 +127,22 @@ public class ChessController implements Controller {
         }
     }
 
-//    public void boardViewBuild(){
-//        for (){
-//            for (){
-//
-//            }
-//        }
-
-
-    //}
-    // invoke the updatechessCell -> use it for every cell on the board
     // use iterator class later
+    public void boardViewBuild(GameBoard board){
+        List<Spot> fullBoard = board.getFullBoard();
+        for (Spot i: fullBoard){
+            myGameView.updateChessCell(i);
+        }
+    }
 
 
+
+//    public void highlightedBoardViewBuild(){
+////        List<Spot> highlightedCell = myBoard.g
+//        for(Spot highlightedCell : highlightedCells){
+//            myGameView.highlightChessCell(highlightedCell);
+//        }
+//    }
 
 
 
