@@ -16,7 +16,7 @@ public class Game {
     //A map containing the game's data collected from the game's sim files.
     private Map<String, String> metadata;
     private GameCoordinate selected;
-    private List<Player> players;
+    private Player currentPlayer;
     private GameSpot selectedSpot;
     private List<Coordinate> possibleCoordinates;
     private boolean isGameOver;
@@ -27,7 +27,6 @@ public class Game {
         makeBoard(board);
         this.metadata = metadata;
         this.possibleCoordinates = new ArrayList<>();
-        this.players = new ArrayList<>();
     }
 
     public void setSelected(GameCoordinate select){
@@ -143,6 +142,7 @@ public class Game {
 
     private void removePieceFromGame(Piece capturedPiece){
         if(capturedPiece.getCheckable()) isGameOver = true;
+        currentPlayer.addPieceToGraveyard(capturedPiece);
     }
 
     private List<Spot> setMovingPiece(GameCoordinate newPosition, List<Spot> board, Piece movingPiece){
