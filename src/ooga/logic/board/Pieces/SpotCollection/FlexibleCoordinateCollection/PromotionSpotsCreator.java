@@ -2,10 +2,17 @@ package ooga.logic.board.Pieces.SpotCollection.FlexibleCoordinateCollection;
 
 import java.util.ArrayList;
 import java.util.List;
+import ooga.logic.board.Pieces.SpotCollection.LastRankSpots;
+import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 import ooga.logic.board.coordinate.Coordinate;
 
-abstract public class PromotionSpotsAbstract implements AcceptsCoordinates{
+public class PromotionSpotsCreator implements AcceptsCoordinates{
   private List<Coordinate> myCoordinates;
+  private SpotCollection mySpots;
+
+  public PromotionSpotsCreator(){
+
+  }
 
   protected List<Coordinate> getMyCoordinates() {
     return myCoordinates;

@@ -1,6 +1,5 @@
 package ooga.logic.board.Pieces.PieceBundle;
 
-import java.util.List;
 import java.util.ResourceBundle;
 import ooga.logic.board.Pieces.Interfaces.CaptureLogic;
 import ooga.logic.board.Pieces.Interfaces.MoveLogic;
@@ -92,7 +91,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   @Override
   public boolean canCapture(Coordinate captureCoordinate) {
-    return getPossibleCaptures().contains(captureCoordinate);
+    return getPossibleCaptures().getPossibleSpots(myCoordinate).contains(captureCoordinate);
   }
 
   @Override
@@ -102,18 +101,18 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
 
   @Override
-  public List<String> possiblePromotionPieces(){
-    return myPromotionOptions.getPossiblePieces();
+  public PieceCollection possiblePromotionPieces(){
+    return myPromotionOptions;//.getPossiblePieces();
   }
 
   @Override
-  public List<Coordinate> getPossibleCaptures() {
-    return myCapture.getPossibleSpots(getCoordinate());
+  public SpotCollection getPossibleCaptures() {
+    return myCapture;//.getPossibleSpots(getCoordinate());
   }
 
   @Override
-  public List<Coordinate> getPossibleMoves() {
-    return myMovement.getPossibleSpots(getCoordinate());
+  public SpotCollection getPossibleMoves() {
+    return myMovement;//.getPossibleSpots(getCoordinate());
   }
 
   protected void setMyMovement(SpotCollection movementToSet){
@@ -133,8 +132,8 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   }
 
   @Override
-  public List<Coordinate> promotionSquares() {
-    return myPromotionSpots.getPossibleSpots(myCoordinate);
+  public SpotCollection promotionSquares() {
+    return myPromotionSpots;//.getPossibleSpots(myCoordinate);
   }
 
   @Override

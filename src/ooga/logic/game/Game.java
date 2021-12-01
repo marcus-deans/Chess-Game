@@ -21,6 +21,8 @@ public class Game {
     private List<Coordinate> possibleCoordinates;
     private boolean isGameOver;
 
+
+
     public Game(GameBoard board,  Map<String, String> metadata){
         makeBoard(board);
         this.metadata = metadata;
@@ -32,6 +34,10 @@ public class Game {
         selected = select;
     }
 
+    public int getSelectedTeam(){
+        return myBoard.getSpot(selected).getPiece().getTeam();
+    }
+
     private List<Coordinate> getJumpPossibleCoordinate(List<Coordinate> list){
         for(int i = 0; i < list.size(); i++){
             if(myBoard.hasPiece(list.get(i))){
@@ -41,6 +47,7 @@ public class Game {
         }
         return list;
     }
+
 
     private List<Coordinate> getStandardPossibleCoordinate(List<Coordinate> list){
         int maxX = Integer.MIN_VALUE;
@@ -92,8 +99,9 @@ public class Game {
             this.selectedSpot = myBoard.getSpot(selected);
         }
         if (selectedSpot.getPiece()!=null) {
-            List<Coordinate> possibleMovePositions = selectedSpot.getPiece().getPossibleMoves();
-            List<Coordinate> possibleCapturePositions = selectedSpot.getPiece().getPossibleCaptures();
+
+            List<Coordinate> possibleMovePositions = selectedSpot.getPiece().getPossibleMoves().getPossibleSpots(selected);
+            List<Coordinate> possibleCapturePositions = selectedSpot.getPiece().getPossibleCaptures().getPossibleSpots(selected);
 
 
             Boolean isJump = selectedSpot.getPiece().getCanJump();
@@ -176,6 +184,7 @@ public class Game {
     public Map<String, String> getMetaData() {
         return metadata;
     }
+
 
     public void resetClick(){
 
