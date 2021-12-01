@@ -32,6 +32,10 @@ public class Game {
         selected = select;
     }
 
+    public int getSelectedTeam(){
+        return myBoard.getSpot(selected).getPiece().getTeam();
+    }
+
     private List<Coordinate> getJumpPossibleCoordinate(List<Coordinate> list){
         for(int i = 0; i < list.size(); i++){
             if(myBoard.hasPiece(list.get(i))){
