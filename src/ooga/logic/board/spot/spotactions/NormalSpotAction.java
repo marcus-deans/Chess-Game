@@ -8,6 +8,7 @@ import java.util.List;
 public class NormalSpotAction implements SpotAction{
 
     @Override
-    public void commitSpotAction(List<Spot> a, Spot s) {
+    public List<Spot> commitSpotAction(List<Spot> a, Spot s) {
+        return a;
     }
 }

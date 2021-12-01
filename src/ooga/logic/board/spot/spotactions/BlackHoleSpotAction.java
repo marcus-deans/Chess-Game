@@ -10,9 +10,9 @@ public class BlackHoleSpotAction implements SpotAction{
     private boolean search=false;
 
     @Override
-    public void commitSpotAction(List<Spot> a, Spot s) {
-        s.setPiece(null);
-        ((GameSpot) s).setTypeOfSpot(0);
+    public List<Spot> commitSpotAction(List<Spot> a, Spot s) {
+        ((GameSpot) a.stream().filter(spot -> spot.equals(s)).findFirst().orElse(null)).setTypeOfSpot(0);
+         a.stream().filter(spot -> spot.equals(s)).findFirst().orElse(null).setPiece(null);
         while (search)
         {
             int random=new Random().nextInt(a.size());
@@ -23,7 +23,7 @@ public class BlackHoleSpotAction implements SpotAction{
             }
         }
 
-
+        return a;
     }
 
 
