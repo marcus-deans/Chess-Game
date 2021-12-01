@@ -1,11 +1,9 @@
 package ooga.logic.board.Pieces.PieceBundle;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
-import ooga.logic.board.Pieces.SpotCollection.KnightMovement;
 import ooga.logic.board.Pieces.SpotCollection.LastRankSpots;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
@@ -31,20 +29,6 @@ class GeneralPieceTest {
     myCoord.setCoordinate(2,4);
     myPiece.setCoordinate(myCoord);
     assertEquals(myPiece.getCoordinate(),myCoord);
-  }
-
-
-  @Test
-  void setMyPromotionPieces() {
-    myPiece.setMyPromotionPieces(new DefaultPromotionPieces());
-    assertTrue(myPiece.possiblePromotionPieces().getPossiblePieces().size() == 4);
-  }
-
-  @Test
-  void promotionSquares() {
-    myPiece.setMyPromotionPieces(new DefaultPromotionPieces());
-    myPiece.setMyPromotionSpots(new LastRankSpots(new DefaultPromotionPieces()));
-    assertTrue(myPiece.promotionSquares().getPossibleSpots(myCoord).size() == 8);
   }
 
 
