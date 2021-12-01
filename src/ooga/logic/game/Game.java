@@ -44,6 +44,7 @@ public class Game {
         return list;
     }
 
+
     private List<Coordinate> getStandardPossibleCoordinate(List<Coordinate> list){
         int maxX = Integer.MIN_VALUE;
         int maxY = Integer.MIN_VALUE;
