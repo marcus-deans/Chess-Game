@@ -24,7 +24,7 @@ public class Game {
 
 
     public Game(GameBoard board,  Map<String, String> metadata){
-        makeBoard(board);
+        this.myBoard = board;
         this.metadata = metadata;
         this.possibleCoordinates = new ArrayList<>();
     }
@@ -121,10 +121,6 @@ public class Game {
             possibleSet.add(myBoard.getSpot(possibleCoordinates.get(i)));
         }
         return possibleSet;
-    }
-
-    protected void makeBoard(GameBoard newBoard){
-        this.myBoard = newBoard;
     }
 
     private void removePieceFromGame(Piece capturedPiece){
