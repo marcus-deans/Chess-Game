@@ -193,6 +193,7 @@ public class Game {
             if (puzzleStart!=null && puzzleFinish!=null && puzzleStart.equals(prevPosition) && puzzleFinish.equals(newPosition))
             {
                 myLogger.log(Level.INFO, "PUZZLE COMPLETED SUCCESSFULLY");
+                isGameOver = true;
             }
             else if (puzzleStart!=null && puzzleFinish!=null && (!puzzleStart.equals(prevPosition) || !puzzleFinish.equals(newPosition)))
             {
