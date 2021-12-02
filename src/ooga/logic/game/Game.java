@@ -22,10 +22,6 @@ public class Game {
     private List<Coordinate> possibleCoordinates;
     private boolean isGameOver;
 
-
-
-
-
     public Game(GameBoard board,  Map<String, String> metadata){
         this.myBoard = board;
         this.metadata = metadata;
