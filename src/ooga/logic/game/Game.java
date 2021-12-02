@@ -6,7 +6,9 @@ import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
 import ooga.logic.board.spot.GameSpot;
 import ooga.logic.board.spot.Spot;
+import ooga.logic.board.spot.spotactions.SpotAction;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class Game {
@@ -19,6 +21,8 @@ public class Game {
     private GameSpot selectedSpot;
     private List<Coordinate> possibleCoordinates;
     private boolean isGameOver;
+
+
 
 
 
@@ -127,12 +131,16 @@ public class Game {
         currentPlayer.addPieceToGraveyard(capturedPiece);
     }
 
-    private void setMovingPiece(GameCoordinate newPosition, Piece movingPiece){
+    private void setMovingPiece(GameCoordinate newPosition, Piece movingPiece)
+            throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+
         if(myBoard.hasPiece(newPosition)) removePieceFromGame(myBoard.getSpot(newPosition).getPiece());
-        myBoard.getSpot(newPosition).setPiece(movingPiece);
+        myBoard.updateBoard(newPosition,movingPiece);
     }
 
-    public List<Spot> movePiece(GameCoordinate prevPosition, GameCoordinate newPosition){
+    public List<Spot> movePiece(GameCoordinate prevPosition, GameCoordinate newPosition)
+            throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+       myBoard.getSpot(prevPosition).setPiece(null);
         setMovingPiece(newPosition, myBoard.getSpot(prevPosition).getPiece());
         return myBoard.getFullBoard();
     }

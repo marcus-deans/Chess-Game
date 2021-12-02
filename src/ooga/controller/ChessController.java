@@ -178,7 +178,7 @@ public class ChessController implements Controller {
     }
 
     @Override
-    public void clickedCoordinates(int row, int column) {
+    public void clickedCoordinates(int row, int column) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         if (FIRSTCLICK) {
             handleFirstClick(row, column);
         } else {
@@ -196,7 +196,7 @@ public class ChessController implements Controller {
         //}
     }
 
-        private void handleSecondClick ( int row, int column){
+        private void handleSecondClick ( int row, int column) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
             nextMove = new GameCoordinate(row, column);
             //clicking same piece to deselect
             if (nextMove.equals(clickedPiece)) {
@@ -233,7 +233,7 @@ public class ChessController implements Controller {
          *Uses most recent move to update the board backwards
          */
         @Override
-        public void undoMove () {
+        public void undoMove () throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
             GameCoordinate[] recentMove = history.pop();
             myGame.movePiece(recentMove[1], recentMove[0]);
             numTurns -= numTurns;
