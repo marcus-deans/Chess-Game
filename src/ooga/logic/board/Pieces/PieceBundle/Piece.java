@@ -170,9 +170,11 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     try{
       setMyMovement(
           (SpotCollection) Class.forName(
-              String.format("ooga.logic.board.Pieces.SpotCollection.%s", getPieceProperties().
-                  getString("movement"))).getConstructor().newInstance()
+              String.format("ooga.logic.board.Pieces.SpotCollection.%s%s", getPieceProperties().
+                  getString("movement"),getTeam())).getConstructor().newInstance()
       );
+
+
     }
     catch (Exception e){
       setDefaultMovement(pieceToString);
@@ -198,8 +200,8 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     try{
       setMyCapture(
           (SpotCollection) Class.forName(
-              String.format("ooga.logic.board.Pieces.SpotCollection.%s", getPieceProperties().
-                  getString("capture"))).getConstructor().newInstance()
+              String.format("ooga.logic.board.Pieces.SpotCollection.%s%s", getPieceProperties().
+                  getString("capture"),getTeam())).getConstructor().newInstance()
       );
     }
     catch (Exception e){

@@ -9,6 +9,7 @@ import ooga.logic.board.coordinate.Coordinate;
 
 abstract public class SpotCollection implements SpotCollectionInterface{
   protected ResourceBundle pieceProperties = ResourceBundle.getBundle("ooga.logic.board.Pieces.SpotCollection.Directions");
+  protected ResourceBundle teamProperties = ResourceBundle.getBundle("ooga.logic.board.Pieces.SpotCollection.TeamDefaultDirections");
 
   @Override
   public abstract List<Coordinate> getPossibleSpots(Coordinate coordinate);
