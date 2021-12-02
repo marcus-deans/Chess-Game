@@ -54,6 +54,7 @@ public class GameBoard implements Board {
             pieceName=PIECE_PATH+resourceMap.getString(spot.substring(0,1));
             Class[] params={int.class,int.class,int.class};
             team=Integer.parseInt(spot.substring(1,2));
+            int type=Integer.parseInt(spot.substring(2,3));
             Piece p;
             try
             {
@@ -64,7 +65,7 @@ public class GameBoard implements Board {
                 p=null;
             }
 
-            board.add(new GameSpot(p,j,i,0,(i+j)%2==0));
+            board.add(new GameSpot(p,j,i,type,(i+j)%2==0));
     }
 
     @Override
