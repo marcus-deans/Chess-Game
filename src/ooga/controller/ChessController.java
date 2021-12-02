@@ -68,7 +68,7 @@ public class ChessController implements Controller {
      */
     public ChessController(int width, int height, String background, String filename) {
         myGameView = new GameView(width, height, background, filename, this);
-        myGame = new Game(myBoard, myData);
+        myGame = new Game(height, width);
         myGameView.start(new Stage());
     }
 
@@ -96,13 +96,10 @@ public class ChessController implements Controller {
         myCSVParser.readCSVFile(csvFile);
         BOARDWIDTH = myCSVParser.getDimensions()[0];
         BOARDHEIGHT = myCSVParser.getDimensions()[1];
-        initialBoard = new GameBoard(BOARDHEIGHT, BOARDWIDTH);
-        myBoard = new GameBoard(BOARDHEIGHT, BOARDWIDTH);
-        boardInitializer(myCSVParser.getInitialStates(), initialBoard);
-        myBoard = initialBoard;
-        myGame = new Game(myBoard, myData);
-        myBoard.setEdgePolicy(myData.get("EdgePolicy"));
-        boardViewBuild(myBoard);
+        myGame = new Game(BOARDHEIGHT, BOARDWIDTH);
+        myGame.setEdgePolicy(myData.get("EdgePolicy"));
+        boardInitializer(myCSVParser.getInitialStates(), myGame);
+        boardViewBuild(myGame);
         numTurns = 0;
         //temporary
         thePlayers = new ArrayList<>();
@@ -115,18 +112,18 @@ public class ChessController implements Controller {
         myLogger.log(Level.INFO, "Inititalized: "+myData.get("Type") + " gametype");
     }
 
-    public void boardInitializer(String[][] initialStates, GameBoard board)
+    public void boardInitializer(String[][] initialStates, Game game)
             throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         for(int rowPosition = 0; rowPosition < BOARDWIDTH; rowPosition++){
             for(int columnPosition =0; columnPosition< BOARDHEIGHT; columnPosition++){
-                board.setupBoard(initialStates[rowPosition][columnPosition],rowPosition, columnPosition); //parameter change to be done
+                game.setupBoard(initialStates[rowPosition][columnPosition],rowPosition, columnPosition); //parameter change to be done
             }
         }
     }
 
     // use iterator class later
-    public void boardViewBuild(GameBoard board){
-        List<Spot> fullBoard = board.getFullBoard();
+    public void boardViewBuild(Game game){
+        List<Spot> fullBoard = game.getFullBoard();
         for (Spot i: fullBoard){
             myGameView.updateChessCell(i);
         }
@@ -170,7 +167,7 @@ public class ChessController implements Controller {
 
     @Override
     public void resetGame() {
-        myBoard = initialBoard;
+        myGame.reset();
     }
 
     @Override
@@ -179,11 +176,11 @@ public class ChessController implements Controller {
     }
 
     @Override
-    public void clickedCoordinates(int row, int column) {
+    public void clickedCoordinates(int row, int column) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         if (FIRSTCLICK) {
             handleFirstClick(row, column);
         }
-        else if(!FIRSTCLICK) {
+        else {
             handleSecondClick(row, column);
         }
     }
@@ -209,18 +206,19 @@ public class ChessController implements Controller {
         }
     }
 
-    private void handleSecondClick ( int row, int column){
+    private void handleSecondClick ( int row, int column) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
             nextMove = new GameCoordinate(row, column);
             //clicking same piece to deselect
             if (nextMove.equals(clickedPiece)) {
                 myLogger.log(Level.INFO, "SAME PIECE" +FIRSTCLICK);
                 FIRSTCLICK = true;
-                boardViewBuild(myBoard);
+                boardViewBuild(myGame);
             }
             //update board with next possible move
-            else if (myGame.getPossibleCoordinates(clickedPiece).contains(myBoard.getSpot(nextMove))) {
+            else if (myGame.getPossibleCoordinates(clickedPiece).contains(myGame.getSpot(nextMove))) {
                 /* TODO: is not in check, or if selected move moves out of check, smt like accept move claus */
                 myGame.movePiece(clickedPiece, nextMove);
+
                 myGameView.updateChessCell(myGame.getSpot(clickedPiece));
                 myLogger.log(Level.INFO, "MOVED");
                 FIRSTCLICK = true;
@@ -243,14 +241,14 @@ public class ChessController implements Controller {
             switchPlayers();
             GameCoordinate[] moveRecord = {clickedPiece, nextMove};
             history.push(moveRecord);
-            boardViewBuild(myBoard);
+            boardViewBuild(myGame);
         }
 
         /**
          *Uses most recent move to update the board backwards
          */
         @Override
-        public void undoMove () {
+        public void undoMove () throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
             GameCoordinate[] recentMove = history.pop();
             myGame.movePiece(recentMove[1], recentMove[0]);
             numTurns -= numTurns;

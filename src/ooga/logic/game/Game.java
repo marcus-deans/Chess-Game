@@ -1,17 +1,19 @@
 package ooga.logic.game;
 
 import ooga.logic.board.Pieces.PieceBundle.Piece;
-import ooga.logic.board.board.Board;
 import ooga.logic.board.board.GameBoard;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
 import ooga.logic.board.spot.GameSpot;
 import ooga.logic.board.spot.Spot;
+import ooga.logic.board.spot.spotactions.SpotAction;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class Game {
     private GameBoard myBoard;
+    private List<Spot> initialBoard;
 
     //A map containing the game's data collected from the game's sim files.
     private Map<String, String> metadata;
@@ -21,12 +23,36 @@ public class Game {
     private List<Coordinate> possibleCoordinates;
     private boolean isGameOver;
 
+    public Game(int height, int width){
+        myBoard = new GameBoard(height, width);
+    }
 
+    public void setEdgePolicy(String s){
+        try{
+            myBoard.setEdgePolicy(s);
+        }
+        catch (Exception e){
 
-    public Game(GameBoard board,  Map<String, String> metadata){
-        makeBoard(board);
-        this.metadata = metadata;
-        this.possibleCoordinates = new ArrayList<>();
+        }
+
+    }
+
+    public List<Spot> getFullBoard(){
+        return myBoard.getFullBoard();
+    }
+
+    public void setupBoard(String spot, int i, int j){
+        try {
+            myBoard.setupBoard(spot, i, j);
+            initialBoard = myBoard.getFullBoard();
+        } catch (Exception e){
+
+        }
+
+    }
+
+    public void reset(){
+        myBoard.reset(initialBoard);
     }
 
     public void setSelected(GameCoordinate select){
@@ -130,49 +156,22 @@ public class Game {
         return possibleSet;
     }
 
-    protected void makeBoard(GameBoard newBoard){
-        this.myBoard = newBoard;
-    }
-
-    private Piece getMovingPiece(GameCoordinate piecePosition, List<Spot> board){
-        Piece movingPiece = null;
-        for(int i = 0; i < board.size(); i++){
-            Spot spot = board.get(i);
-            if(spot.getCoordinate() == piecePosition){
-                movingPiece = spot.getPiece();
-                spot.setPiece(null);
-                break;
-            }
-        }
-        return movingPiece;
-    }
-
     private void removePieceFromGame(Piece capturedPiece){
         if(capturedPiece.getCheckable()) isGameOver = true;
         currentPlayer.addPieceToGraveyard(capturedPiece);
     }
 
-    private List<Spot> setMovingPiece(GameCoordinate newPosition, List<Spot> board, Piece movingPiece){
-        for(int i = 0; i < board.size(); i++){
-            Spot spot = board.get(i);
-            if(spot.getCoordinate() == newPosition){
-                if(spot.isEmpty()) spot.setPiece(movingPiece);
-                else {
-                    removePieceFromGame(spot.getPiece());
-                    spot.setPiece(movingPiece);
-                }
-                break;
-            }
-        }
-        return board;
+    private void setMovingPiece(GameCoordinate newPosition, Piece movingPiece)
+            throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+
+        if(myBoard.hasPiece(newPosition)) removePieceFromGame(myBoard.getSpot(newPosition).getPiece());
+        myBoard.updateBoard(newPosition,movingPiece);
     }
 
-    public List<Spot> movePiece(GameCoordinate prevPosition, GameCoordinate newPosition){
-        List<Spot> board = myBoard.getFullBoard();
-
-        Piece movingPiece = getMovingPiece(prevPosition, board);
-
-        return setMovingPiece(newPosition, board, movingPiece);
+    public void movePiece(GameCoordinate prevPosition, GameCoordinate newPosition)
+            throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+       myBoard.getSpot(prevPosition).setPiece(null);
+        setMovingPiece(newPosition, myBoard.getSpot(prevPosition).getPiece());
     }
 
     public boolean getIsGameOver(){
@@ -183,17 +182,11 @@ public class Game {
         return myBoard.getSpot(coordinate);
     }
 
-    /**
-     * Returns the metadata of the game.
-     *
-     * @return the metadata of the game.
-     */
-    public Map<String, String> getMetaData() {
-        return metadata;
-    }
-
-
     public void resetClick(){
 
+    }
+
+    public Spot getSpot(Coordinate coordinate){
+        return myBoard.getSpot(coordinate);
     }
 }

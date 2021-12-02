@@ -12,8 +12,8 @@ public class PortalSpotAction implements SpotAction{
     private boolean search2=false;
 
     @Override
-    public void commitSpotAction(List<Spot> a, Spot s) {
-        ((GameSpot) s).setTypeOfSpot(0);
+    public List<Spot> commitSpotAction(List<Spot> a, Spot s) {
+        ((GameSpot) a.stream().filter(spot -> spot.equals(s)).findFirst().orElse(null)).setTypeOfSpot(0);
         while (search)
         {
             int random=new Random().nextInt(a.size());
@@ -21,7 +21,7 @@ public class PortalSpotAction implements SpotAction{
             {
                 a.get(random).setPiece(s.getPiece());
                 search=false;
-                s.setPiece(null);
+                a.stream().filter(spot -> spot.equals(s)).findFirst().orElse(null).setPiece(null);
             }
         }
         while (search2)
@@ -33,5 +33,6 @@ public class PortalSpotAction implements SpotAction{
                 search2=true;
             }
         }
+        return a;
     }
 }

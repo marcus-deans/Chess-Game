@@ -33,16 +33,16 @@ public class BoardTest {
         Assertions.assertTrue(((GameBoard) b).hasPiece(new GameCoordinate(0,0)));
     }
 
-    @Test
-    public void hasNoPiece() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        String[][] a={{"K1","K2"}};
-        Board b=new GameBoard(1,2);
-        b.setupBoard(a[0][1],0,1);
-        b.setupBoard(a[0][0],0,0);
-        List<Spot> c=b.getFullBoard();
-        c.add(new GameSpot(null,1,1,0,true));
-        ((GameBoard) b).updateBoard(c);
-        Assertions.assertFalse(((GameBoard) b).hasPiece(new GameCoordinate(1,1)));
-
-    }
+//    @Test
+//    public void hasNoPiece() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+//        String[][] a={{"K1","K2"}};
+//        Board b=new GameBoard(1,2);
+//        b.setupBoard(a[0][1],0,1);
+//        b.setupBoard(a[0][0],0,0);
+//        List<Spot> c=b.getFullBoard();
+//        c.add(new GameSpot(null,1,1,0,true));
+//        ((GameBoard) b).updateBoard(c);
+//        Assertions.assertFalse(((GameBoard) b).hasPiece(new GameCoordinate(1,1)));
+//
+//    }
 }

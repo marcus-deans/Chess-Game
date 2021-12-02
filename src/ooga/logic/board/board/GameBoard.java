@@ -7,6 +7,8 @@ import ooga.logic.board.coordinate.GameCoordinate;
 import ooga.logic.board.edgepolicies.EdgePolicies;
 import ooga.logic.board.spot.GameSpot;
 import ooga.logic.board.spot.Spot;
+import ooga.logic.board.spot.spotactions.SpotAction;
+import ooga.logic.game.Game;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -29,6 +31,11 @@ public class GameBoard implements Board {
     private static final String EDGEPOLICY_PATH="ooga.logic.board.edgepolicies.";
     private EdgePolicies edgePolicy;
     private String edgeName;
+    private static final String SPOTACTION_PACKAGE =
+            Game.class.getPackageName() + ".resources.";
+    private static final String SPOTACTION_MAP = "Spot";
+    private static final String SPOTACTION_PATH="ooga.logic.board.spot.spotactions";
+    private String spotActionName;
 
 
     public GameBoard(int rows, int columns)
@@ -66,9 +73,13 @@ public class GameBoard implements Board {
         return board;
     }
 
-    public void updateBoard(List<Spot> updated)
-    {
-        this.board=updated;
+    public void updateBoard(Coordinate newPosition, Piece movingPiece)
+            throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        getSpot(newPosition).setPiece(movingPiece);
+        int spotType=getSpot(newPosition).getTypeOfSpot();
+        spotActionName=SPOTACTION_PATH+resourceMap.getString(String.valueOf(spotType));
+        SpotAction spotAction=(SpotAction) Class.forName(spotActionName).getConstructor().newInstance();
+        this.board=spotAction.commitSpotAction(board,getSpot(newPosition));
     }
 
     public boolean hasPiece(Coordinate c)
@@ -110,5 +121,9 @@ public class GameBoard implements Board {
 
     public EdgePolicies getEdgePolicy() {
         return edgePolicy;
+    }
+
+    public void reset(List<Spot> newList){
+        this.board = newList;
     }
 }

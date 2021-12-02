@@ -22,11 +22,11 @@ public interface Controller {
     //sets time limit of each round in the game
     public void setTime(int speed);
 
-    public void undoMove();
+    public void undoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 
     public void changeVariant(String variant);
 
-    public void clickedCoordinates(int x, int y);
+    public void clickedCoordinates(int x, int y) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 
     public void setPlayer(String userName, int team);
   }

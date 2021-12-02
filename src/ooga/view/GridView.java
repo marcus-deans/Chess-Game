@@ -2,7 +2,10 @@ package ooga.view;
 
 import java.awt.Panel;
 import java.io.FileInputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -32,6 +35,8 @@ public class GridView implements GridListener {
   private int myCellWidth;
   private int myCellHeight;
   private static final int LINE_SIZE = 6;
+
+  private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
   private static final String GRID_VIEW_RESOURCES_PATH = "ooga.view.viewresources.GridViewResources";
   private static final ResourceBundle gridViewResources = ResourceBundle.getBundle(GRID_VIEW_RESOURCES_PATH);
@@ -75,7 +80,12 @@ public class GridView implements GridListener {
   private Pane createNewCellWithPiece(int state, ImageView pieceImage, boolean isHighlighted){
     Pane newCellGroup = new Pane();
     newCellGroup.getChildren().addAll(createNewCellView(state, isHighlighted, true), pieceImage);
-    newCellGroup.setOnMouseClicked(this::clickOnGrid);
+    try {
+      newCellGroup.setOnMouseClicked(this::clickOnGrid);
+    }
+    catch(Exception e){
+
+    }
     return newCellGroup;
   }
 
@@ -112,7 +122,7 @@ public class GridView implements GridListener {
     return myCellHeight;
   }
 
-  private void clickOnGrid(MouseEvent event){
+  private void clickOnGrid(MouseEvent event) {
     Node nod = (Node) event.getSource();
     Parent par = nod.getParent();
 
@@ -124,7 +134,11 @@ public class GridView implements GridListener {
     Integer colIndex = GridPane.getColumnIndex(nod);
     Integer rowIndex = GridPane.getRowIndex(nod);
     System.out.println("ColumnIndex: " + colIndex + " RowIndex: " + rowIndex);
-    myGameView.getBoardClick(colIndex, rowIndex);
+    try {
+      myGameView.getBoardClick(colIndex, rowIndex);
+    } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+      myLogger.log(Level.INFO, "Error with reflection");
+    }
 
   }
 
