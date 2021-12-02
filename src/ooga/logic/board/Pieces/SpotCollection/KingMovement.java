@@ -1,15 +1,21 @@
 package ooga.logic.board.Pieces.SpotCollection;
 
-import java.util.Arrays;
 import java.util.List;
 import ooga.logic.board.coordinate.Coordinate;
 
 public class KingMovement extends SpotCollection {
+  private static final String HORIZONTAL_RANGE = "horizontalRange";
+  private static final String VERTICAL_RANGE = "verticalRange";
+
+  public KingMovement(){
+    super();
+  }
+
 
   @Override
   public List<Coordinate> getPossibleSpots(Coordinate myCoordinate) {
-    List<Integer> addXAmount = Arrays.asList(-1,0,1);
-    List<Integer> addYAmount  = Arrays.asList(-1,0,1);
+    int[] addXAmount = stringToIntArr(getPieceProperties().getString(HORIZONTAL_RANGE));
+    int[] addYAmount  = stringToIntArr(getPieceProperties().getString(VERTICAL_RANGE));
     return availableSquares(myCoordinate, addXAmount, addYAmount);
   }
 }

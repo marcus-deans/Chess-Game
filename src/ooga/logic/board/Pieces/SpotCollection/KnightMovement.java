@@ -1,26 +1,22 @@
 package ooga.logic.board.Pieces.SpotCollection;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle.OneTimeDirection;
 import ooga.logic.board.coordinate.Coordinate;
 
 public class KnightMovement extends SpotCollection {
+  private static final String PIECE_AS_STRING = "knight";
+
+  public KnightMovement(){
+    super();
+  }
 
   @Override
   public List<Coordinate> getPossibleSpots(Coordinate myCoordinate) {
-    List<Coordinate> myCoords = new ArrayList<>();
-    List<Integer> myIntegers = Arrays.asList(-1,1);
-    for (int sign1 : myIntegers){
-      for (int sign2 : myIntegers){
-        myCoords.addAll(new OneTimeDirection().getPossibleSpots(myCoordinate,sign1 * 2,
-            sign2 * 1));
-        myCoords.addAll(new OneTimeDirection().getPossibleSpots(myCoordinate,sign1 * 1,
-            sign2 * 2));
-
-      }
-    }
-    return myCoords;
+    String[] myDirections = getPieceProperties().getString(PIECE_AS_STRING).split(",");
+    int[] signs = stringToIntArr(getPieceProperties().getString("signs"));
+    return doubleSymmetricOver(signs,myCoordinate,myDirections);
   }
+
+
+
 }
