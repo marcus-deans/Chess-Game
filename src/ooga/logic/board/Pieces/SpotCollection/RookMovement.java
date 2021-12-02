@@ -6,6 +6,10 @@ import ooga.logic.board.coordinate.Coordinate;
 public class RookMovement extends SpotCollection {
   private static final String PIECE_AS_STRING = "rook";
 
+  public RookMovement(){
+    super();
+  }
+
   @Override
   public List<Coordinate> getPossibleSpots(Coordinate myCoordinate) {
     return ContinuousPossibleSpots(PIECE_AS_STRING, myCoordinate);

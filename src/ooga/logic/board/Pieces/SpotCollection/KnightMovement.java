@@ -6,6 +6,10 @@ import ooga.logic.board.coordinate.Coordinate;
 public class KnightMovement extends SpotCollection {
   private static final String PIECE_AS_STRING = "knight";
 
+  public KnightMovement(){
+    super();
+  }
+
   @Override
   public List<Coordinate> getPossibleSpots(Coordinate myCoordinate) {
     String[] myDirections = getPieceProperties().getString(PIECE_AS_STRING).split(",");

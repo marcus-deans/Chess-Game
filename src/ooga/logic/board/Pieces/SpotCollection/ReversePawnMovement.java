@@ -7,6 +7,10 @@ import ooga.logic.board.coordinate.Coordinate;
 public class ReversePawnMovement extends SpotCollection {
   private static final String PIECE_AS_STRING = "reversePawnMovement";
 
+  public ReversePawnMovement(){
+    super();
+  }
+
   @Override
   public List<Coordinate> getPossibleSpots(Coordinate myCoordinate) {
     return OneTimePossibleSpots(PIECE_AS_STRING, myCoordinate);

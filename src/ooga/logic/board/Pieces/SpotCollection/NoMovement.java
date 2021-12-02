@@ -6,6 +6,10 @@ import ooga.logic.board.coordinate.Coordinate;
 
 public class NoMovement extends SpotCollection {
 
+  public NoMovement(){
+    super();
+  }
+
   @Override
   public List<Coordinate> getPossibleSpots(Coordinate myCoordinate) {
     return new ArrayList<>();
