@@ -6,12 +6,10 @@ import ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle.OneTi
 import ooga.logic.board.coordinate.Coordinate;
 
 public class PawnCapture extends SpotCollection {
+  private static final String PIECE_AS_STRING = "pawnCapture";
 
   @Override
   public List<Coordinate> getPossibleSpots(Coordinate myCoordinate) {
-    List<Coordinate> myCoords = new ArrayList<>();
-    myCoords.addAll(new OneTimeDirection().getPossibleSpots(myCoordinate,-1,1));
-    myCoords.addAll(new OneTimeDirection().getPossibleSpots(myCoordinate,1,1));
-    return myCoords;
+    return OneTimePossibleSpots(PIECE_AS_STRING, myCoordinate);
   }
 }
