@@ -25,6 +25,8 @@ public class Game {
     private List<Coordinate> possibleCoordinates;
     private boolean isGameOver;
     private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private Coordinate puzzleStart;
+    private Coordinate puzzleFinish;
 
     public Game(int height, int width){
         myBoard = new GameBoard(height, width);
@@ -35,9 +37,7 @@ public class Game {
             myBoard.setEdgePolicy(s);
         }
         catch (Exception e){
-
         }
-
     }
 
     public List<Spot> getFullBoard(){
@@ -211,5 +211,11 @@ public class Game {
 
     public Spot getSpot(Coordinate coordinate){
         return myBoard.getSpot(coordinate);
+    }
+
+    public void setPuzzleSolution(String s)
+    {
+        puzzleStart=new GameCoordinate(Integer.parseInt(s.substring(0,1)),Integer.parseInt(s.substring(1,2)));
+        puzzleFinish=new GameCoordinate(Integer.parseInt(s.substring(2,3)),Integer.parseInt(s.substring(3,4)));
     }
 }

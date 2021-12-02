@@ -55,6 +55,13 @@ public class ChessController implements Controller {
     private int numPlayers;
     private int turnIterator;
 
+    private static final String PIECES_PACKAGE =
+            ChessController.class.getPackageName() + ".controllerresources.";
+    private static final String PUZZLE_CSV_MAP = "Puzzles";
+    private ResourceBundle puzzleMap;
+    private int puzzleNumber;
+    private String puzzleName;
+
     private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 
@@ -92,11 +99,26 @@ public class ChessController implements Controller {
 
         File simFile = new File(file.toString());
         myData = mySIMParser.readSimFile(simFile);
-        File csvFile = new File(myData.get("GameConfiguration"));
+        File csvFile;
+        if (myData.get("Type").equals("Puzzles"))
+        {
+            puzzleMap=ResourceBundle.getBundle(PIECES_PACKAGE+PUZZLE_CSV_MAP);
+            puzzleNumber=1+new Random().nextInt(Integer.parseInt(puzzleMap.getString("numPuzzles")));
+            puzzleName=puzzleMap.getString(Integer.toString(puzzleNumber));
+            csvFile=new File(puzzleName);
+        }
+        else
+        {
+            csvFile= new File(myData.get("GameConfiguration"));
+        }
         myCSVParser.readCSVFile(csvFile);
         BOARDWIDTH = myCSVParser.getDimensions()[0];
         BOARDHEIGHT = myCSVParser.getDimensions()[1];
         myGame = new Game(BOARDHEIGHT, BOARDWIDTH);
+        if (myData.get("Type").equals("Puzzles"))
+        {
+            myGame.setPuzzleSolution(puzzleMap.getString(puzzleName));
+        }
         myGame.setEdgePolicy(myData.get("EdgePolicy"));
         boardInitializer(myCSVParser.getInitialStates(), myGame);
         boardViewBuild(myGame);
@@ -280,5 +302,7 @@ public class ChessController implements Controller {
             turnIterator = numTurns%numPlayers;
             currentPlayer = thePlayers.get(turnIterator);
             }
+
+
 }
 
