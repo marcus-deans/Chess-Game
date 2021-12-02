@@ -35,9 +35,7 @@ public class Game {
             myBoard.setEdgePolicy(s);
         }
         catch (Exception e){
-
         }
-
     }
 
     public List<Spot> getFullBoard(){
