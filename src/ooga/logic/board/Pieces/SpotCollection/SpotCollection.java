@@ -11,6 +11,7 @@ abstract public class SpotCollection implements SpotCollectionInterface{
   private ResourceBundle pieceProperties;
   private ResourceBundle teamProperties;
 
+
   public SpotCollection(){
     pieceProperties = ResourceBundle.getBundle("ooga.logic.board.Pieces.SpotCollection.resources.Directions");
     teamProperties = ResourceBundle.getBundle("ooga.logic.board.Pieces.SpotCollection.resources.TeamDefaultDirections");
