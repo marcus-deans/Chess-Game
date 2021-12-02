@@ -1,0 +1,13 @@
+Type=Puzzles
+Title=Standard Chess
+Author=Carter Stonesifer
+
+GameTimer=0
+
+
+
+Portal=False
+BlackHole=False
+EdgePolicy=Basic
+
+PiecesImageDirectory=Standard
