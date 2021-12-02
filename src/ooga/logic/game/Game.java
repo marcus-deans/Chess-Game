@@ -162,7 +162,7 @@ public class Game {
     private void removePieceFromGame(Piece capturedPiece){
 
         try {
-            if(capturedPiece.getCheckable()) isGameOver = true;
+            if (capturedPiece.getCheckable()) isGameOver = true;
             currentPlayer.addPieceToGraveyard(capturedPiece);
         }
         catch(Exception e)
@@ -190,6 +190,15 @@ public class Game {
         try {
             setMovingPiece(newPosition, myBoard.getSpot(prevPosition).getPiece());
             myBoard.getSpot(prevPosition).setPiece(null);
+            if (puzzleStart!=null && puzzleFinish!=null && puzzleStart.equals(prevPosition) && puzzleFinish.equals(newPosition))
+            {
+                myLogger.log(Level.INFO, "PUZZLE COMPLETED SUCCESSFULLY");
+            }
+            else if (puzzleStart!=null && puzzleFinish!=null && (!puzzleStart.equals(prevPosition) || !puzzleFinish.equals(newPosition)))
+            {
+                myLogger.log(Level.INFO, "PUZZLE FAILED! TRY AGAIN!");
+                reset();
+            }
         }
         catch(Exception e)
         {
