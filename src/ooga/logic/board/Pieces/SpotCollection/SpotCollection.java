@@ -8,11 +8,24 @@ import ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle.OneTi
 import ooga.logic.board.coordinate.Coordinate;
 
 abstract public class SpotCollection implements SpotCollectionInterface{
-  protected ResourceBundle pieceProperties = ResourceBundle.getBundle("ooga.logic.board.Pieces.SpotCollection.Directions");
-  protected ResourceBundle teamProperties = ResourceBundle.getBundle("ooga.logic.board.Pieces.SpotCollection.TeamDefaultDirections");
+  private ResourceBundle pieceProperties;
+  private ResourceBundle teamProperties;
+
+  public SpotCollection(){
+    pieceProperties = ResourceBundle.getBundle("ooga.logic.board.Pieces.SpotCollection.resources.Directions");
+    teamProperties = ResourceBundle.getBundle("ooga.logic.board.Pieces.SpotCollection.resources.TeamDefaultDirections");
+  }
 
   @Override
   public abstract List<Coordinate> getPossibleSpots(Coordinate coordinate);
+
+  protected ResourceBundle getPieceProperties(){
+    return pieceProperties;
+  }
+
+  protected ResourceBundle setPieceProperties(){
+    return teamProperties;
+  }
 
   protected List<Coordinate> availableSquares(Coordinate myCoordinate,int[] addXAmount, int[] addYAmount){
     List<Coordinate> myCoordinateList = new ArrayList<>();
