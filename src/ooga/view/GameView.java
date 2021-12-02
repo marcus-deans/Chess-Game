@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -20,12 +19,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.controller.Controller;
-
-import ooga.logic.board.coordinate.GameCoordinate;
 
 import ooga.logic.board.spot.Spot;
 
@@ -33,8 +29,8 @@ import ooga.util.IncorrectCSVFormatException;
 
 import ooga.view.ui.InformationPanel;
 
-import ooga.view.ui.PlayerLoginInterface;
-import ooga.view.ui.PlayerLoginView;
+import ooga.view.ui.playerlogin.PlayerLoginInterface;
+import ooga.view.ui.playerlogin.PlayerLoginView;
 import ooga.view.ui.gameplaypanel.GameplayPanel;
 import ooga.view.ui.controlpanel.ControlPanel;
 
@@ -421,7 +417,6 @@ public class GameView extends Application implements PanelListener {
   public void getBoardClick(int column, int row) {
     //TODO: ensure controller callback works
     myChessController.clickedCoordinates(column, row);
-    System.out.println("Got clicked");
   }
 
   @Override

@@ -1,4 +1,4 @@
-package ooga.view.ui;
+package ooga.view.ui.playerlogin;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -17,12 +17,20 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import ooga.util.ResourceRetriever;
 import ooga.view.PanelListener;
+
+import java.util.ResourceBundle;
 
 public class PlayerLoginView extends Application implements PlayerLoginInterface {
 
   PanelListener myPanelListener;
+  Stage myStage;
 
+  //General resource file structure
+  private static final String GAME_VIEW_RESOURCES_FILE_PATH = "ooga.view.viewresources.GameViewResources";
+  private static final ResourceBundle gameViewResources = ResourceBundle.getBundle(
+          GAME_VIEW_RESOURCES_FILE_PATH);
 
   public PlayerLoginView() {
 
@@ -34,23 +42,24 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
 
   @Override
   public void start(Stage primaryStage) {
-    primaryStage.setTitle("Registration Form JavaFX Application");
+    myStage = primaryStage;
+    myStage.setTitle("Registration Form JavaFX Application");
 
     // Create the registration form grid pane
     GridPane gridPane = createRegistrationFormPane();
     // Add UI controls to the registration form grid pane
     addUIControls(gridPane);
     // Create a scene with registration form grid pane as the root node
-    Scene scene = new Scene(gridPane, 800, 500);
+    Scene scene = new Scene(gridPane, 600, 300);
 
     scene.getStylesheets().add(
         PlayerLoginView.class.getResource("PlayerLoginFormatting.css")
             .toExternalForm());
 
     // Set the scene in primary stage
-    primaryStage.setScene(scene);
+    myStage.setScene(scene);
 
-    primaryStage.show();
+    myStage.show();
   }
 
   @Override
@@ -91,7 +100,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
 
   private void addUIControls(GridPane gridPane) {
     // Add Header
-    Label headerLabel = new Label("Registration Form");
+    Label headerLabel = new Label(ResourceRetriever.getWord("login_title_text"));
     headerLabel.setId("login-header-label");
     gridPane.add(headerLabel, 0, 0, 2, 1);
 
@@ -99,7 +108,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     GridPane.setMargin(headerLabel, new Insets(20, 0, 20, 0));
 
     // Add Name Label
-    Label nameLabel = new Label("Full Name : ");
+    Label nameLabel = new Label(ResourceRetriever.getWord("name_label_text"));
     gridPane.add(nameLabel, 0, 1);
 
     // Add Name Text Field
@@ -174,6 +183,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
         showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(),
             "Registration Successful!", "Welcome " + name);
         myPanelListener.setNewPlayer(name, email, password, team);
+        myPanelListener.closePlayerLogin(myStage);
       }
     });
   }
@@ -185,5 +195,16 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     alert.setContentText(message);
     alert.initOwner(owner);
     alert.show();
+  }
+
+  //return the integer from the resource file based on the provided string
+  private int getInt(String key){
+    int value;
+    try {
+      value = Integer.parseInt(gameViewResources.getString(key));
+    } catch(Exception e){
+      value =-1;
+    }
+    return value;
   }
 }
