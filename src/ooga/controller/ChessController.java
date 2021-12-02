@@ -108,6 +108,7 @@ public class ChessController implements Controller {
         thePlayers = new ArrayList<>();
         setPlayer("Player1",0);
         setPlayer("Player2",1);
+        history= new Stack<GameCoordinate[]>();
 
         currentPlayer = thePlayers.get(0);
         numPlayers = thePlayers.size();
@@ -217,13 +218,14 @@ public class ChessController implements Controller {
                 boardViewBuild(myBoard);
             }
             //update board with next possible move
-            else if (myGame.getPossibleCoordinates(clickedPiece).contains(nextMove)) {
+            else if (myGame.getPossibleCoordinates(clickedPiece).contains(myBoard.getSpot(nextMove))) {
                 /* TODO: is not in check, or if selected move moves out of check, smt like accept move claus */
                 myGame.movePiece(clickedPiece, nextMove);
                 myGameView.updateChessCell(myGame.getSpot(clickedPiece));
                 myLogger.log(Level.INFO, "MOVED");
-
+                FIRSTCLICK = true;
                 nextTurn();
+
             }
             else {
                 myLogger.log(Level.WARNING, "Invalid Position Chosen");

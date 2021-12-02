@@ -113,13 +113,20 @@ public class Game {
     }
 
     public Set<Spot> getPossibleCoordinates(GameCoordinate selected){
-        searchPossiblePositions(selected);
+
+        List<Coordinate> possibleMovePositions = myBoard.getSpot(selected).getPiece().getPossibleMoves().getPossibleSpots(selected);
+        //searchPossiblePositions(selected);
 
         Set<Spot> possibleSet = new HashSet<>();
 
-        for(int i = 0; i < possibleCoordinates.size(); i++){
-            possibleSet.add(myBoard.getSpot(possibleCoordinates.get(i)));
+//        for(int i = 0; i < possibleCoordinates.size(); i++){
+//            possibleSet.add(myBoard.getSpot(possibleCoordinates.get(i)));
+//        }
+
+        for(int i = 0; i < possibleMovePositions.size(); i++){
+            possibleSet.add(myBoard.getSpot(possibleMovePositions.get(i)));
         }
+
         return possibleSet;
     }
 

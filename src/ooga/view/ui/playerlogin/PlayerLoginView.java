@@ -28,9 +28,10 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
   Stage myStage;
 
   //General resource file structure
-  private static final String GAME_VIEW_RESOURCES_FILE_PATH = "ooga.view.viewresources.GameViewResources";
-  private static final ResourceBundle gameViewResources = ResourceBundle.getBundle(
-          GAME_VIEW_RESOURCES_FILE_PATH);
+  private static final String FORMATTING_FILE = "PlayerLoginFormatting.css";
+  private static final String PLAYER_LOGIN_VIEW_RESOURCES_FILE_PATH = "ooga.view.viewresources.PlayerLoginViewResources";
+  private static final ResourceBundle playerLoginViewResources = ResourceBundle.getBundle(
+          PLAYER_LOGIN_VIEW_RESOURCES_FILE_PATH);
 
   public PlayerLoginView() {
 
@@ -43,7 +44,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
   @Override
   public void start(Stage primaryStage) {
     myStage = primaryStage;
-    myStage.setTitle("Registration Form JavaFX Application");
+    myStage.setTitle(ResourceRetriever.getWord("login_modal_title_text"));
 
     // Create the registration form grid pane
     GridPane gridPane = createRegistrationFormPane();
@@ -53,8 +54,8 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     Scene scene = new Scene(gridPane, 600, 300);
 
     scene.getStylesheets().add(
-        PlayerLoginView.class.getResource("PlayerLoginFormatting.css")
-            .toExternalForm());
+            PlayerLoginView.class.getResource(FORMATTING_FILE)
+                    .toExternalForm());
 
     // Set the scene in primary stage
     myStage.setScene(scene);
@@ -78,10 +79,10 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     gridPane.setPadding(new Insets(40, 40, 40, 40));
 
     // Set the horizontal gap between columns
-    gridPane.setHgap(10);
+    gridPane.setHgap(getInt("login_grid_pane_hgap"));
 
     // Set the vertical gap between rows
-    gridPane.setVgap(10);
+    gridPane.setVgap(getInt("login_grid_pane_vgap"));
 
     // Add Column Constraints
 
@@ -113,41 +114,41 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
 
     // Add Name Text Field
     TextField nameField = new TextField();
-    nameField.setPrefHeight(40);
+    nameField.setPrefHeight(getInt("input_field_height"));
     gridPane.add(nameField, 1, 1);
 
     // Add Email Label
-    Label emailLabel = new Label("Email ID : ");
+    Label emailLabel = new Label(ResourceRetriever.getWord("email_label_text"));
     gridPane.add(emailLabel, 0, 2);
 
     // Add Email Text Field
     TextField emailField = new TextField();
-    emailField.setPrefHeight(40);
+    emailField.setPrefHeight(getInt("input_field_height"));
     gridPane.add(emailField, 1, 2);
 
     // Add Password Label
-    Label passwordLabel = new Label("Password : ");
+    Label passwordLabel = new Label(ResourceRetriever.getWord("password_label_text"));
     gridPane.add(passwordLabel, 0, 3);
 
     // Add Password Field
     PasswordField passwordField = new PasswordField();
-    passwordField.setPrefHeight(40);
+    passwordField.setPrefHeight(getInt("input_field_height"));
     gridPane.add(passwordField, 1, 3);
 
     //Add Team Label
-    Label teamLabel = new Label("Team : ");
+    Label teamLabel = new Label(ResourceRetriever.getWord("team_label_text"));
     gridPane.add(teamLabel, 0, 4);
 
     //Add Team Field
     TextField teamField = new TextField();
-    teamField.setPrefHeight(40);
+    teamField.setPrefHeight(getInt("input_field_height"));
     gridPane.add(teamField, 1, 4);
 
     // Add Submit Button
-    Button submitButton = new Button("Submit");
-    submitButton.setPrefHeight(40);
+    Button submitButton = new Button(ResourceRetriever.getWord("submit_button_text"));
+    submitButton.setPrefHeight(getInt("submit_button_height"));
     submitButton.setDefaultButton(true);
-    submitButton.setPrefWidth(100);
+    submitButton.setPrefWidth(getInt("submit_button_width"));
     gridPane.add(submitButton, 0, 5, 2, 1);
     GridPane.setHalignment(submitButton, HPos.CENTER);
     GridPane.setMargin(submitButton, new Insets(20, 0, 20, 0));
@@ -156,23 +157,23 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
       @Override
       public void handle(ActionEvent event) {
         if (nameField.getText().isEmpty()) {
-          showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
-              "Please enter your name");
+          showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), ResourceRetriever.getWord("login_form_error"),
+                  ResourceRetriever.getWord("name_field_error"));
           return;
         }
         if (emailField.getText().isEmpty()) {
-          showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
-              "Please enter your email id");
+          showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), ResourceRetriever.getWord("login_form_error"),
+                  ResourceRetriever.getWord("email_field_error"));
           return;
         }
         if (passwordField.getText().isEmpty()) {
-          showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
-              "Please enter a password");
+          showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), ResourceRetriever.getWord("login_form_error"),
+                  ResourceRetriever.getWord("password_field_error"));
           return;
         }
         if (teamField.getText().isEmpty()) {
-          showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!",
-              "Please enter a team");
+          showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), ResourceRetriever.getWord("login_form_error"),
+                  ResourceRetriever.getWord("team_field_error"));
         }
 
         String name = nameField.getText();
@@ -181,7 +182,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
         int team = Integer.parseInt(teamField.getText());
 
         showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(),
-            "Registration Successful!", "Welcome " + name);
+                ResourceRetriever.getWord("login_form_success"), ResourceRetriever.getWord("login_welcome_message") + name);
         myPanelListener.setNewPlayer(name, email, password, team);
         myPanelListener.closePlayerLogin(myStage);
       }
@@ -201,7 +202,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
   private int getInt(String key){
     int value;
     try {
-      value = Integer.parseInt(gameViewResources.getString(key));
+      value = Integer.parseInt(playerLoginViewResources.getString(key));
     } catch(Exception e){
       value =-1;
     }

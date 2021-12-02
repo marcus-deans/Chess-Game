@@ -62,11 +62,13 @@ public class GridView implements GridListener {
     }
     newCell.setWidth(myCellWidth);
     newCell.setHeight(myCellHeight);
-    newCell.setId("cell-view");
     if(isHighlighted){
       newCell.setId("highlighted-cell-view");
+      newCell.setFill(Color.web("#FF6961"));
+    } else {
+      newCell.setId("cell-view");
+      newCell.setFill(Color.web(myGridColours[state]));
     }
-    newCell.setFill(Color.web(myGridColours[state]));
     return newCell;
   }
 

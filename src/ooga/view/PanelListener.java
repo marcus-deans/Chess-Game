@@ -13,7 +13,7 @@ public interface PanelListener {
 
     void resetGame();
 
-    void updateColorScheme(Color newColor);
+    void updateColorScheme(String newColor);
 
     void loadNewFile(String filename) throws CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IncorrectCSVFormatException;
 

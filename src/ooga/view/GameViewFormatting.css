@@ -141,10 +141,10 @@
 }
 
 #highlighted-cell-view {
-  -fx-background-fill: red, black ;
-  -fx-background-insets: 0, 2 ;
+  -fx-background-fill: black, red ;
+  -fx-background-insets: 4, 10;
   -fx-background-color: red ;
-  -fx-padding: 2 ;
+  -fx-padding: 4 ;
 }
 
 #game-title-text {

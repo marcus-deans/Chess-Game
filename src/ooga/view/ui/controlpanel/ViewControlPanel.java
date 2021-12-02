@@ -50,20 +50,17 @@ public class ViewControlPanel extends SharedUIComponents {
     Node languageControlDropdown = initializeLanguageControlDropdown();
     myViewControlPanel.getChildren().add(languageControlDropdown);
 
-//    myViewControlPanel.setLayoutX(myControlPanelX);
-//    myViewControlPanel.setLayoutY(getInt("view_control_panel_y"));
     myViewControlPanel.setId("view-control-panel");
 
     return myViewControlPanel;
   }
-
 
   //create the specific dropdown allowing the user to select which view mode they prefer
   private Node initializeViewControlDropdown() {
     viewSetting = makeComboBox(getWord("view_selection"), viewOptions, (event) -> {
       String myViewOption = viewSetting.getSelectionModel().getSelectedItem().toString();
       if(this.getPanelListener() != null){
-        this.getPanelListener().updateColorScheme(Color.web(viewControlResources.getString(myViewOption)));
+        this.getPanelListener().updateColorScheme(viewControlResources.getString(myViewOption));
       }
     });
     return viewSetting;

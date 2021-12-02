@@ -353,8 +353,8 @@ public class GameView extends Application implements PanelListener {
    * @param newColor desired color scheme
    */
   @Override
-  public void updateColorScheme(Color newColor) {
-    myGameViewScene.setFill(newColor);
+  public void updateColorScheme(String newColor) {
+    myGameViewScene.setFill(Color.web(newColor));
   }
 
   /**
