@@ -2,6 +2,7 @@ package ooga.view;
 
 import com.opencsv.exceptions.CsvValidationException;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import ooga.util.IncorrectCSVFormatException;
 
 import java.io.IOException;
@@ -12,7 +13,7 @@ public interface PanelListener {
 
     void resetGame();
 
-    void updateColorScheme(Color newColor);
+    void updateColorScheme(String newColor);
 
     void loadNewFile(String filename) throws CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IncorrectCSVFormatException;
 
@@ -21,9 +22,15 @@ public interface PanelListener {
     /**
      * Undo the previous move
      */
-    void undoMove();
+    void undoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 
     void changeVariant(String variant);
 
-    void getBoardClick(int x, int y);
+    void getBoardClick(int x, int y) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
+
+    void openPlayerLogin();
+
+    void setNewPlayer(String username, String email, String password, int team);
+
+    void closePlayerLogin(Stage stage);
 }

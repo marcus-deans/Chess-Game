@@ -1,11 +1,12 @@
 package ooga.view;
 
+import ooga.logic.board.spot.Spot;
 import ooga.logic.game.Game;
 
 /**
  * Interface to interact with the view of the program, serves as API
  */
-public interface View {
+public interface ChessView {
 
   /**
    * Change the language of the text in the program
@@ -26,6 +27,18 @@ public interface View {
    * Update the graveyard of dead pieces
    */
   public void updateGraveyard();
+
+  /**
+   * Update a specific cell on the board
+   * @param spot the spot that should be updated
+   */
+  public void updateChessCell(Spot spot);
+
+  /**
+   * Highlight a specific cell on the board
+   * @param spot the spoit that should be highlighted
+   */
+  public void highlightChessCell(Spot spot);
 
   /**
    * Load a game that existed previously

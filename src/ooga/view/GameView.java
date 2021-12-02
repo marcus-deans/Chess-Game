@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -20,12 +19,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import ooga.controller.Controller;
-
-import ooga.logic.board.coordinate.GameCoordinate;
 
 import ooga.logic.board.spot.Spot;
 
@@ -33,6 +29,8 @@ import ooga.util.IncorrectCSVFormatException;
 
 import ooga.view.ui.InformationPanel;
 
+import ooga.view.ui.playerlogin.PlayerLoginInterface;
+import ooga.view.ui.playerlogin.PlayerLoginView;
 import ooga.view.ui.gameplaypanel.GameplayPanel;
 import ooga.view.ui.controlpanel.ControlPanel;
 
@@ -355,8 +353,8 @@ public class GameView extends Application implements PanelListener {
    * @param newColor desired color scheme
    */
   @Override
-  public void updateColorScheme(Color newColor) {
-    myGameViewScene.setFill(newColor);
+  public void updateColorScheme(String newColor) {
+    myGameViewScene.setFill(Color.web(newColor));
   }
 
   /**
@@ -402,7 +400,7 @@ public class GameView extends Application implements PanelListener {
    * Undo the previous move
    */
   @Override
-  public void undoMove() {
+  public void undoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     //TODO: callback to controller
     myChessController.undoMove();
   }
@@ -416,9 +414,26 @@ public class GameView extends Application implements PanelListener {
   //compute which cell on the grid this corresponds to, NOT the pixel position
   //error check that its' in the board as well
   @Override
-  public void getBoardClick(int column, int row) {
+  public void getBoardClick(int column, int row) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     //TODO: ensure controller callback works
     myChessController.clickedCoordinates(column, row);
+  }
+
+  @Override
+  public void openPlayerLogin() {
+    PlayerLoginInterface newPlayerLoginView = new PlayerLoginView();
+    newPlayerLoginView.setPanelListener(this);
+    newPlayerLoginView.start(new Stage());
+  }
+
+  @Override
+  public void setNewPlayer(String username, String email, String password, int team) {
+    myChessController.setPlayer(username, team);
+  }
+
+  @Override
+  public void closePlayerLogin(Stage stage) {
+    stage.close();
   }
 
   /**
