@@ -34,7 +34,7 @@ public class GameBoard implements Board {
     private static final String SPOTACTION_PACKAGE =
             Game.class.getPackageName() + ".resources.";
     private static final String SPOTACTION_MAP = "Spot";
-    private static final String SPOTACTION_PATH="ooga.logic.board.spot.spotactions";
+    private static final String SPOTACTION_PATH="ooga.logic.board.spot.spotactions.";
     private String spotActionName;
 
 

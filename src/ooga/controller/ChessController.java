@@ -206,16 +206,18 @@ public class ChessController implements Controller {
         }
     }
 
-    private void handleSecondClick ( int row, int column) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    private void handleSecondClick ( int row, int column) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
+    {
             nextMove = new GameCoordinate(row, column);
             //clicking same piece to deselect
             if (nextMove.equals(clickedPiece)) {
-                myLogger.log(Level.INFO, "SAME PIECE" +FIRSTCLICK);
+                myLogger.log(Level.INFO, "SAME PIECE " +FIRSTCLICK);
                 FIRSTCLICK = true;
                 boardViewBuild(myGame);
             }
             //update board with next possible move
             else if (myGame.getPossibleCoordinates(clickedPiece).contains(myGame.getSpot(nextMove))) {
+                myLogger.log(Level.INFO, "ERROR IS HERE");
                 /* TODO: is not in check, or if selected move moves out of check, smt like accept move claus */
                 myGame.movePiece(clickedPiece, nextMove);
 

@@ -10,6 +10,8 @@ import ooga.logic.board.spot.spotactions.SpotAction;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Game {
     private GameBoard myBoard;
@@ -22,6 +24,7 @@ public class Game {
     private GameSpot selectedSpot;
     private List<Coordinate> possibleCoordinates;
     private boolean isGameOver;
+    private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     public Game(int height, int width){
         myBoard = new GameBoard(height, width);
@@ -157,21 +160,41 @@ public class Game {
     }
 
     private void removePieceFromGame(Piece capturedPiece){
-        if(capturedPiece.getCheckable()) isGameOver = true;
-        currentPlayer.addPieceToGraveyard(capturedPiece);
+
+        try {
+            if(capturedPiece.getCheckable()) isGameOver = true;
+            currentPlayer.addPieceToGraveyard(capturedPiece);
+        }
+        catch(Exception e)
+        {
+            myLogger.log(Level.INFO, "Error in removePiece");
+        }
     }
 
     private void setMovingPiece(GameCoordinate newPosition, Piece movingPiece)
             throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
-        if(myBoard.hasPiece(newPosition)) removePieceFromGame(myBoard.getSpot(newPosition).getPiece());
-        myBoard.updateBoard(newPosition,movingPiece);
+
+        try {
+            if(myBoard.hasPiece(newPosition)) removePieceFromGame(myBoard.getSpot(newPosition).getPiece());
+            myBoard.updateBoard(newPosition,movingPiece);
+        }
+        catch(Exception e)
+        {
+            myLogger.log(Level.INFO, "Error in setMovingPiece");
+        }
     }
 
     public void movePiece(GameCoordinate prevPosition, GameCoordinate newPosition)
             throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-       myBoard.getSpot(prevPosition).setPiece(null);
-        setMovingPiece(newPosition, myBoard.getSpot(prevPosition).getPiece());
+        try {
+            setMovingPiece(newPosition, myBoard.getSpot(prevPosition).getPiece());
+            myBoard.getSpot(prevPosition).setPiece(null);
+        }
+        catch(Exception e)
+        {
+            myLogger.log(Level.INFO, "Error in movePiece");
+        }
     }
 
     public boolean getIsGameOver(){
