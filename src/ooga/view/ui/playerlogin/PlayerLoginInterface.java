@@ -1,4 +1,4 @@
-package ooga.view.ui;
+package ooga.view.ui.playerlogin;
 
 import javafx.stage.Stage;
 import ooga.view.PanelListener;

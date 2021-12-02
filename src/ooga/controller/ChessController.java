@@ -154,6 +154,9 @@ public class ChessController implements Controller {
     public void setPlayer(String userName, int team){
         Player addPlayer = new Player(userName, team);
         thePlayers.add(addPlayer);
+        for (Player w: thePlayers){
+            System.out.println(w.getUsername());
+        }
     }
 
     /**
@@ -180,18 +183,22 @@ public class ChessController implements Controller {
             handleFirstClick(row, column);
         }
         else if(!FIRSTCLICK) {
-            System.out.println("Shouldn't run yet");
             handleSecondClick(row, column);
         }
-        FIRSTCLICK = false;
     }
 
     private void handleFirstClick(int row, int column) {
         clickedPiece = new GameCoordinate(row, column);
         myGame.setSelected(clickedPiece);
         //if(currentPlayer.getTeam() == myBoard.getSpot(clickedPiece).getPiece().getTeam()) {
-            highlightSpots(myGame.getPossibleCoordinates(clickedPiece));
+        Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece);
+            highlightSpots(test);
+            for(Spot h: test){
+                System.out.println(h.getCoordinate().getX_pos());
+                System.out.println(h.getCoordinate().getY_pos());
+            }
             myLogger.log(Level.INFO, "FIRST CLICK" +FIRSTCLICK);
+        FIRSTCLICK = false;
         //}
     }
 
