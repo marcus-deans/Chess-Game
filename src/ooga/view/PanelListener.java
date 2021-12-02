@@ -21,9 +21,9 @@ public interface PanelListener {
     /**
      * Undo the previous move
      */
-    void undoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
+    void undoMove();
 
     void changeVariant(String variant);
 
-    void getBoardClick(int x, int y) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
+    void getBoardClick(int x, int y);
 }

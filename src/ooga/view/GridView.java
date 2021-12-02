@@ -2,7 +2,6 @@ package ooga.view;
 
 import java.awt.Panel;
 import java.io.FileInputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import javafx.scene.Group;
@@ -109,7 +108,7 @@ public class GridView implements GridListener {
     return myCellHeight;
   }
 
-  private void clickOnGrid(MouseEvent event) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+  private void clickOnGrid(MouseEvent event){
     Node nod = (Node) event.getSource();
     Parent par = nod.getParent();
 

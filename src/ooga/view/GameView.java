@@ -402,7 +402,7 @@ public class GameView extends Application implements PanelListener {
    * Undo the previous move
    */
   @Override
-  public void undoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+  public void undoMove() {
     //TODO: callback to controller
     myChessController.undoMove();
   }
@@ -416,7 +416,7 @@ public class GameView extends Application implements PanelListener {
   //compute which cell on the grid this corresponds to, NOT the pixel position
   //error check that its' in the board as well
   @Override
-  public void getBoardClick(int column, int row) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+  public void getBoardClick(int column, int row) {
     //TODO: ensure controller callback works
     myChessController.clickedCoordinates(column, row);
   }
