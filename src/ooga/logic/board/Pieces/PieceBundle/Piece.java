@@ -28,16 +28,32 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private static final String PIECES_PACKAGE = Piece.class.getPackageName() + ".resources.";
   private static final String DEFAULT_TO_STRING = "Default";
 
+  private boolean teamMatters;
+
   public Piece(String pieceToString, int team, Coordinate myCoordinate) {
     setPieceProperties(pieceToString);
     setDefaultProperties();
     setTeam(team);
     setCoordinate(myCoordinate);
     setJump();
+    setMyTeamMatters();
     setMovement(pieceToString);
     setCapture(pieceToString);
     setPromotionSpots();
     setMyCheckable();
+  }
+
+  private void setMyTeamMatters() {
+    try{
+      setTeamMatters(Boolean.parseBoolean(getPieceProperties().getString("teamMatters")));
+    }
+    catch (Exception e){
+      setTeamMatters(Boolean.parseBoolean(getDefaultProperties().getString("teamMatters")));
+    }
+  }
+
+  private void setTeamMatters(boolean value){
+    teamMatters = value;
   }
 
   protected void setPromotionSpots(){
@@ -171,7 +187,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
       setMyMovement(
           (SpotCollection) Class.forName(
               String.format("ooga.logic.board.Pieces.SpotCollection.%s%s", getPieceProperties().
-                  getString("movement"),getTeam())).getConstructor().newInstance()
+                  getString("movement"),getTeamIfNecessary())).getConstructor().newInstance()
       );
 
 
@@ -179,6 +195,14 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     catch (Exception e){
       setDefaultMovement(pieceToString);
     }
+  }
+
+  private String getTeamIfNecessary(){
+    if(teamMatters){
+      return getTeam() + "";
+    }
+    return "";
+
   }
 
   private void setDefaultMovement(String pieceToString) {
