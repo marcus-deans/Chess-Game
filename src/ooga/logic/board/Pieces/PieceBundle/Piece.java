@@ -33,6 +33,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   public Piece(String pieceToString, int team, Coordinate myCoordinate) {
     setPieceProperties(pieceToString);
     setDefaultProperties();
+    setMyTeamMatters();
     setTeam(team);
     setCoordinate(myCoordinate);
     setJump();
@@ -183,11 +184,12 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   }
 
   private void setMovement(String pieceToString) {
+    System.out.println();
     try{
       setMyMovement(
           (SpotCollection) Class.forName(
-              String.format("ooga.logic.board.Pieces.SpotCollection.%s%s", getPieceProperties().
-                  getString("movement"),getTeamIfNecessary())).getConstructor().newInstance()
+              String.format("ooga.logic.board.Pieces.SpotCollection.%s", getPieceProperties().
+                  getString(String.format("movement%s",getTeamIfNecessary())))).getConstructor().newInstance()
       );
 
 
@@ -224,8 +226,8 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     try{
       setMyCapture(
           (SpotCollection) Class.forName(
-              String.format("ooga.logic.board.Pieces.SpotCollection.%s%s", getPieceProperties().
-                  getString("capture"),getTeam())).getConstructor().newInstance()
+              String.format("ooga.logic.board.Pieces.SpotCollection.%s", getPieceProperties().
+                  getString(String.format("capture%s",getTeamIfNecessary())))).getConstructor().newInstance()
       );
     }
     catch (Exception e){

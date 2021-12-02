@@ -1,8 +1,6 @@
 package ooga.logic.board.Pieces.SpotCollection;
 
-import java.util.ArrayList;
 import java.util.List;
-import ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle.OneTimeDirection;
 import ooga.logic.board.coordinate.Coordinate;
 
 public class PawnCapture extends SpotCollection {
