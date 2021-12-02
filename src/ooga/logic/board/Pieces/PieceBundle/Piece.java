@@ -27,6 +27,8 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   private static final String PIECES_PACKAGE = Piece.class.getPackageName() + ".resources.";
   private static final String DEFAULT_TO_STRING = "Default";
+  private static final String EMPTY = "";
+
 
   private boolean teamMatters;
 
@@ -201,9 +203,9 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   private String getTeamIfNecessary(){
     if(teamMatters){
-      return getTeam() + "";
+      return getTeam() + EMPTY;
     }
-    return "";
+    return EMPTY;
 
   }
 
