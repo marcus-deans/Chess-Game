@@ -108,8 +108,8 @@ public class Game {
 
             Boolean isJump = selectedSpot.getPiece().getCanJump();
 
-            if (isJump) possibleCoordinates = getJumpPossibleCoordinate(possibleMovePositions);
-            else possibleCoordinates = getStandardPossibleCoordinate(possibleMovePositions);
+            if (isJump) possibleCoordinates = myBoard.getEdgePolicy().filterList(getJumpPossibleCoordinate(possibleMovePositions));
+            else possibleCoordinates = myBoard.getEdgePolicy().filterList(getStandardPossibleCoordinate(possibleMovePositions));
 
             if (possibleCapturePositions.size() > 0) addCapturePositions(possibleCapturePositions);
         }
