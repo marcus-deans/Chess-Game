@@ -126,12 +126,6 @@ public class GridView implements GridListener {
 
   }
 
-
-  public int[] updateCellOnClick(double x, double y) {
-    //TODO: compoute which cell this corresponds to in terms of chess grid
-    return new int[]{0,0};
-  }
-
   // row, column, colour, piece type
   //Spot -> extract row, column, 'team'=colour, Spot.getPiece() -> reflect on the piece, makes corresponding JavaFX images
   public void updateChessCell(Spot spot){
