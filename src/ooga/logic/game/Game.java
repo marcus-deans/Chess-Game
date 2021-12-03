@@ -145,10 +145,6 @@ public class Game {
     public Set<Spot> getPossibleCoordinates(GameCoordinate selected, int team){
         currentTeam = team;
         List<Coordinate> possibleMovePositions = myBoard.getSpot(selected).getPiece().getPossibleMoves().getPossibleSpots(selected);
-        //searchPossiblePositions(selected);
-
-        int minX = 0;
-        int minY = 0;
 
         Set<Coordinate> blackList = new HashSet<>();
         for(int i = 0; i < possibleMovePositions.size(); i++){
@@ -184,7 +180,6 @@ public class Game {
 
         Set<Spot> possibleSet = new HashSet<>();
         for(int i = 0; i < possibleMovePositions.size(); i++){
-            Piece tempPiece = myBoard.getSpot(possibleMovePositions.get(i)).getPiece();
             if(!blackList.contains(possibleMovePositions.get(i))){
                 possibleSet.add(myBoard.getSpot(possibleMovePositions.get(i)));
             }
