@@ -213,7 +213,7 @@ public class ChessController implements Controller {
         clickedPiece = new GameCoordinate(row, column);
         myGame.setSelected(clickedPiece);
         //if(currentPlayer.getTeam() == myBoard.getSpot(clickedPiece).getPiece().getTeam()) {
-        Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece);
+        Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece,1);
             highlightSpots(test);
             for(Spot h: test){
                 System.out.println(h.getCoordinate().getX_pos());
@@ -240,7 +240,7 @@ public class ChessController implements Controller {
                 boardViewBuild(myGame);
             }
             //update board with next possible move
-            else if (myGame.getPossibleCoordinates(clickedPiece).contains(myGame.getSpot(nextMove))) {
+            else if (myGame.getPossibleCoordinates(clickedPiece, 1).contains(myGame.getSpot(nextMove))) {
                 myLogger.log(Level.INFO, "ERROR IS HERE");
                 /* TODO: is not in check, or if selected move moves out of check, smt like accept move claus */
                 myGame.movePiece(clickedPiece, nextMove);
