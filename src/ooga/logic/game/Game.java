@@ -159,20 +159,24 @@ public class Game {
                 System.out.println("xDif: "+ xDif + " yDif: "+ yDif);
                 blackList.add(possibleMovePositions.get(i));
                 for(int j = 0; j < possibleMovePositions.size(); j++){
-                    if(xDif > 0 && yDif == 0 && selected.getX_pos() - possibleMovePositions.get(j).getX_pos() > xDif
-                            && selected.getY_pos() - possibleMovePositions.get(j).getY_pos() == 0){
+                    if(xDif > 0 && yDif == 0 && selected.getY_pos() == possibleMovePositions.get(j).getY_pos() &&
+                            selected.getX_pos() - possibleMovePositions.get(j).getX_pos() > xDif){
                         blackList.add(possibleMovePositions.get(j));
                     }
                     else if(xDif < 0 && yDif == 0 && selected.getY_pos() == possibleMovePositions.get(j).getY_pos() &&
                             selected.getX_pos() - possibleMovePositions.get(j).getX_pos() < xDif){
                         blackList.add(possibleMovePositions.get(j));
                     }
-//                    else if(yDif > 0 && selected.getY_pos() - possibleMovePositions.get(j).getY_pos() > yDif){
-//                        blackList.add(possibleMovePositions.get(j));
-//                    }
-//                    else if(yDif < 0 && selected.getY_pos() - possibleMovePositions.get(j).getY_pos() < yDif){
-//                        blackList.add(possibleMovePositions.get(j));
-//                    }
+                    else if(yDif > 0 && xDif == 0 && selected.getX_pos() == possibleMovePositions.get(j).getX_pos() &&
+                            selected.getY_pos() - possibleMovePositions.get(j).getY_pos() > yDif){
+                        blackList.add(possibleMovePositions.get(j));
+                    }
+                    else if(yDif < 0 && xDif == 0 && selected.getX_pos() == possibleMovePositions.get(j).getX_pos() &&
+                            selected.getY_pos() - possibleMovePositions.get(j).getY_pos() < yDif){
+                        blackList.add(possibleMovePositions.get(j));
+                    }
+
+
                 }
             }
         }
