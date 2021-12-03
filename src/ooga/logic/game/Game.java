@@ -149,10 +149,11 @@ public class Game {
         Set<Coordinate> blackList = new HashSet<>();
         for(int i = 0; i < possibleMovePositions.size(); i++){
             Piece tempPiece = myBoard.getSpot(possibleMovePositions.get(i)).getPiece();
-            if(tempPiece != null && tempPiece.getTeam() == currentTeam){
+
+            if(tempPiece != null && !tempPiece.getCanJump() && tempPiece.getTeam() == currentTeam){
                 int xDif = selected.getX_pos() - possibleMovePositions.get(i).getX_pos();
                 int yDif = selected.getY_pos() - possibleMovePositions.get(i).getY_pos();
-                System.out.println("xDif: "+ xDif + " yDif: "+ yDif);
+
                 blackList.add(possibleMovePositions.get(i));
                 for(int j = 0; j < possibleMovePositions.size(); j++){
                     if(xDif > 0 && yDif == 0 && selected.getY_pos() == possibleMovePositions.get(j).getY_pos() &&
@@ -171,8 +172,22 @@ public class Game {
                             selected.getY_pos() - possibleMovePositions.get(j).getY_pos() < yDif){
                         blackList.add(possibleMovePositions.get(j));
                     }
-
-
+                    else if(yDif > 0 && xDif > 0 && selected.getY_pos() - possibleMovePositions.get(j).getY_pos() > yDif
+                            && selected.getX_pos() - possibleMovePositions.get(j).getX_pos() > xDif){
+                        blackList.add(possibleMovePositions.get(j));
+                    }
+                    else if(yDif > 0 && xDif < 0 && selected.getY_pos() - possibleMovePositions.get(j).getY_pos() > yDif
+                            && selected.getX_pos() - possibleMovePositions.get(j).getX_pos() < xDif){
+                        blackList.add(possibleMovePositions.get(j));
+                    }
+                    else if(yDif < 0 && xDif > 0 && selected.getY_pos() - possibleMovePositions.get(j).getY_pos() < yDif
+                            && selected.getX_pos() - possibleMovePositions.get(j).getX_pos() > xDif){
+                        blackList.add(possibleMovePositions.get(j));
+                    }
+                    else if(yDif < 0 && xDif < 0 && selected.getY_pos() - possibleMovePositions.get(j).getY_pos() < yDif
+                            && selected.getX_pos() - possibleMovePositions.get(j).getX_pos() < xDif){
+                        blackList.add(possibleMovePositions.get(j));
+                    }
                 }
             }
         }
@@ -185,7 +200,6 @@ public class Game {
             }
         }
 
-        System.out.println("TEAM" + myBoard.getSpot(selected).getPiece().getTeam());
 
         return possibleSet;
     }
