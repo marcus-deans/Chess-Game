@@ -146,6 +146,8 @@ public class Game {
         currentTeam = team;
         List<Coordinate> possibleMovePositions = myBoard.getSpot(selected).getPiece().getPossibleMoves().getPossibleSpots(selected);
 
+        possibleMovePositions = myBoard.getEdgePolicy().filterList(possibleMovePositions);
+
         Set<Coordinate> blackList = new HashSet<>();
         for(int i = 0; i < possibleMovePositions.size(); i++){
             Piece tempPiece = myBoard.getSpot(possibleMovePositions.get(i)).getPiece();
@@ -198,7 +200,6 @@ public class Game {
                 possibleSet.add(myBoard.getSpot(possibleMovePositions.get(i)));
             }
         }
-
 
         return possibleSet;
     }
