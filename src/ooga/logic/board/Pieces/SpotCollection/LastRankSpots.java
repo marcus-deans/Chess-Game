@@ -13,7 +13,9 @@ public class LastRankSpots extends SpotCollection {
 
   private DefaultPromotionPieces myPromotionPieces;
 
+
   public LastRankSpots(DefaultPromotionPieces defaultPromotionPieces) {
+    super();
     myPromotionPieces = defaultPromotionPieces;
   }
 

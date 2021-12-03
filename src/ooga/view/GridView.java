@@ -2,7 +2,10 @@ package ooga.view;
 
 import java.awt.Panel;
 import java.io.FileInputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -33,6 +36,8 @@ public class GridView implements GridListener {
   private int myCellHeight;
   private static final int LINE_SIZE = 6;
 
+  private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
   private static final String GRID_VIEW_RESOURCES_PATH = "ooga.view.viewresources.GridViewResources";
   private static final ResourceBundle gridViewResources = ResourceBundle.getBundle(GRID_VIEW_RESOURCES_PATH);
   private final List<String> piecesNames= Arrays.asList(gridViewResources.getString("pieceTypes").split(","));
@@ -55,23 +60,32 @@ public class GridView implements GridListener {
   }
 
   //create an individual cell on the grid representing a square of provided colour
-  private Rectangle createNewCellView(int state, boolean isHighlighted) {
+  private Rectangle createNewCellView(int state, boolean isHighlighted, boolean hasPiece) {
     Rectangle newCell = new Rectangle();
-    newCell.setOnMouseClicked(this::clickOnGrid);
+    if(!hasPiece){
+      newCell.setOnMouseClicked(this::clickOnGrid);
+    }
     newCell.setWidth(myCellWidth);
     newCell.setHeight(myCellHeight);
-    newCell.setId("cell-view");
     if(isHighlighted){
       newCell.setId("highlighted-cell-view");
+      newCell.setFill(Color.web("#FF6961"));
+    } else {
+      newCell.setId("cell-view");
+      newCell.setFill(Color.web(myGridColours[state]));
     }
-    newCell.setFill(Color.web(myGridColours[state]));
     return newCell;
   }
 
   private Pane createNewCellWithPiece(int state, ImageView pieceImage, boolean isHighlighted){
     Pane newCellGroup = new Pane();
-    newCellGroup.getChildren().addAll(createNewCellView(state, isHighlighted), pieceImage);
-    newCellGroup.setOnMouseClicked(this::clickOnGrid);
+    newCellGroup.getChildren().addAll(createNewCellView(state, isHighlighted, true), pieceImage);
+    try {
+      newCellGroup.setOnMouseClicked(this::clickOnGrid);
+    }
+    catch(Exception e){
+
+    }
     return newCellGroup;
   }
 
@@ -92,7 +106,7 @@ public class GridView implements GridListener {
   private void populateNewGrid() {
     for (int column = 0; column < myWidthNumber; column++) {
       for (int row = 0; row < myHeightNumber; row++) {
-        myGameGrid.add(createNewCellView(determineCellColour(column, row), false), column, row);
+        myGameGrid.add(createNewCellView(determineCellColour(column, row), false, false), column, row);
       }
     }
   }
@@ -108,7 +122,7 @@ public class GridView implements GridListener {
     return myCellHeight;
   }
 
-  private void clickOnGrid(MouseEvent event){
+  private void clickOnGrid(MouseEvent event) {
     Node nod = (Node) event.getSource();
     Parent par = nod.getParent();
 
@@ -119,15 +133,13 @@ public class GridView implements GridListener {
 
     Integer colIndex = GridPane.getColumnIndex(nod);
     Integer rowIndex = GridPane.getRowIndex(nod);
-    System.out.println("ColumnIndex: " + colIndex + "RowIndex: " + rowIndex);
-    myGameView.getBoardClick(colIndex, rowIndex);
+    System.out.println("ColumnIndex: " + colIndex + " RowIndex: " + rowIndex);
+    try {
+      myGameView.getBoardClick(colIndex, rowIndex);
+    } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+      myLogger.log(Level.INFO, "Error with reflection");
+    }
 
-  }
-
-
-  public int[] updateCellOnClick(double x, double y) {
-    //TODO: compoute which cell this corresponds to in terms of chess grid
-    return new int[]{0,0};
   }
 
   // row, column, colour, piece type
@@ -154,7 +166,7 @@ public class GridView implements GridListener {
       myGameGrid.add(newCellWithPiece, columnIndex, rowIndex);
 
     } else {
-      Rectangle newCellWithoutPiece = createNewCellView(determineCellColour(columnIndex, rowIndex), isHighlighted);
+      Rectangle newCellWithoutPiece = createNewCellView(determineCellColour(columnIndex, rowIndex), isHighlighted, false);
       myGameGrid.add(newCellWithoutPiece, columnIndex, rowIndex);
     }
 
@@ -168,7 +180,7 @@ public class GridView implements GridListener {
       String pieceName = spot.getPiece().getClass().getSimpleName();
       String capitalizedPieceName = pieceName.substring(0, 1).toUpperCase() + pieceName.substring(1);
       String pieceImageResource = String.format("%s-%s.png",teamName, capitalizedPieceName);
-      System.out.println("spot.getPiece().getTeam(): " + spot.getPiece().getTeam() + "Team Name:" + teamName + " CapitalizedPieceName:" + capitalizedPieceName + " PieceImageResource: " + pieceImageResource);
+      //System.out.println("spot.getPiece().getTeam(): " + spot.getPiece().getTeam() + "Team Name:" + teamName + " CapitalizedPieceName:" + capitalizedPieceName + " PieceImageResource: " + pieceImageResource);
       FileInputStream input = new FileInputStream("data/" + pieceImageResource);
       newPieceImageView = new ImageView(new Image(input));
     } catch(Exception e){
@@ -194,7 +206,7 @@ public class GridView implements GridListener {
 
   @Override
   public void update(int row, int column, int state) {
-    myGameGrid.add(createNewCellView(determineCellColour(column, row), false), column, row);
+    myGameGrid.add(createNewCellView(determineCellColour(column, row), false, false), column, row);
     //TODO: built iterator interface to extract which pieces are in what location ont the board, interact wi the model's list
   }
 

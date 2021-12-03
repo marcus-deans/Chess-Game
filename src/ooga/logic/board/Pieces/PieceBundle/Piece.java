@@ -27,17 +27,36 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   private static final String PIECES_PACKAGE = Piece.class.getPackageName() + ".resources.";
   private static final String DEFAULT_TO_STRING = "Default";
+  private static final String EMPTY = "";
+
+
+  private boolean teamMatters;
 
   public Piece(String pieceToString, int team, Coordinate myCoordinate) {
     setPieceProperties(pieceToString);
     setDefaultProperties();
+    setMyTeamMatters();
     setTeam(team);
     setCoordinate(myCoordinate);
     setJump();
+    setMyTeamMatters();
     setMovement(pieceToString);
     setCapture(pieceToString);
     setPromotionSpots();
     setMyCheckable();
+  }
+
+  private void setMyTeamMatters() {
+    try{
+      setTeamMatters(Boolean.parseBoolean(getPieceProperties().getString("teamMatters")));
+    }
+    catch (Exception e){
+      setTeamMatters(Boolean.parseBoolean(getDefaultProperties().getString("teamMatters")));
+    }
+  }
+
+  private void setTeamMatters(boolean value){
+    teamMatters = value;
   }
 
   protected void setPromotionSpots(){
@@ -167,16 +186,27 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   }
 
   private void setMovement(String pieceToString) {
+    System.out.println();
     try{
       setMyMovement(
           (SpotCollection) Class.forName(
               String.format("ooga.logic.board.Pieces.SpotCollection.%s", getPieceProperties().
-                  getString("movement"))).getConstructor().newInstance()
+                  getString(String.format("movement%s",getTeamIfNecessary())))).getConstructor().newInstance()
       );
+
+
     }
     catch (Exception e){
       setDefaultMovement(pieceToString);
     }
+  }
+
+  private String getTeamIfNecessary(){
+    if(teamMatters){
+      return getTeam() + EMPTY;
+    }
+    return EMPTY;
+
   }
 
   private void setDefaultMovement(String pieceToString) {
@@ -199,7 +229,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
       setMyCapture(
           (SpotCollection) Class.forName(
               String.format("ooga.logic.board.Pieces.SpotCollection.%s", getPieceProperties().
-                  getString("capture"))).getConstructor().newInstance()
+                  getString(String.format("capture%s",getTeamIfNecessary())))).getConstructor().newInstance()
       );
     }
     catch (Exception e){

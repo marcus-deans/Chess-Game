@@ -44,8 +44,6 @@ public class AnimationControlPanel extends SharedUIComponents {
     panel.getChildren().add(redoButton);
 
     panel.setAlignment(Pos.CENTER);
-//    panel.setLayoutX(myControlPanelX);
-//    panel.setLayoutY(getInt("animation_control_panel_y"));
     panel.setId("animation-control-panel");
 
     return panel;

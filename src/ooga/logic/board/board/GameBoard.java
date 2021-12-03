@@ -34,7 +34,7 @@ public class GameBoard implements Board {
     private static final String SPOTACTION_PACKAGE =
             Game.class.getPackageName() + ".resources.";
     private static final String SPOTACTION_MAP = "Spot";
-    private static final String SPOTACTION_PATH="ooga.logic.board.spot.spotactions";
+    private static final String SPOTACTION_PATH="ooga.logic.board.spot.spotactions.";
     private String spotActionName;
 
 
@@ -54,6 +54,7 @@ public class GameBoard implements Board {
             pieceName=PIECE_PATH+resourceMap.getString(spot.substring(0,1));
             Class[] params={int.class,int.class,int.class};
             team=Integer.parseInt(spot.substring(1,2));
+            int type=Integer.parseInt(spot.substring(2,3));
             Piece p;
             try
             {
@@ -64,7 +65,7 @@ public class GameBoard implements Board {
                 p=null;
             }
 
-            board.add(new GameSpot(p,j,i,0,(i+j)%2==0));
+            board.add(new GameSpot(p,j,i,type,(i+j)%2==0));
     }
 
     @Override
@@ -76,7 +77,6 @@ public class GameBoard implements Board {
     public void updateBoard(Coordinate newPosition, Piece movingPiece)
             throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         getSpot(newPosition).setPiece(movingPiece);
-        resourceMap=ResourceBundle.getBundle(SPOTACTION_PACKAGE+SPOTACTION_MAP);
         int spotType=getSpot(newPosition).getTypeOfSpot();
         spotActionName=SPOTACTION_PATH+resourceMap.getString(String.valueOf(spotType));
         SpotAction spotAction=(SpotAction) Class.forName(spotActionName).getConstructor().newInstance();
@@ -122,5 +122,9 @@ public class GameBoard implements Board {
 
     public EdgePolicies getEdgePolicy() {
         return edgePolicy;
+    }
+
+    public void reset(List<Spot> newList){
+        this.board = newList;
     }
 }

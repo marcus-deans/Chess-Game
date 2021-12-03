@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 public class GameTest {
-    private GameBoard board = new GameBoard(15, 15);
-    private Map<String, String> metadata = new HashMap<>();
-    private Game game = new Game(board, metadata);
+//    private GameBoard board = new GameBoard(15, 15);
+//    private Map<String, String> metadata = new HashMap<>();
+//    private Game game = new Game(board, metadata);
 
 }
 
