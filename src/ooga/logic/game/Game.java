@@ -1,5 +1,6 @@
 package ooga.logic.game;
 
+import java.util.function.Consumer;
 import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.logic.board.board.GameBoard;
 import ooga.logic.board.coordinate.Coordinate;
@@ -200,6 +201,9 @@ public class Game {
                 myLogger.log(Level.INFO, "PUZZLE FAILED! TRY AGAIN!");
                 reset();
             }
+
+
+
         }
         catch(Exception e)
         {
@@ -227,5 +231,14 @@ public class Game {
     {
         puzzleStart=new GameCoordinate(Integer.parseInt(s.substring(0,1)),Integer.parseInt(s.substring(1,2)));
         puzzleFinish=new GameCoordinate(Integer.parseInt(s.substring(2,3)),Integer.parseInt(s.substring(3,4)));
+    }
+
+
+    protected void consumerGenerateNextState(int currentState, Consumer<Integer> consumer) {
+        try {
+            consumer.accept(currentState);
+        } catch (NullPointerException e) {
+            //myErrorFactory.updateError(GAME_ERROR);
+        }
     }
 }

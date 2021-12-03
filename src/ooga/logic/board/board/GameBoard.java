@@ -47,9 +47,7 @@ public class GameBoard implements Board {
     }
 
     @Override
-    public void setupBoard(String spot, int i, int j)
-            throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException,
-            InstantiationException, IllegalAccessException {
+    public void setupBoard(String spot, int i, int j) {
 
             pieceName=PIECE_PATH+resourceMap.getString(spot.substring(0,1));
             Class[] params={int.class,int.class,int.class};
