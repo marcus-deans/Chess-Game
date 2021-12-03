@@ -95,17 +95,6 @@ public class GridView implements GridListener {
     int myCol = column % 2;
     int myRow = row % 2;
     return (myCol == myRow) ? 0 :  1;
-
-//    if((myCol == 0)&&(myRow ==0)){
-//      return 0;
-//    } else if ((myCol ==0)&&(myRow == 1)){
-//      return 1;
-//    } else if ((myCol == 1)&&(myRow == 0)){
-//      return 1;
-//    } else {
-//      return 0;
-//    }
-
   }
 
   //create the new chess grid of appropriate size
@@ -161,6 +150,32 @@ public class GridView implements GridListener {
   private void changeChessCell(Spot spot, boolean isHighlighted){
     int columnIndex = spot.getCoordinate().getX_pos();
     int rowIndex = spot.getCoordinate().getY_pos();
+
+//    Map<Boolean, Consumer> spotNullMap = Map.of(
+//        true,
+//          spotFunction -> {
+//          ImageView pieceImageview = createNewPieceImageView(spot);
+//          pieceImageview.setFitHeight(myCellHeight - getInt("cell-piece-spacing"));
+//          pieceImageview.setFitWidth(myCellWidth - getInt("cell-piece-spacing"));
+//
+//          Pane newCellWithPiece = createNewCellWithPiece(determineCellColour(columnIndex, rowIndex),
+//              pieceImageview, isHighlighted);
+//          myGameGrid.add(newCellWithPiece, columnIndex, rowIndex);
+//        },
+//        false,
+//        spotFunction ->
+//        {
+//          Rectangle newCellWithoutPiece = createNewCellView(determineCellColour(columnIndex, rowIndex), isHighlighted, false);
+//          myGameGrid.add(newCellWithoutPiece, columnIndex, rowIndex);
+//        }
+//        );
+//
+//        try {
+//          spotNullMap.get(spot.getPiece() != null);
+//        } catch (NullPointerException e) {
+//          //myErrorFactory.updateError(GAME_ERROR);
+//        }
+
 
 
     if(spot.getPiece() != null){

@@ -116,9 +116,15 @@ public class Game {
     }
 
     private void addCapturePositions(List<Coordinate> possibleCapture){
-        for(Coordinate current : possibleCapture){
-            if(myBoard.hasPiece(current)) possibleCoordinates.add(current);
-        }
+        possibleCapture.stream().filter(piece -> !myBoard.hasPiece(piece)).
+            forEach(piece -> {
+                possibleCapture.add(piece);
+                System.out.println(piece.getX_pos() + " " + piece.getY_pos());
+            });
+//        for(Coordinate current : possibleCapture){
+//            if(myBoard.hasPiece(current)) possibleCoordinates.add(current);
+//            System.out.println(current.getX_pos() + " " + current.getY_pos());
+//        }
     }
 
     public void searchPossiblePositions(GameCoordinate selected){
