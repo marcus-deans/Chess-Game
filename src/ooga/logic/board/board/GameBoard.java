@@ -47,10 +47,7 @@ public class GameBoard implements Board {
     }
 
     @Override
-    public void setupBoard(String spot, int i, int j)
-            throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException,
-            InstantiationException, IllegalAccessException {
-
+    public void setupBoard(String spot, int i, int j) {
             pieceName=PIECE_PATH+resourceMap.getString(spot.substring(0,1));
             Class[] params={int.class,int.class,int.class};
             team=Integer.parseInt(spot.substring(1,2));
@@ -76,6 +73,7 @@ public class GameBoard implements Board {
 
     public void updateBoard(Coordinate newPosition, Piece movingPiece)
             throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+
         getSpot(newPosition).setPiece(movingPiece);
         int spotType=getSpot(newPosition).getTypeOfSpot();
         spotActionName=SPOTACTION_PATH+resourceMap.getString(String.valueOf(spotType));
@@ -90,6 +88,7 @@ public class GameBoard implements Board {
                 return true;
             }
         }
+
         return false;
     }
 

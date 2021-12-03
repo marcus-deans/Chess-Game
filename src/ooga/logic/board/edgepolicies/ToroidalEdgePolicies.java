@@ -1,5 +1,10 @@
 package ooga.logic.board.edgepolicies;
 
+import java.lang.StackWalker.Option;
+import java.util.Collections;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 import ooga.logic.board.coordinate.Coordinate;
 
 import java.util.ArrayList;
@@ -28,8 +33,21 @@ public class ToroidalEdgePolicies implements EdgePolicies{
 
     public void toroidalX(Coordinate c)
     {
-        if(c.getX_pos()>=width)
-        {
+
+//        Map<String, Consumer<List<Integer>>> fitMap = Map.of(WORST_FIT,integers -> {},
+//            WORST_FIT_DECREASING, Collections::shuffle, WORST_FIT_RANDOM, integers -> integers.sort(Collections.reverseOrder()));
+//
+//        Map<String, Consumer<List<Integer>>> fitMap = Map.of(
+//            WORST_FIT,integers -> {},
+//            WORST_FIT_DECREASING,Collections::shuffle,
+//            WORST_FIT_RANDOM, integers -> integers.sort(Collections.reverseOrder()));
+
+//
+//        Stream<Integer> greaterThanWidth = i -> c.getX_pos() >= width;
+//        Stream<Integer> lessThanZero = i -> c.getX_pos() < 0;
+
+//        Option.of(c.getX_pos()).filter()
+        if(c.getX_pos()>=width) {
             c.setX_pos(c.getX_pos()-width);
         }
         else if(c.getX_pos()<0)
