@@ -117,10 +117,7 @@ public class Game {
 
     private void addCapturePositions(List<Coordinate> possibleCapture){
         possibleCapture.stream().filter(piece -> !myBoard.hasPiece(piece)).
-            forEach(piece -> {
-                possibleCapture.add(piece);
-                System.out.println(piece.getX_pos() + " " + piece.getY_pos());
-            });
+            forEach(piece -> possibleCapture.add(piece));
 //        for(Coordinate current : possibleCapture){
 //            if(myBoard.hasPiece(current)) possibleCoordinates.add(current);
 //            System.out.println(current.getX_pos() + " " + current.getY_pos());
@@ -140,8 +137,11 @@ public class Game {
 
             Boolean isJump = selectedSpot.getPiece().getCanJump();
 
-            if (isJump) possibleCoordinates = getJumpPossibleCoordinate(possibleMovePositions);
-            else possibleCoordinates = getStandardPossibleCoordinate(possibleMovePositions);
+//            if (isJump) possibleCoordinates = getJumpPossibleCoordinate(possibleMovePositions);
+//            else possibleCoordinates = getStandardPossibleCoordinate(possibleMovePositions);
+            possibleCoordinates = (isJump) ? getJumpPossibleCoordinate(possibleMovePositions) :
+                getStandardPossibleCoordinate(possibleMovePositions);
+
 
             if (possibleCapturePositions.size() > 0) addCapturePositions(possibleCapturePositions);
         }
@@ -158,9 +158,10 @@ public class Game {
 //            possibleSet.add(myBoard.getSpot(possibleCoordinates.get(i)));
 //        }
 
-        for(int i = 0; i < possibleMovePositions.size(); i++){
-            possibleSet.add(myBoard.getSpot(possibleMovePositions.get(i)));
-        }
+//        for(int i = 0; i < possibleMovePositions.size(); i++){
+//            possibleSet.add(myBoard.getSpot(possibleMovePositions.get(i)));
+//        }
+        possibleMovePositions.stream().forEach(piece -> possibleSet.add(myBoard.getSpot(piece)));
 
         return possibleSet;
     }
