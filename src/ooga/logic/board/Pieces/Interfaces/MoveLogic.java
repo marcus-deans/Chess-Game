@@ -12,7 +12,7 @@ public interface MoveLogic {
    *
    * @return the list of possible coordinates to move to
    */
-  SpotCollection getPossibleMoves();
+   SpotCollection getPossibleMoves();
 
   /**
    * Changes the coordinate set for the piece

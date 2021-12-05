@@ -13,7 +13,7 @@ public class KingMovement extends SpotCollection {
 
 
   @Override
-  public List<Coordinate> getPossibleSpots(Coordinate myCoordinate) {
+  public List<List<Coordinate>> getPossibleSpots(Coordinate myCoordinate) {
     int[] addXAmount = stringToIntArr(getPieceProperties().getString(HORIZONTAL_RANGE));
     int[] addYAmount  = stringToIntArr(getPieceProperties().getString(VERTICAL_RANGE));
     return availableSquares(myCoordinate, addXAmount, addYAmount);

@@ -5,15 +5,16 @@ import ooga.logic.board.coordinate.Coordinate;
 
 public class KnightMovement extends SpotCollection {
   private static final String PIECE_AS_STRING = "knight";
+  private static final String SIGNS_AS_STRING = "signs";
 
   public KnightMovement(){
     super();
   }
 
   @Override
-  public List<Coordinate> getPossibleSpots(Coordinate myCoordinate) {
+  public List<List<Coordinate>> getPossibleSpots(Coordinate myCoordinate) {
     String[] myDirections = getPieceProperties().getString(PIECE_AS_STRING).split(",");
-    int[] signs = stringToIntArr(getPieceProperties().getString("signs"));
+    int[] signs = stringToIntArr(getPieceProperties().getString(SIGNS_AS_STRING));
     return doubleSymmetricOver(signs,myCoordinate,myDirections);
   }
 

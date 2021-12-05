@@ -24,23 +24,33 @@ class QueenMovementTest {
 
   @Test
   void getPossibleSpotsInnerCoordinate() {
-    List<Coordinate> myCoords = mySpotCollection.getPossibleSpots(innerCoordinate);
-    assertTrue(myCoords.size() == 25);
+    List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(innerCoordinate);
+    int size = getSize(myCoords);
+    assertTrue(size == 25);
   }
+
+
 
   @Test
   void getPossibleSpotsOuterCoordinate() {
-    List<Coordinate> myCoords = mySpotCollection.getPossibleSpots(outerCoordinate);
-//    Coordinate myCoord1 = new GameCoordinate(1,3);
-//    Coordinate myCoord2 = new GameCoordinate(3,3);
-    assertTrue(myCoords.size() == 21);
+    List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(outerCoordinate);
+
+    int size = getSize(myCoords);
+    assertTrue(size == 21);
   }
 
   @Test
   void getPossibleSpotsTopCoordinate() {
-    List<Coordinate> myCoords = mySpotCollection.getPossibleSpots(topCoordinate);
-//    Coordinate myCoord1 = new GameCoordinate(1,3);
-//    Coordinate myCoord2 = new GameCoordinate(3,3);
-    assertTrue(myCoords.size() == 21);
+    List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(topCoordinate);
+    int size = getSize(myCoords);
+    assertTrue(size == 21);
+  }
+
+  private int getSize(List<List<Coordinate>> myCoords) {
+    int size = 0;
+    for (List<Coordinate> x : myCoords){
+      size += x.size();
+    }
+    return size;
   }
 }

@@ -4,6 +4,7 @@ import java.awt.Panel;
 import java.io.FileInputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -91,15 +92,9 @@ public class GridView implements GridListener {
 
   //a chess board alternates in colour hence the state must switch depending on position
   private int determineCellColour(int column, int row){
-    if((column %2 == 0)&&(row %2 ==0)){
-      return 0;
-    } else if ((column %2 ==0)&&(row %2 == 1)){
-      return 1;
-    } else if ((column %2 == 1)&&(row %2 == 0)){
-      return 1;
-    } else {
-      return 0;
-    }
+    int myCol = column % 2;
+    int myRow = row % 2;
+    return (myCol == myRow) ? 0 :  1;
   }
 
   //create the new chess grid of appropriate size
@@ -133,7 +128,6 @@ public class GridView implements GridListener {
 
     Integer colIndex = GridPane.getColumnIndex(nod);
     Integer rowIndex = GridPane.getRowIndex(nod);
-    System.out.println("ColumnIndex: " + colIndex + " RowIndex: " + rowIndex);
     try {
       myGameView.getBoardClick(colIndex, rowIndex);
     } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
@@ -155,6 +149,32 @@ public class GridView implements GridListener {
   private void changeChessCell(Spot spot, boolean isHighlighted){
     int columnIndex = spot.getCoordinate().getX_pos();
     int rowIndex = spot.getCoordinate().getY_pos();
+
+//    Map<Boolean, Consumer> spotNullMap = Map.of(
+//        true,
+//          spotFunction -> {
+//          ImageView pieceImageview = createNewPieceImageView(spot);
+//          pieceImageview.setFitHeight(myCellHeight - getInt("cell-piece-spacing"));
+//          pieceImageview.setFitWidth(myCellWidth - getInt("cell-piece-spacing"));
+//
+//          Pane newCellWithPiece = createNewCellWithPiece(determineCellColour(columnIndex, rowIndex),
+//              pieceImageview, isHighlighted);
+//          myGameGrid.add(newCellWithPiece, columnIndex, rowIndex);
+//        },
+//        false,
+//        spotFunction ->
+//        {
+//          Rectangle newCellWithoutPiece = createNewCellView(determineCellColour(columnIndex, rowIndex), isHighlighted, false);
+//          myGameGrid.add(newCellWithoutPiece, columnIndex, rowIndex);
+//        }
+//        );
+//
+//        try {
+//          spotNullMap.get(spot.getPiece() != null);
+//        } catch (NullPointerException e) {
+//          //myErrorFactory.updateError(GAME_ERROR);
+//        }
+
 
 
     if(spot.getPiece() != null){
@@ -190,17 +210,8 @@ public class GridView implements GridListener {
   }
 
   private String determineTeamColour(int teamNumber){
-    switch(teamNumber){
-      case 1 -> {
-        return "Black";
-      }
-      case 2 -> {
-        return "White";
-      }
-      default -> {
-        return "Error";
-      }
-    }
+    Map<Integer, String> intMap = Map.of(1, "Black", 2, "White");
+    return (intMap.containsKey(teamNumber))? intMap.get(teamNumber) : "Error";
   }
 
 

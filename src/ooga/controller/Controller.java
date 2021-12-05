@@ -19,6 +19,9 @@ public interface Controller {
   //Resets the active game and the display.
     public void resetGame();
 
+    public int getHeight();
+
+    public int getWidth();
     //sets time limit of each round in the game
     public void setTime(int speed);
 

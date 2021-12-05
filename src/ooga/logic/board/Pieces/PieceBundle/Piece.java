@@ -21,6 +21,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private int pieceValue;
   private boolean canJump;
   private boolean isCheckable;
+  private boolean canCannibalize;
 
   private ResourceBundle PieceProperties;
   private ResourceBundle DefaultProperties;
@@ -29,6 +30,14 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private static final String DEFAULT_TO_STRING = "Default";
   private static final String EMPTY = "";
 
+  private static final String SPOT_COLLECTION_BASE = SpotCollection.class.getPackageName();
+  private static final String TEAM_MATTERS = "teamMatters";
+  private static final String PROMOTION = "promotion";
+  private static final String JUMP = "jump";
+  private static final String IS_CHECKABLE = "isCheckable";
+  private static final String MOVEMENT = "movement";
+  private static final String CAPTURE = "capture";
+  private static final String CANNIBALIZE = "canCannibalize";
 
   private boolean teamMatters;
 
@@ -48,10 +57,10 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   private void setMyTeamMatters() {
     try{
-      setTeamMatters(Boolean.parseBoolean(getPieceProperties().getString("teamMatters")));
+      setTeamMatters(Boolean.parseBoolean(getPieceProperties().getString(TEAM_MATTERS)));
     }
     catch (Exception e){
-      setTeamMatters(Boolean.parseBoolean(getDefaultProperties().getString("teamMatters")));
+      setTeamMatters(Boolean.parseBoolean(getDefaultProperties().getString(TEAM_MATTERS)));
     }
   }
 
@@ -60,27 +69,26 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   }
 
   protected void setPromotionSpots(){
-    if (PieceProperties.containsKey("promotion")){
+    if (PieceProperties.containsKey(PROMOTION)){
       setMyPromotionSpots(new LastRankSpots(new DefaultPromotionPieces()));
     }
-
   }
 
   private void setJump() {
     try{
-      setCanJump(Boolean.parseBoolean(getPieceProperties().getString("jump")));
+      setCanJump(Boolean.parseBoolean(getPieceProperties().getString(JUMP)));
     }
     catch (Exception e){
-      setCanJump(Boolean.parseBoolean(getDefaultProperties().getString("jump")));
+      setCanJump(Boolean.parseBoolean(getDefaultProperties().getString(JUMP)));
     }
   }
 
   private void setMyCheckable() {
     try{
-      setCanJump(Boolean.parseBoolean(getPieceProperties().getString("isCheckable")));
+      setCanJump(Boolean.parseBoolean(getPieceProperties().getString(IS_CHECKABLE)));
     }
     catch (Exception e){
-      setCanJump(Boolean.parseBoolean(getDefaultProperties().getString("isCheckable")));
+      setCanJump(Boolean.parseBoolean(getDefaultProperties().getString(IS_CHECKABLE)));
     }
   }
 
@@ -126,12 +134,12 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   @Override
   public SpotCollection getPossibleCaptures() {
-    return myCapture;//.getPossibleSpots(getCoordinate());
+    return myCapture;
   }
 
   @Override
   public SpotCollection getPossibleMoves() {
-    return myMovement;//.getPossibleSpots(getCoordinate());
+    return myMovement;
   }
 
   protected void setMyMovement(SpotCollection movementToSet){
@@ -152,7 +160,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   @Override
   public SpotCollection promotionSquares() {
-    return myPromotionSpots;//.getPossibleSpots(myCoordinate);
+    return myPromotionSpots;
   }
 
   @Override
@@ -186,12 +194,11 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   }
 
   private void setMovement(String pieceToString) {
-    System.out.println();
     try{
       setMyMovement(
           (SpotCollection) Class.forName(
-              String.format("ooga.logic.board.Pieces.SpotCollection.%s", getPieceProperties().
-                  getString(String.format("movement%s",getTeamIfNecessary())))).getConstructor().newInstance()
+              String.format("%s.%s",SPOT_COLLECTION_BASE,getPieceProperties().
+                  getString(String.format("%s%s",MOVEMENT,getTeamIfNecessary())))).getConstructor().newInstance()
       );
 
 
@@ -213,7 +220,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     try{
       setMyMovement(
           (SpotCollection) Class.forName(
-              String.format("%s%s",pieceToString,"Movement")
+              String.format("%s%s",pieceToString,capitalizeFirst(MOVEMENT))
           ).getConstructor().newInstance()
       );
 
@@ -228,8 +235,8 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     try{
       setMyCapture(
           (SpotCollection) Class.forName(
-              String.format("ooga.logic.board.Pieces.SpotCollection.%s", getPieceProperties().
-                  getString(String.format("capture%s",getTeamIfNecessary())))).getConstructor().newInstance()
+              String.format("%s.%s",SPOT_COLLECTION_BASE ,getPieceProperties().
+                  getString(String.format("%s%s",CAPTURE,getTeamIfNecessary())))).getConstructor().newInstance()
       );
     }
     catch (Exception e){
@@ -241,7 +248,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     try{
       setMyCapture(
           (SpotCollection) Class.forName(
-              String.format("ooga.logic.board.Pieces.SpotCollection.%s%s",pieceToString,"Movement")
+              String.format("%s.%s%s",SPOT_COLLECTION_BASE,pieceToString,capitalizeFirst(MOVEMENT))
           ).getConstructor().newInstance()
       );
 
@@ -259,6 +266,29 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   @Override
   public boolean getCheckable() {
     return isCheckable;
+  }
+
+  private String capitalizeFirst(String toBeCapitalized){
+    return toBeCapitalized.substring(0, 1).toUpperCase() + toBeCapitalized.substring(1);
+  }
+
+  private void setCannibalize() {
+    try{
+      setCanCannibalize(Boolean.parseBoolean(getPieceProperties().getString(CANNIBALIZE)));
+    }
+    catch (Exception e){
+      setCanCannibalize(Boolean.parseBoolean(getDefaultProperties().getString(CANNIBALIZE)));
+    }
+  }
+
+  @Override
+  public void setCanCannibalize(boolean cannibalize) {
+    canCannibalize = cannibalize;
+  }
+
+  @Override
+  public boolean canCannibalize() {
+    return canCannibalize;
   }
 
 }
