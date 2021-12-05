@@ -146,9 +146,11 @@ public class ChessController implements Controller {
     // use iterator class later
     public void boardViewBuild(Game game){
         List<Spot> fullBoard = game.getFullBoard();
-        for (Spot i: fullBoard){
-            myGameView.updateChessCell(i);
-        }
+//        for (Spot i: fullBoard){
+//            myGameView.updateChessCell(i);
+//        }
+        fullBoard.stream().forEach(spot -> myGameView.updateChessCell(spot));
+
     }
 
 

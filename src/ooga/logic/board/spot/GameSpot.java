@@ -76,6 +76,8 @@ public class GameSpot implements Spot{
                 //&& Objects.equals(this.piece,spot.piece);
     }
 
+
+
     @Override
     public int hashCode () {
         return Objects.hash(piece, coordinate.getX_pos(),coordinate.getY_pos(), typeOfSpot);

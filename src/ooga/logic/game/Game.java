@@ -89,6 +89,10 @@ public class Game {
             if(myBoard.hasPiece(list.get(i))) {
                 int posX = list.get(i).getX_pos();
                 int posY = list.get(i).getY_pos();
+                //maxX = (selected.getX_pos() < posX && posX < maxX) ? posX: maxX;
+
+
+
                 if (selected.getX_pos() < posX && posX < maxX) {
                     maxX = posX;
                 } else if (selected.getX_pos() > posX && posX > minX) {
@@ -105,22 +109,34 @@ public class Game {
         List<Coordinate> possiblePositions = new ArrayList<>();
 
 
+//
+//        for(int i = 0; i < list.size(); i++){
+//            if(list.get(i).getY_pos() < maxY && list.get(i).getY_pos() > minY
+//            && list.get(i).getX_pos() < maxX && list.get(i).getX_pos() > minX
+//            ){
+//                possiblePositions.add(list.get(i));
+//            }
+//        }
 
-        for(int i = 0; i < list.size(); i++){
-            if(list.get(i).getY_pos() < maxY && list.get(i).getY_pos() > minY
-            && list.get(i).getX_pos() < maxX && list.get(i).getX_pos() > minX
-            ){
-                possiblePositions.add(list.get(i));
-            }
-        }
+        int finalMaxY = maxY;
+        int finalMinY = minY;
+        int finalMaxX = maxX;
+        int finalMinX = minX;
+        list.stream().
+            filter(elem -> (elem.getY_pos() < finalMaxY) && (elem.getY_pos() > finalMinY)).
+            filter(elem -> (elem.getY_pos() < finalMaxX) && (elem.getY_pos() > finalMinX)).
+            forEach(elem-> possiblePositions.add(elem));
 
         return possiblePositions;
     }
 
     private void addCapturePositions(List<Coordinate> possibleCapture){
-        for(Coordinate current : possibleCapture){
-            if(myBoard.hasPiece(current)) possibleCoordinates.add(current);
-        }
+        possibleCapture.stream().filter(piece -> myBoard.hasPiece(piece)).
+            forEach(piece -> possibleCapture.add(piece));
+//        for(Coordinate current : possibleCapture){
+//            if(myBoard.hasPiece(current)) possibleCoordinates.add(current);
+//            System.out.println(current.getX_pos() + " " + current.getY_pos());
+//        }
     }
 
     public void searchPossiblePositions(GameCoordinate selected){
@@ -136,8 +152,11 @@ public class Game {
 
             Boolean isJump = selectedSpot.getPiece().getCanJump();
 
-            if (isJump) possibleCoordinates = getJumpPossibleCoordinate(possibleMovePositions);
-            else possibleCoordinates = getStandardPossibleCoordinate(possibleMovePositions);
+//            if (isJump) possibleCoordinates = getJumpPossibleCoordinate(possibleMovePositions);
+//            else possibleCoordinates = getStandardPossibleCoordinate(possibleMovePositions);
+            possibleCoordinates = (isJump) ? getJumpPossibleCoordinate(possibleMovePositions) :
+                getStandardPossibleCoordinate(possibleMovePositions);
+
 
             if (possibleCapturePositions.size() > 0) addCapturePositions(possibleCapturePositions);
         }
@@ -194,13 +213,17 @@ public class Game {
                 }
             }
         }
-        
+
+        //possibleMovePositions.stream().forEach(piece -> possibleSet.add(myBoard.getSpot(piece)));
+
         Set<Spot> possibleSet = new HashSet<>();
         for(int i = 0; i < possibleMovePositions.size(); i++){
             if(!blackList.contains(possibleMovePositions.get(i))){
                 possibleSet.add(myBoard.getSpot(possibleMovePositions.get(i)));
             }
         }
+        
+
 
         return possibleSet;
     }
