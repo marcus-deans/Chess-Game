@@ -79,7 +79,19 @@ public class AnimationControlPanel extends SharedUIComponents {
     Button redoButton = makeButton(getWord("redo_move"), value -> {
       //TODO: callback to controller to redo
       if(this.getPanelListener() != null){
-//        this.getPanelListener().redoMove();
+        try {
+          this.getPanelListener().redoMove();
+        } catch (ClassNotFoundException e) {
+          e.printStackTrace();
+        } catch (InvocationTargetException e) {
+          e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+          e.printStackTrace();
+        } catch (InstantiationException e) {
+          e.printStackTrace();
+        } catch (IllegalAccessException e) {
+          e.printStackTrace();
+        }
       }
     });
     return redoButton;

@@ -404,6 +404,11 @@ public class GameView extends Application implements PanelListener {
     //TODO: callback to controller
     myChessController.undoMove();
   }
+  @Override
+  public void redoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    //TODO: callback to controller
+    myChessController.redoMove();
+  }
 
   @Override
   public void changeVariant(String variant) {

@@ -35,6 +35,7 @@ public class ChessController implements Controller {
     private int BOARDHEIGHT;
     private GameBoard myBoard;
     private Stack<GameCoordinate[]> history;
+    private Stack<GameCoordinate[]> unwind;
 
 
     private GameBoard initialBoard;
@@ -128,6 +129,7 @@ public class ChessController implements Controller {
         setPlayer("Player1",0);
         setPlayer("Player2",1);
         history= new Stack<GameCoordinate[]>();
+        unwind= new Stack<GameCoordinate[]>();
 
         currentPlayer = thePlayers.get(0);
         numPlayers = thePlayers.size();
@@ -239,6 +241,7 @@ public class ChessController implements Controller {
                 myGameView.updateChessCell(myGame.getSpot(clickedPiece));
                 FIRSTCLICK = true;
                 numTurns++;
+                unwind.clear();
                 nextTurn(clickedPiece, nextMove);
 
             }
@@ -268,6 +271,7 @@ public class ChessController implements Controller {
         public void undoMove () throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
             if(!history.isEmpty()) {
                 GameCoordinate[] recentMove = history.pop();
+                unwind.push(recentMove);
                 myLogger.log(Level.INFO, "MOVED: " + recentMove[0].getX_pos() + "," + recentMove[0].getY_pos() + " to " + recentMove[1].getX_pos() + "," + recentMove[1].getY_pos());
                 myGame.movePiece(recentMove[1], recentMove[0]);
                 numTurns -= numTurns;
@@ -276,6 +280,21 @@ public class ChessController implements Controller {
             }
 //            nextTurn(recentMove[1], recentMove[0]);
         }
+
+    @Override
+    public void redoMove () throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        System.out.println("Redo Pressed");
+        if(!unwind.isEmpty()) {
+            GameCoordinate[] reDoneMove = unwind.pop();
+            history.push(reDoneMove);
+            myLogger.log(Level.INFO, "MOVED: " + reDoneMove[1].getX_pos() + "," + reDoneMove[1].getY_pos() + " to " + reDoneMove[0].getX_pos() + "," + reDoneMove[0].getY_pos());
+            myGame.movePiece(reDoneMove[0], reDoneMove[1]);
+            numTurns += numTurns;
+            switchPlayers();
+            boardViewBuild(myGame);
+        }
+//            nextTurn(recentMove[1], recentMove[0]);
+    }
 
         /**
          * This should allow the player to change the rules using a menubar
