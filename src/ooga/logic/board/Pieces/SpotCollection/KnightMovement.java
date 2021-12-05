@@ -12,7 +12,7 @@ public class KnightMovement extends SpotCollection {
   }
 
   @Override
-  public List<Coordinate> getPossibleSpots(Coordinate myCoordinate) {
+  public List<List<Coordinate>> getPossibleSpots(Coordinate myCoordinate) {
     String[] myDirections = getPieceProperties().getString(PIECE_AS_STRING).split(",");
     int[] signs = stringToIntArr(getPieceProperties().getString(SIGNS_AS_STRING));
     return doubleSymmetricOver(signs,myCoordinate,myDirections);
