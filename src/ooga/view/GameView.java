@@ -62,6 +62,8 @@ public class GameView extends Application implements PanelListener {
   //Cosmetic features: JavaFX pixel positioning
   private int frameWidth;
   private int frameHeight;
+  private int boardWidth;
+  private int boardHeight;
   private Paint frameBackground;
   private int gridDisplayLength;
   private int[] gridSize;
@@ -117,22 +119,24 @@ public class GameView extends Application implements PanelListener {
   /**
    * Creates new GameView for each application
    *
-   * @param width      of JavaFX display in pixels
-   * @param height     of JavaFX display in pixels
+   * @param frameWidth      of JavaFX display in pixels
+   * @param frameHeight     of JavaFX display in pixels
    * @param background colour of JavaFX background
    * @param filename   Filename of the simulation file which GameController uses
    * @param gameController the listener object that will be notified/called upon whenever the state of a UI panel changes due to user interaction
    */
-  public GameView(int width, int height, String background, String filename, Controller gameController) {
-    frameWidth = width;
-    frameHeight = height;
+  public GameView(int frameWidth, int frameHeight, int boardWidth, int boardHeight, String background, String filename, Controller gameController) {
+    this.frameWidth = frameWidth;
+    this.frameHeight = frameHeight;
+    this.boardWidth = boardWidth;
+    this.boardHeight = boardHeight;
     frameBackground = Color.web(background);
     myFilename = filename;
     myChessController = gameController;
-    gridDisplayLength = width - getInt("width_buffer");
-    controlPanelX = width - getInt("control_panel_offset");
+    gridDisplayLength = frameWidth - getInt("width_buffer");
+    controlPanelX = frameWidth - getInt("control_panel_offset");
     gameplayPanelX = getInt("gameplay_panel_offset");
-    controlPanelX = width - getInt("control_panel_offset") + getInt("width_buffer");
+    controlPanelX = frameWidth - getInt("control_panel_offset") + getInt("width_buffer");
     gameGridViewX = gameplayPanelX + getInt("button_width") + getInt("width_buffer");
     gameGridViewY = getInt("game_grid_y_offset");
     gridDisplayLength = controlPanelX - gameGridViewX - getInt("width_buffer")  - 2*getInt("line_offset");
