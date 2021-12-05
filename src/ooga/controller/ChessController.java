@@ -73,7 +73,7 @@ public class ChessController implements Controller {
      * @param background
      * @param filename
      */
-    public ChessController(int width, int height, String background, String filename) {
+    public ChessController(int width, int height, String background, String filename) throws IOException {
         myGameView = new GameView(width, height, background, filename, this);
         myGame = new Game(height, width);
         myGameView.start(new Stage());

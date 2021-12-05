@@ -8,7 +8,13 @@ import ooga.logic.board.spot.GameSpot;
 import ooga.logic.board.spot.Spot;
 import ooga.logic.board.spot.spotactions.SpotAction;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,8 +35,21 @@ public class Game {
     private Coordinate puzzleFinish;
     private int currentTeam;
 
-    public Game(int height, int width){
+    public Game(int height, int width) throws IOException {
         myBoard = new GameBoard(height, width);
+
+        URL url = new URL("http://localhost:3001/createUser?id=test2&password=test");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        StringBuilder result = new StringBuilder();
+        connection.setRequestMethod("GET");
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(connection.getInputStream()))) {
+            for (String line; (line = reader.readLine()) != null; ) {
+                result.append(line);
+            }
+        }
+        System.out.println(result.toString());
     }
 
     public void setEdgePolicy(String s){
