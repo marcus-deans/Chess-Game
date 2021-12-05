@@ -160,7 +160,7 @@ public class Game {
     }
 
 
-    private List<Coordinate> filterCaptures(GameCoordinate selected, int team) {
+    private List<Coordinate> filterCaptures(GameCoordinate selected) {
         Piece myPiece = myBoard.getSpot(selected).getPiece();
         Boolean myPieceCanJump = myPiece.getCanJump();
         List<List<Coordinate>> possibleCapturePositions = myPiece.getPossibleCaptures().getPossibleSpots(selected);
@@ -175,7 +175,8 @@ public class Game {
                 if (tempPiece == null){
                     continue;
                 }
-                if (tempPiece.getTeam() != team){
+
+                if (tempPiece.getTeam() != myPiece.getTeam()){
                     listToPopulate.add(individualCoord);
                 }
                 if (myPieceCanJump){
@@ -184,12 +185,13 @@ public class Game {
                 break;
             }
         }
+
         return listToPopulate;
     }
 
 
 
-    private List<Coordinate> filterMoves(GameCoordinate selected, int team) {
+    private List<Coordinate> filterMoves(GameCoordinate selected) {
         Piece myPiece = myBoard.getSpot(selected).getPiece();
         Boolean myPieceCanJump = myPiece.getCanJump();
         List<List<Coordinate>> possibleMovePositions = myPiece.getPossibleMoves().getPossibleSpots(selected);
@@ -204,7 +206,7 @@ public class Game {
                     listToPopulate.add(individualCoord);
                     continue;
                 }
-                if (myPieceCanJump && tempPiece.getTeam() == team){
+                if (myPieceCanJump && tempPiece.getTeam() != myPiece.getTeam()){
                     continue;
                 }
                 break;
@@ -217,100 +219,14 @@ public class Game {
 
     public Set<Spot> getPossibleCoordinates(GameCoordinate selected, int team){
         currentTeam = team;
-        List<Coordinate> myMoveList = filterMoves(selected,team);
-        List<Coordinate> myCaptureList = filterCaptures(selected,team);
+        List<Coordinate> myMoveList = filterMoves(selected);
+        List<Coordinate> myCaptureList = filterCaptures(selected);
 
         Set<Spot> possibleSet = new HashSet<>();
         myMoveList.stream().forEach(coord -> possibleSet.add(myBoard.getSpot(coord)));
         myCaptureList.stream().forEach(coord -> possibleSet.add(myBoard.getSpot(coord)));
-
         return possibleSet;
     }
-
-
-//    public Set<Spot> getPossibleCoordinates(GameCoordinate selected, int team){
-//        currentTeam = team;
-//        Piece myPiece = myBoard.getSpot(selected).getPiece();
-//        Boolean myPieceCanJump = myPiece.getCanJump();
-//
-//        // filter moves
-//
-//        //filter captures
-//        List<List<Coordinate>> possibleMovePositions = myPiece.getPossibleMoves().getPossibleSpots(selected);
-//
-//        possibleMovePositions = myBoard.getEdgePolicy().filterList(possibleMovePositions);
-//
-//        Set<Coordinate> blackList = new HashSet<>();
-//        Set<Coordinate> actualList = new HashSet<>();
-//        for (List<Coordinate> eachLine: possibleMovePositions) {
-//            // methodology: if you come across an enemy piece, you cannot jump it
-//            // if you come across your own piece, you can if the 'me' piece can jump
-//            // if you can't jump, break out of the inner loop
-//
-//            for (Coordinate individualCoord : eachLine) {
-//                Piece tempPiece = myBoard.getSpot(individualCoord).getPiece();
-//
-//                if (tempPiece != null && !tempPiece.getCanJump()) {
-//                    int xDif = selected.getX_pos() - individualCoord.getX_pos();
-//                    int yDif = selected.getY_pos() - individualCoord.getY_pos();
-//
-//                    if (tempPiece.getTeam() != currentTeam)
-//                        blackList.add(individualCoord);
-//                    for (Coordinate eachCoordinate : eachLine) {
-//                        if (xDif > 0 && yDif == 0
-//                            && selected.getY_pos() == eachCoordinate.getY_pos() &&
-//                            selected.getX_pos() - eachCoordinate.getX_pos() > xDif) {
-//                            blackList.add(eachCoordinate);
-//                        } else if (xDif < 0 && yDif == 0
-//                            && selected.getY_pos() == eachCoordinate.getY_pos() &&
-//                            selected.getX_pos() - eachCoordinate.getX_pos() < xDif) {
-//                            blackList.add(eachCoordinate);
-//                        } else if (yDif > 0 && xDif == 0
-//                            && selected.getX_pos() == eachCoordinate.getX_pos() &&
-//                            selected.getY_pos() - eachCoordinate.getY_pos() > yDif) {
-//                            blackList.add(eachCoordinate);
-//                        } else if (yDif < 0 && xDif == 0
-//                            && selected.getX_pos() == eachCoordinate.getX_pos() &&
-//                            selected.getY_pos() - eachCoordinate.getY_pos() < yDif) {
-//                            blackList.add(eachCoordinate);
-//                        } else if (yDif > 0 && xDif > 0
-//                            && selected.getY_pos() - eachCoordinate.getY_pos() > yDif
-//                            && selected.getX_pos() - eachCoordinate.getX_pos() > xDif) {
-//                            blackList.add(eachCoordinate);
-//                        } else if (yDif > 0 && xDif < 0
-//                            && selected.getY_pos() - eachCoordinate.getY_pos() > yDif
-//                            && selected.getX_pos() - eachCoordinate.getX_pos() < xDif) {
-//                            blackList.add(eachCoordinate);
-//                        } else if (yDif < 0 && xDif > 0
-//                            && selected.getY_pos() - eachCoordinate.getY_pos() < yDif
-//                            && selected.getX_pos() - eachCoordinate.getX_pos() > xDif) {
-//                            blackList.add(eachCoordinate);
-//                        } else if (yDif < 0 && xDif < 0
-//                            && selected.getY_pos() - eachCoordinate.getY_pos() < yDif
-//                            && selected.getX_pos() - eachCoordinate.getX_pos() < xDif) {
-//                            blackList.add(eachCoordinate);
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//        //possibleMovePositions.stream().forEach(piece -> possibleSet.add(myBoard.getSpot(piece)));
-//
-//        Set<Spot> possibleSet = new HashSet<>();
-//        for(List<Coordinate> myMiniList : possibleMovePositions){
-//            for(Coordinate individualCoord : myMiniList){
-//                if(!blackList.contains(individualCoord)){
-//                    possibleSet.add(myBoard.getSpot(individualCoord));
-//                }
-//            }
-//        }
-//
-//
-//
-//
-//        return possibleSet;
-//    }
 
     private void removePieceFromGame(Piece capturedPiece){
 
