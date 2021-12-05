@@ -19,9 +19,7 @@ public class ReversePawnMovement extends SpotCollection {
 
     if (myCoordinate.getY_pos() == 6){
       Coordinate myCoord = new GameCoordinate(myCoordinate.getX_pos(),myCoordinate.getY_pos() - 2);
-      List<Coordinate> myMiniList = new ArrayList<>();
-      myMiniList.add(myCoord);
-      mySpots.add(myMiniList);
+      mySpots.get(0).add(myCoord);
     }
 
     return mySpots;

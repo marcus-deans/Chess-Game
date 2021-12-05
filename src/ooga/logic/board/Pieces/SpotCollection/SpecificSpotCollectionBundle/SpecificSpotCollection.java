@@ -55,8 +55,9 @@ abstract public class SpecificSpotCollection implements SpecificSpotCollectionIn
 
   private boolean isValidSquare(Coordinate captureCoordinate) {
     // TODO: Connect to neighbors
-    return !(captureCoordinate.getX_pos() < 0 || captureCoordinate.getY_pos() < 0
-        || captureCoordinate.getX_pos() > 7 || captureCoordinate.getY_pos() > 7);
+//    return !(captureCoordinate.getX_pos() < 0 || captureCoordinate.getY_pos() < 0
+//        || captureCoordinate.getX_pos() > 7 || captureCoordinate.getY_pos() > 7);
+    return true;
   }
 
 }
