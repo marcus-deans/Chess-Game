@@ -161,27 +161,17 @@ public class Game {
 
 
     private List<Coordinate> filterCaptures(GameCoordinate selected) {
-        Piece myPiece = myBoard.getSpot(selected).getPiece();
-        Boolean myPieceCanJump = myPiece.getCanJump();
+        Piece myPiece = getMyPiece(selected);
         List<List<Coordinate>> possibleCapturePositions = myPiece.getPossibleCaptures().getPossibleSpots(selected);
-
-        possibleCapturePositions = myBoard.getEdgePolicy().filterList(possibleCapturePositions);
-
+        possibleCapturePositions = applyEdgePolicy(possibleCapturePositions);
 
         List<Coordinate> listToPopulate = new ArrayList<>();
         for (List<Coordinate> eachLine: possibleCapturePositions) {
             for (Coordinate individualCoord : eachLine) {
                 Piece tempPiece = myBoard.getSpot(individualCoord).getPiece();
-                if (tempPiece == null){
-                    continue;
-                }
-
-                if (tempPiece.getTeam() != myPiece.getTeam()){
-                    listToPopulate.add(individualCoord);
-                }
-                if (myPieceCanJump){
-                    continue;
-                }
+                if (tempPiece == null){continue;}
+                if (getTeam(tempPiece) != getTeam(myPiece)){listToPopulate.add(individualCoord);}
+                if (getCanJump(myPiece)){continue;}
                 break;
             }
         }
@@ -189,14 +179,19 @@ public class Game {
         return listToPopulate;
     }
 
+    private boolean getCanJump(Piece piece) {
+        return piece.getCanJump();
+    }
+
+    private int getTeam(Piece piece) {
+        return piece.getTeam();
+    }
 
 
     private List<Coordinate> filterMoves(GameCoordinate selected) {
-        Piece myPiece = myBoard.getSpot(selected).getPiece();
-        Boolean myPieceCanJump = myPiece.getCanJump();
+        Piece myPiece = getMyPiece(selected);
         List<List<Coordinate>> possibleMovePositions = myPiece.getPossibleMoves().getPossibleSpots(selected);
-        possibleMovePositions = myBoard.getEdgePolicy().filterList(possibleMovePositions);
-
+        possibleMovePositions = applyEdgePolicy(possibleMovePositions);
 
         List<Coordinate> listToPopulate = new ArrayList<>();
         for (List<Coordinate> eachLine: possibleMovePositions) {
@@ -206,7 +201,10 @@ public class Game {
                     listToPopulate.add(individualCoord);
                     continue;
                 }
-                if (myPieceCanJump && tempPiece.getTeam() != myPiece.getTeam()){
+                if (!getCanJump(myPiece)){
+                    break;
+                }
+                if (getTeam(tempPiece) != getTeam(myPiece)){
                     continue;
                 }
                 break;
@@ -216,6 +214,14 @@ public class Game {
 
 
         }
+
+    private List<List<Coordinate>> applyEdgePolicy(List<List<Coordinate>> possiblePositions) {
+        return myBoard.getEdgePolicy().filterList(possiblePositions);
+    }
+
+    private Piece getMyPiece(GameCoordinate selected) {
+        return myBoard.getSpot(selected).getPiece();
+    }
 
     public Set<Spot> getPossibleCoordinates(GameCoordinate selected, int team){
         currentTeam = team;
