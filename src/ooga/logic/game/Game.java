@@ -114,7 +114,6 @@ public class Game {
         int finalMaxX = maxX;
         int finalMinX = minX;
         for (List<Coordinate> myIndividualList : list){
-            List<Coordinate> myListToAdd = new ArrayList<>();
             myIndividualList.stream().
                 filter(elem -> (elem.getY_pos() < finalMaxY) && (elem.getY_pos() > finalMinY)).
                 filter(elem -> (elem.getY_pos() < finalMaxX) && (elem.getY_pos() > finalMinX)).
