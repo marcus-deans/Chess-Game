@@ -64,6 +64,8 @@ public class ChessController implements Controller {
 
     private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
+    private Map<Integer,Integer> myTempHashMap;
+
 
     /**
      * Instantiates the chess controller and allow the game to be initiated.
@@ -77,6 +79,10 @@ public class ChessController implements Controller {
         myGameView = new GameView(width, height, background, filename, this);
         myGame = new Game(height, width);
         myGameView.start(new Stage());
+
+        myTempHashMap = new HashMap<>();
+        myTempHashMap.put(0,2);
+        myTempHashMap.put(1,1);
     }
 
     /**
@@ -122,11 +128,11 @@ public class ChessController implements Controller {
         myGame.setEdgePolicy(myData.get("EdgePolicy"));
         boardInitializer(myCSVParser.getInitialStates(), myGame);
         boardViewBuild(myGame);
-        numTurns = 0;
+        numTurns = 1;
         //temporary
         thePlayers = new ArrayList<>();
-        setPlayer("Player1",0);
-        setPlayer("Player2",1);
+        setPlayer("Player1",1);
+        setPlayer("Player2",2);
         history= new Stack<GameCoordinate[]>();
 
         currentPlayer = thePlayers.get(0);
@@ -146,9 +152,11 @@ public class ChessController implements Controller {
     // use iterator class later
     public void boardViewBuild(Game game){
         List<Spot> fullBoard = game.getFullBoard();
-        for (Spot i: fullBoard){
-            myGameView.updateChessCell(i);
-        }
+//        for (Spot i: fullBoard){
+//            myGameView.updateChessCell(i);
+//        }
+        fullBoard.stream().forEach(spot -> myGameView.updateChessCell(spot));
+
     }
 
 
@@ -210,16 +218,13 @@ public class ChessController implements Controller {
     private void handleFirstClick(int row, int column) {
         clickedPiece = new GameCoordinate(row, column);
         myGame.setSelected(clickedPiece);
-        //if(currentPlayer.getTeam() == myBoard.getSpot(clickedPiece).getPiece().getTeam()) {
-        Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece,1);
+        if(myTempHashMap.get(turnIterator) == myGame.getSpot(clickedPiece).getPiece().getTeam()) {
+
+            Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece,currentPlayer.getTeam());
             highlightSpots(test);
-            for(Spot h: test){
-                System.out.println(h.getCoordinate().getX_pos());
-                System.out.println(h.getCoordinate().getY_pos());
-            }
-            myLogger.log(Level.INFO, "FIRST CLICK" +FIRSTCLICK);
+            myLogger.log(Level.INFO, "FIRST CLICK " +FIRSTCLICK);
         FIRSTCLICK = false;
-        //}
+        }
     }
 
     private void highlightSpots(Set<Spot> possibleCoordinates) {
@@ -299,7 +304,7 @@ public class ChessController implements Controller {
         }
 
         private void switchPlayers(){
-            turnIterator = numTurns%numPlayers;
+            turnIterator = (turnIterator + 1) % numPlayers;
             currentPlayer = thePlayers.get(turnIterator);
             }
 

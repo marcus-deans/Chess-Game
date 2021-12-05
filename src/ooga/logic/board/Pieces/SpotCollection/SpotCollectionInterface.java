@@ -16,6 +16,6 @@ public interface SpotCollectionInterface {
    * @return the List of valid coordinates based off of the rules we pass into the specific
    * Coordinate calculator
    */
-  List<Coordinate> getPossibleSpots(Coordinate coordinate);
+  List<List<Coordinate>> getPossibleSpots(Coordinate coordinate);
 
 }

@@ -22,7 +22,7 @@ abstract public class SpotCollection implements SpotCollectionInterface{
   }
 
   @Override
-  public abstract List<Coordinate> getPossibleSpots(Coordinate coordinate);
+  public abstract List<List<Coordinate>> getPossibleSpots(Coordinate coordinate);
 
   protected ResourceBundle getPieceProperties(){
     return pieceProperties;
@@ -32,8 +32,8 @@ abstract public class SpotCollection implements SpotCollectionInterface{
     return teamProperties;
   }
 
-  protected List<Coordinate> availableSquares(Coordinate myCoordinate,int[] addXAmount, int[] addYAmount){
-    List<Coordinate> myCoordinateList = new ArrayList<>();
+  protected List<List<Coordinate>> availableSquares(Coordinate myCoordinate,int[] addXAmount, int[] addYAmount){
+    List<List<Coordinate>> myCoordinateList = new ArrayList<>();
     List<Coordinate> moveCoordinate;
 
     for (int xAmt : addXAmount){
@@ -41,7 +41,7 @@ abstract public class SpotCollection implements SpotCollectionInterface{
         if (!originalCoordinate(xAmt, yAmt)) {
           moveCoordinate = (new OneTimeDirection()).getPossibleSpots(myCoordinate,xAmt,yAmt);
           if (moveCoordinate.size() != 0){
-            myCoordinateList.addAll(moveCoordinate);
+            myCoordinateList.add(moveCoordinate);
           }
         }
       }
@@ -66,42 +66,54 @@ abstract public class SpotCollection implements SpotCollectionInterface{
     return myArr;
   }
 
-  protected List<Coordinate> ContinuousPossibleSpots(String piece_as_string, Coordinate myCoordinate) {
-    List<Coordinate> myCoords = new ArrayList<>();
+  protected List<List<Coordinate>> ContinuousPossibleSpots(String piece_as_string, Coordinate myCoordinate) {
+    List<List<Coordinate>> myBigListOfCoordLists = new ArrayList<>();
     String[] myDirections = pieceProperties.getString(piece_as_string).split(",");
     for (String x : myDirections){
+      List<Coordinate> myCoords = new ArrayList<>();
       int[] myDirection = stringToIntArr(pieceProperties.getString(x));
       myCoords.addAll(new ContinuousLine().getPossibleSpots(myCoordinate, myDirection[0],myDirection[1]));
+      myBigListOfCoordLists.add(myCoords);
     }
 
-    return myCoords;
+    return myBigListOfCoordLists;
   }
 
-  protected List<Coordinate> OneTimePossibleSpots(String piece_as_string, Coordinate myCoordinate) {
+  protected List<List<Coordinate>> OneTimePossibleSpots(String piece_as_string, Coordinate myCoordinate) {
     List<Coordinate> myCoords = new ArrayList<>();
     String[] myDirections = pieceProperties.getString(piece_as_string).split(",");
     for (String x : myDirections){
       int[] myDirection = stringToIntArr(pieceProperties.getString(x));
       myCoords.addAll(new OneTimeDirection().getPossibleSpots(myCoordinate, myDirection[0],myDirection[1]));
     }
+    List<List<Coordinate>> myBiggerCoordList = new ArrayList<>();
+    myBiggerCoordList.add(myCoords);
 
-    return myCoords;
+    return myBiggerCoordList;
   }
 
-  protected List<Coordinate> doubleSymmetricOver(int[] signs, Coordinate myCoordinate, String[] myDirections) {
+  protected List<List<Coordinate>> doubleSymmetricOver(int[] signs, Coordinate myCoordinate, String[] myDirections) {
+    List<List<Coordinate>> myBigList = new ArrayList<>();
     List<Coordinate> myCoords = new ArrayList<>();
     for (int xSign : signs){
       for (int ySign : signs){
         for (String direction: myDirections) {
           int[] myDirection = stringToIntArr(pieceProperties.getString(direction));
+          myCoords = new ArrayList<>();
           myCoords.addAll(new OneTimeDirection().getPossibleSpots(myCoordinate, xSign * myDirection[0],
               ySign * myDirection[1]));
+          myBigList.add(myCoords);
+
+          myCoords = new ArrayList<>();
+
           myCoords.addAll(new OneTimeDirection().getPossibleSpots(myCoordinate, xSign * myDirection[1],
               ySign * myDirection[0]));
+          myBigList.add(myCoords);
+
         }
       }
     }
-    return myCoords;
+    return myBigList;
   }
 
 }

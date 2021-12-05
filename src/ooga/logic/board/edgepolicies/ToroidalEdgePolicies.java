@@ -1,5 +1,10 @@
 package ooga.logic.board.edgepolicies;
 
+import java.lang.StackWalker.Option;
+import java.util.Collections;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 import ooga.logic.board.coordinate.Coordinate;
 
 import java.util.ArrayList;
@@ -14,22 +19,32 @@ public class ToroidalEdgePolicies implements EdgePolicies{
         this.height=height;
     }
 
-    public List<Coordinate> filterList(List<Coordinate> allMoves)
+    public List<List<Coordinate>> filterList(List<List<Coordinate>> allMoves)
     {
-        List<Coordinate> possibleMoves=new ArrayList<>();
-        for (Coordinate c: allMoves)
-        {
-            toroidalX(c);
-            toroidalY(c);
-            possibleMoves.add(c);
+        List<List<Coordinate>> possibleMoves=new ArrayList<>();
+        for (List<Coordinate> eachList: allMoves){
+            List<Coordinate> changedList = new ArrayList<>();
+            for (Coordinate c: eachList)
+            {
+                toroidalX(c);
+                toroidalY(c);
+                changedList.add(c);
+            }
+            possibleMoves.add(changedList);
         }
+
         return possibleMoves;
     }
 
     public void toroidalX(Coordinate c)
     {
-        if(c.getX_pos()>=width)
-        {
+
+//
+//        Stream<Integer> greaterThanWidth = i -> c.getX_pos() >= width;
+//        Stream<Integer> lessThanZero = i -> c.getX_pos() < 0;
+
+//        Option.of(c.getX_pos()).filter()
+        if(c.getX_pos()>=width) {
             c.setX_pos(c.getX_pos()-width);
         }
         else if(c.getX_pos()<0)

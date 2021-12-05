@@ -11,7 +11,7 @@ public class BishopMovement extends SpotCollection {
   }
 
   @Override
-  public List<Coordinate> getPossibleSpots(Coordinate myCoordinate) {
+  public List<List<Coordinate>> getPossibleSpots(Coordinate myCoordinate) {
     return ContinuousPossibleSpots(PIECE_AS_STRING, myCoordinate);
   }
 }

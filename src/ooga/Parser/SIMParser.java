@@ -1,5 +1,6 @@
 package ooga.Parser;
 
+import java.util.stream.Collectors;
 import ooga.util.IncorrectSimFormatException;
 
 import java.io.File;
@@ -17,11 +18,19 @@ public class SIMParser {
      * @throws IOException
      */
     public Map<String, String> readSimFile(File file) throws IOException {
-        Map<String, String> data = new HashMap<>();
+
         Properties properties = simIntoProperties(file);
+        Map<String, String> data = new HashMap<>();
         for (String property : properties.stringPropertyNames()) {
             data.put(property, properties.getProperty(property));
         }
+//        Map<String,String> data = new HashMap<>();
+        //(properties.stringPropertyNames()).
+
+//            data.entrySet().stream().
+//        forEach((entry) -> data.put(String.valueOf(entry),properties.getProperty(String.valueOf(entry)) ));
+        //map(n -> n., n -> properties.getProperty());
+        //collect(Collectors.toCollection(value -> value,value -> properties.getProperty()));
         return data;
 
     }
