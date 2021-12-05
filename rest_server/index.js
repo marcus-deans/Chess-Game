@@ -14,6 +14,7 @@ const morgan = require('morgan');
 let userSchema = new mongoose.Schema({
     _id: { type: String, required: true },
     password: { type: String, required: false },
+    profileColor: {type: String, required: false}
   })
 
 // defining the Express app

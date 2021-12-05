@@ -36,19 +36,6 @@ public class Game {
 
     public Game(int height, int width) throws IOException {
         myBoard = new GameBoard(height, width);
-
-        URL url = new URL("http://localhost:3001/createUser?id=test2&password=test");
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-        StringBuilder result = new StringBuilder();
-        connection.setRequestMethod("GET");
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(connection.getInputStream()))) {
-            for (String line; (line = reader.readLine()) != null; ) {
-                result.append(line);
-            }
-        }
-        System.out.println(result.toString());
     }
 
     public void setEdgePolicy(String s){
