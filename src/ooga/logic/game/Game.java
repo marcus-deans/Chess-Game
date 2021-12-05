@@ -132,7 +132,6 @@ public class Game {
         }
 //        for(Coordinate current : possibleCapture){
 //            if(myBoard.hasPiece(current)) possibleCoordinates.add(current);
-//            System.out.println(current.getX_pos() + " " + current.getY_pos());
 //        }
     }
 

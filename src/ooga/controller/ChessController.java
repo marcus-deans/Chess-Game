@@ -64,6 +64,8 @@ public class ChessController implements Controller {
 
     private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
+    private Map<Integer,Integer> myTempHashMap;
+
 
     /**
      * Instantiates the chess controller and allow the game to be initiated.
@@ -77,6 +79,10 @@ public class ChessController implements Controller {
         myGameView = new GameView(width, height, background, filename, this);
         myGame = new Game(height, width);
         myGameView.start(new Stage());
+
+        myTempHashMap = new HashMap<>();
+        myTempHashMap.put(0,2);
+        myTempHashMap.put(1,1);
     }
 
     /**
@@ -212,15 +218,11 @@ public class ChessController implements Controller {
     private void handleFirstClick(int row, int column) {
         clickedPiece = new GameCoordinate(row, column);
         myGame.setSelected(clickedPiece);
-        if(turnIterator + 1 == myGame.getSpot(clickedPiece).getPiece().getTeam()) {
+        if(myTempHashMap.get(turnIterator) == myGame.getSpot(clickedPiece).getPiece().getTeam()) {
 
             Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece,currentPlayer.getTeam());
             highlightSpots(test);
-            for(Spot h: test){
-                System.out.println(h.getCoordinate().getX_pos());
-                System.out.println(h.getCoordinate().getY_pos());
-            }
-            myLogger.log(Level.INFO, "FIRST CLICK" +FIRSTCLICK);
+            myLogger.log(Level.INFO, "FIRST CLICK " +FIRSTCLICK);
         FIRSTCLICK = false;
         }
     }
@@ -302,7 +304,7 @@ public class ChessController implements Controller {
         }
 
         private void switchPlayers(){
-            turnIterator = (numTurns + 1) %numPlayers;
+            turnIterator = (turnIterator + 1) % numPlayers;
             currentPlayer = thePlayers.get(turnIterator);
             }
 
