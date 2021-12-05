@@ -20,17 +20,18 @@ public class LastRankSpots extends SpotCollection {
   }
 
   @Override
-  public List<Coordinate> getPossibleSpots(Coordinate coordinate) {
-    List<Coordinate> myCoordinateList = new ArrayList<>();
-    Coordinate newCapture;
-
-    for (int xPos : DEFAULT_FILE){
-      for (int yPos: DEFAULT_RANK){
-        newCapture = new GameCoordinate(xPos,yPos);
-        myCoordinateList.add(newCapture);
-      }
-    }
-    return myCoordinateList;
+  public List<List<Coordinate>> getPossibleSpots(Coordinate coordinate) {
+    return new ArrayList<List<Coordinate>>();
+//    List<Coordinate> myCoordinateList = new ArrayList<>();
+//    Coordinate newCapture;
+//
+//    for (int xPos : DEFAULT_FILE){
+//      for (int yPos: DEFAULT_RANK){
+//        newCapture = new GameCoordinate(xPos,yPos);
+//        myCoordinateList.add(newCapture);
+//      }
+//    }
+//    return myCoordinateList;
   }
 
   public DefaultPromotionPieces getMyPromotionPieces() {

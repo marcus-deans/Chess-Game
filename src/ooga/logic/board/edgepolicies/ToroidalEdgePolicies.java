@@ -19,28 +19,25 @@ public class ToroidalEdgePolicies implements EdgePolicies{
         this.height=height;
     }
 
-    public List<Coordinate> filterList(List<Coordinate> allMoves)
+    public List<List<Coordinate>> filterList(List<List<Coordinate>> allMoves)
     {
-        List<Coordinate> possibleMoves=new ArrayList<>();
-        for (Coordinate c: allMoves)
-        {
-            toroidalX(c);
-            toroidalY(c);
-            possibleMoves.add(c);
+        List<List<Coordinate>> possibleMoves=new ArrayList<>();
+        for (List<Coordinate> eachList: allMoves){
+            List<Coordinate> changedList = new ArrayList<>();
+            for (Coordinate c: eachList)
+            {
+                toroidalX(c);
+                toroidalY(c);
+                changedList.add(c);
+            }
+            possibleMoves.add(changedList);
         }
+
         return possibleMoves;
     }
 
     public void toroidalX(Coordinate c)
     {
-
-//        Map<String, Consumer<List<Integer>>> fitMap = Map.of(WORST_FIT,integers -> {},
-//            WORST_FIT_DECREASING, Collections::shuffle, WORST_FIT_RANDOM, integers -> integers.sort(Collections.reverseOrder()));
-//
-//        Map<String, Consumer<List<Integer>>> fitMap = Map.of(
-//            WORST_FIT,integers -> {},
-//            WORST_FIT_DECREASING,Collections::shuffle,
-//            WORST_FIT_RANDOM, integers -> integers.sort(Collections.reverseOrder()));
 
 //
 //        Stream<Integer> greaterThanWidth = i -> c.getX_pos() >= width;

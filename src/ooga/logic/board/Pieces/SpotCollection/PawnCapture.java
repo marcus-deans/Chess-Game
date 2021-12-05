@@ -12,9 +12,9 @@ public class PawnCapture extends SpotCollection {
   }
 
   @Override
-  public List<Coordinate> getPossibleSpots(Coordinate myCoordinate) {
-    List<Coordinate> myList = OneTimePossibleSpots(PIECE_AS_STRING, myCoordinate);
+  public List<List<Coordinate>> getPossibleSpots(Coordinate myCoordinate) {
+    List<List<Coordinate>> myList = OneTimePossibleSpots(PIECE_AS_STRING, myCoordinate);
 
-    return OneTimePossibleSpots(PIECE_AS_STRING, myCoordinate);
+    return myList;
   }
 }
