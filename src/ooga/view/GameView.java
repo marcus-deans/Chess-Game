@@ -21,6 +21,7 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
 
+import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.logic.board.spot.Spot;
 
 import ooga.util.IncorrectCSVFormatException;
@@ -423,15 +424,15 @@ public class GameView extends Application implements PanelListener, ChessView{
    */
   @Override
   public void updateHistory(String historyText) {
-    myGameplayPanel.addHistory(historyText);
+    myGameplayPanel.updateHistory(historyText);
   }
 
   /**
    * Update the graveyard of dead pieces
    */
   @Override
-  public void updateGraveyard() {
-
+  public void updateGraveyard(Piece deadPiece) {
+    myGameplayPanel.updateGraveyard(deadPiece);
   }
 
   /**

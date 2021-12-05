@@ -1,6 +1,7 @@
 package ooga.view;
 
 import java.lang.reflect.InvocationTargetException;
+import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.logic.board.spot.Spot;
 import ooga.logic.game.Game;
 
@@ -17,7 +18,7 @@ public interface ChessView {
   /**
    * Update the graveyard of dead pieces
    */
-  public void updateGraveyard();
+  public void updateGraveyard(Piece deadPiece);
 
   /**
    * Update a specific cell on the board

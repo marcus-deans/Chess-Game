@@ -4,6 +4,7 @@ import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
+import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.view.ui.SharedUIComponents;
 import ooga.view.ui.controlpanel.AnimationControlPanel;
 import ooga.view.ui.controlpanel.LoadControlPanel;
@@ -46,7 +47,11 @@ public class GameplayPanel extends SharedUIComponents {
     return newGameplayPanel;
   }
 
-  public void addHistory(String historyText){
+  public void updateHistory(String historyText){
     myHistoryPanel.addHistory(historyText);
+  }
+
+  public void updateGraveyard(Piece deadPiece){
+    myGraveyardPanel.addGraveyardEntry(deadPiece);
   }
 }
