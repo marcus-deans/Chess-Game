@@ -21,6 +21,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private int pieceValue;
   private boolean canJump;
   private boolean isCheckable;
+  private boolean canCannibalize;
 
   private ResourceBundle PieceProperties;
   private ResourceBundle DefaultProperties;
@@ -36,7 +37,8 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private static final String IS_CHECKABLE = "isCheckable";
   private static final String MOVEMENT = "movement";
   private static final String CAPTURE = "capture";
-
+  private static final String CANNIBALIZE = "canCannibalize";
+  
   private boolean teamMatters;
 
   public Piece(String pieceToString, int team, Coordinate myCoordinate) {
@@ -192,7 +194,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   }
 
   private void setMovement(String pieceToString) {
-    System.out.println();
     try{
       setMyMovement(
           (SpotCollection) Class.forName(
@@ -269,6 +270,25 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   private String capitalizeFirst(String toBeCapitalized){
     return toBeCapitalized.substring(0, 1).toUpperCase() + toBeCapitalized.substring(1);
+  }
+
+  private void setCannibalize() {
+    try{
+      setCanCannibalize(Boolean.parseBoolean(getPieceProperties().getString(CANNIBALIZE)));
+    }
+    catch (Exception e){
+      setCanCannibalize(Boolean.parseBoolean(getDefaultProperties().getString(CANNIBALIZE)));
+    }
+  }
+
+  @Override
+  public void setCanCannibalize(boolean cannibalize) {
+    canCannibalize = cannibalize;
+  }
+
+  @Override
+  public boolean canCannibalize() {
+    return canCannibalize;
   }
 
 }
