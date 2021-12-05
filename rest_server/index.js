@@ -14,7 +14,9 @@ const morgan = require('morgan');
 let userSchema = new mongoose.Schema({
     _id: { type: String, required: true },
     password: { type: String, required: false },
-    profileColor: {type: String, required: false}
+    profileColor: {type: String, required: false},
+    wins: {type: Number, required: false},
+    losses: {type: Number, required: false}
   })
 
 // defining the Express app
@@ -62,7 +64,10 @@ app.get('/createUser', (req, res) => {
     Users.create(
         {
             _id: id,
-            password:password
+            password:password,
+            profileColor:"",
+            wins:0,
+            losses:0
         }
     )
         res.send("success????")

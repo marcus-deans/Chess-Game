@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ public class Player {
     private String myUsername;
     private String myPassword;
     private int myTeam;
+    private int userState;
 
     public Player(String username, String password, int team) throws IOException {
         graveyard = new ArrayList<Piece>();
@@ -60,6 +62,24 @@ public class Player {
                 for (String line; (line = reader.readLine()) != null; ) {
                     result.append(line);
                 }
+            }
+        }
+    }
+
+    public int doesUserExist(){
+        return userState;
+    }
+
+    public void setProfileColor() throws IOException {
+        URL url = new URL("http://localhost:3001/setProfileColor?id=" + myUsername);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        StringBuilder result = new StringBuilder();
+        connection.setRequestMethod("GET");
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(connection.getInputStream()))) {
+            for (String line; (line = reader.readLine()) != null; ) {
+                result.append(line);
             }
         }
     }
