@@ -128,7 +128,6 @@ public class GridView implements GridListener {
 
     Integer colIndex = GridPane.getColumnIndex(nod);
     Integer rowIndex = GridPane.getRowIndex(nod);
-    System.out.println("ColumnIndex: " + colIndex + " RowIndex: " + rowIndex);
     try {
       myGameView.getBoardClick(colIndex, rowIndex);
     } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {

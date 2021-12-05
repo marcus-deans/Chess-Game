@@ -47,7 +47,6 @@ public class Game {
     public void setupBoard(String spot, int i, int j){
         try {
             myBoard.setupBoard(spot, i, j);
-            initialBoard = myBoard.getFullBoard();
         } catch (Exception e){
 
         }
@@ -55,7 +54,7 @@ public class Game {
     }
 
     public void reset(){
-        myBoard.reset(initialBoard);
+        myBoard.reset();
     }
 
     public void setSelected(GameCoordinate select){

@@ -19,10 +19,15 @@ public interface Controller {
   //Resets the active game and the display.
     public void resetGame();
 
+    public int getHeight();
+
+    public int getWidth();
     //sets time limit of each round in the game
     public void setTime(int speed);
 
     public void undoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
+
+    public void redoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 
     public void changeVariant(String variant);
 

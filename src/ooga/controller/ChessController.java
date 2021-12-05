@@ -10,10 +10,7 @@ import ooga.logic.board.spot.Spot;
 import ooga.logic.game.Game;
 import ooga.logic.game.Player;
 import ooga.util.IncorrectCSVFormatException;
-import ooga.util.IncorrectSimFormatException;
 import ooga.view.GameView;
-
-import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.util.*;
 import java.io.File;
 import java.io.IOException;
@@ -33,11 +30,9 @@ public class ChessController implements Controller {
 
     private int BOARDWIDTH;
     private int BOARDHEIGHT;
-    private GameBoard myBoard;
     private Stack<GameCoordinate[]> history;
+    private Stack<GameCoordinate[]> unwind;
 
-
-    private GameBoard initialBoard;
     private Map<String, String> myData;
     private CSVParser myCSVParser = new CSVParser();
     private SIMParser mySIMParser = new SIMParser();
@@ -48,7 +43,6 @@ public class ChessController implements Controller {
     private GameCoordinate clickedPiece;
     private GameCoordinate nextMove;
 
-    //TODO: Replace with player class and login
     private int numTurns;
     private Player currentPlayer;
     private List<Player> thePlayers;
@@ -106,38 +100,35 @@ public class ChessController implements Controller {
         File simFile = new File(file.toString());
         myData = mySIMParser.readSimFile(simFile);
         File csvFile;
-        if (myData.get("Type").equals("Puzzles"))
-        {
-            puzzleMap=ResourceBundle.getBundle(PIECES_PACKAGE+PUZZLE_CSV_MAP);
-            puzzleNumber=1+new Random().nextInt(Integer.parseInt(puzzleMap.getString("numPuzzles")));
-            puzzleName=puzzleMap.getString(Integer.toString(puzzleNumber));
-            csvFile=new File(puzzleName);
-        }
-        else
-        {
-            csvFile= new File(myData.get("GameConfiguration"));
-        }
+        if (myData.get("Type").equals("Puzzles")) {csvFile = puzzleBuild();}
+        else {csvFile= new File(myData.get("GameConfiguration"));}
         myCSVParser.readCSVFile(csvFile);
         BOARDWIDTH = myCSVParser.getDimensions()[0];
         BOARDHEIGHT = myCSVParser.getDimensions()[1];
         myGame = new Game(BOARDHEIGHT, BOARDWIDTH);
-        if (myData.get("Type").equals("Puzzles"))
-        {
-            myGame.setPuzzleSolution(puzzleMap.getString(puzzleName));
-        }
+        if (myData.get("Type").equals("Puzzles")) {myGame.setPuzzleSolution(puzzleMap.getString(puzzleName));}
         myGame.setEdgePolicy(myData.get("EdgePolicy"));
         boardInitializer(myCSVParser.getInitialStates(), myGame);
         boardViewBuild(myGame);
         numTurns = 1;
-        //temporary
         thePlayers = new ArrayList<>();
         setPlayer("Player1",1);
         setPlayer("Player2",2);
         history= new Stack<GameCoordinate[]>();
+        unwind= new Stack<GameCoordinate[]>();
 
         currentPlayer = thePlayers.get(0);
         numPlayers = thePlayers.size();
         myLogger.log(Level.INFO, "Inititalized: "+myData.get("Type") + " gametype");
+    }
+
+    private File puzzleBuild() {
+        File csvFile;
+        puzzleMap=ResourceBundle.getBundle(PIECES_PACKAGE+PUZZLE_CSV_MAP);
+        puzzleNumber=1+new Random().nextInt(Integer.parseInt(puzzleMap.getString("numPuzzles")));
+        puzzleName=puzzleMap.getString(Integer.toString(puzzleNumber));
+        csvFile=new File(puzzleName);
+        return csvFile;
     }
 
     public void boardInitializer(String[][] initialStates, Game game)
@@ -149,31 +140,17 @@ public class ChessController implements Controller {
         }
     }
 
-    // use iterator class later
-    public void boardViewBuild(Game game){
+    // Rebuilds the board to update it
+    private void boardViewBuild(Game game){
         List<Spot> fullBoard = game.getFullBoard();
-//        for (Spot i: fullBoard){
-//            myGameView.updateChessCell(i);
-//        }
         fullBoard.stream().forEach(spot -> myGameView.updateChessCell(spot));
-
     }
-
-
-
-//    public void highlightedBoardViewBuild(){
-////        List<Spot> highlightedCell = myBoard.g
-//        for(Spot highlightedCell : highlightedCells){
-//            myGameView.highlightChessCell(highlightedCell);
-//        }
-//    }
-
-
 
     /**
      * Gives BOARDHEIGHT
      * @return
      */
+    @Override
     public int getHeight() {
         return BOARDHEIGHT;
     }
@@ -182,15 +159,13 @@ public class ChessController implements Controller {
     public void setPlayer(String userName, int team){
         Player addPlayer = new Player(userName, team);
         thePlayers.add(addPlayer);
-        for (Player w: thePlayers){
-            System.out.println(w.getUsername());
-        }
     }
 
     /**
      * Gives BOARDWIDTH
      * @return
      */
+    @Override
     public int getWidth() {
         return BOARDWIDTH;
     }
@@ -198,6 +173,7 @@ public class ChessController implements Controller {
     @Override
     public void resetGame() {
         myGame.reset();
+        boardViewBuild(myGame);
     }
 
     @Override
@@ -218,12 +194,13 @@ public class ChessController implements Controller {
     private void handleFirstClick(int row, int column) {
         clickedPiece = new GameCoordinate(row, column);
         myGame.setSelected(clickedPiece);
-        if(myTempHashMap.get(turnIterator) == myGame.getSpot(clickedPiece).getPiece().getTeam()) {
-
-            Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece,currentPlayer.getTeam());
-            highlightSpots(test);
-            myLogger.log(Level.INFO, "FIRST CLICK " +FIRSTCLICK);
-        FIRSTCLICK = false;
+        if(myGame.getSpot(clickedPiece).getPiece()!= null) {
+            if (myTempHashMap.get(turnIterator) == myGame.getSpot(clickedPiece).getPiece().getTeam()) {
+                Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece, currentPlayer.getTeam());
+                highlightSpots(test);
+                myLogger.log(Level.INFO, "FIRST CLICK");
+                FIRSTCLICK = false;
+            }
         }
     }
 
@@ -233,8 +210,7 @@ public class ChessController implements Controller {
         }
     }
 
-    private void handleSecondClick ( int row, int column) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
-    {
+    private void handleSecondClick ( int row, int column) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
             nextMove = new GameCoordinate(row, column);
             //clicking same piece to deselect
             if (nextMove.equals(clickedPiece)) {
@@ -244,32 +220,24 @@ public class ChessController implements Controller {
             }
             //update board with next possible move
             else if (myGame.getPossibleCoordinates(clickedPiece, 1).contains(myGame.getSpot(nextMove))) {
-                myLogger.log(Level.INFO, "ERROR IS HERE");
-                /* TODO: is not in check, or if selected move moves out of check, smt like accept move claus */
                 myGame.movePiece(clickedPiece, nextMove);
-
                 myGameView.updateChessCell(myGame.getSpot(clickedPiece));
-                myLogger.log(Level.INFO, "MOVED");
                 FIRSTCLICK = true;
-                nextTurn();
-
+                numTurns++;
+                unwind.clear();
+                nextTurn(clickedPiece, nextMove);
             }
             else {
                 myLogger.log(Level.WARNING, "Invalid Position Chosen");
             }
-            //display the possible neighbors of the first selected piece
-//            else {
-//                FIRSTCLICK = true;
-//                clickedCoordinates(row, column);
-//            }
         }
 
         // Increments turn and changes current player, also adds moves to history
-        private void nextTurn () {
-            numTurns++;
+        private void nextTurn (GameCoordinate original, GameCoordinate next) {
             switchPlayers();
-            GameCoordinate[] moveRecord = {clickedPiece, nextMove};
+            GameCoordinate[] moveRecord = {original, next};
             history.push(moveRecord);
+            myLogger.log(Level.INFO, "MOVED: "+moveRecord[0].getX_pos()+","+moveRecord[0].getY_pos()+" to "+moveRecord[1].getX_pos()+","+moveRecord[1].getY_pos());
             boardViewBuild(myGame);
         }
 
@@ -278,11 +246,29 @@ public class ChessController implements Controller {
          */
         @Override
         public void undoMove () throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-            GameCoordinate[] recentMove = history.pop();
-            myGame.movePiece(recentMove[1], recentMove[0]);
-            numTurns -= numTurns;
-            switchPlayers();
+            if(!history.isEmpty()) {
+                GameCoordinate[] recentMove = history.pop();
+                unwind.push(recentMove);
+                myLogger.log(Level.INFO, "MOVED: " + recentMove[0].getX_pos() + "," + recentMove[0].getY_pos() + " to " + recentMove[1].getX_pos() + "," + recentMove[1].getY_pos());
+                myGame.movePiece(recentMove[1], recentMove[0]);
+                numTurns -= numTurns;
+                switchPlayers();
+                boardViewBuild(myGame);
+            }
         }
+
+    @Override
+    public void redoMove () throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        if(!unwind.isEmpty()) {
+            GameCoordinate[] reDoneMove = unwind.pop();
+            history.push(reDoneMove);
+            myLogger.log(Level.INFO, "MOVED: " + reDoneMove[1].getX_pos() + "," + reDoneMove[1].getY_pos() + " to " + reDoneMove[0].getX_pos() + "," + reDoneMove[0].getY_pos());
+            myGame.movePiece(reDoneMove[0], reDoneMove[1]);
+            numTurns += numTurns;
+            switchPlayers();
+            boardViewBuild(myGame);
+        }
+    }
 
         /**
          * This should allow the player to change the rules using a menubar
@@ -291,23 +277,12 @@ public class ChessController implements Controller {
          */
         @Override
         public void changeVariant(String variant){
-            //Here we will probably want to change up the Map of Data
-            //Similar initialization mehtod but without changing the csv data
-//        GameBoard currentLayout = new GameBoard(BOARDHEIGHT, BOARDWIDTH);
-//        myBoard.getFullBoard();
             myData.put(myData.get("type"), variant);
-//        myGame =  new Game(currentLayout,  myData);
-            //needs to be more flexible, this can only change the type, which actually doesn't do anything
-            //the conditions for the type of game should probably be stored in properties files unless we want
-            //lots of menus for each of the types of change we could make
-
         }
 
         private void switchPlayers(){
             turnIterator = (turnIterator + 1) % numPlayers;
             currentPlayer = thePlayers.get(turnIterator);
             }
-
-
 }
 

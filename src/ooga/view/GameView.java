@@ -271,8 +271,8 @@ public class GameView extends Application implements PanelListener {
   //initialize the grid itself that appears on the scree
   private Node createGrid() {
     gridSize = new int[2];
-    gridSize[0]=8;
-    gridSize[1]=8;
+    gridSize[0]=8;//myChessController.getHeight();
+    gridSize[1]=8;//myChessController.getWidth();
     //TODO: fix grid colour by obtaining from controller
     myGridColours = defaultGridColours.getString("GameOfLife").split(",");
     myGridView = new GridView(gridSize[0], gridSize[1], myGridColours, gridDisplayLength, this);
@@ -403,6 +403,11 @@ public class GameView extends Application implements PanelListener {
   public void undoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     //TODO: callback to controller
     myChessController.undoMove();
+  }
+  @Override
+  public void redoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    //TODO: callback to controller
+    myChessController.redoMove();
   }
 
   @Override
