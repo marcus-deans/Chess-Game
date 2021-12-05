@@ -11,6 +11,8 @@ import ooga.view.ui.controlpanel.ViewControlPanel;
 
 public class GameplayPanel extends SharedUIComponents {
   private int myGameplayPanelX;
+  private GraveyardPanel myGraveyardPanel;
+  private HistoryPanel myHistoryPanel;
 
   /**
    * Create the general control panel constructor
@@ -33,14 +35,18 @@ public class GameplayPanel extends SharedUIComponents {
     myVariantPanel.setPanelListener(this.getPanelListener());
     newGameplayPanel.getChildren().add(myVariantPanel.createVariantPanel());
 
-    HistoryPanel myHistoryPanel = new HistoryPanel();
+    myHistoryPanel = new HistoryPanel();
     myHistoryPanel.setPanelListener(this.getPanelListener());
     newGameplayPanel.getChildren().add(myHistoryPanel.createHistoryPanel());
 
-    GraveyardPanel myGraveyardPanel = new GraveyardPanel();
+    myGraveyardPanel = new GraveyardPanel();
     myGraveyardPanel.setPanelListener(this.getPanelListener());
     newGameplayPanel.getChildren().add(myGraveyardPanel.createGraveyardPanel());
 
     return newGameplayPanel;
+  }
+
+  public void addHistory(String historyText){
+    myHistoryPanel.addHistory(historyText);
   }
 }
