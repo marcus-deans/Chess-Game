@@ -61,7 +61,7 @@ app.get('/createUser', (req, res) => {
 
     const Users = mongoose.model(collectionName, userSchema, collectionName)
 
-    Users.create(
+    Users.findOneAndUpdate(
         {
             _id: id,
             password:password,
