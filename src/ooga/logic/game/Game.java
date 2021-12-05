@@ -27,7 +27,6 @@ public class Game {
     private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private Coordinate puzzleStart;
     private Coordinate puzzleFinish;
-    private int currentTeam;
 
     public Game(int height, int width){
         myBoard = new GameBoard(height, width);
@@ -169,10 +168,13 @@ public class Game {
         for (List<Coordinate> eachLine: possibleCapturePositions) {
             for (Coordinate individualCoord : eachLine) {
                 Piece tempPiece = myBoard.getSpot(individualCoord).getPiece();
-                if (tempPiece == null){continue;}
+                if (tempPiece == null){
+                    continue;
+                }
 
                 if (myPiece.canCannibalize() || (getTeam(tempPiece) != getTeam(myPiece))){
                     listToPopulate.add(individualCoord);
+                    break;
                 }
 
                 if (getCanJump(myPiece)){
@@ -230,7 +232,6 @@ public class Game {
     }
 
     public Set<Spot> getPossibleCoordinates(GameCoordinate selected, int team){
-        currentTeam = team;
         List<Coordinate> myMoveList = filterMoves(selected);
         List<Coordinate> myCaptureList = filterCaptures(selected);
 

@@ -122,11 +122,11 @@ public class ChessController implements Controller {
         myGame.setEdgePolicy(myData.get("EdgePolicy"));
         boardInitializer(myCSVParser.getInitialStates(), myGame);
         boardViewBuild(myGame);
-        numTurns = 0;
+        numTurns = 1;
         //temporary
         thePlayers = new ArrayList<>();
-        setPlayer("Player1",0);
-        setPlayer("Player2",1);
+        setPlayer("Player1",1);
+        setPlayer("Player2",2);
         history= new Stack<GameCoordinate[]>();
 
         currentPlayer = thePlayers.get(0);
@@ -212,8 +212,9 @@ public class ChessController implements Controller {
     private void handleFirstClick(int row, int column) {
         clickedPiece = new GameCoordinate(row, column);
         myGame.setSelected(clickedPiece);
-        //if(currentPlayer.getTeam() == myBoard.getSpot(clickedPiece).getPiece().getTeam()) {
-        Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece,1);
+        if(turnIterator + 1 == myGame.getSpot(clickedPiece).getPiece().getTeam()) {
+
+            Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece,currentPlayer.getTeam());
             highlightSpots(test);
             for(Spot h: test){
                 System.out.println(h.getCoordinate().getX_pos());
@@ -221,7 +222,7 @@ public class ChessController implements Controller {
             }
             myLogger.log(Level.INFO, "FIRST CLICK" +FIRSTCLICK);
         FIRSTCLICK = false;
-        //}
+        }
     }
 
     private void highlightSpots(Set<Spot> possibleCoordinates) {
@@ -301,7 +302,7 @@ public class ChessController implements Controller {
         }
 
         private void switchPlayers(){
-            turnIterator = numTurns%numPlayers;
+            turnIterator = (numTurns + 1) %numPlayers;
             currentPlayer = thePlayers.get(turnIterator);
             }
 
