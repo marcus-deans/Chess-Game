@@ -38,7 +38,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private static final String MOVEMENT = "movement";
   private static final String CAPTURE = "capture";
   private static final String CANNIBALIZE = "canCannibalize";
-  
+
   private boolean teamMatters;
 
   public Piece(String pieceToString, int team, Coordinate myCoordinate) {

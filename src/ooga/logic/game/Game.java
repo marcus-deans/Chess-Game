@@ -170,8 +170,14 @@ public class Game {
             for (Coordinate individualCoord : eachLine) {
                 Piece tempPiece = myBoard.getSpot(individualCoord).getPiece();
                 if (tempPiece == null){continue;}
-                if (getTeam(tempPiece) != getTeam(myPiece)){listToPopulate.add(individualCoord);}
-                if (getCanJump(myPiece)){continue;}
+
+                if (myPiece.canCannibalize() || (getTeam(tempPiece) != getTeam(myPiece))){
+                    listToPopulate.add(individualCoord);
+                }
+
+                if (getCanJump(myPiece)){
+                    continue;
+                }
                 break;
             }
         }
