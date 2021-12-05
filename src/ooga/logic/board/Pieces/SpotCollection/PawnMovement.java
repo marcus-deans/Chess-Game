@@ -18,9 +18,7 @@ public class PawnMovement extends SpotCollection {
     List<List<Coordinate>> mySpots = OneTimePossibleSpots(PIECE_AS_STRING, myCoordinate);
     if (myCoordinate.getY_pos() == 1){
       Coordinate myCoord = new GameCoordinate(myCoordinate.getX_pos(),myCoordinate.getY_pos() + 2);
-      List<Coordinate> myMiniList = new ArrayList<>();
-      myMiniList.add(myCoord);
-      mySpots.add(myMiniList);
+      mySpots.get(0).add(myCoord);
     }
 
     return mySpots;

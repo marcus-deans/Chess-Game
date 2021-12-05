@@ -1,6 +1,7 @@
 package ooga.logic.game;
 
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.logic.board.board.GameBoard;
 import ooga.logic.board.coordinate.Coordinate;
@@ -233,10 +234,10 @@ public class Game {
     public Set<Spot> getPossibleCoordinates(GameCoordinate selected, int team){
         List<Coordinate> myMoveList = filterMoves(selected);
         List<Coordinate> myCaptureList = filterCaptures(selected);
+        myMoveList.addAll(myCaptureList);
 
-        Set<Spot> possibleSet = new HashSet<>();
-        myMoveList.stream().forEach(coord -> possibleSet.add(myBoard.getSpot(coord)));
-        myCaptureList.stream().forEach(coord -> possibleSet.add(myBoard.getSpot(coord)));
+        Set<Spot> possibleSet = myMoveList.stream().
+            map(myBoard::getSpot).collect(Collectors.toSet());
         return possibleSet;
     }
 
