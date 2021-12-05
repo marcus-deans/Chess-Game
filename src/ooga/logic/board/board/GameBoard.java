@@ -74,6 +74,7 @@ public class GameBoard implements Board {
 
     public void updateBoard(Coordinate newPosition, Piece movingPiece)
             throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+
         getSpot(newPosition).setPiece(movingPiece);
         int spotType=getSpot(newPosition).getTypeOfSpot();
         spotActionName=SPOTACTION_PATH+resourceMap.getString(String.valueOf(spotType));
@@ -88,6 +89,7 @@ public class GameBoard implements Board {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -102,6 +104,10 @@ public class GameBoard implements Board {
 
 
     public GameSpot getSpot(Coordinate selected) {
+//       final Spot mySpot;
+//        board.stream().filter(spot -> spot.getCoordinate().equals(selected)).
+//           forEach(spot -> mySpot = spot);
+
         for (Spot s : board)
         {
             if (s.getCoordinate().equals(selected))
