@@ -51,7 +51,7 @@ public class ChessController implements Controller {
     //TODO: Replace with player class and login
     private int numTurns;
     private Player currentPlayer;
-    private List<Player> thePlayers;
+    private List<Player> thePlayers = new ArrayList<>();
     private int numPlayers;
     private int turnIterator;
 
@@ -130,13 +130,9 @@ public class ChessController implements Controller {
         boardViewBuild(myGame);
         numTurns = 1;
         //temporary
-        thePlayers = new ArrayList<>();
-        setPlayer("Player1",1);
-        setPlayer("Player2",2);
+//        setPlayer("Player1",1);
+//        setPlayer("Player2",2);
         history= new Stack<GameCoordinate[]>();
-
-        currentPlayer = thePlayers.get(0);
-        numPlayers = thePlayers.size();
         myLogger.log(Level.INFO, "Inititalized: "+myData.get("Type") + " gametype");
     }
 
@@ -179,12 +175,12 @@ public class ChessController implements Controller {
     }
 
     @Override
-    public void setPlayer(String userName, int team){
-        Player addPlayer = new Player(userName, team);
+    public void setPlayer(String userName, String password, int team) throws IOException {
+        Player addPlayer = new Player(userName,password, team);
+        addPlayer.doesUserExist();
         thePlayers.add(addPlayer);
-        for (Player w: thePlayers){
-            System.out.println(w.getUsername());
-        }
+        currentPlayer = thePlayers.get(0);
+        numPlayers = thePlayers.size();
     }
 
     /**

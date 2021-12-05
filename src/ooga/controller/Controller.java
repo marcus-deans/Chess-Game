@@ -28,5 +28,5 @@ public interface Controller {
 
     public void clickedCoordinates(int x, int y) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 
-    public void setPlayer(String userName, int team);
+    public void setPlayer(String userName,String password, int team) throws IOException;
   }
