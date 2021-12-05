@@ -8,6 +8,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import ooga.view.ui.SharedUIComponents;
 
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * JavaFX panel that creates the animation control panel for start/clear/stop/run/step simulation
  * Relies on appropriate resourcebundles being configured, SharedUIComponents, and JavaFX
@@ -54,7 +56,19 @@ public class AnimationControlPanel extends SharedUIComponents {
     Button undoButton = makeButton(getWord("undo_move"), value -> {
       //TODO: callback to controller to undo
       if(this.getPanelListener() != null){
-//        this.getPanelListener().undoMove();
+        try {
+          this.getPanelListener().undoMove();
+        } catch (ClassNotFoundException e) {
+          e.printStackTrace();
+        } catch (InvocationTargetException e) {
+          e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+          e.printStackTrace();
+        } catch (InstantiationException e) {
+          e.printStackTrace();
+        } catch (IllegalAccessException e) {
+          e.printStackTrace();
+        }
       }
     });
     return undoButton;

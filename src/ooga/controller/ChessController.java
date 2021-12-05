@@ -174,9 +174,6 @@ public class ChessController implements Controller {
     public void setPlayer(String userName, int team){
         Player addPlayer = new Player(userName, team);
         thePlayers.add(addPlayer);
-        for (Player w: thePlayers){
-            System.out.println(w.getUsername());
-        }
     }
 
     /**
@@ -190,6 +187,8 @@ public class ChessController implements Controller {
     @Override
     public void resetGame() {
         myGame.reset();
+        System.out.println("Trying to reset");
+        boardViewBuild(myGame);
     }
 
     @Override
@@ -213,10 +212,6 @@ public class ChessController implements Controller {
         //if(currentPlayer.getTeam() == myBoard.getSpot(clickedPiece).getPiece().getTeam()) {
         Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece,1);
             highlightSpots(test);
-            for(Spot h: test){
-                System.out.println(h.getCoordinate().getX_pos());
-                System.out.println(h.getCoordinate().getY_pos());
-            }
             myLogger.log(Level.INFO, "FIRST CLICK" +FIRSTCLICK);
         FIRSTCLICK = false;
         //}
@@ -239,14 +234,12 @@ public class ChessController implements Controller {
             }
             //update board with next possible move
             else if (myGame.getPossibleCoordinates(clickedPiece, 1).contains(myGame.getSpot(nextMove))) {
-                myLogger.log(Level.INFO, "ERROR IS HERE");
                 /* TODO: is not in check, or if selected move moves out of check, smt like accept move claus */
                 myGame.movePiece(clickedPiece, nextMove);
-
                 myGameView.updateChessCell(myGame.getSpot(clickedPiece));
-                myLogger.log(Level.INFO, "MOVED");
                 FIRSTCLICK = true;
-                nextTurn();
+                numTurns++;
+                nextTurn(clickedPiece, nextMove);
 
             }
             else {
@@ -260,11 +253,11 @@ public class ChessController implements Controller {
         }
 
         // Increments turn and changes current player, also adds moves to history
-        private void nextTurn () {
-            numTurns++;
+        private void nextTurn (GameCoordinate original, GameCoordinate next) {
             switchPlayers();
-            GameCoordinate[] moveRecord = {clickedPiece, nextMove};
+            GameCoordinate[] moveRecord = {original, next};
             history.push(moveRecord);
+            myLogger.log(Level.INFO, "MOVED: "+moveRecord[0].getX_pos()+","+moveRecord[0].getY_pos()+" to "+moveRecord[1].getX_pos()+","+moveRecord[1].getY_pos());
             boardViewBuild(myGame);
         }
 
@@ -273,10 +266,15 @@ public class ChessController implements Controller {
          */
         @Override
         public void undoMove () throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-            GameCoordinate[] recentMove = history.pop();
-            myGame.movePiece(recentMove[1], recentMove[0]);
-            numTurns -= numTurns;
-            switchPlayers();
+            if(!history.isEmpty()) {
+                GameCoordinate[] recentMove = history.pop();
+                myLogger.log(Level.INFO, "MOVED: " + recentMove[0].getX_pos() + "," + recentMove[0].getY_pos() + " to " + recentMove[1].getX_pos() + "," + recentMove[1].getY_pos());
+                myGame.movePiece(recentMove[1], recentMove[0]);
+                numTurns -= numTurns;
+                switchPlayers();
+                boardViewBuild(myGame);
+            }
+//            nextTurn(recentMove[1], recentMove[0]);
         }
 
         /**
