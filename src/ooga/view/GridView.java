@@ -16,10 +16,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import ooga.logic.board.spot.Spot;
+import org.w3c.dom.css.Rect;
 
 
 /**
@@ -56,7 +59,7 @@ public class GridView implements GridListener {
   }
 
   private void determineCellDimensions() {
-    myCellWidth = (myGridDimensions - getInt("lineSize")) / myWidthNumber;
+    myCellWidth = (myGridDimensions - getInt("lineSize") - getInt("letter_label_width")) / myWidthNumber;
     myCellHeight = (myGridDimensions - getInt("lineSize")) / myHeightNumber;
   }
 
@@ -70,7 +73,7 @@ public class GridView implements GridListener {
     newCell.setHeight(myCellHeight);
     if(isHighlighted){
       newCell.setId("highlighted-cell-view");
-      newCell.setFill(Color.web("#FF6961"));
+      newCell.setFill(Color.web(getString("highlighted_cell_colour")));
     } else {
       newCell.setId("cell-view");
       newCell.setFill(Color.web(myGridColours[state]));
@@ -97,10 +100,30 @@ public class GridView implements GridListener {
     return (myCol == myRow) ? 0 :  1;
   }
 
+  private StackPane createNewLetterLabelView(int ascii_value){
+    StackPane letterLabelView = new StackPane();
+    letterLabelView.setId("letter-label-view");
+
+    Rectangle labelColourBox = new Rectangle();
+    labelColourBox.setId("letter-label-colour-box");
+    labelColourBox.setWidth(getInt("letter_label_width"));
+    labelColourBox.setHeight(myCellHeight);
+
+    Text letterLabelText = new Text(Character.toString((char) ascii_value));
+    letterLabelText.setId("letter-label-text");
+    letterLabelView.getChildren().addAll(labelColourBox, letterLabelText);
+
+    return letterLabelView;
+  }
+
   //create the new chess grid of appropriate size
   private void populateNewGrid() {
-    for (int column = 0; column < myWidthNumber; column++) {
-      for (int row = 0; row < myHeightNumber; row++) {
+    for (int column = 0; column <= myWidthNumber; column++) {
+      for (int row = 0; row <= myHeightNumber; row++) {
+        if(column == myWidthNumber){
+          myGameGrid.add(createNewLetterLabelView(getInt("ascii_alpha_int_value")+row), column, row);
+          break;
+        }
         myGameGrid.add(createNewCellView(determineCellColour(column, row), false, false), column, row);
       }
     }
@@ -109,12 +132,6 @@ public class GridView implements GridListener {
   public GridPane getMyGameGrid() {
     myGameGrid.setGridLinesVisible(true);
     return myGameGrid;
-  }
-  public int getMyCellWidth() {
-    return myCellWidth;
-  }
-  public int getMyCellHeight() {
-    return myCellHeight;
   }
 
   private void clickOnGrid(MouseEvent event) {
