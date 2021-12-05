@@ -8,6 +8,6 @@ GameTimer=0
 
 Portal=False
 BlackHole=False
-EdgePolicy=Basic
+EdgePolicy=Toroidal
 
 PiecesImageDirectory=Standard
