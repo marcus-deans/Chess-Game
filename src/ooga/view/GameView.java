@@ -45,7 +45,7 @@ import ooga.view.ui.controlpanel.ControlPanel;
  *
  * @author marcusdeans, drewpeterson
  */
-public class GameView extends Application implements PanelListener, ChessView{
+public class GameView extends Application implements PanelListener, GameChessView {
   //JavaFX Simulation Parameters:
   private static final int FRAMES_PER_SECOND = 7;
   private static final double SECOND_DELAY = 7.0 / FRAMES_PER_SECOND;

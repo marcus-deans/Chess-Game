@@ -23,7 +23,7 @@ import ooga.logic.board.spot.Spot;
 /**
  * JavaFX View class
  */
-public class GridView implements GridListener {
+public class GridView implements GridChessView {
 
   private String[] myGridColours;
   private GridPane myGameGrid;
@@ -146,6 +146,7 @@ public class GridView implements GridListener {
     }
   }
 
+  @Override
   public GridPane getMyGameGrid() {
     myGameGrid.setGridLinesVisible(true);
     return myGameGrid;
@@ -172,10 +173,12 @@ public class GridView implements GridListener {
 
   // row, column, colour, piece type
   //Spot -> extract row, column, 'team'=colour, Spot.getPiece() -> reflect on the piece, makes corresponding JavaFX images
+  @Override
   public void updateChessCell(Spot spot){
     changeChessCell(spot, false, getString("empty_cell_colour"));
   }
 
+  @Override
   public void colourChessCell(Spot spot, String hexColour){
     changeChessCell(spot, true, hexColour);
   }

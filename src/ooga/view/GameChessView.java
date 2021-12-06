@@ -7,7 +7,7 @@ import ooga.logic.board.spot.Spot;
 /**
  * Interface to interact with the view of the program, serves as API
  */
-public interface ChessView {
+public interface GameChessView {
 
   /**
    *  Add to the history of past moves
