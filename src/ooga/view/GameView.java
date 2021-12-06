@@ -15,6 +15,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -238,6 +239,18 @@ public class GameView extends Application implements PanelListener, ChessView{
     myGameViewRoot.getChildren().addAll(myVisualGameplayPanel, myVisualControlPanel,
         myVisualInformationPanel, myGridPanel);
     myGameViewScene.getStylesheets().add(GameView.class.getResource("GameViewFormatting.css").toExternalForm());
+    myGameViewScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+
+  }
+
+  private void handleKeyInput(KeyCode code) {
+    switch (code) {
+      case RIGHT -> myMover.setX(myMover.getX() + MOVER_SPEED);
+      case LEFT -> myMover.setX(myMover.getX() - MOVER_SPEED);
+      case UP -> myMover.setY(myMover.getY() - MOVER_SPEED);
+      case DOWN -> myMover.setY(myMover.getY() + MOVER_SPEED);
+    }
+
   }
 
   //create the UI panels that will provide interactivity and information to the user
