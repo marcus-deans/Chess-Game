@@ -1,14 +1,11 @@
 package ooga.view;
 
-import java.awt.Panel;
 import java.io.FileInputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
@@ -18,11 +15,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import ooga.logic.board.spot.Spot;
-import org.w3c.dom.css.Rect;
 
 
 /**
@@ -100,16 +95,23 @@ public class GridView implements GridListener {
     return (myCol == myRow) ? 0 :  1;
   }
 
-  private StackPane createNewLetterLabelView(int ascii_value){
+  private StackPane createGridLabelView(int textValue, boolean intoAscii){
     StackPane letterLabelView = new StackPane();
     letterLabelView.setId("letter-label-view");
 
     Rectangle labelColourBox = new Rectangle();
     labelColourBox.setId("letter-label-colour-box");
-    labelColourBox.setWidth(getInt("letter_label_width"));
-    labelColourBox.setHeight(myCellHeight);
 
-    Text letterLabelText = new Text(Character.toString((char) ascii_value));
+    Text letterLabelText;
+    if(intoAscii){
+      letterLabelText = new Text(Character.toString((char) textValue));
+      labelColourBox.setWidth(myCellWidth);
+      labelColourBox.setHeight(getInt("letter_label_width"));
+    } else {
+      letterLabelText = new Text(String.valueOf(textValue));
+      labelColourBox.setWidth(getInt("letter_label_width"));
+      labelColourBox.setHeight(myCellHeight);
+    }
     letterLabelText.setId("letter-label-text");
     letterLabelView.getChildren().addAll(labelColourBox, letterLabelText);
 
@@ -118,11 +120,12 @@ public class GridView implements GridListener {
 
   //create the new chess grid of appropriate size
   private void populateNewGrid() {
-    for (int column = 0; column <= myWidthNumber; column++) {
-      for (int row = 0; row <= myHeightNumber; row++) {
-        if(column == myWidthNumber){
-          myGameGrid.add(createNewLetterLabelView(getInt("ascii_alpha_int_value")+row), column, row);
-          break;
+    for (int column = 0; column < myWidthNumber; column++) {
+      myGameGrid.add(createGridLabelView(getInt("ascii_alpha_int_value")+column, true), column, myHeightNumber);
+      for (int row = 0; row < myHeightNumber; row++) {
+        if(column+1 == myWidthNumber){
+          myGameGrid.add(createGridLabelView(row+1, false), column+1, row);
+          continue;
         }
         myGameGrid.add(createNewCellView(determineCellColour(column, row), false, false), column, row);
       }
