@@ -15,6 +15,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
@@ -249,14 +250,17 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
           }
         }
 
-        showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(),
-            getWord("login_form_success"), getWord("login_welcome_message") + name);
         try {
-          myPanelListener.setNewPlayer(name, email, password, teamValue, colour);
+          if (myPanelListener.setNewPlayer(name, email, password, teamValue, colour)){
+            showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(),
+                getWord("login_form_success"), getWord("login_welcome_message") + name);
+            myPanelListener.closePlayerLogin(myStage);
+          } else {
+            showAlert(AlertType.ERROR, gridPane.getScene().getWindow(), getWord("login_form_error"), getWord("login_failure_message"));
+          }
         } catch (IOException e) {
-          e.printStackTrace();
+          showAlert(AlertType.ERROR, gridPane.getScene().getWindow(), getWord("login_form_error"), getWord("login_failure_message"));
         }
-        myPanelListener.closePlayerLogin(myStage);
       }
     });
   }

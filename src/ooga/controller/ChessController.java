@@ -166,13 +166,13 @@ public class ChessController implements Controller {
   }
 
   @Override
-  public void setPlayer(String userName, String password, int team, String color) throws IOException {
+  public boolean setPlayer(String userName, String password, int team, String color) throws IOException {
     Player addPlayer = new Player(userName, password, team);
     thePlayers.add(addPlayer);
     myLogger.log(Level.INFO, "Welcome: "+ addPlayer.getUsername());
     currentPlayer = thePlayers.get(0);
     numPlayers = thePlayers.size();
-
+    return true; //TODO: change to returning appropriate value if player created
   }
 
   @Deprecated

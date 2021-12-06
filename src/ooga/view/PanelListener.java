@@ -32,7 +32,7 @@ public interface PanelListener {
 
     void openPlayerLogin();
 
-    void setNewPlayer(String username, String email, String password, int team, String colour) throws IOException;
+    boolean setNewPlayer(String username, String email, String password, int team, String colour) throws IOException;
 
     void closePlayerLogin(Stage stage);
 }

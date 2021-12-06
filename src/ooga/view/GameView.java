@@ -146,10 +146,6 @@ public class GameView extends Application implements PanelListener, GameChessVie
     myGameViewRoot = new Group();
   }
 
-  public static void highlightCellOptions(Set<Spot> possibleMoves) {
-    //TODO: add highlight to possible neighbors
-  }
-
   /**
    * Returns the PanelListener, allowing UI panel subclasses to interact with the listener
    *
@@ -157,46 +153,6 @@ public class GameView extends Application implements PanelListener, GameChessVie
    */
   protected Controller getGameController() {
     return myChessController;
-  }
-
-  // Initializes the controller and retrieves relevant parameters
-  //TODO: make sure exception stops everything from running (maybe pass it up another level?)
-  private void setupController() {
-    successfulSetup = true;
-//    try {
-//      myGameController.setupProgram();
-//      Map<String, String> parameters = myGameController.getConfigurationMap();
-    //TODO; replace dummy
-//      Map<String, String> parameters = new HashMap<>();
-//      myTitle = parameters.get("Title");
-//      myType = parameters.get("Type"); //work on translating from GameOfLife->life
-//      myDescription = parameters.get("Description");
-//      myAuthor = parameters.get("Author");
-//      String[] myAdditionalParameters = requiredParameters.getString(myType).split(",");
-//      myGameParameters = new String[myAdditionalParameters.length];
-//      for(int iterate = 0; iterate < myAdditionalParameters.length; iterate++){
-//        if(parameters.get(myAdditionalParameters[iterate]) != null){
-//          myGameParameters[iterate] = String.format("%s = %s",myAdditionalParameters[iterate], parameters.get(myAdditionalParameters[iterate]));
-//        }
-//        else {
-//          myGameParameters[iterate] = NO_CONTENT;
-//        }
-//      }
-//
-//      if (parameters.get("StateColors") != null) {
-//        myGridColours = parameters.get("StateColors").split(",");
-//      } else {
-//        myGridColours = defaultGridColours.getString(myType).split(",");
-//      }
-////      gridSize = myGameController.getGridSize();
-//      successfulSetup = true;
-//    } catch(Exception e){
-//      sendAlert(e.getMessage());
-//    }
-    myGameParameters = new String[1];
-    myGameParameters[0] = "None";
-    myType = "GameOfLife";
-    myGridColours = defaultGridColours.getString("GameOfLife").split(",");
   }
 
   /**
@@ -413,8 +369,8 @@ public class GameView extends Application implements PanelListener, GameChessVie
   }
 
   @Override
-  public void setNewPlayer(String username, String email, String password, int team, String colour) throws IOException {
-    myChessController.setPlayer(username, password, team, colour);
+  public boolean setNewPlayer(String username, String email, String password, int team, String colour) throws IOException {
+    return myChessController.setPlayer(username, password, team, colour);
   }
 
   @Override
