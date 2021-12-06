@@ -181,9 +181,20 @@ public class Game {
                     continue;
                 }
 
-                //can cannibalize or opponent; eat and stop
-                if (myPiece.canCannibalize() || (getTeam(tempPiece) != getTeam(myPiece))){
+
+                //Opponent: Eat and stop
+                if (getTeam(tempPiece) != getTeam(myPiece)){
                     listToPopulate.add(individualCoord);
+                    break;
+                }
+
+                //can cannibalize
+                if (myPiece.canCannibalize()){
+                    listToPopulate.add(individualCoord);
+                    // can jump; continue, else break:
+                    if (myPiece.getCanJump()){
+                        continue;
+                    }
                     break;
                 }
 
