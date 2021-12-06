@@ -75,16 +75,8 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   }
 
 
-  private ResourceBundle getPieceProperties() {
-    return PieceProperties;
-  }
-
   private void setPieceProperties(String PIECE_AS_STRING) {
     PieceProperties=ResourceBundle.getBundle(PIECES_PACKAGE+PIECE_AS_STRING);
-  }
-
-  private ResourceBundle getDefaultProperties() {
-    return DefaultProperties;
   }
 
   private void setDefaultProperties() {
