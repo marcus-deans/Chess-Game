@@ -32,7 +32,7 @@ public interface PanelListener {
 
     void openPlayerLogin();
 
-    void setNewPlayer(String username, String email, String password, int team);
+    void setNewPlayer(String username, String email, String password, int team, String colour);
 
     void closePlayerLogin(Stage stage);
 }
