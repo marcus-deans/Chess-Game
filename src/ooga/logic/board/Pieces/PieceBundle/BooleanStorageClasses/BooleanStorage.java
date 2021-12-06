@@ -3,7 +3,7 @@ package ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-abstract public class BooleanStorage {
+abstract public class BooleanStorage implements BooleanStorageInterface {
   private Boolean myVar;
   private String MY_STRING;
 
@@ -14,22 +14,23 @@ abstract public class BooleanStorage {
 
   private void calculateVariable(Map<String, String> attributeMap, ResourceBundle pieceProperties, ResourceBundle defaultProperties){
     try{
-      if (attributeMap.containsKey(MY_STRING)){
-        setVar(Boolean.parseBoolean(attributeMap.get(MY_STRING)));
-      }
-      else{
-        setVar(Boolean.parseBoolean(pieceProperties.getString(MY_STRING)));
-      }
+      setVar(Boolean.parseBoolean(mapOrProperty(attributeMap,pieceProperties)));
     }
     catch (Exception e){
       setVar(Boolean.parseBoolean(defaultProperties.getString(MY_STRING)));
     }
   }
 
+  private String mapOrProperty(Map<String, String> attributeMap, ResourceBundle pieceProperties){
+    return (attributeMap.containsKey(MY_STRING)) ? attributeMap.get(MY_STRING) : pieceProperties.getString(MY_STRING);
+
+  }
+
   private void setVar(boolean myVariable) {
     myVar = myVariable;
   }
 
+  @Override
   public boolean getValue(){
     return myVar;
   }
