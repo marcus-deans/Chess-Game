@@ -197,15 +197,6 @@ public class GameView extends Application implements PanelListener, GameChessVie
     myGameParameters[0] = "None";
     myType = "GameOfLife";
     myGridColours = defaultGridColours.getString("GameOfLife").split(",");
-
-//    catch (IncorrectSimFormatException e) {
-//      sendAlert(e.getMessage());
-//    } catch (IncorrectCSVFormatException e) {
-//      sendAlert(e.getMessage());
-//    }
-//    catch (ReflectionException e) {
-//      sendAlert("InternalError Cannot Make Object");
-//    }
   }
 
   /**
