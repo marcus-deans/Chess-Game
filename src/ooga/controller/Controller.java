@@ -37,4 +37,6 @@ public interface Controller {
     public void setPlayer(String userName, int team);
 
     public void setPlayer(String userName, String password, int team, String color);
+
+    public void acceptCheatCode(String identifier);
   }

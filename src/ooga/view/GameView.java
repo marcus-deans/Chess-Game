@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -16,6 +17,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -240,15 +243,28 @@ public class GameView extends Application implements PanelListener, ChessView{
         myVisualInformationPanel, myGridPanel);
     myGameViewScene.getStylesheets().add(GameView.class.getResource("GameViewFormatting.css").toExternalForm());
     myGameViewScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+    setupCheatCodes();
+  }
 
+  private void setupCheatCodes(){
+    List<String> cheatCodeIdentifiers = List.of(getString("allCheatCodeIdentifiers").split(","));
+    for(String kcIdentifier : cheatCodeIdentifiers){
+      String rnIdentifier = getString(kcIdentifier);
+      addCheatCode(KeyCode.getKeyCode(kcIdentifier), rnIdentifier);
+    }
+  }
+
+  private void addCheatCode(KeyCombination kc, String rnIdentifier){
+    Runnable rn = () -> myChessController.
+    myGameViewScene.getAccelerators().put(kc, rn);
   }
 
   private void handleKeyInput(KeyCode code) {
     switch (code) {
-      case RIGHT -> myMover.setX(myMover.getX() + MOVER_SPEED);
-      case LEFT -> myMover.setX(myMover.getX() - MOVER_SPEED);
-      case UP -> myMover.setY(myMover.getY() - MOVER_SPEED);
-      case DOWN -> myMover.setY(myMover.getY() + MOVER_SPEED);
+//      case RIGHT -> myMover.setX(myMover.getX() + MOVER_SPEED);
+//      case LEFT -> myMover.setX(myMover.getX() - MOVER_SPEED);
+//      case UP -> myMover.setY(myMover.getY() - MOVER_SPEED);
+//      case DOWN -> myMover.setY(myMover.getY() + MOVER_SPEED);
     }
 
   }
@@ -508,6 +524,17 @@ public class GameView extends Application implements PanelListener, ChessView{
       value = Integer.parseInt(gameViewResources.getString(key));
     } catch(Exception e){
       value =-1;
+    }
+    return value;
+  }
+
+  //retrieves relevant word from the "words" ResourceBundle
+  private String getString(String key) {
+    String value;
+    try {
+      value = gameViewResources.getString(key);
+    } catch (Exception exception) {
+      value = "error";
     }
     return value;
   }
