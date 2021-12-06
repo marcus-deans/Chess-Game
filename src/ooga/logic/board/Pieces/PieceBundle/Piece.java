@@ -91,7 +91,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     DefaultProperties=ResourceBundle.getBundle(PIECES_PACKAGE+DEFAULT_TO_STRING);
   }
 
-
   @Override
   public Coordinate getCoordinate(){
     return myCoordinate;
@@ -101,7 +100,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   public void setCoordinate(Coordinate passedCoordinate) {
     myCoordinate = passedCoordinate;
   }
-
 
   protected void setPromotionSpots(){
     if (PieceProperties.containsKey(PROMOTION)){
@@ -194,10 +192,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     return checkable.getValue();
   }
 
-  private String capitalizeFirst(String toBeCapitalized){
-    return toBeCapitalized.substring(0, 1).toUpperCase() + toBeCapitalized.substring(1);
-  }
-
   @Override
   public void setCanCannibalize(boolean cannibalize) {
 
@@ -208,7 +202,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     return canCannibalize.getValue();
   }
 
-/*
+/**
 TEMPORARY
  */
   public SpotCollection getAtomicArea(){
