@@ -62,6 +62,9 @@ public class ChessController implements Controller {
 
   private Map<Integer, Integer> myTempHashMap;
 
+  private Map<String, String> myRulesMap;
+
+
 
   /**
    * Instantiates the chess controller and allow the game to be initiated.
@@ -73,7 +76,7 @@ public class ChessController implements Controller {
    */
   public ChessController(int width, int height, String background, String filename) throws IOException {
     myGameView = new GameView(width, height, 8, 8, background, filename, this);
-    myGame = new Game(height, width);
+    myGame = new Game(height, width, new HashMap<>());
     myGameView.start(new Stage());
 
     myTempHashMap = new HashMap<>();
@@ -96,8 +99,8 @@ public class ChessController implements Controller {
    */
   @Override
   public void initializeFromFile(File file)
-          throws IOException, ClassNotFoundException,
-          InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IncorrectCSVFormatException, CsvValidationException {
+      throws IOException, ClassNotFoundException,
+      InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IncorrectCSVFormatException, CsvValidationException {
 
     File simFile = new File(file.toString());
     myData = mySIMParser.readSimFile(simFile);
@@ -110,7 +113,8 @@ public class ChessController implements Controller {
     myCSVParser.readCSVFile(csvFile);
     BOARDWIDTH = myCSVParser.getDimensions()[0];
     BOARDHEIGHT = myCSVParser.getDimensions()[1];
-    myGame = new Game(BOARDHEIGHT, BOARDWIDTH);
+    myRulesMap = getRulesFromSim(myData);
+    myGame = new Game(BOARDHEIGHT, BOARDWIDTH,myRulesMap);
     myGame.setGameType(myData.get("Type"));
     if (myData.get("Type").equals("Puzzles")) {
       myGame.setPuzzleSolution(puzzleMap.getString(puzzleName));
@@ -215,6 +219,8 @@ public class ChessController implements Controller {
       if (myTempHashMap.get(turnIterator) == myGame.getSpot(clickedPiece).getPiece().getTeam()) {
         Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece, currentPlayer.getTeam());
         highlightSpots(test);
+        //TODO: fix the string for coliour
+        myGameView.colourChessCell(myGame.getSpot(clickedPiece), "#FF6961");
         myLogger.log(Level.INFO, "FIRST CLICK");
         FIRSTCLICK = false;
       }
@@ -223,7 +229,8 @@ public class ChessController implements Controller {
 
   private void highlightSpots(Set<Spot> possibleCoordinates) {
     for (Spot s : possibleCoordinates) {
-      myGameView.highlightChessCell(s);
+      //TODO: fix highlight colour
+      myGameView.colourChessCell(s, "#FF6961");
     }
   }
 
@@ -232,7 +239,7 @@ public class ChessController implements Controller {
     nextMove = new GameCoordinate(row, column);
     //clicking same piece to deselect
     if (nextMove.equals(clickedPiece)) {
-      myLogger.log(Level.INFO, "SAME PIECE " + FIRSTCLICK);
+      myLogger.log(Level.INFO, "SAME PIECE");
       FIRSTCLICK = true;
       boardViewBuild(myGame);
     }
@@ -245,7 +252,7 @@ public class ChessController implements Controller {
       unwind.clear();
       nextTurn(clickedPiece, nextMove);
     } else {
-      myLogger.log(Level.WARNING, "Invalid Position Chosen");
+      myLogger.log(Level.WARNING, "INVALID PIECE SELECTED");
     }
   }
 
@@ -281,12 +288,12 @@ public class ChessController implements Controller {
 
   @Override
   public void acceptCheatCode(String identifier){
-      //TODO: implement cheat code functionality
+    //TODO: implement cheat code functionality
     System.out.println(identifier + " cheat code works");
   }
 
 
-    @Override
+  @Override
   public void redoMove()
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     if (!unwind.isEmpty()) {
@@ -316,6 +323,19 @@ public class ChessController implements Controller {
   private void switchPlayers() {
     turnIterator = (turnIterator + 1) % numPlayers;
     currentPlayer = thePlayers.get(turnIterator);
+  }
+
+
+
+  private Map<String, String> getRulesFromSim(Map<String, String> myData) {
+    myRulesMap = new HashMap<>();
+    for (String key : myData.keySet()){
+      if (key.substring(0,1).equals("^")){
+        myRulesMap.put(key.substring(1), myData.get(key));
+      }
+    }
+
+    return myRulesMap;
   }
 }
 

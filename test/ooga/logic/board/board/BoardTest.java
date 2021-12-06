@@ -1,5 +1,7 @@
 package ooga.logic.board.board;
 
+import java.util.HashMap;
+import java.util.Map;
 import ooga.logic.board.Pieces.PieceBundle.King;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
@@ -14,9 +16,11 @@ import java.util.List;
 public class BoardTest {
     @Test
     public void boardSetup() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        Board b=new GameBoard(1,2);
-        b.setupBoard("K10",0,0);
-        b.setupBoard("K20",0,1);
+        String[][] a={{"K1","K2"}};
+        Board b=new GameBoard(1,2, new HashMap<>());
+        Map<String,String> myMap = new HashMap<>();
+        b.setupBoard("K1",0,0);
+        b.setupBoard("K2",0,1);
         List<Spot> c=b.getFullBoard();
         Spot s1=new GameSpot(new King(1,0,0),0,0,0,true);
         Spot s2=new GameSpot(new King(1,1,0),1,0,0,false);
@@ -25,8 +29,8 @@ public class BoardTest {
 
     @Test
     public void hasPiece() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        String[][] a={{"K10","K20"}};
-        Board b=new GameBoard(1,2);
+        String[][] a={{"K1","K2"}};
+        Board b=new GameBoard(1,2, new HashMap<>());
         b.setupBoard(a[0][1],0,1);
         b.setupBoard(a[0][0],0,0);
         Assertions.assertTrue(((GameBoard) b).hasPiece(new GameCoordinate(0,0)));
