@@ -176,7 +176,7 @@ public class ChessController implements Controller {
 
     @Override
     public void setPlayer(String userName, String password, int team) throws IOException {
-        Player addPlayer = new Player(userName,password, team);
+        Player addPlayer = new Player(userName, password, team);
         addPlayer.doesUserExist();
         thePlayers.add(addPlayer);
         currentPlayer = thePlayers.get(0);
