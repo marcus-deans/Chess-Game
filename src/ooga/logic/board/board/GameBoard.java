@@ -95,8 +95,11 @@ public class GameBoard implements Board {
 
     public void updateBoard(Coordinate newPosition, Piece movingPiece)
             throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        if(isAtomic && getSpot(newPosition).getPiece()!=null && !getSpot(newPosition).getPiece().getPieceName().equalsIgnoreCase("Pawn"))
+        {
+            atomic(newPosition);
+        }
         getSpot(newPosition).setPiece(movingPiece);
-        if(isAtomic) atomic(newPosition);
         int spotType=getSpot(newPosition).getTypeOfSpot();
         spotActionName=SPOTACTION_PATH+resourceMap.getString(String.valueOf(spotType));
         SpotAction spotAction=(SpotAction) Class.forName(spotActionName).getConstructor().newInstance();
