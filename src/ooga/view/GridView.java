@@ -126,7 +126,6 @@ public class GridView implements GridListener {
       for (int row = 0; row < myHeightNumber; row++) {
         if(column+1 == myWidthNumber){
           myGameGrid.add(createGridLabelView(row+1, false), column+1, row);
-          continue;
         }
         myGameGrid.add(createNewCellView(determineCellColour(column, row), false, false), column, row);
       }

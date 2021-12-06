@@ -160,9 +160,10 @@
 }
 
 #letter-label-colour-box {
-  -fx-fill: green;
+  -fx-fill: #993399;
 }
 
 #letter-label-text {
-  -fx-stroke: red;
+  -fx-stroke: white;
+  -fx-font-family: Arial;
 }
