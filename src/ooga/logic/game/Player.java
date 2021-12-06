@@ -65,7 +65,7 @@ public class Player {
     }
 
     public void setProfileColor() throws IOException {
-        URL url = new URL("http://localhost:3001/setProfileColor?id=" + myUsername);
+        URL url = new URL("https://cs307.herokuapp.com/setProfileColor?id=" + myUsername);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         StringBuilder result = new StringBuilder();

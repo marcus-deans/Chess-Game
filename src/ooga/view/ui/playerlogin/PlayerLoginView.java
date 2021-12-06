@@ -1,9 +1,10 @@
 package ooga.view.ui.playerlogin;
 
-import static ooga.util.ResourceRetriever.colorToHexString;
 import static ooga.util.ResourceRetriever.getWord;
 import static ooga.util.ResourceRetriever.toHexCode;
 
+import java.io.IOException;
+import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -29,22 +30,17 @@ import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import ooga.util.ResourceRetriever;
 import ooga.view.PanelListener;
 
-import java.io.IOException;
-import java.util.ResourceBundle;
-
 public class PlayerLoginView extends Application implements PlayerLoginInterface {
-
-  PanelListener myPanelListener;
-  Stage myStage;
 
   //General resource file structure
   private static final String FORMATTING_FILE = "PlayerLoginFormatting.css";
   private static final String PLAYER_LOGIN_VIEW_RESOURCES_FILE_PATH = "ooga.view.viewresources.PlayerLoginViewResources";
   private static final ResourceBundle playerLoginViewResources = ResourceBundle.getBundle(
-          PLAYER_LOGIN_VIEW_RESOURCES_FILE_PATH);
+      PLAYER_LOGIN_VIEW_RESOURCES_FILE_PATH);
+  PanelListener myPanelListener;
+  Stage myStage;
 
   public PlayerLoginView() {
 
@@ -68,8 +64,8 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
 
     gridPane.setId("login-pane");
     scene.getStylesheets().add(
-            PlayerLoginView.class.getResource(FORMATTING_FILE)
-                    .toExternalForm());
+        PlayerLoginView.class.getResource(FORMATTING_FILE)
+            .toExternalForm());
 
     // Set the scene in primary stage
     myStage.setScene(scene);
@@ -172,16 +168,16 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
           Toggle newValue) {
         RadioButton selectedRadioButton = (RadioButton) teamRadioGroup.getSelectedToggle();
 
-        if (selectedRadioButton != null){
+        if (selectedRadioButton != null) {
           teamSelected[0] = selectedRadioButton.getText();
-          teamSelectionLabel.setText(String.format("%s %s", teamSelected[0], getWord("selectedWording")));
+          teamSelectionLabel.setText(
+              String.format("%s %s", teamSelected[0], getWord("selectedWording")));
         }
 
       }
     });
     gridPane.add(radioButtonBox, 1, 4);
 //    gridPane.add(teamTwoRadioButton, 2, 4);
-
 
     Label colorLabel = makeLabel(getWord("color_label_text"));
     gridPane.add(colorLabel, 0, 6);
@@ -195,13 +191,13 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
         Color selectedColor = colorPicker.getValue();
 //        colorSelectionLabel.setText(String.format("R:%.2f | G:%.2f | B:%.2f %s", selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue(), getWord("selectedWording")));
         colorSelected[0] = toHexCode(selectedColor);
-        colorSelectionLabel.setText(String.format("%s %s", colorSelected[0], getWord("selectedWording")));
+        colorSelectionLabel.setText(
+            String.format("%s %s", colorSelected[0], getWord("selectedWording")));
         colorSelectionLabel.setTextFill(selectedColor);
         colorSelectionLabel.setId("color-selection-label");
       }
     });
     gridPane.add(colorPicker, 1, 6);
-
 
     // Add Submit Button
     Button submitButton = new Button(getWord("submit_button_text"));
@@ -216,18 +212,21 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
       @Override
       public void handle(ActionEvent event) {
         if (nameField.getText().isEmpty()) {
-          showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), getWord("login_form_error"),
-                  getWord("name_field_error"));
+          showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(),
+              getWord("login_form_error"),
+              getWord("name_field_error"));
           return;
         }
         if (emailField.getText().isEmpty()) {
-          showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), getWord("login_form_error"),
-                  getWord("email_field_error"));
+          showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(),
+              getWord("login_form_error"),
+              getWord("email_field_error"));
           return;
         }
         if (passwordField.getText().isEmpty()) {
-          showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), getWord("login_form_error"),
-                  getWord("password_field_error"));
+          showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(),
+              getWord("login_form_error"),
+              getWord("password_field_error"));
           return;
         }
 //        if (selectedRadioButton.equals(null)){
@@ -242,16 +241,16 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
         String colour = colorSelected[0];
 //        int team = Integer.parseInt(teamField.getText());
         int teamValue;
-        switch(team){
-          case "White" -> teamValue=1;
-          case "Black" -> teamValue=2;
+        switch (team) {
+          case "White" -> teamValue = 1;
+          case "Black" -> teamValue = 2;
           default -> {
-            teamValue= -1;
+            teamValue = -1;
           }
         }
 
         showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(),
-                getWord("login_form_success"), getWord("login_welcome_message") + name);
+            getWord("login_form_success"), getWord("login_welcome_message") + name);
         try {
           myPanelListener.setNewPlayer(name, email, password, teamValue, colour);
         } catch (IOException e) {
@@ -262,7 +261,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     });
   }
 
-  private Label makeLabel(String text){
+  private Label makeLabel(String text) {
     Label newLabel = new Label(text);
     newLabel.setId("field_label");
     return newLabel;
@@ -278,12 +277,12 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
   }
 
   //return the integer from the resource file based on the provided string
-  private int getInt(String key){
+  private int getInt(String key) {
     int value;
     try {
       value = Integer.parseInt(playerLoginViewResources.getString(key));
-    } catch(Exception e){
-      value =-1;
+    } catch (Exception e) {
+      value = -1;
     }
     return value;
   }

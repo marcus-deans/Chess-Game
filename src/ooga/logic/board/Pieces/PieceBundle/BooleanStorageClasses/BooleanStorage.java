@@ -14,7 +14,6 @@ abstract public class BooleanStorage {
 
   private void calculateVariable(Map<String, String> attributeMap, ResourceBundle pieceProperties, ResourceBundle defaultProperties){
     try{
-
       if (attributeMap.containsKey(MY_STRING)){
         setVar(Boolean.parseBoolean(attributeMap.get(MY_STRING)));
       }
