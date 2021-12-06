@@ -1,10 +1,12 @@
 package ooga.controller;
 
 import com.opencsv.exceptions.CsvValidationException;
+import javafx.application.Application;
 import javafx.scene.control.Labeled;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import ooga.Main;
 import ooga.Parser.CSVParser;
 import ooga.util.IncorrectCSVFormatException;
 import ooga.util.IncorrectSimFormatException;
@@ -21,12 +23,13 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ControllerTest extends DukeApplicationTest {
+public class ControllerTest extends Application {
     private ChessController myController;
     private Map<String, String> myData;
     private File myFile;
     private Labeled myLabel;
     private Stage myStage;
+    private Main myMain;
 
 
     protected static final String TITLE = "GameView";
@@ -34,23 +37,11 @@ public class ControllerTest extends DukeApplicationTest {
     public static final int FRAME_HEIGHT = 680;
     public static final Paint BACKGROUND = Color.web("#00539B");
 
-    @Override
-    public void start (Stage stage) {
-        // create application and add scene for testing to given stage
-        GameView myGameView = new GameView(FRAME_WIDTH , FRAME_HEIGHT,8,8, "Blue", "data/Standard.sim", myController);
-        myGameView.start(stage);
-        stage.setTitle(TITLE);
-        stage.show();
-
-        myGameView.start(stage);
-
-        // components that will be reused in different tests
-        myLabel = lookup("#Label").query();
-    }
 
     @BeforeEach
     public void setUpController() throws CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, IncorrectCSVFormatException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         myFile = new File("data/Standard.sim");
+
         myController = new ChessController(8,8,"Blue","data/Standard.sim");
         myController.initializeFromFile(myFile);
     }
@@ -77,6 +68,11 @@ public class ControllerTest extends DukeApplicationTest {
     @Test
     public void getDimensions(){
         assertEquals(myController.getHeight(), myController.getWidth());
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+
     }
 }
 

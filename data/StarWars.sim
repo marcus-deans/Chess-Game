@@ -2,7 +2,12 @@ Type=StarWars
 Title=Star Wars Chess
 Author=Carter Stonesifer
 
+Description=In a Galaxy Far Far Away...
+
 GameTimer=0
+
+MoveColor=#7E00A5
+SelectColor=#A40000
 
 GameConfiguration=data/StarWars.csv
 
