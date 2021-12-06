@@ -242,7 +242,6 @@ public class GameView extends Application implements PanelListener, ChessView{
     myGameViewRoot.getChildren().addAll(myVisualGameplayPanel, myVisualControlPanel,
         myVisualInformationPanel, myGridPanel);
     myGameViewScene.getStylesheets().add(GameView.class.getResource("GameViewFormatting.css").toExternalForm());
-    myGameViewScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
     setupCheatCodes();
   }
 
@@ -257,16 +256,6 @@ public class GameView extends Application implements PanelListener, ChessView{
   private void addCheatCode(KeyCombination kc, String rnIdentifier){
     Runnable rn = () -> myChessController.acceptCheatCode(rnIdentifier);
     myGameViewScene.getAccelerators().put(kc, rn);
-  }
-
-  private void handleKeyInput(KeyCode code) {
-    switch (code) {
-//      case RIGHT -> myMover.setX(myMover.getX() + MOVER_SPEED);
-//      case LEFT -> myMover.setX(myMover.getX() - MOVER_SPEED);
-//      case UP -> myMover.setY(myMover.getY() - MOVER_SPEED);
-//      case DOWN -> myMover.setY(myMover.getY() + MOVER_SPEED);
-    }
-
   }
 
   //create the UI panels that will provide interactivity and information to the user
