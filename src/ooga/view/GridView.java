@@ -95,6 +95,7 @@ public class GridView implements GridListener {
     return (myCol == myRow) ? 0 :  1;
   }
 
+  //create the appropriate labeling on the chess board to mark rows and columns
   private StackPane createGridLabelView(int textValue, boolean intoAscii){
     StackPane letterLabelView = new StackPane();
     letterLabelView.setId("letter-label-view");
