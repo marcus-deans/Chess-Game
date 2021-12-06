@@ -1,8 +1,10 @@
 package ooga.controller;
 
+import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -119,8 +121,8 @@ public class ChessController implements Controller {
     boardInitializer(myCSVParser.getInitialStates(), myGame);
     boardViewBuild(myGame);
     numTurns = 1;
-//    setPlayer("Player1", "Password1", 1, "#012169");
-//    setPlayer("Player2", "Password2", 2, "#00539B");
+    setPlayer("Player1", "Password1", 1, "#012169");
+    setPlayer("Player2", "Password2", 2, "#00539B");
     history = new Stack<GameCoordinate[]>();
     unwind = new Stack<GameCoordinate[]>();
     myLogger.log(Level.INFO, "Inititalized: " + myData.get("Type") + " gametype");
@@ -241,6 +243,7 @@ public class ChessController implements Controller {
       myGame.movePiece(clickedPiece, nextMove);
       myGameView.updateChessCell(myGame.getSpot(clickedPiece));
       FIRSTCLICK = true;
+      myGameView.updateHistory(clickedPiece.getX_pos() + "," + clickedPiece.getY_pos() + " -> "+ nextMove.getX_pos() + "," + nextMove.getY_pos());
       numTurns++;
       unwind.clear();
       nextTurn(clickedPiece, nextMove);
@@ -281,8 +284,16 @@ public class ChessController implements Controller {
 
   @Override
   public void acceptCheatCode(String identifier){
-      //TODO: implement cheat code functionality
-    System.out.println(identifier + " cheat code works");
+    Method action;
+    ResourceBundle cheatCodeMethods = ResourceBundle.getBundle("src/ooga/view/viewresources/GameViewResources.properties");
+    String method = cheatCodeMethods.getString(identifier);
+    try {
+      action = ChessController.class.getDeclaredMethod(method, Class.forName(identifier));
+      action.invoke(this, identifier);
+    } catch (Exception e) {
+      myLogger.log(Level.WARNING,"Method does not exist");
+    }
+    myLogger.log(Level.INFO, "Cheat code "+ identifier+" activated");
   }
 
 
@@ -317,5 +328,69 @@ public class ChessController implements Controller {
     turnIterator = (turnIterator + 1) % numPlayers;
     currentPlayer = thePlayers.get(turnIterator);
   }
+  //____________________________________________________CHEAT CODES__________________________________________________
+
+  private void Cannibalism(){
+
+  }
+  private void IgnoreFilters(){
+
+  }
+  private void InstantEnd(){
+
+  }
+  private void ToroidalYAxis(){
+
+  }
+  private void PawnsToQueens(){
+
+  }
+  private void PawnsToRooks(){
+
+  }
+  private void PawnsToKnights(){
+
+  }
+  private void PawnsToBishops(){
+
+  }
+  private void JumpingPieces(){
+
+  }
+  private void VisiblePortals(){
+
+  }
+  private void VisibleBlackHoles(){
+
+  }
+  private void OpeningAlpha(){
+
+  }
+  private void OpeningBravo(){
+
+  }
+  private void OpeningCharlie(){
+
+  }
+  private void OpeningDelta(){
+
+  }
+  private void OpeningEcho(){
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
