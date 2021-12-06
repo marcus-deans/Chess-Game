@@ -321,7 +321,7 @@ public class Game {
             }
             if(gameType.equals("Atomic"))
             {
-
+                myBoard.setAtomic(true);
             }
         }
         catch(Exception e)

@@ -13,6 +13,7 @@ import ooga.logic.game.Game;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -47,7 +48,6 @@ public class GameBoard implements Board {
 
     public GameBoard(int rows, int columns, Map<String,String> overridingRules)
     {
-        board=new ArrayList<>();
         initialBoard=new ArrayList<>();
         this.rows=rows;
         this.columns=columns;
@@ -72,8 +72,19 @@ public class GameBoard implements Board {
             }
 
 
-            initialBoard.add(new GameSpot(p,j,i,type,(i+j)%2==0));
-            board=initialBoard;
+        initialBoard.add(new GameSpot(p,j,i,type,(i+j)%2==0));
+        copyInitialBoard(initialBoard);
+        //Collections.copy(board,initialBoard);
+    }
+
+    private void copyInitialBoard(List<Spot> initial)
+    {
+        board=new ArrayList<>();
+        for (Spot a: initial)
+        {
+            board.add(new GameSpot(a.getPiece(),a.getCoordinate().getX_pos(), a.getCoordinate().getY_pos()
+                    ,((GameSpot) a).getTypeOfSpot(),((GameSpot) a).getColor()));
+        }
     }
 
     @Override
@@ -84,9 +95,11 @@ public class GameBoard implements Board {
 
     public void updateBoard(Coordinate newPosition, Piece movingPiece)
             throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-
+        if(isAtomic && getSpot(newPosition).getPiece()!=null && !getSpot(newPosition).getPiece().getPieceName().equalsIgnoreCase("Pawn"))
+        {
+            atomic(newPosition);
+        }
         getSpot(newPosition).setPiece(movingPiece);
-        if(isAtomic) atomic(newPosition);
         int spotType=getSpot(newPosition).getTypeOfSpot();
         spotActionName=SPOTACTION_PATH+resourceMap.getString(String.valueOf(spotType));
         SpotAction spotAction=(SpotAction) Class.forName(spotActionName).getConstructor().newInstance();
@@ -94,14 +107,14 @@ public class GameBoard implements Board {
     }
 
     private void atomic(Coordinate newPosition){
+        getSpot(newPosition).getPiece().setAtomicArea();
         List<List<Coordinate>> list=getSpot(newPosition).getPiece().getAtomicArea().getPossibleSpots(newPosition);
         getSpot(newPosition).setPiece(null);
         for (int i = 0; i < list.size(); i++){
-            for(int j = 0; j < list.size(); j++){
+            for(int j = 0; j < list.get(i).size(); j++){
                 getSpot(list.get(i).get(j)).setPiece(null);
             }
         }
-
     }
 
 
@@ -116,13 +129,13 @@ public class GameBoard implements Board {
         return false;
     }
 
-    public List<GameCoordinate> getPossibleCoordinates() {
-        return new ArrayList<>();
-    }
-
-    public Boolean getIsJump(GameCoordinate selected) {
-        return false;
-    }
+//    public List<GameCoordinate> getPossibleCoordinates() {
+//        return new ArrayList<>();
+//    }
+//
+//    public Boolean getIsJump(GameCoordinate selected) {
+//        return false;
+//    }
 
 
 
@@ -152,16 +165,16 @@ public class GameBoard implements Board {
     }
 
     public void reset(){
-        this.board = initialBoard;
+        copyInitialBoard(initialBoard);
         myLogger.log(Level.INFO, "Reset in gameboard");
-        for(int i=0;i<board.size();i++){
-            System.out.println(board.get(i).getPiece());
-            System.out.println(initialBoard.get(i).getPiece());
-        }
+//        for(int i=0;i<board.size();i++){
+//            System.out.println(board.get(i).getPiece());
+//            System.out.println(initialBoard.get(i).getPiece());
+//        }
     }
 
     public void setAtomic(boolean atomic)
     {
-        this.isAtomic=atomic;
+        isAtomic=atomic;
     }
 }

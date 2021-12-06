@@ -1,8 +1,10 @@
 package ooga.controller;
 
+import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -219,8 +221,7 @@ public class ChessController implements Controller {
       if (myTempHashMap.get(turnIterator) == myGame.getSpot(clickedPiece).getPiece().getTeam()) {
         Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece, currentPlayer.getTeam());
         highlightSpots(test);
-        //TODO: fix the string for coliour
-        myGameView.colourChessCell(myGame.getSpot(clickedPiece), "#FF6961");
+        myGameView.colourChessCell(myGame.getSpot(clickedPiece),myData.get("MoveColor"));
         myLogger.log(Level.INFO, "FIRST CLICK");
         FIRSTCLICK = false;
       }
@@ -230,7 +231,7 @@ public class ChessController implements Controller {
   private void highlightSpots(Set<Spot> possibleCoordinates) {
     for (Spot s : possibleCoordinates) {
       //TODO: fix highlight colour
-      myGameView.colourChessCell(s, "#FF6961");
+      myGameView.colourChessCell(s, myData.get("SelectColor"));
     }
   }
 
@@ -248,6 +249,7 @@ public class ChessController implements Controller {
       myGame.movePiece(clickedPiece, nextMove);
       myGameView.updateChessCell(myGame.getSpot(clickedPiece));
       FIRSTCLICK = true;
+      myGameView.addHistory(clickedPiece.getX_pos() + "," + clickedPiece.getY_pos() + " -> "+ nextMove.getX_pos() + "," + nextMove.getY_pos());
       numTurns++;
       unwind.clear();
       nextTurn(clickedPiece, nextMove);
@@ -280,6 +282,7 @@ public class ChessController implements Controller {
           "MOVED: " + recentMove[0].getX_pos() + "," + recentMove[0].getY_pos() + " to "
               + recentMove[1].getX_pos() + "," + recentMove[1].getY_pos());
       myGame.movePiece(recentMove[1], recentMove[0]);
+      myGameView.removeHistory();
       numTurns -= numTurns;
       switchPlayers();
       boardViewBuild(myGame);
@@ -288,8 +291,16 @@ public class ChessController implements Controller {
 
   @Override
   public void acceptCheatCode(String identifier){
-    //TODO: implement cheat code functionality
-    System.out.println(identifier + " cheat code works");
+    Method action;
+    ResourceBundle cheatCodeMethods = ResourceBundle.getBundle("src/ooga/view/viewresources/GameViewResources.properties");
+    String method = cheatCodeMethods.getString(identifier);
+    try {
+      action = ChessController.class.getDeclaredMethod(method, Class.forName(identifier));
+      action.invoke(this, identifier);
+    } catch (Exception e) {
+      myLogger.log(Level.WARNING,"Method does not exist");
+    }
+    myLogger.log(Level.INFO, "Cheat code "+ identifier+" activated");
   }
 
 
@@ -303,6 +314,8 @@ public class ChessController implements Controller {
           "MOVED: " + reDoneMove[1].getX_pos() + "," + reDoneMove[1].getY_pos() + " to "
               + reDoneMove[0].getX_pos() + "," + reDoneMove[0].getY_pos());
       myGame.movePiece(reDoneMove[0], reDoneMove[1]);
+      myGameView.addHistory(reDoneMove[0].getX_pos() + "," + reDoneMove[0].getY_pos() + " -> "
+              + reDoneMove[1].getX_pos() + "," + reDoneMove[1].getY_pos());
       numTurns += numTurns;
       switchPlayers();
       boardViewBuild(myGame);
@@ -325,8 +338,6 @@ public class ChessController implements Controller {
     currentPlayer = thePlayers.get(turnIterator);
   }
 
-
-
   private Map<String, String> getRulesFromSim(Map<String, String> myData) {
     myRulesMap = new HashMap<>();
     for (String key : myData.keySet()){
@@ -336,6 +347,56 @@ public class ChessController implements Controller {
     }
 
     return myRulesMap;
+  }
+  //____________________________________________________CHEAT CODES__________________________________________________
+
+  private void Cannibalism(){
+
+  }
+  private void IgnoreFilters(){
+
+  }
+  private void InstantEnd(){
+
+  }
+  private void ToroidalYAxis(){
+
+  }
+  private void PawnsToQueens(){
+
+  }
+  private void PawnsToRooks(){
+
+  }
+  private void PawnsToKnights(){
+
+  }
+  private void PawnsToBishops(){
+
+  }
+  private void JumpingPieces(){
+
+  }
+  private void VisiblePortals(){
+
+  }
+  private void VisibleBlackHoles(){
+
+  }
+  private void OpeningAlpha(){
+
+  }
+  private void OpeningBravo(){
+
+  }
+  private void OpeningCharlie(){
+
+  }
+  private void OpeningDelta(){
+
+  }
+  private void OpeningEcho(){
+
   }
 }
 
