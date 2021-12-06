@@ -215,6 +215,7 @@ public class ChessController implements Controller {
       if (myTempHashMap.get(turnIterator) == myGame.getSpot(clickedPiece).getPiece().getTeam()) {
         Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece, currentPlayer.getTeam());
         highlightSpots(test);
+        myGameView.highlightChessCell(myGame.getSpot(clickedPiece));
         myLogger.log(Level.INFO, "FIRST CLICK");
         FIRSTCLICK = false;
       }
@@ -232,7 +233,7 @@ public class ChessController implements Controller {
     nextMove = new GameCoordinate(row, column);
     //clicking same piece to deselect
     if (nextMove.equals(clickedPiece)) {
-      myLogger.log(Level.INFO, "SAME PIECE " + FIRSTCLICK);
+      myLogger.log(Level.INFO, "SAME PIECE");
       FIRSTCLICK = true;
       boardViewBuild(myGame);
     }
@@ -245,7 +246,7 @@ public class ChessController implements Controller {
       unwind.clear();
       nextTurn(clickedPiece, nextMove);
     } else {
-      myLogger.log(Level.WARNING, "Invalid Position Chosen");
+      myLogger.log(Level.WARNING, "INVALID PIECE SELECTED");
     }
   }
 
