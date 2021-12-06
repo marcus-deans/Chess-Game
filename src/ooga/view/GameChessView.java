@@ -5,17 +5,21 @@ import java.lang.reflect.InvocationTargetException;
 import javafx.stage.Stage;
 import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.logic.board.spot.Spot;
-import ooga.logic.game.Game;
 
 /**
  * Interface to interact with the view of the program, serves as API
  */
-public interface ChessView {
+public interface GameChessView {
 
   /**
-   *  Update the history of past moves
+   *  Add to the history of past moves
    */
-  public void updateHistory(String historyText);
+  public void addHistory(String historyText);
+
+  /**
+   * Remove from the history of past moves
+   */
+  public void removeHistory();
 
   public void start(Stage primaryStage);
 
@@ -32,9 +36,10 @@ public interface ChessView {
 
   /**
    * Highlight a specific cell on the board
-   * @param spot the spoit that should be highlighted
+   * @param spot the spot that should be highlighted
+   * @param hexColour
    */
-  public void highlightChessCell(Spot spot);
+  public void colourChessCell(Spot spot, String hexColour);
 
   /**
    * Redo a move that was previously undone

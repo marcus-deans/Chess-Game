@@ -1,5 +1,6 @@
 package ooga.view;
 
+import com.opencsv.exceptions.CsvValidationException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,8 +9,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
-
-import com.opencsv.exceptions.CsvValidationException;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -24,18 +23,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import ooga.controller.Controller;
-
 import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.logic.board.spot.Spot;
-
 import ooga.util.IncorrectCSVFormatException;
-
 import ooga.view.ui.InformationPanel;
-
+import ooga.view.ui.controlpanel.ControlPanel;
+import ooga.view.ui.gameplaypanel.GameplayPanel;
 import ooga.view.ui.playerlogin.PlayerLoginInterface;
 import ooga.view.ui.playerlogin.PlayerLoginView;
-import ooga.view.ui.gameplaypanel.GameplayPanel;
-import ooga.view.ui.controlpanel.ControlPanel;
 
 
 /**
@@ -45,7 +40,8 @@ import ooga.view.ui.controlpanel.ControlPanel;
  *
  * @author marcusdeans, drewpeterson
  */
-public class GameView extends Application implements PanelListener, ChessView{
+public class GameView extends Application implements PanelListener, GameChessView {
+
   //JavaFX Simulation Parameters:
   private static final int FRAMES_PER_SECOND = 7;
   private static final double SECOND_DELAY = 7.0 / FRAMES_PER_SECOND;
@@ -107,7 +103,7 @@ public class GameView extends Application implements PanelListener, ChessView{
   private Scene myGameViewScene;
 
   //Integral Game classes
-  private GridView myGridView;
+  private GridChessView myGridView;
 //  private GameController myGameController;
 
   private FileInputStream fis;
@@ -119,17 +115,18 @@ public class GameView extends Application implements PanelListener, ChessView{
   private boolean successfulSetup;
   private Controller myChessController;
 
-
   /**
    * Creates new GameView for each application
    *
-   * @param frameWidth      of JavaFX display in pixels
-   * @param frameHeight     of JavaFX display in pixels
-   * @param background colour of JavaFX background
-   * @param filename   Filename of the simulation file which GameController uses
-   * @param gameController the listener object that will be notified/called upon whenever the state of a UI panel changes due to user interaction
+   * @param frameWidth     of JavaFX display in pixels
+   * @param frameHeight    of JavaFX display in pixels
+   * @param background     colour of JavaFX background
+   * @param filename       Filename of the simulation file which GameController uses
+   * @param gameController the listener object that will be notified/called upon whenever the state
+   *                       of a UI panel changes due to user interaction
    */
-  public GameView(int frameWidth, int frameHeight, int boardWidth, int boardHeight, String background, String filename, Controller gameController) {
+  public GameView(int frameWidth, int frameHeight, int boardWidth, int boardHeight,
+      String background, String filename, Controller gameController) {
     this.frameWidth = frameWidth;
     this.frameHeight = frameHeight;
     this.boardWidth = boardWidth;
@@ -143,7 +140,8 @@ public class GameView extends Application implements PanelListener, ChessView{
     controlPanelX = frameWidth - getInt("control_panel_offset") + getInt("width_buffer");
     gameGridViewX = gameplayPanelX + getInt("button_width") + getInt("width_buffer");
     gameGridViewY = getInt("game_grid_y_offset");
-    gridDisplayLength = controlPanelX - gameGridViewX - getInt("width_buffer")  - 2*getInt("line_offset");
+    gridDisplayLength =
+        controlPanelX - gameGridViewX - getInt("width_buffer") - 2 * getInt("line_offset");
     myGameViewRoot = new Group();
   }
 
@@ -153,20 +151,21 @@ public class GameView extends Application implements PanelListener, ChessView{
 
   /**
    * Returns the PanelListener, allowing UI panel subclasses to interact with the listener
+   *
    * @return the PanelListener
    */
-  protected Controller getGameController(){
+  protected Controller getGameController() {
     return myChessController;
   }
 
   // Initializes the controller and retrieves relevant parameters
   //TODO: make sure exception stops everything from running (maybe pass it up another level?)
-  private void setupController(){
+  private void setupController() {
     successfulSetup = true;
 //    try {
 //      myGameController.setupProgram();
 //      Map<String, String> parameters = myGameController.getConfigurationMap();
-      //TODO; replace dummy
+    //TODO; replace dummy
 //      Map<String, String> parameters = new HashMap<>();
 //      myTitle = parameters.get("Title");
 //      myType = parameters.get("Type"); //work on translating from GameOfLife->life
@@ -216,8 +215,8 @@ public class GameView extends Application implements PanelListener, ChessView{
   @Override
   public void start(Stage primaryStage) {
     myStage = primaryStage;
-    successfulSetup=true;
-    if (successfulSetup){
+    successfulSetup = true;
+    if (successfulSetup) {
       myAnimation = new Timeline();
       myAnimation.setCycleCount(Timeline.INDEFINITE);
 
@@ -241,32 +240,24 @@ public class GameView extends Application implements PanelListener, ChessView{
     myGridPanel = createGrid();
     myGameViewRoot.getChildren().addAll(myVisualGameplayPanel, myVisualControlPanel,
         myVisualInformationPanel, myGridPanel);
-    myGameViewScene.getStylesheets().add(GameView.class.getResource("GameViewFormatting.css").toExternalForm());
-    myGameViewScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+    myGameViewScene.getStylesheets()
+        .add(GameView.class.getResource("GameViewFormatting.css").toExternalForm());
     setupCheatCodes();
   }
 
-  private void setupCheatCodes(){
+  private void setupCheatCodes() {
     List<String> cheatCodeIdentifiers = List.of(getString("allCheatCodeIdentifiers").split(","));
-    for(String kcIdentifier : cheatCodeIdentifiers){
+    for (String kcIdentifier : cheatCodeIdentifiers) {
       String rnIdentifier = getString(kcIdentifier);
-      addCheatCode(new KeyCodeCombination(KeyCode.getKeyCode(kcIdentifier), KeyCombination.ALT_DOWN), rnIdentifier);
+      addCheatCode(
+          new KeyCodeCombination(KeyCode.getKeyCode(kcIdentifier), KeyCombination.ALT_DOWN),
+          rnIdentifier);
     }
   }
 
-  private void addCheatCode(KeyCombination kc, String rnIdentifier){
+  private void addCheatCode(KeyCombination kc, String rnIdentifier) {
     Runnable rn = () -> myChessController.acceptCheatCode(rnIdentifier);
     myGameViewScene.getAccelerators().put(kc, rn);
-  }
-
-  private void handleKeyInput(KeyCode code) {
-    switch (code) {
-//      case RIGHT -> myMover.setX(myMover.getX() + MOVER_SPEED);
-//      case LEFT -> myMover.setX(myMover.getX() - MOVER_SPEED);
-//      case UP -> myMover.setY(myMover.getY() - MOVER_SPEED);
-//      case DOWN -> myMover.setY(myMover.getY() + MOVER_SPEED);
-    }
-
   }
 
   //create the UI panels that will provide interactivity and information to the user
@@ -282,21 +273,21 @@ public class GameView extends Application implements PanelListener, ChessView{
   }
 
   //create information panel on top of screen to display title as well as user information
-  private Node createInformationPanel(){
+  private Node createInformationPanel() {
     myInformationPanel = new InformationPanel(gameGridViewX, gridDisplayLength);
     myInformationPanel.setPanelListener(this);
     return myInformationPanel.createInformationPanel();
   }
 
   //create control panel on right of screen to control view, animation/gameplay, and loading/saving
-  private Node createControlPanel(){
+  private Node createControlPanel() {
     ControlPanel newControlPanel = new ControlPanel(controlPanelX, myAnimation);
     newControlPanel.setPanelListener(this);
     return newControlPanel.createControlPanel();
   }
 
   //create gameplay panel on left of screen to control variant, move history, and dead pieces
-  private Node createGameplayPanel(){
+  private Node createGameplayPanel() {
     myGameplayPanel = new GameplayPanel(gameplayPanelX);
     myGameplayPanel.setPanelListener(this);
     return myGameplayPanel.createGameplayPanel();
@@ -307,29 +298,13 @@ public class GameView extends Application implements PanelListener, ChessView{
     myGridColours = defaultGridColours.getString("GameOfLife").split(",");
     myGridView = new GridView(boardHeight, boardWidth, myGridColours, gridDisplayLength, this);
     GridPane myGameGridView = myGridView.getMyGameGrid();
-    myGameGridView.setLayoutX(gameGridViewX  + getInt("line_offset"));
-    myGameGridView.setLayoutY(gameGridViewY  + getInt("line_offset"));
-//    myGameController.setupListener(myGridView);
-//    try {
-//      myGameController.showInitialStates();
-//    }
-//    catch (ReflectionException e) {
-//      sendAlert("InternalError Cannot Make Object");
-//    }
+    myGameGridView.setLayoutX(gameGridViewX + getInt("line_offset"));
+    myGameGridView.setLayoutY(gameGridViewY + getInt("line_offset"));
     return myGameGridView;
   }
 
-
-  private void updateGrid(double x, double y) {
-//    myGameController.calculateIndexesAndUpdateModel(x, y, myGridView.getMyCellHeight(), myGridView.getMyCellWidth());
-  }
-
-  //<editor-fold desc="Setup Languages, Conversion, and Update on Change">
-  //</editor-fold>
-
-
   // refreshes the UI panels by removing them from the scene before creating new panels and adding them back
-  private void refreshUIPanels(){
+  private void refreshUIPanels() {
     myGameViewRoot.getChildren().removeAll(myVisualGameplayPanel, myVisualControlPanel,
         myVisualInformationPanel);
     createUIPanels();
@@ -339,8 +314,9 @@ public class GameView extends Application implements PanelListener, ChessView{
   }
 
   /**
-   * Updates the language displayed on the UI panels by first switching the default value of the Locale used to represent
-   * the selected language and then refreshing the panels
+   * Updates the language displayed on the UI panels by first switching the default value of the
+   * Locale used to represent the selected language and then refreshing the panels
+   *
    * @param newLanguage the desired language
    */
   @Override
@@ -364,13 +340,12 @@ public class GameView extends Application implements PanelListener, ChessView{
    */
   @Override
   public void resetGame() {
-    //TODO: adjust for this game and callback to Controller to match
-//    loadNewFile(myFilename);
     myChessController.resetGame();
   }
 
   /**
    * Updates the color scheme by simply setting the fill of the background
+   *
    * @param newColor desired color scheme
    */
   @Override
@@ -379,11 +354,14 @@ public class GameView extends Application implements PanelListener, ChessView{
   }
 
   /**
-   * Loads a new file by changing myFilename before resetting the controller and refreshing the grid view/UI panels
+   * Loads a new file by changing myFilename before resetting the controller and refreshing the grid
+   * view/UI panels
+   *
    * @param filename name of the file to load
    */
   @Override
-  public void loadNewFile(String filename) throws CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IncorrectCSVFormatException {
+  public void loadNewFile(String filename)
+      throws CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IncorrectCSVFormatException {
     myFilename = filename;
     myChessController.initializeFromFile(new File(myFilename));
   }
@@ -392,7 +370,7 @@ public class GameView extends Application implements PanelListener, ChessView{
    * Saves the current simulation and its parameters to a .sim and .csv file
    */
   @Override
-  public void saveCurrentFile(){
+  public void saveCurrentFile() {
     // TODO: does NOT currently work
 //    String filename = getUserSaveFileName(getWord("get_user_filename"));
 //    if (myGameController.saveCommand(filename)) {
@@ -407,12 +385,15 @@ public class GameView extends Application implements PanelListener, ChessView{
    * Undo the previous move
    */
   @Override
-  public void undoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+  public void undoMove()
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     //TODO: callback to controller
     myChessController.undoMove();
   }
+
   @Override
-  public void redoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+  public void redoMove()
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     //TODO: callback to controller
     myChessController.redoMove();
   }
@@ -426,7 +407,8 @@ public class GameView extends Application implements PanelListener, ChessView{
   //compute which cell on the grid this corresponds to, NOT the pixel position
   //error check that its' in the board as well
   @Override
-  public void getBoardClick(int column, int row) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+  public void getBoardClick(int column, int row)
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     //TODO: ensure controller callback works
     myChessController.clickedCoordinates(column, row);
   }
@@ -449,11 +431,21 @@ public class GameView extends Application implements PanelListener, ChessView{
   }
 
   /**
-   * Update the history of past moves
+   * Add to the history of past moves
+   *
+   * @param historyText
    */
   @Override
-  public void updateHistory(String historyText) {
+  public void addHistory(String historyText) {
     myGameplayPanel.updateHistory(historyText);
+  }
+
+  /**
+   * Remove from the history of past moves
+   */
+  @Override
+  public void removeHistory() {
+    myGameplayPanel.removeHistory();
   }
 
   /**
@@ -465,20 +457,25 @@ public class GameView extends Application implements PanelListener, ChessView{
   }
 
   /**
-   *  Allow controller to update the apperance of a specific cell on the chess board
+   * Allow controller to update the apperance of a specific cell on the chess board
+   *
    * @param spot the spot that will have a piece on it or not
    */
   @Override
-  public void updateChessCell(Spot spot){
+  public void updateChessCell(Spot spot) {
     myGridView.updateChessCell(spot);
   }
 
   /**
    * Allow controller to highlight a specific cell on the chess board
-   * @param spot the cell that should be highlighted
+   *
+   * @param spot      the cell that should be highlighted
+   * @param hexColour
    */
   @Override
-  public void highlightChessCell(Spot spot) {myGridView.highlightChessCell(spot);}
+  public void colourChessCell(Spot spot, String hexColour) {
+    myGridView.colourChessCell(spot, hexColour);
+  }
 
   //get the filename for the simulation file that the user wants to save the current simulation to
   private String getUserSaveFileName(String message) {
@@ -518,12 +515,12 @@ public class GameView extends Application implements PanelListener, ChessView{
   }
 
   //return the integer from the resource file based on the provided string
-  private int getInt(String key){
+  private int getInt(String key) {
     int value;
     try {
       value = Integer.parseInt(gameViewResources.getString(key));
-    } catch(Exception e){
-      value =-1;
+    } catch (Exception e) {
+      value = -1;
     }
     return value;
   }

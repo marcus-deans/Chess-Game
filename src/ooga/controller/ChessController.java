@@ -228,7 +228,8 @@ public class ChessController implements Controller {
 
   private void highlightSpots(Set<Spot> possibleCoordinates) {
     for (Spot s : possibleCoordinates) {
-      myGameView.highlightChessCell(s);
+      //TODO: fix highlight colour
+      myGameView.colourChessCell(s, "#FF6961");
     }
   }
 
