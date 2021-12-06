@@ -13,6 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
@@ -161,6 +162,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     teamTwoRadioButton.setToggleGroup(teamRadioGroup);
     HBox radioButtonBox = new HBox(teamOneRadioButton, teamTwoRadioButton);
     radioButtonBox.setSpacing(getInt("radio_button_spacing"));
+    final String[] teamSelected = new String[1];
     teamRadioGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
       @Override
       public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue,
@@ -168,14 +170,18 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
         RadioButton selectedRadioButton = (RadioButton) teamRadioGroup.getSelectedToggle();
 
         if (selectedRadioButton != null){
-          String selectedTeamText = selectedRadioButton.getText();
-          selectionLabel.setText(String.format("%s %s", selectedTeamText, getWord("selectedTeamWording")));
+          teamSelected[0] = selectedRadioButton.getText();
+          selectionLabel.setText(String.format("%s %s", teamSelected[0], getWord("selectedTeamWording")));
         }
 
       }
     });
     gridPane.add(radioButtonBox, 1, 4);
 //    gridPane.add(teamTwoRadioButton, 2, 4);
+
+    ColorPicker colorPicker = new ColorPicker(Color.web(getString("default_color_selection")));
+
+
 
     // Add Submit Button
     Button submitButton = new Button(getWord("submit_button_text"));
@@ -212,12 +218,20 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
         String name = nameField.getText();
         String email = emailField.getText();
         String password = passwordField.getText();
+        String team = teamSelected[0];
 //        int team = Integer.parseInt(teamField.getText());
-        int team = 1;
+        int teamValue;
+        switch(team){
+          case "White" -> teamValue=1;
+          case "Black" -> teamValue=2;
+          default -> {
+            teamValue= -1;
+          }
+        }
 
         showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(),
                 getWord("login_form_success"), getWord("login_welcome_message") + name);
-        myPanelListener.setNewPlayer(name, email, password, team);
+        myPanelListener.setNewPlayer(name, email, password, teamValue);
         myPanelListener.closePlayerLogin(myStage);
       }
     });
@@ -245,6 +259,17 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
       value = Integer.parseInt(playerLoginViewResources.getString(key));
     } catch(Exception e){
       value =-1;
+    }
+    return value;
+  }
+
+  //retrieves relevant word from the "words" ResourceBundle
+  private String getString(String key) {
+    String value;
+    try {
+      value = playerLoginViewResources.getString(key);
+    } catch (Exception exception) {
+      value = "error";
     }
     return value;
   }
