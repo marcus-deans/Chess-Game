@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import ooga.logic.board.coordinate.Coordinate;
 
 import java.util.ArrayList;
@@ -23,12 +24,12 @@ public class ToroidalEdgePolicies implements EdgePolicies{
     {
         List<List<Coordinate>> possibleMoves=new ArrayList<>();
         for (List<Coordinate> eachList: allMoves){
-            List<Coordinate> changedList = new ArrayList<>();
-            for (Coordinate c: eachList)
-            {
-                toroidalX(c);
-                changedList.add(c);
-            }
+            List<Coordinate> changedList = eachList.stream().
+                map(c -> {
+                    toroidalX(c);
+                    return c;
+                }).collect(Collectors.toList());
+
             changedList=toroidalY(changedList);
             possibleMoves.add(changedList);
         }
@@ -38,23 +39,24 @@ public class ToroidalEdgePolicies implements EdgePolicies{
 
     public void toroidalX(Coordinate c)
     {
-
-//
-//        Stream<Integer> greaterThanWidth = i -> c.getX_pos() >= width;
-//        Stream<Integer> lessThanZero = i -> c.getX_pos() < 0;
-
-//        Option.of(c.getX_pos()).filter()
-        if(c.getX_pos()>=width) {
-            c.setX_pos(c.getX_pos()-width);
-        }
-        else if(c.getX_pos()<0)
+        Consumer<Coordinate> alterX = list ->
         {
-            c.setX_pos(c.getX_pos()+width);
-        }
+            if (c.getX_pos() >= width){
+                c.setX_pos(c.getX_pos()-width);
+            }
+            else if(c.getX_pos()<0)
+            {
+                c.setX_pos(c.getX_pos()+width);
+            }
+        };
+        alterX.accept(c);
+
     }
 
     public List<Coordinate> toroidalY(List<Coordinate> a)
     {
+
+
         List<Coordinate> b=new ArrayList<>();
         for (Coordinate c: a)
         {
