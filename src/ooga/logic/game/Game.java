@@ -273,15 +273,15 @@ public class Game {
 
     private boolean checkAtomic(Piece capturedPiece)
     {
-//        List<List<Coordinate>> list=capturedPiece.getAtomicRadius().getPossibleSpots();
-//        for (int i = 0; i < list.size(); i++){
-//            for(int j = 0; j < list.size(); j++){
-//                if(getSpot(list.get(i).get(j)).getPiece().getCheckable())
-//                {
-//                    return true;
-//                }
-//            }
-//        }
+        List<List<Coordinate>> list=capturedPiece.getAtomicArea().getPossibleSpots(capturedPiece.getCoordinate());
+        for (int i = 0; i < list.size(); i++){
+            for(int j = 0; j < list.size(); j++){
+                if(getSpot(list.get(i).get(j)).getPiece().getCheckable())
+                {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 

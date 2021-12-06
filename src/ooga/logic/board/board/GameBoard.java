@@ -94,13 +94,13 @@ public class GameBoard implements Board {
     }
 
     private void atomic(Coordinate newPosition){
-//        List<List<Coordinate>> list=getSpot(newPosition).getPiece().getAtomicArea().getPossibleSpots();
-//        getSpot(newPosition).setPiece(null);
-//        for (int i = 0; i < list.size(); i++){
-//            for(int j = 0; j < list.size(); j++){
-//                getSpot(list.get(i).get(j)).setPiece(null);
-//            }
-//        }
+        List<List<Coordinate>> list=getSpot(newPosition).getPiece().getAtomicArea().getPossibleSpots(newPosition);
+        getSpot(newPosition).setPiece(null);
+        for (int i = 0; i < list.size(); i++){
+            for(int j = 0; j < list.size(); j++){
+                getSpot(list.get(i).get(j)).setPiece(null);
+            }
+        }
 
     }
 
