@@ -20,16 +20,15 @@ abstract public class SpotCollectionStorage {
   private void setBundle(String pieceToString, Map<String, String> attributeMap, ResourceBundle pieceProperties,
       ResourceBundle defaultProperties, String teamMatters) {
     try{
-//      if (attributeMap.containsKey(String.format("%s%s",pieceToString,capitalizeFirst(getMySpotType())))){
-//        setMySpotCollection(
-//            (SpotCollection) Class.forName(
-//                String.format("%s.%s",SPOT_COLLECTION_BASE ,
-//                    attributeMap.get(
-//                        String.format("%s%s",pieceToString,capitalizeFirst(MOVEMENT)))
-//                )).getConstructor().newInstance()
-//        );
-//      }
-//      else{
+      if (attributeMap.containsKey(getMySpotType())){
+        setMySpotCollection(
+            (SpotCollection) Class.forName(
+                String.format("%s.%s",SPOT_COLLECTION_BASE ,
+                    attributeMap.get(getMySpotType())
+                )).getConstructor().newInstance()
+        );
+      }
+      else{
         setMySpotCollection(
             (SpotCollection) Class.forName(
                 String.format("%s.%s",SPOT_COLLECTION_BASE ,pieceProperties.
@@ -38,7 +37,7 @@ abstract public class SpotCollectionStorage {
                         //MOVEMENT OR CAPTURE
                     ))).getConstructor().newInstance()
         );
-//      }
+      }
     }
     catch (Exception e){
       setDefaultBundle(pieceToString);
