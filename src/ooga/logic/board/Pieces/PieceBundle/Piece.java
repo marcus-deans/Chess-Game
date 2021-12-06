@@ -6,11 +6,11 @@ import ooga.logic.board.Pieces.Interfaces.CaptureLogic;
 import ooga.logic.board.Pieces.Interfaces.MoveLogic;
 import ooga.logic.board.Pieces.Interfaces.PieceLogic;
 import ooga.logic.board.Pieces.Interfaces.PromoteLogic;
-import ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses.JumpStorage;
-import ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses.BooleanStorage;
-import ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses.TeamMattersStorage;
-import ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses.cannibalizeStorage;
-import ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses.checkableStorage;
+import ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses.JumpStorage;
+import ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses.BooleanStorage;
+import ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses.TeamMattersStorage;
+import ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses.cannibalizeStorage;
+import ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses.checkableStorage;
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
 import ooga.logic.board.Pieces.PieceCollection.PieceCollection;
 import ooga.logic.board.Pieces.SpotCollection.KingMovement;
@@ -272,6 +272,16 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   private String capitalizeFirst(String toBeCapitalized){
     return toBeCapitalized.substring(0, 1).toUpperCase() + toBeCapitalized.substring(1);
+  }
+
+  @Override
+  public void setCanCannibalize(boolean cannibalize) {
+
+  }
+
+  @Override
+  public boolean canCannibalize() {
+    return canCannibalize.getValue();
   }
 
 /*

@@ -1,4 +1,4 @@
-package ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses;
+package ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses;
 
 import java.util.Map;
 import java.util.ResourceBundle;
