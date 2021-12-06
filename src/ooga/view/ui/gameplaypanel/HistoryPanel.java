@@ -1,36 +1,35 @@
 package ooga.view.ui.gameplaypanel;
 
-import static java.util.Map.entry;
-
-import java.util.Map;
+import java.util.Iterator;
+import java.util.LinkedList;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import ooga.view.ui.SharedUIComponents;
 
 /**
  * JavaFX panel that creates the details panel that displays game colours and parameters Relies on
  * appropriate resourcebundles being configured, SharedUIComponents, and JavaFX
  *
- * @author marcusdeans, drewpeterson
+ * @author marcusdeans
  */
 public class HistoryPanel extends SharedUIComponents {
 
   private VBox myHistoryContent;
-
+  private LinkedList<Label> myHistoryList; //want LinkedList method not present in List interface
+  private ScrollPane myHistoryScrollpane;
 
   /**
    * Initialize the details panel creator
-   *
    */
   public HistoryPanel() {
     myHistoryContent = new VBox();
+    myHistoryList = new LinkedList<>();
+    myHistoryScrollpane = new ScrollPane();
   }
 
   /**
@@ -44,22 +43,24 @@ public class HistoryPanel extends SharedUIComponents {
     myHistoryPanel.setAlignment(Pos.CENTER);
     myHistoryPanel.setId("history-panel");
 
-    StackPane historyPanelTitle = makePanelTitle(getWord("history_panel_title"), getInt("pref_history_scrollpane_width"));
+    StackPane historyPanelTitle = makePanelTitle(getWord("history_panel_title"),
+        getInt("pref_history_scrollpane_width"));
     historyPanelTitle.setId("history-panel-title");
-    ScrollPane historyScrollPane = makeHistoryScrollPane();
-    myHistoryPanel.getChildren().addAll(historyPanelTitle, historyScrollPane);
+    myHistoryScrollpane = makeHistoryScrollPane();
+    myHistoryPanel.getChildren().addAll(historyPanelTitle, myHistoryScrollpane);
 
-    myHistoryPanel.setVgrow(historyScrollPane, Priority.ALWAYS);
+    VBox.setVgrow(myHistoryScrollpane, Priority.ALWAYS);
     return myHistoryPanel;
   }
 
-  private ScrollPane makeHistoryScrollPane(){
+  private ScrollPane makeHistoryScrollPane() {
     ScrollPane newScrollPane = new ScrollPane();
     newScrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
     newScrollPane.fitToWidthProperty().set(true);
 
     newScrollPane.setVmax(getInt("max_history_scrollpane_height"));
-    newScrollPane.setPrefSize(getInt("pref_history_scrollpane_width"), getInt("pref_history_scrollpane_height"));
+    newScrollPane.setPrefSize(getInt("pref_history_scrollpane_width"),
+        getInt("pref_history_scrollpane_height"));
     newScrollPane.setContent(myHistoryContent);
 
 //    sp.vvalueProperty().addListener((ObservableValue<? extends Number> ov,
@@ -70,13 +71,29 @@ public class HistoryPanel extends SharedUIComponents {
     return newScrollPane;
   }
 
-  public void addHistory(String action){
-    Text newHistoryEntry = makeText(action);
-    myHistoryContent.getChildren().add(newHistoryEntry);
+  public void addHistory(String action) {
+    myHistoryList.add(makeHistoryLabel(action));
+    rebuildHistoryDisplay();
   }
 
-  public void removeHistory(){
-    //TODO: implement way to remove content without hbeing able gto address it
+  private Label makeHistoryLabel(String text) {
+    Label newLabel = new Label(text);
+    newLabel.setId("history-label");
+    return newLabel;
+  }
+
+  private void rebuildHistoryDisplay() {
+    Iterator<Label> it = myHistoryList.iterator();
+    myHistoryContent = new VBox();
+    while (it.hasNext()) {
+      myHistoryContent.getChildren().add(it.next());
+    }
+    myHistoryScrollpane.setContent(myHistoryContent);
+  }
+
+  public void removeHistory() {
+    myHistoryList.removeLast();
+    rebuildHistoryDisplay();
   }
 
 }
