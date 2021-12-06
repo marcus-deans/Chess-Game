@@ -473,9 +473,10 @@ public class GameView extends Application implements PanelListener, ChessView{
   /**
    * Allow controller to highlight a specific cell on the chess board
    * @param spot the cell that should be highlighted
+   * @param hexColour
    */
   @Override
-  public void highlightChessCell(Spot spot) {myGridView.highlightChessCell(spot);}
+  public void colourChessCell(Spot spot, String hexColour) {myGridView.colourChessCell(spot, hexColour);}
 
   //get the filename for the simulation file that the user wants to save the current simulation to
   private String getUserSaveFileName(String message) {

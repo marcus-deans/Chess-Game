@@ -58,27 +58,41 @@ public class GridView implements GridListener {
     myCellHeight = (myGridDimensions - getInt("lineSize")) / myHeightNumber;
   }
 
+
+  private Rectangle createNewColouredCellView(int state, boolean hasPiece, String hexColour){
+    Rectangle newCell = createNewCellView(state, hasPiece);
+    newCell.setFill(Color.web(hexColour));
+    return newCell;
+  }
+
   //create an individual cell on the grid representing a square of provided colour
-  private Rectangle createNewCellView(int state, boolean isHighlighted, boolean hasPiece) {
+  private Rectangle createNewCellView(int state, boolean hasPiece) {
     Rectangle newCell = new Rectangle();
     if(!hasPiece){
       newCell.setOnMouseClicked(this::clickOnGrid);
     }
     newCell.setWidth(myCellWidth);
     newCell.setHeight(myCellHeight);
-    if(isHighlighted){
-      newCell.setId("highlighted-cell-view");
-      newCell.setFill(Color.web(getString("highlighted_cell_colour")));
-    } else {
-      newCell.setId("cell-view");
-      newCell.setFill(Color.web(myGridColours[state]));
-    }
+    newCell.setId("cell-view");
+    newCell.setFill(Color.web(myGridColours[state]));
     return newCell;
   }
 
-  private Pane createNewCellWithPiece(int state, ImageView pieceImage, boolean isHighlighted){
+  private Pane createNewColouredCellWithPiece(int state, ImageView pieceImage, String hexColour){
     Pane newCellGroup = new Pane();
-    newCellGroup.getChildren().addAll(createNewCellView(state, isHighlighted, true), pieceImage);
+    newCellGroup.getChildren().addAll(createNewColouredCellView(state, true, hexColour), pieceImage);
+    try {
+      newCellGroup.setOnMouseClicked(this::clickOnGrid);
+    }
+    catch(Exception e){
+
+    }
+    return newCellGroup;
+  }
+
+  private Pane createNewCellWithPiece(int state, ImageView pieceImage){
+    Pane newCellGroup = new Pane();
+    newCellGroup.getChildren().addAll(createNewCellView(state, true), pieceImage);
     try {
       newCellGroup.setOnMouseClicked(this::clickOnGrid);
     }
@@ -127,7 +141,7 @@ public class GridView implements GridListener {
         if(column+1 == myWidthNumber){
           myGameGrid.add(createGridLabelView(row+1, false), column+1, row);
         }
-        myGameGrid.add(createNewCellView(determineCellColour(column, row), false, false), column, row);
+        myGameGrid.add(createNewCellView(determineCellColour(column, row), false), column, row);
       }
     }
   }
@@ -159,14 +173,14 @@ public class GridView implements GridListener {
   // row, column, colour, piece type
   //Spot -> extract row, column, 'team'=colour, Spot.getPiece() -> reflect on the piece, makes corresponding JavaFX images
   public void updateChessCell(Spot spot){
-    changeChessCell(spot, false);
+    changeChessCell(spot, false, getString("empty_cell_colour"));
   }
 
-  public void highlightChessCell(Spot spot){
-    changeChessCell(spot, true);
+  public void colourChessCell(Spot spot, String hexColour){
+    changeChessCell(spot, true, hexColour);
   }
 
-  private void changeChessCell(Spot spot, boolean isHighlighted){
+  private void changeChessCell(Spot spot, boolean isColoured, String hexColour){
     int columnIndex = spot.getCoordinate().getX_pos();
     int rowIndex = spot.getCoordinate().getY_pos();
 
@@ -202,11 +216,21 @@ public class GridView implements GridListener {
       pieceImageview.setFitHeight(myCellHeight-getInt("cell-piece-spacing"));
       pieceImageview.setFitWidth(myCellWidth-getInt("cell-piece-spacing"));
 
-      Pane newCellWithPiece = createNewCellWithPiece(determineCellColour(columnIndex, rowIndex), pieceImageview, isHighlighted);
+      Pane newCellWithPiece;
+      if(!isColoured){
+        newCellWithPiece = createNewCellWithPiece(determineCellColour(columnIndex, rowIndex), pieceImageview);
+      } else {
+        newCellWithPiece = createNewColouredCellWithPiece(determineCellColour(columnIndex, rowIndex), pieceImageview, hexColour);
+      }
       myGameGrid.add(newCellWithPiece, columnIndex, rowIndex);
 
     } else {
-      Rectangle newCellWithoutPiece = createNewCellView(determineCellColour(columnIndex, rowIndex), isHighlighted, false);
+      Rectangle newCellWithoutPiece;
+      if(!isColoured){
+        newCellWithoutPiece = createNewCellView(determineCellColour(columnIndex, rowIndex), false);
+      } else {
+        newCellWithoutPiece = createNewColouredCellView(determineCellColour(columnIndex, rowIndex), false, hexColour);
+      }
       myGameGrid.add(newCellWithoutPiece, columnIndex, rowIndex);
     }
 
@@ -237,7 +261,7 @@ public class GridView implements GridListener {
 
   @Override
   public void update(int row, int column, int state) {
-    myGameGrid.add(createNewCellView(determineCellColour(column, row), false, false), column, row);
+    myGameGrid.add(createNewCellView(determineCellColour(column, row), false), column, row);
     //TODO: built iterator interface to extract which pieces are in what location ont the board, interact wi the model's list
   }
 
