@@ -12,6 +12,9 @@ Portal=False
 BlackHole=False
 EdgePolicy=Basic
 
+MoveColor=#FF0000
+SelectColor=#00FF00
+
 PiecesImageDirectory=Standard
 
 //more to come, but the game configuration will all be defined here

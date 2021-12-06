@@ -221,7 +221,7 @@ public class ChessController implements Controller {
       if (myTempHashMap.get(turnIterator) == myGame.getSpot(clickedPiece).getPiece().getTeam()) {
         Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece, currentPlayer.getTeam());
         highlightSpots(test);
-        myGameView.highlightChessCell(myGame.getSpot(clickedPiece));
+        myGameView.colourChessCell(myGame.getSpot(clickedPiece),myData.get("MoveColor"));
         myLogger.log(Level.INFO, "FIRST CLICK");
         FIRSTCLICK = false;
       }
@@ -231,7 +231,7 @@ public class ChessController implements Controller {
   private void highlightSpots(Set<Spot> possibleCoordinates) {
     for (Spot s : possibleCoordinates) {
       //TODO: fix highlight colour
-      myGameView.colourChessCell(s, "#FF6961");
+      myGameView.colourChessCell(s, myData.get("SelectColor"));
     }
   }
 
@@ -249,7 +249,7 @@ public class ChessController implements Controller {
       myGame.movePiece(clickedPiece, nextMove);
       myGameView.updateChessCell(myGame.getSpot(clickedPiece));
       FIRSTCLICK = true;
-      myGameView.updateHistory(clickedPiece.getX_pos() + "," + clickedPiece.getY_pos() + " -> "+ nextMove.getX_pos() + "," + nextMove.getY_pos());
+      myGameView.addHistory(clickedPiece.getX_pos() + "," + clickedPiece.getY_pos() + " -> "+ nextMove.getX_pos() + "," + nextMove.getY_pos());
       numTurns++;
       unwind.clear();
       nextTurn(clickedPiece, nextMove);
@@ -282,6 +282,7 @@ public class ChessController implements Controller {
           "MOVED: " + recentMove[0].getX_pos() + "," + recentMove[0].getY_pos() + " to "
               + recentMove[1].getX_pos() + "," + recentMove[1].getY_pos());
       myGame.movePiece(recentMove[1], recentMove[0]);
+      myGameView.removeHistory();
       numTurns -= numTurns;
       switchPlayers();
       boardViewBuild(myGame);
@@ -313,6 +314,8 @@ public class ChessController implements Controller {
           "MOVED: " + reDoneMove[1].getX_pos() + "," + reDoneMove[1].getY_pos() + " to "
               + reDoneMove[0].getX_pos() + "," + reDoneMove[0].getY_pos());
       myGame.movePiece(reDoneMove[0], reDoneMove[1]);
+      myGameView.addHistory(reDoneMove[0].getX_pos() + "," + reDoneMove[0].getY_pos() + " -> "
+              + reDoneMove[1].getX_pos() + "," + reDoneMove[1].getY_pos());
       numTurns += numTurns;
       switchPlayers();
       boardViewBuild(myGame);
