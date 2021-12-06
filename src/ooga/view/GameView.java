@@ -410,8 +410,8 @@ public class GameView extends Application implements PanelListener, ChessView{
   }
 
   @Override
-  public void setNewPlayer(String username, String email, String password, int team) {
-    myChessController.setPlayer(username, team);
+  public void setNewPlayer(String username, String email, String password, int team, String colour) {
+    myChessController.setPlayer(username, password, team, colour);
   }
 
   @Override
