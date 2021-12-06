@@ -40,6 +40,7 @@ public class GameBoard implements Board {
     private static final String SPOTACTION_PATH="ooga.logic.board.spot.spotactions.";
     private String spotActionName;
     private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private boolean isAtomic;
 
 
     public GameBoard(int rows, int columns)
@@ -82,11 +83,24 @@ public class GameBoard implements Board {
             throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
 
         getSpot(newPosition).setPiece(movingPiece);
+        if(isAtomic) atomic(newPosition);
         int spotType=getSpot(newPosition).getTypeOfSpot();
         spotActionName=SPOTACTION_PATH+resourceMap.getString(String.valueOf(spotType));
         SpotAction spotAction=(SpotAction) Class.forName(spotActionName).getConstructor().newInstance();
         this.board=spotAction.commitSpotAction(board,getSpot(newPosition));
     }
+
+    private void atomic(Coordinate newPosition){
+//        List<List<Coordinate>> list=getSpot(newPosition).getPiece().getAtomicRadius();
+//        getSpot(newPosition).setPiece(null);
+//        for (int i = 0; i < list.size(); i++){
+//            for(int j = 0; j < list.size(); j++){
+//                getSpot(list.get(i).get(j)).setPiece(null);
+//            }
+//        }
+
+    }
+
 
     public boolean hasPiece(Coordinate c)
     {
@@ -141,5 +155,10 @@ public class GameBoard implements Board {
             System.out.println(board.get(i).getPiece());
             System.out.println(initialBoard.get(i).getPiece());
         }
+    }
+
+    public void setAtomic(boolean atomic)
+    {
+        this.isAtomic=atomic;
     }
 }

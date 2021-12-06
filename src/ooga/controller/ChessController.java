@@ -106,6 +106,7 @@ public class ChessController implements Controller {
         BOARDWIDTH = myCSVParser.getDimensions()[0];
         BOARDHEIGHT = myCSVParser.getDimensions()[1];
         myGame = new Game(BOARDHEIGHT, BOARDWIDTH);
+        myGame.setGameType(myData.get("Type"));
         if (myData.get("Type").equals("Puzzles")) {myGame.setPuzzleSolution(puzzleMap.getString(puzzleName));}
         myGame.setEdgePolicy(myData.get("EdgePolicy"));
         boardInitializer(myCSVParser.getInitialStates(), myGame);
