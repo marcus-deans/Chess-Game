@@ -19,23 +19,41 @@ public class Player {
     private int myTeam;
     private int userState;
 
-    public Player(String username, String password, int team) throws IOException {
+    public Player(String username, String password, int team){
         graveyard = new ArrayList<Piece>();
         myUsername = username;
         myPassword = password;
         myTeam = team;
+    }
 
-        URL url = new URL("http://localhost:3001/createUser?id=" + username + "&password=" + password);
+    private String getFromDatabase(String givenURL) throws IOException {
+        URL url = new URL(givenURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         StringBuilder result = new StringBuilder();
         connection.setRequestMethod("GET");
+
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(connection.getInputStream()))) {
             for (String line; (line = reader.readLine()) != null; ) {
                 result.append(line);
             }
         }
+
+        return result.toString();
+    }
+
+
+    public int checkUser() throws IOException {
+        String url = "http://localhost:3001/createUser?id=" + myUsername + "&password=" + myPassword;
+
+        String result = getFromDatabase(url);
+
+        if(result.toString().equals("createduser")) return 0;
+        else if(result.toString().equals("wrongpassword"))return 1;
+        else if(result.toString().equals("loggedin"))return 2;
+
+        return -1;
     }
 
     public void updateUserScore(boolean didWin) throws IOException {
