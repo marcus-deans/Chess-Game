@@ -28,6 +28,8 @@ public class Game {
     private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private Coordinate puzzleStart;
     private Coordinate puzzleFinish;
+    private String gameType;
+    private boolean isAtomic=false;
 
     public Game(int height, int width){
         myBoard = new GameBoard(height, width);
@@ -40,6 +42,7 @@ public class Game {
         catch (Exception e){
         }
     }
+
 
     public List<Spot> getFullBoard(){
         return myBoard.getFullBoard();
@@ -244,12 +247,27 @@ public class Game {
 
         try {
             if (capturedPiece.getCheckable()) isGameOver = true;
+            if (isAtomic) isGameOver=checkAtomic(capturedPiece);
             currentPlayer.addPieceToGraveyard(capturedPiece);
         }
         catch(Exception e)
         {
             myLogger.log(Level.INFO, "Error in removePiece");
         }
+    }
+
+    private boolean checkAtomic(Piece capturedPiece)
+    {
+//        List<List<Coordinate>> list=capturedPiece.getAtomicRadius();
+//        for (int i = 0; i < list.size(); i++){
+//            for(int j = 0; j < list.size(); j++){
+//                if(getSpot(list.get(i).get(j)).getPiece().getCheckable())
+//                {
+//                    return true;
+//                }
+//            }
+//        }
+        return false;
     }
 
     private void setMovingPiece(GameCoordinate newPosition, Piece movingPiece)
@@ -271,24 +289,35 @@ public class Game {
         try {
             setMovingPiece(newPosition, myBoard.getSpot(prevPosition).getPiece());
             myBoard.getSpot(prevPosition).setPiece(null);
-            if (puzzleStart!=null && puzzleFinish!=null && puzzleStart.equals(prevPosition) && puzzleFinish.equals(newPosition))
+            if(gameType.equals("Puzzles"))
             {
-                myLogger.log(Level.INFO, "PUZZLE COMPLETED SUCCESSFULLY");
-                isGameOver = true;
+                isGameOver=puzzleRules(prevPosition,newPosition);
             }
-            else if (puzzleStart!=null && puzzleFinish!=null && (!puzzleStart.equals(prevPosition) || !puzzleFinish.equals(newPosition)))
+            if(gameType.equals("Atomic"))
             {
-                myLogger.log(Level.INFO, "PUZZLE FAILED! TRY AGAIN!");
-                reset();
+
             }
-
-
-
         }
         catch(Exception e)
         {
             myLogger.log(Level.INFO, "Error in movePiece");
         }
+    }
+
+    public Boolean puzzleRules(Coordinate prevPosition, Coordinate newPosition)
+    {
+        boolean gameOver=false;
+        if (puzzleStart!=null && puzzleFinish!=null && puzzleStart.equals(prevPosition) && puzzleFinish.equals(newPosition))
+        {
+            myLogger.log(Level.INFO, "PUZZLE COMPLETED SUCCESSFULLY");
+            gameOver = true;
+        }
+        else if (puzzleStart!=null && puzzleFinish!=null && (!puzzleStart.equals(prevPosition) || !puzzleFinish.equals(newPosition)))
+        {
+            myLogger.log(Level.INFO, "PUZZLE FAILED! TRY AGAIN!");
+            reset();
+        }
+        return gameOver;
     }
 
     public boolean getIsGameOver(){
@@ -320,5 +349,11 @@ public class Game {
         } catch (NullPointerException e) {
             //myErrorFactory.updateError(GAME_ERROR);
         }
+    }
+
+    public void setGameType(String type)
+    {
+        this.gameType=type;
+        if (gameType.equals("Atomic")) isAtomic=true;
     }
 }
