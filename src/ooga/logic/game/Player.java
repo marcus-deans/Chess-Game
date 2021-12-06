@@ -49,43 +49,19 @@ public class Player {
 
         String result = getFromDatabase(url);
 
-        if(result.toString().equals("createduser")) return 0;
-        else if(result.toString().equals("wrongpassword"))return 1;
-        else if(result.toString().equals("loggedin"))return 2;
+        if(result.equals("createduser")) return 0;
+        else if(result.equals("wrongpassword"))return 1;
+        else if(result.equals("loggedin"))return 2;
 
         return -1;
     }
 
     public void updateUserScore(boolean didWin) throws IOException {
         if(didWin){
-            URL url = new URL("http://localhost:3001/addScore?id=" + myUsername);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            StringBuilder result = new StringBuilder();
-            connection.setRequestMethod("GET");
-            try (BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream()))) {
-                for (String line; (line = reader.readLine()) != null; ) {
-                    result.append(line);
-                }
-            }
+            String result = getFromDatabase("http://localhost:3001/addScore?id=" + myUsername);
         }else{
-            URL url = new URL("http://localhost:3001/subtractScore?id=" + myUsername);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            StringBuilder result = new StringBuilder();
-            connection.setRequestMethod("GET");
-            try (BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream()))) {
-                for (String line; (line = reader.readLine()) != null; ) {
-                    result.append(line);
-                }
-            }
+            String result = getFromDatabase("http://localhost:3001/subtractScore?id=" + myUsername);
         }
-    }
-
-    public int doesUserExist(){
-        return userState;
     }
 
     public void setProfileColor() throws IOException {
@@ -102,24 +78,10 @@ public class Player {
         }
     }
 
-    public int getUserData() throws IOException {
-        URL url = new URL("http://localhost:3001/getUserScore?id=" + myUsername);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-        StringBuilder result = new StringBuilder();
-        connection.setRequestMethod("GET");
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(connection.getInputStream()))) {
-            for (String line; (line = reader.readLine()) != null; ) {
-                result.append(line);
-            }
-        }
+    public String getUserScore() throws IOException {
+        String result = getFromDatabase("http://localhost:3001/getUserScore?id=" + myUsername);
 
-        return Integer.parseInt(result.toString());
-    }
-
-    public void setUsername(String username) {
-        this.myUsername = username;
+        return result;
     }
 
     public String getUsername() {
