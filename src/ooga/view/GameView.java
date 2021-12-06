@@ -372,7 +372,7 @@ public class GameView extends Application implements PanelListener, GameChessVie
 
   @Override
   public boolean setNewPlayer(int playerIdentifier, String username, String email, String password, int team, String colour) throws IOException {
-    return myChessController.setPlayer(username, password, team, colour);
+    return myChessController.setPlayer(playerIdentifier, username, password, team, colour);
   }
 
   @Override

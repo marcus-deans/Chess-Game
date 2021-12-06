@@ -13,12 +13,14 @@ import java.util.Properties;
 
 public class Player {
     private List<Piece> graveyard;
+    private int myIdentifier;
     private String myUsername;
     private String myPassword;
     private int myTeam;
     private String apiURL;
 
-    public Player(String username, String password, int team){
+    public Player(int playerIdentifier, String username, String password, int team){
+        myIdentifier = playerIdentifier;
         graveyard = new ArrayList<Piece>();
         myUsername = username;
         myPassword = password;
