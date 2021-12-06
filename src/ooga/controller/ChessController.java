@@ -70,7 +70,7 @@ public class ChessController implements Controller {
      * @param filename
      */
     public ChessController(int width, int height, String background, String filename) {
-        myGameView = new GameView(width, height, background, filename, this);
+        myGameView = new GameView(width, height, 8, 8, background, filename, this);
         myGame = new Game(height, width);
         myGameView.start(new Stage());
 

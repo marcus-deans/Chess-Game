@@ -9,7 +9,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import com.opencsv.exceptions.CsvValidationException;
-import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -20,9 +19,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import ooga.controller.Controller;
 
+import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.logic.board.spot.Spot;
 
 import ooga.util.IncorrectCSVFormatException;
@@ -42,7 +41,7 @@ import ooga.view.ui.controlpanel.ControlPanel;
  *
  * @author marcusdeans, drewpeterson
  */
-public class GameView extends Application implements PanelListener {
+public class GameView extends Application implements PanelListener, ChessView{
   //JavaFX Simulation Parameters:
   private static final int FRAMES_PER_SECOND = 7;
   private static final double SECOND_DELAY = 7.0 / FRAMES_PER_SECOND;
@@ -62,6 +61,8 @@ public class GameView extends Application implements PanelListener {
   //Cosmetic features: JavaFX pixel positioning
   private int frameWidth;
   private int frameHeight;
+  private int boardWidth;
+  private int boardHeight;
   private Paint frameBackground;
   private int gridDisplayLength;
   private int[] gridSize;
@@ -75,10 +76,11 @@ public class GameView extends Application implements PanelListener {
 
   //Control Panel on Right Side of Screen
   private int controlPanelX;
-  private Node myControlPanel;
-  private Node myGameplayPanel;
-  private Node myInformationPanel;
-  private InformationPanel myPhysicalInformationPanel;
+  private Node myVisualControlPanel;
+  private Node myVisualGameplayPanel;
+  private Node myVisualInformationPanel;
+  private InformationPanel myInformationPanel;
+  private GameplayPanel myGameplayPanel;
 
   //Gameplay Panel on Left Side of Screen
   private int gameplayPanelX;
@@ -117,22 +119,24 @@ public class GameView extends Application implements PanelListener {
   /**
    * Creates new GameView for each application
    *
-   * @param width      of JavaFX display in pixels
-   * @param height     of JavaFX display in pixels
+   * @param frameWidth      of JavaFX display in pixels
+   * @param frameHeight     of JavaFX display in pixels
    * @param background colour of JavaFX background
    * @param filename   Filename of the simulation file which GameController uses
    * @param gameController the listener object that will be notified/called upon whenever the state of a UI panel changes due to user interaction
    */
-  public GameView(int width, int height, String background, String filename, Controller gameController) {
-    frameWidth = width;
-    frameHeight = height;
+  public GameView(int frameWidth, int frameHeight, int boardWidth, int boardHeight, String background, String filename, Controller gameController) {
+    this.frameWidth = frameWidth;
+    this.frameHeight = frameHeight;
+    this.boardWidth = boardWidth;
+    this.boardHeight = boardHeight;
     frameBackground = Color.web(background);
     myFilename = filename;
     myChessController = gameController;
-    gridDisplayLength = width - getInt("width_buffer");
-    controlPanelX = width - getInt("control_panel_offset");
+    gridDisplayLength = frameWidth - getInt("width_buffer");
+    controlPanelX = frameWidth - getInt("control_panel_offset");
     gameplayPanelX = getInt("gameplay_panel_offset");
-    controlPanelX = width - getInt("control_panel_offset") + getInt("width_buffer");
+    controlPanelX = frameWidth - getInt("control_panel_offset") + getInt("width_buffer");
     gameGridViewX = gameplayPanelX + getInt("button_width") + getInt("width_buffer");
     gameGridViewY = getInt("game_grid_y_offset");
     gridDisplayLength = controlPanelX - gameGridViewX - getInt("width_buffer")  - 2*getInt("line_offset");
@@ -217,9 +221,9 @@ public class GameView extends Application implements PanelListener {
       primaryStage.setScene(myGameViewScene);
       primaryStage.setTitle(getWord("simulation_title"));
       primaryStage.show();
-      myPhysicalInformationPanel.adjustInformationPanelPosition();
+      myInformationPanel.adjustInformationPanelPosition();
 
-      myAnimation.getKeyFrames().add(new KeyFrame(Duration.seconds(SECOND_DELAY), e -> step()));
+//      myAnimation.getKeyFrames().add(new KeyFrame(Duration.seconds(SECOND_DELAY), e -> step()));
     }
   }
 
@@ -231,27 +235,28 @@ public class GameView extends Application implements PanelListener {
     createUIPanels();
 
     myGridPanel = createGrid();
-    myGameViewRoot.getChildren().addAll(myGameplayPanel, myControlPanel, myInformationPanel, myGridPanel);
+    myGameViewRoot.getChildren().addAll(myVisualGameplayPanel, myVisualControlPanel,
+        myVisualInformationPanel, myGridPanel);
     myGameViewScene.getStylesheets().add(GameView.class.getResource("GameViewFormatting.css").toExternalForm());
   }
 
   //create the UI panels that will provide interactivity and information to the user
   private void createUIPanels() {
     // Gameplay (left) panel
-    myGameplayPanel = createGameplayPanel();
+    myVisualGameplayPanel = createGameplayPanel();
 
     // Control (right) panel:
-    myControlPanel = createControlPanel();
+    myVisualControlPanel = createControlPanel();
 
     // Information (top) panel:
-    myInformationPanel = createInformationPanel();
+    myVisualInformationPanel = createInformationPanel();
   }
 
   //create information panel on top of screen to display title as well as user information
   private Node createInformationPanel(){
-    myPhysicalInformationPanel = new InformationPanel(gameGridViewX, gridDisplayLength);
-    myPhysicalInformationPanel.setPanelListener(this);
-    return myPhysicalInformationPanel.createInformationPanel();
+    myInformationPanel = new InformationPanel(gameGridViewX, gridDisplayLength);
+    myInformationPanel.setPanelListener(this);
+    return myInformationPanel.createInformationPanel();
   }
 
   //create control panel on right of screen to control view, animation/gameplay, and loading/saving
@@ -263,21 +268,16 @@ public class GameView extends Application implements PanelListener {
 
   //create gameplay panel on left of screen to control variant, move history, and dead pieces
   private Node createGameplayPanel(){
-    GameplayPanel newGameplayPanel = new GameplayPanel(gameplayPanelX);
-    newGameplayPanel.setPanelListener(this);
-    return newGameplayPanel.createGameplayPanel();
+    myGameplayPanel = new GameplayPanel(gameplayPanelX);
+    myGameplayPanel.setPanelListener(this);
+    return myGameplayPanel.createGameplayPanel();
   }
 
   //initialize the grid itself that appears on the scree
   private Node createGrid() {
-    gridSize = new int[2];
-    gridSize[0]=8;//myChessController.getHeight();
-    gridSize[1]=8;//myChessController.getWidth();
-    //TODO: fix grid colour by obtaining from controller
     myGridColours = defaultGridColours.getString("GameOfLife").split(",");
-    myGridView = new GridView(gridSize[0], gridSize[1], myGridColours, gridDisplayLength, this);
+    myGridView = new GridView(boardHeight, boardWidth, myGridColours, gridDisplayLength, this);
     GridPane myGameGridView = myGridView.getMyGameGrid();
-    myGameGridView.setOnMouseClicked(click->updateGrid(click.getX(), click.getY()));
     myGameGridView.setLayoutX(gameGridViewX  + getInt("line_offset"));
     myGameGridView.setLayoutY(gameGridViewY  + getInt("line_offset"));
 //    myGameController.setupListener(myGridView);
@@ -298,22 +298,14 @@ public class GameView extends Application implements PanelListener {
   //<editor-fold desc="Setup Languages, Conversion, and Update on Change">
   //</editor-fold>
 
-  // runs one step of the simulation
-  private void step() {
-    //TODO: increment simulation
-//    try {
-//      myGameController.runSimulation();
-//    }
-//    catch (ReflectionException e) {
-//      sendAlert("InternalError Cannot Make Object");
-//    }
-  }
 
   // refreshes the UI panels by removing them from the scene before creating new panels and adding them back
   private void refreshUIPanels(){
-    myGameViewRoot.getChildren().removeAll(myGameplayPanel, myControlPanel, myInformationPanel);
+    myGameViewRoot.getChildren().removeAll(myVisualGameplayPanel, myVisualControlPanel,
+        myVisualInformationPanel);
     createUIPanels();
-    myGameViewRoot.getChildren().addAll(myGameplayPanel, myControlPanel, myInformationPanel);
+    myGameViewRoot.getChildren().addAll(myVisualGameplayPanel, myVisualControlPanel,
+        myVisualInformationPanel);
     myStage.setTitle(getWord("simulation_title"));
   }
 
@@ -364,21 +356,7 @@ public class GameView extends Application implements PanelListener {
   @Override
   public void loadNewFile(String filename) throws CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IncorrectCSVFormatException {
     myFilename = filename;
-
     myChessController.initializeFromFile(new File(myFilename));
-//    setupController();
-//    gridSize = myGameController.getGridSize();
-//    myGameViewRoot.getChildren().remove(myGridPanel);
-//    myGridPanel = createGrid();
-//    myGameViewRoot.getChildren().addAll(myGridPanel);
-//    myGameController.setupListener(myGridView);
-//    try {
-//      myGameController.showInitialStates();
-//    }
-//    catch (ReflectionException e) {
-//      sendAlert("InternalError Cannot Make Object");
-//    }
-//    refreshUIPanels();
   }
 
   /**
@@ -442,9 +420,26 @@ public class GameView extends Application implements PanelListener {
   }
 
   /**
+   * Update the history of past moves
+   */
+  @Override
+  public void updateHistory(String historyText) {
+    myGameplayPanel.updateHistory(historyText);
+  }
+
+  /**
+   * Update the graveyard of dead pieces
+   */
+  @Override
+  public void updateGraveyard(Piece deadPiece) {
+    myGameplayPanel.updateGraveyard(deadPiece);
+  }
+
+  /**
    *  Allow controller to update the apperance of a specific cell on the chess board
    * @param spot the spot that will have a piece on it or not
    */
+  @Override
   public void updateChessCell(Spot spot){
     myGridView.updateChessCell(spot);
   }
@@ -453,6 +448,7 @@ public class GameView extends Application implements PanelListener {
    * Allow controller to highlight a specific cell on the chess board
    * @param spot the cell that should be highlighted
    */
+  @Override
   public void highlightChessCell(Spot spot) {myGridView.highlightChessCell(spot);}
 
   //get the filename for the simulation file that the user wants to save the current simulation to

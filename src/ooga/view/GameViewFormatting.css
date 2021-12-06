@@ -158,3 +158,12 @@
   -fx-font-family: "American Typewriter";
   -fx-fill: white;
 }
+
+#letter-label-colour-box {
+  -fx-fill: #993399;
+}
+
+#letter-label-text {
+  -fx-stroke: white;
+  -fx-font-family: Arial;
+}

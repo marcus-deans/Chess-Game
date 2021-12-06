@@ -27,9 +27,9 @@ public class ToroidalEdgePolicies implements EdgePolicies{
             for (Coordinate c: eachList)
             {
                 toroidalX(c);
-                toroidalY(c);
                 changedList.add(c);
             }
+            changedList=toroidalY(changedList);
             possibleMoves.add(changedList);
         }
 
@@ -53,15 +53,17 @@ public class ToroidalEdgePolicies implements EdgePolicies{
         }
     }
 
-    public void toroidalY(Coordinate c)
+    public List<Coordinate> toroidalY(List<Coordinate> a)
     {
-        if(c.getY_pos()>=height)
+        List<Coordinate> b=new ArrayList<>();
+        for (Coordinate c: a)
         {
-            c.setY_pos(c.getY_pos()-height);
+            if(c.getY_pos()<height&& c.getY_pos()>=0)
+            {
+                b.add(c);
+            }
         }
-        else if(c.getY_pos()<0)
-        {
-            c.setY_pos(c.getY_pos()+height);
-        }
+        return b;
+
     }
 }
