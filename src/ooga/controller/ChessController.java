@@ -112,8 +112,8 @@ public class ChessController implements Controller {
         boardViewBuild(myGame);
         numTurns = 1;
         thePlayers = new ArrayList<>();
-        setPlayer("Player1",1);
-        setPlayer("Player2",2);
+        setPlayer("Player1", "Password1",1, "#012169");
+        setPlayer("Player2", "Password2", 2, "#00539B");
         history= new Stack<GameCoordinate[]>();
         unwind= new Stack<GameCoordinate[]>();
 
@@ -156,7 +156,7 @@ public class ChessController implements Controller {
     }
 
     @Override
-    public void setPlayer(String userName, int team){
+    public void setPlayer(String userName, String password, int team, String color){
         Player addPlayer = new Player(userName, team);
         thePlayers.add(addPlayer);
     }

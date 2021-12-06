@@ -1,6 +1,8 @@
 package ooga.view.ui.playerlogin;
 
+import static ooga.util.ResourceRetriever.colorToHexString;
 import static ooga.util.ResourceRetriever.getWord;
+import static ooga.util.ResourceRetriever.toHexCode;
 
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -61,7 +63,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     // Add UI controls to the registration form grid pane
     addUIControls(gridPane);
     // Create a scene with registration form grid pane as the root node
-    Scene scene = new Scene(gridPane, 600, 300);
+    Scene scene = new Scene(gridPane, 700, 500);
 
     gridPane.setId("login-pane");
     scene.getStylesheets().add(
@@ -181,18 +183,23 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
 
 
     Label colorLabel = makeLabel(getWord("color_label_text"));
-    gridPane.add(teamLabel, 0, 5);
+    gridPane.add(colorLabel, 0, 6);
     Label colorSelectionLabel = makeLabel(getWord("color_field_error"));
-    gridPane.add(teamSelectionLabel, 1, 6);
+    gridPane.add(colorSelectionLabel, 1, 7);
     ColorPicker colorPicker = new ColorPicker(Color.web(getString("default_color_selection")));
+    final String[] colorSelected = new String[1];
     colorPicker.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
         Color selectedColor = colorPicker.getValue();
-        colorSelectionLabel.setText(String.format("R:%s | G:%s | B:%s %s", selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue(), getWord("selectedWording")));
+//        colorSelectionLabel.setText(String.format("R:%.2f | G:%.2f | B:%.2f %s", selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue(), getWord("selectedWording")));
+        colorSelected[0] = toHexCode(selectedColor);
+        colorSelectionLabel.setText(String.format("%s %s", colorSelected[0], getWord("selectedWording")));
         colorSelectionLabel.setTextFill(selectedColor);
+        colorSelectionLabel.setId("color-selection-label");
       }
     });
+    gridPane.add(colorPicker, 1, 6);
 
 
     // Add Submit Button
@@ -200,7 +207,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     submitButton.setPrefHeight(getInt("submit_button_height"));
     submitButton.setDefaultButton(true);
     submitButton.setPrefWidth(getInt("submit_button_width"));
-    gridPane.add(submitButton, 0, 6, 4, 1);
+    gridPane.add(submitButton, 0, 8, 4, 1);
     GridPane.setHalignment(submitButton, HPos.CENTER);
     GridPane.setMargin(submitButton, new Insets(20, 0, 20, 0));
 
@@ -231,6 +238,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
         String email = emailField.getText();
         String password = passwordField.getText();
         String team = teamSelected[0];
+        String colour = colorSelected[0];
 //        int team = Integer.parseInt(teamField.getText());
         int teamValue;
         switch(team){
@@ -243,7 +251,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
 
         showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(),
                 getWord("login_form_success"), getWord("login_welcome_message") + name);
-        myPanelListener.setNewPlayer(name, email, password, teamValue);
+        myPanelListener.setNewPlayer(name, email, password, teamValue, colour);
         myPanelListener.closePlayerLogin(myStage);
       }
     });
