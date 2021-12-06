@@ -25,7 +25,7 @@ public class Player {
         myPassword = password;
         myTeam = team;
 
-        URL url = new URL("http://localhost:3001/createUser?id=" + username + "&password=" + password);
+        URL url = new URL("https://cs307.herokuapp.com/createUser?id=" + username + "&password=" + password);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         StringBuilder result = new StringBuilder();
@@ -40,7 +40,7 @@ public class Player {
 
     public void updateUserScore(boolean didWin) throws IOException {
         if(didWin){
-            URL url = new URL("http://localhost:3001/addScore?id=" + myUsername);
+            URL url = new URL("https://cs307.herokuapp.com/addScore?id=" + myUsername);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             StringBuilder result = new StringBuilder();
@@ -52,7 +52,7 @@ public class Player {
                 }
             }
         }else{
-            URL url = new URL("http://localhost:3001/subtractScore?id=" + myUsername);
+            URL url = new URL("https://cs307.herokuapp.com/subtractScore?id=" + myUsername);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             StringBuilder result = new StringBuilder();
@@ -71,7 +71,7 @@ public class Player {
     }
 
     public void setProfileColor() throws IOException {
-        URL url = new URL("http://localhost:3001/setProfileColor?id=" + myUsername);
+        URL url = new URL("https://cs307.herokuapp.com/setProfileColor?id=" + myUsername);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         StringBuilder result = new StringBuilder();
@@ -85,7 +85,7 @@ public class Player {
     }
 
     public int getUserData() throws IOException {
-        URL url = new URL("http://localhost:3001/getUserScore?id=" + myUsername);
+        URL url = new URL("https://cs307.herokuapp.com/getUserScore?id=" + myUsername);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         StringBuilder result = new StringBuilder();
