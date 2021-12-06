@@ -94,20 +94,17 @@ abstract public class SpotCollection implements SpotCollectionInterface{
 
   protected List<List<Coordinate>> doubleSymmetricOver(int[] signs, Coordinate myCoordinate, String[] myDirections) {
     List<List<Coordinate>> myBigList = new ArrayList<>();
-    List<Coordinate> myCoords = new ArrayList<>();
+    List<Coordinate> myCoords;
     for (int xSign : signs){
       for (int ySign : signs){
         for (String direction: myDirections) {
           int[] myDirection = stringToIntArr(pieceProperties.getString(direction));
-          myCoords = new ArrayList<>();
-          myCoords.addAll(new OneTimeDirection().getPossibleSpots(myCoordinate, xSign * myDirection[0],
-              ySign * myDirection[1]));
+          myCoords = new OneTimeDirection().getPossibleSpots(myCoordinate, xSign * myDirection[0],
+              ySign * myDirection[1]);
           myBigList.add(myCoords);
 
-          myCoords = new ArrayList<>();
-
-          myCoords.addAll(new OneTimeDirection().getPossibleSpots(myCoordinate, xSign * myDirection[1],
-              ySign * myDirection[0]));
+          myCoords = new OneTimeDirection().getPossibleSpots(myCoordinate, xSign * myDirection[1],
+              ySign * myDirection[0]);
           myBigList.add(myCoords);
 
         }
@@ -115,5 +112,7 @@ abstract public class SpotCollection implements SpotCollectionInterface{
     }
     return myBigList;
   }
+
+
 
 }
