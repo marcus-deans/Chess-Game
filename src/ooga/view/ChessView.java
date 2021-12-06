@@ -11,9 +11,14 @@ import ooga.logic.game.Game;
 public interface ChessView {
 
   /**
-   *  Update the history of past moves
+   *  Add to the history of past moves
    */
-  public void updateHistory(String historyText);
+  public void addHistory(String historyText);
+
+  /**
+   * Remove from the history of past moves
+   */
+  public void removeHistory();
 
   /**
    * Update the graveyard of dead pieces

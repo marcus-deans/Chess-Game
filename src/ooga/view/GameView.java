@@ -436,11 +436,21 @@ public class GameView extends Application implements PanelListener, ChessView{
   }
 
   /**
-   * Update the history of past moves
+   * Add to the history of past moves
+   *
+   * @param historyText
    */
   @Override
-  public void updateHistory(String historyText) {
+  public void addHistory(String historyText) {
     myGameplayPanel.updateHistory(historyText);
+  }
+
+  /**
+   * Remove from the history of past moves
+   */
+  @Override
+  public void removeHistory() {
+    myGameplayPanel.removeHistory();
   }
 
   /**

@@ -25,7 +25,6 @@ public class HistoryPanel extends SharedUIComponents {
 
   /**
    * Initialize the details panel creator
-   *
    */
   public HistoryPanel() {
     myHistoryContent = new VBox();
@@ -44,7 +43,8 @@ public class HistoryPanel extends SharedUIComponents {
     myHistoryPanel.setAlignment(Pos.CENTER);
     myHistoryPanel.setId("history-panel");
 
-    StackPane historyPanelTitle = makePanelTitle(getWord("history_panel_title"), getInt("pref_history_scrollpane_width"));
+    StackPane historyPanelTitle = makePanelTitle(getWord("history_panel_title"),
+        getInt("pref_history_scrollpane_width"));
     historyPanelTitle.setId("history-panel-title");
     myHistoryScrollpane = makeHistoryScrollPane();
     myHistoryPanel.getChildren().addAll(historyPanelTitle, myHistoryScrollpane);
@@ -53,13 +53,14 @@ public class HistoryPanel extends SharedUIComponents {
     return myHistoryPanel;
   }
 
-  private ScrollPane makeHistoryScrollPane(){
+  private ScrollPane makeHistoryScrollPane() {
     ScrollPane newScrollPane = new ScrollPane();
     newScrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
     newScrollPane.fitToWidthProperty().set(true);
 
     newScrollPane.setVmax(getInt("max_history_scrollpane_height"));
-    newScrollPane.setPrefSize(getInt("pref_history_scrollpane_width"), getInt("pref_history_scrollpane_height"));
+    newScrollPane.setPrefSize(getInt("pref_history_scrollpane_width"),
+        getInt("pref_history_scrollpane_height"));
     newScrollPane.setContent(myHistoryContent);
 
 //    sp.vvalueProperty().addListener((ObservableValue<? extends Number> ov,
@@ -70,28 +71,27 @@ public class HistoryPanel extends SharedUIComponents {
     return newScrollPane;
   }
 
-  public void addHistory(String action){
+  public void addHistory(String action) {
     myHistoryList.add(makeHistoryLabel(action));
     rebuildHistoryDisplay();
   }
 
-  private Label makeHistoryLabel(String text){
+  private Label makeHistoryLabel(String text) {
     Label newLabel = new Label(text);
     newLabel.setId("history-label");
     return newLabel;
   }
 
-  private void rebuildHistoryDisplay(){
+  private void rebuildHistoryDisplay() {
     Iterator<Label> it = myHistoryList.iterator();
     myHistoryContent = new VBox();
-    while(it.hasNext()){
+    while (it.hasNext()) {
       myHistoryContent.getChildren().add(it.next());
     }
     myHistoryScrollpane.setContent(myHistoryContent);
   }
 
-  public void removeHistory(){
-    //TODO: implement way to remove content without hbeing able gto address it
+  public void removeHistory() {
     myHistoryList.removeLast();
     rebuildHistoryDisplay();
   }
