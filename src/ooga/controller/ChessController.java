@@ -162,6 +162,12 @@ public class ChessController implements Controller {
         thePlayers.add(addPlayer);
     }
 
+    @Deprecated
+    public void setPlayer(String userName, int team){
+        Player addPlayer = new Player(userName, team);
+        thePlayers.add(addPlayer);
+    }
+
     /**
      * Gives BOARDWIDTH
      * @return
