@@ -50,7 +50,8 @@ public class Game {
 
     public void setupBoard(String spot, int i, int j){
         try {
-            myBoard.setupBoard(spot, i, j);
+
+            myBoard.setupBoard(spot, i, j, new HashMap<>());
         } catch (Exception e){
 
         }

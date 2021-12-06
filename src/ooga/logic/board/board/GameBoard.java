@@ -1,6 +1,7 @@
 package ooga.logic.board.board;
 
 
+import java.util.Map;
 import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
@@ -53,16 +54,16 @@ public class GameBoard implements Board {
     }
 
     @Override
-    public void setupBoard(String spot, int i, int j) {
+    public void setupBoard(String spot, int i, int j, Map<String, String> overriddenRules) {
 
             pieceName=PIECE_PATH+resourceMap.getString(spot.substring(0,1));
-            Class[] params={int.class,int.class,int.class};
+            Class[] params={int.class,int.class,int.class,Map.class};
             team=Integer.parseInt(spot.substring(1,2));
             int type=Integer.parseInt(spot.substring(2,3));
             Piece p;
             try
             {
-                p=(Piece) Class.forName(pieceName).getDeclaredConstructor(params).newInstance(j,i,team);
+                p=(Piece) Class.forName(pieceName).getDeclaredConstructor(params).newInstance(j,i,team,overriddenRules);
             }
             catch(Exception e)
             {
