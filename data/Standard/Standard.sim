@@ -13,6 +13,7 @@ EdgePolicy=Basic
 PiecesImageDirectory=Standard
 
 //more to come, but the game configuration will all be defined here
+^All|jump=true
 ^Rook|canCannibalize=true
 ^Bishop|jump=true
 ^Knight|capture=KingMovement

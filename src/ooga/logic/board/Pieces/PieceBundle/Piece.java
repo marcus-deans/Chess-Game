@@ -1,6 +1,7 @@
 package ooga.logic.board.Pieces.PieceBundle;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import ooga.logic.board.Pieces.Interfaces.*;
@@ -32,6 +33,8 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private static final String EMPTY = "";
 
   private static final String PROMOTION = "promotion";
+  private static final String ALL = "all";
+
 
   private BooleanStorage teamMatters;
   private BooleanStorage myJump;
@@ -56,6 +59,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     myMovementStorage = new movementStorage(pieceToString, attributeMap,PieceProperties,DefaultProperties,getTeamIfNecessary());
     setCoordinate(myCoordinate);
     setPromotionSpots();
+    setAtomicArea();
 
   }
 
@@ -65,10 +69,9 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
       int locationOfLine= myType.indexOf("|");
       String type = myType.substring(0,locationOfLine);
       String attrKey =  myType.substring(locationOfLine + 1);
-      if (type.equals(PieceName)){
+      if (type.equalsIgnoreCase(PieceName) || type.equalsIgnoreCase(ALL)){
         String result = myAttributeMap.get(myType);
         attributeMap.put(attrKey,result);
-        System.out.println(attrKey + " " + result);
       }
     }
   }
