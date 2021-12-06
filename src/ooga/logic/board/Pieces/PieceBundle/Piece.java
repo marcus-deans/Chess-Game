@@ -2,10 +2,7 @@ package ooga.logic.board.Pieces.PieceBundle;
 
 import java.util.Map;
 import java.util.ResourceBundle;
-import ooga.logic.board.Pieces.Interfaces.CaptureLogic;
-import ooga.logic.board.Pieces.Interfaces.MoveLogic;
-import ooga.logic.board.Pieces.Interfaces.PieceLogic;
-import ooga.logic.board.Pieces.Interfaces.PromoteLogic;
+import ooga.logic.board.Pieces.Interfaces.*;
 import ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses.*;
 import ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses.*;
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
@@ -93,7 +90,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private void setDefaultProperties() {
     DefaultProperties=ResourceBundle.getBundle(PIECES_PACKAGE+DEFAULT_TO_STRING);
   }
-
 
 
   @Override
