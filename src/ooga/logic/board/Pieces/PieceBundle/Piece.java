@@ -1,6 +1,7 @@
 package ooga.logic.board.Pieces.PieceBundle;
 
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import ooga.logic.board.Pieces.Interfaces.CaptureLogic;
 import ooga.logic.board.Pieces.Interfaces.MoveLogic;
@@ -44,7 +45,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   private boolean teamMatters;
 
-  public Piece(String pieceToString, int team, Coordinate myCoordinate) {
+  public Piece(String pieceToString, int team, Coordinate myCoordinate, Map<String,String> myAttributeMap) {
     setPieceProperties(pieceToString);
     setDefaultProperties();
     setMyTeamMatters();
