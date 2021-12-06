@@ -8,6 +8,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.view.ui.SharedUIComponents;
 
 public class GraveyardPanel extends SharedUIComponents {
@@ -55,7 +56,8 @@ public class GraveyardPanel extends SharedUIComponents {
     return newScrollPane;
   }
 
-  public void addGraveyardEntry(String action){
+  public void addGraveyardEntry(Piece deadPiece){
+    String action = "dyanmically get piece image";
     Text newGraveyardEntry = makeText(action);
     myGraveyardContent.getChildren().add(newGraveyardEntry);
   }
