@@ -2,29 +2,46 @@ package ooga.logic.game;
 
 import ooga.logic.board.Pieces.PieceBundle.Piece;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class Player {
     private List<Piece> graveyard;
     private String myUsername;
     private String myPassword;
     private int myTeam;
-    private int userState;
+    private String apiURL;
 
     public Player(String username, String password, int team){
         graveyard = new ArrayList<Piece>();
         myUsername = username;
         myPassword = password;
         myTeam = team;
+        apiURL = "https://cs307.herokuapp.com";
+
+        System.out.println(apiURL);
     }
+
+    private String readFromProperties(String key){
+        try (InputStream input = new FileInputStream("game/Player.properties")) {
+            Properties prop = new Properties();
+
+            prop.load(input);
+
+            return prop.getProperty(key);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
 
     private String getFromDatabase(String givenURL) throws IOException {
         URL url = new URL(givenURL);
@@ -45,7 +62,7 @@ public class Player {
 
 
     public int checkUser() throws IOException {
-        String url = "http://localhost:3001/createUser?id=" + myUsername + "&password=" + myPassword;
+        String url = "https://cs307.herokuapp.com/createUser?id=" + myUsername + "&password=" + myPassword;
 
         String result = getFromDatabase(url);
 
@@ -58,9 +75,9 @@ public class Player {
 
     public void updateUserScore(boolean didWin) throws IOException {
         if(didWin){
-            String result = getFromDatabase("http://localhost:3001/addScore?id=" + myUsername);
+            String result = getFromDatabase("https://cs307.herokuapp.com/addScore?id=" + myUsername);
         }else{
-            String result = getFromDatabase("http://localhost:3001/subtractScore?id=" + myUsername);
+            String result = getFromDatabase("https://cs307.herokuapp.com/subtractScore?id=" + myUsername);
         }
     }
 
@@ -79,7 +96,7 @@ public class Player {
     }
 
     public String getUserScore() throws IOException {
-        String result = getFromDatabase("http://localhost:3001/getUserScore?id=" + myUsername);
+        String result = getFromDatabase("https://cs307.herokuapp.com/getUserScore?id=" + myUsername);
 
         return result;
     }
