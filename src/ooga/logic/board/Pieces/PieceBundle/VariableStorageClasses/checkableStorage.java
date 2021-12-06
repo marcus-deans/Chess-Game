@@ -3,7 +3,7 @@ package ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class checkableStorage extends Storage {
+public class checkableStorage extends BooleanStorage {
   private static final String IS_CHECKABLE = "isCheckable";
   private boolean checkable;
 

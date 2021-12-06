@@ -7,7 +7,7 @@ import ooga.logic.board.Pieces.Interfaces.MoveLogic;
 import ooga.logic.board.Pieces.Interfaces.PieceLogic;
 import ooga.logic.board.Pieces.Interfaces.PromoteLogic;
 import ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses.JumpStorage;
-import ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses.Storage;
+import ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses.BooleanStorage;
 import ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses.TeamMattersStorage;
 import ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses.cannibalizeStorage;
 import ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses.checkableStorage;
@@ -43,10 +43,10 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private static final String MOVEMENT = "movement";
   private static final String CAPTURE = "capture";
 
-  private Storage teamMatters;
-  private Storage myJump;
-  private Storage canCannibalize;
-  private Storage checkable;
+  private BooleanStorage teamMatters;
+  private BooleanStorage myJump;
+  private BooleanStorage canCannibalize;
+  private BooleanStorage checkable;
 
 
   public Piece(String pieceToString, int team, Coordinate myCoordinate, Map<String,String> myAttributeMap) {

@@ -3,7 +3,7 @@ package ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class JumpStorage extends Storage {
+public class JumpStorage extends BooleanStorage {
   private static final String JUMP = "jump";
   private boolean canJump;
 

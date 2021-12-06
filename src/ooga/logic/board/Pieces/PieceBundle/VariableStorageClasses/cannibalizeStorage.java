@@ -3,7 +3,7 @@ package ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class cannibalizeStorage extends Storage {
+public class cannibalizeStorage extends BooleanStorage {
   private static final String CANNIBALIZE = "canCannibalize";
   private boolean canCannibalize;
 

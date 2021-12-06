@@ -3,7 +3,7 @@ package ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class TeamMattersStorage extends Storage {
+public class TeamMattersStorage extends BooleanStorage {
   private static final String TEAM_MATTERS = "teamMatters";
   private boolean teamMatters;
 
