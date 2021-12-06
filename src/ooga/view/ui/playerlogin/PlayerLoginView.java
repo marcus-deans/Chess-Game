@@ -42,9 +42,10 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
       PLAYER_LOGIN_VIEW_RESOURCES_FILE_PATH);
   PanelListener myPanelListener;
   Stage myStage;
+  int myPlayerIdentifier;
 
-  public PlayerLoginView() {
-
+  public PlayerLoginView(int playerIdentifier) {
+    myPlayerIdentifier = playerIdentifier;
   }
 
   public static void main(String[] args) {
@@ -251,7 +252,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
         }
 
         try {
-          if (myPanelListener.setNewPlayer(name, email, password, teamValue, colour)){
+          if (myPanelListener.setNewPlayer(myPlayerIdentifier, name, email, password, teamValue, colour)){
             showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(),
                 getWord("login_form_success"), getWord("login_welcome_message") + name);
             myPanelListener.closePlayerLogin(myStage);

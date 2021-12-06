@@ -35,10 +35,11 @@ public class PlayerControlPanel extends SharedUIComponents {
   private Node initializePlayerLoginButton(){
     Button playerLoginButton = makeButton(getWord("player_login_button_prompt"), event -> {
       if(this.getPanelListener() != null){
-        this.getPanelListener().openPlayerLogin();
+        this.getPanelListener().openPlayerLogin(myPlayerButtonIndex);
       }
     });
     myPlayerButtons.add(playerLoginButton);
+    myPlayerButtonIndex++;
     return playerLoginButton;
   }
 
@@ -46,7 +47,7 @@ public class PlayerControlPanel extends SharedUIComponents {
     try {
       Button loggedInPlayerButton = myPlayerButtons.get(playerIndex);
       loggedInPlayerButton.setText(getWord("player_login_button_display"));
-      loggedInPlayerButton.setOnAction(action -> this.getPanelListener().openPlayerProfile(playerIndex);
+      loggedInPlayerButton.setOnAction(action -> this.getPanelListener().openPlayerProfile(playerIndex));
     } catch (Exception e){
       sendAlert(getWord("player_display_error"));
     }

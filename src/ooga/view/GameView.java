@@ -364,14 +364,14 @@ public class GameView extends Application implements PanelListener, GameChessVie
   }
 
   @Override
-  public void openPlayerLogin() {
-    PlayerLoginInterface newPlayerLoginView = new PlayerLoginView();
+  public void openPlayerLogin(int playerIdentifier) {
+    PlayerLoginInterface newPlayerLoginView = new PlayerLoginView(playerIdentifier);
     newPlayerLoginView.setPanelListener(this);
     newPlayerLoginView.start(new Stage());
   }
 
   @Override
-  public boolean setNewPlayer(String username, String email, String password, int team, String colour) throws IOException {
+  public boolean setNewPlayer(int playerIdentifier, String username, String email, String password, int team, String colour) throws IOException {
     return myChessController.setPlayer(username, password, team, colour);
   }
 
