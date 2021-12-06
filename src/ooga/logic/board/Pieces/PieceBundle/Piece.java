@@ -1,12 +1,16 @@
 package ooga.logic.board.Pieces.PieceBundle;
 
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import ooga.logic.board.Pieces.Interfaces.CaptureLogic;
 import ooga.logic.board.Pieces.Interfaces.MoveLogic;
 import ooga.logic.board.Pieces.Interfaces.PieceLogic;
 import ooga.logic.board.Pieces.Interfaces.PromoteLogic;
+import ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses.JumpStorage;
+import ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses.Storage;
+import ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses.TeamMattersStorage;
+import ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses.cannibalizeStorage;
+import ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses.checkableStorage;
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
 import ooga.logic.board.Pieces.PieceCollection.PieceCollection;
 import ooga.logic.board.Pieces.SpotCollection.KingMovement;
@@ -23,8 +27,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private PieceCollection myPromotionOptions;
   private int team;
   private int pieceValue;
-  private boolean isCheckable;
-  private boolean canCannibalize;
 
   private String PieceName;
   private Map<String,String> attributeMap;
@@ -38,13 +40,14 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   private static final String SPOT_COLLECTION_BASE = SpotCollection.class.getPackageName();
   private static final String PROMOTION = "promotion";
-  private static final String IS_CHECKABLE = "isCheckable";
   private static final String MOVEMENT = "movement";
   private static final String CAPTURE = "capture";
-  private static final String CANNIBALIZE = "canCannibalize";
 
-  private TeamMattersStorage teamMatters;
-  private JumpStorage myJump;
+  private Storage teamMatters;
+  private Storage myJump;
+  private Storage canCannibalize;
+  private Storage checkable;
+
 
   public Piece(String pieceToString, int team, Coordinate myCoordinate, Map<String,String> myAttributeMap) {
     setPieceName(pieceToString);
@@ -54,10 +57,11 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     setDefaultProperties();
     setTeam(team);
     teamMatters = new TeamMattersStorage(attributeMap,PieceProperties,DefaultProperties);
+    myJump = new JumpStorage(attributeMap,PieceProperties,DefaultProperties);
+    canCannibalize = new cannibalizeStorage(attributeMap,PieceProperties,DefaultProperties);
+    checkable= new checkableStorage(attributeMap,PieceProperties,DefaultProperties);
     setCoordinate(myCoordinate);
-    setCannibalize();
     setPromotionSpots();
-    setMyCheckable();
 
     setMovement(pieceToString);
     setCapture(pieceToString);
@@ -109,29 +113,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   }
 
 
-
-
-
-  private void setCannibalize() {
-    try{
-      setCanCannibalize(Boolean.parseBoolean(getPieceProperties().getString(CANNIBALIZE)));
-    }
-    catch (Exception e){
-      setCanCannibalize(Boolean.parseBoolean(getDefaultProperties().getString(CANNIBALIZE)));
-    }
-  }
-
-  @Override
-  public void setCanCannibalize(boolean cannibalize) {
-    canCannibalize = cannibalize;
-  }
-
-  @Override
-  public boolean canCannibalize() {
-    return canCannibalize;
-  }
-
-
   protected void setPromotionSpots(){
     if (PieceProperties.containsKey(PROMOTION)){
       setMyPromotionSpots(new LastRankSpots(new DefaultPromotionPieces()));
@@ -150,27 +131,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 //  protected void setMyPromotionPieces(PieceCollection myPieceCollection) {
 //    myPromotionOptions = myPieceCollection;
 //  }
-
-
-  private void setMyCheckable() {
-    try{
-      setCheckable(Boolean.parseBoolean(getPieceProperties().getString(IS_CHECKABLE)));
-    }
-    catch (Exception e){
-      setCheckable(Boolean.parseBoolean(getDefaultProperties().getString(IS_CHECKABLE)));
-    }
-  }
-
-  @Override
-  public void setCheckable(boolean checkable) {
-    this.isCheckable = checkable;
-  }
-
-  @Override
-  public boolean getCheckable() {
-    return isCheckable;
-  }
-
 
 
   @Override
@@ -295,6 +255,19 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
       e.printStackTrace();
     }
   }
+
+
+  @Override
+  public void setCheckable(boolean checkable) {
+
+  }
+
+  @Override
+  public boolean getCheckable() {
+    return checkable.getValue();
+  }
+
+
 
 
   private String capitalizeFirst(String toBeCapitalized){

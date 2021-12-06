@@ -28,9 +28,9 @@ public interface PieceLogic {
 
     boolean getCheckable();
 
-    void setCanCannibalize(boolean cannibalize);
-
-    boolean canCannibalize();
+//    void setCanCannibalize(boolean cannibalize);
+//
+//    boolean canCannibalize();
 
 
 }

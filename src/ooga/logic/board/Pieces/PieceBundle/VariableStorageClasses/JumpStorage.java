@@ -1,9 +1,9 @@
-package ooga.logic.board.Pieces.PieceBundle;
+package ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses;
 
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class JumpStorage {
+public class JumpStorage extends Storage {
   private static final String JUMP = "jump";
   private boolean canJump;
 
@@ -14,7 +14,12 @@ public class JumpStorage {
 
   private void setJump(Map<String, String> attributeMap, ResourceBundle pieceProperties, ResourceBundle defaultProperties) {
     try{
-      setCanJump(Boolean.parseBoolean(pieceProperties.getString(JUMP)));
+      if (attributeMap.containsKey(JUMP)){
+        setCanJump(Boolean.parseBoolean(attributeMap.get(JUMP)));
+      }
+      else{
+        setCanJump(Boolean.parseBoolean(pieceProperties.getString(JUMP)));
+      }
     }
     catch (Exception e){
       setCanJump(Boolean.parseBoolean(defaultProperties.getString(JUMP)));
@@ -25,7 +30,7 @@ public class JumpStorage {
     canJump = newJump;
   }
 
-  //@Override
+  @Override
   public boolean getValue() {
     return canJump;
   }

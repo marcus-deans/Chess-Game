@@ -1,9 +1,9 @@
-package ooga.logic.board.Pieces.PieceBundle;
+package ooga.logic.board.Pieces.PieceBundle.VariableStorageClasses;
 
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class TeamMattersStorage {
+public class TeamMattersStorage extends Storage {
   private static final String TEAM_MATTERS = "teamMatters";
   private boolean teamMatters;
 
@@ -29,6 +29,7 @@ public class TeamMattersStorage {
     teamMatters = value;
   }
 
+  @Override
   public boolean getValue() {
     return teamMatters;
   }
