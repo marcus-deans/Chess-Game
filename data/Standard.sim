@@ -2,6 +2,8 @@ Type=Standard
 Title=Standard Chess
 Author=Carter Stonesifer
 
+Description=Good Ol'fashioned Game of Chess
+
 GameTimer=0
 
 GameConfiguration=data/Standard.csv

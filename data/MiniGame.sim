@@ -2,6 +2,8 @@ Type=MiniGame
 Title=Tiny Chess
 Author=Carter Stonesifer
 
+Description=Ain't got the time?
+
 GameTimer=0
 
 GameConfiguration=data/MiniGame.csv
