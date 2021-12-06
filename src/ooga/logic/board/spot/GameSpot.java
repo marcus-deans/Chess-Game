@@ -55,6 +55,8 @@ public class GameSpot implements Spot{
         return typeOfSpot;
     }
 
+    public boolean getColor(){return color;}
+
     public void setTypeOfSpot(int typeOfSpot) {
         this.typeOfSpot = typeOfSpot;
     }
