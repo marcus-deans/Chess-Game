@@ -149,8 +149,8 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     //Add Team Label
     Label teamLabel = makeLabel(getWord("team_label_text"));
     gridPane.add(teamLabel, 0, 4);
-    Label selectionLabel = makeLabel(getWord("team_field_error"));
-    gridPane.add(selectionLabel, 1, 5);
+    Label teamSelectionLabel = makeLabel(getWord("team_field_error"));
+    gridPane.add(teamSelectionLabel, 1, 5);
 
     //Add Team Field
     ToggleGroup teamRadioGroup = new ToggleGroup();
@@ -171,7 +171,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
 
         if (selectedRadioButton != null){
           teamSelected[0] = selectedRadioButton.getText();
-          selectionLabel.setText(String.format("%s %s", teamSelected[0], getWord("selectedTeamWording")));
+          teamSelectionLabel.setText(String.format("%s %s", teamSelected[0], getWord("selectedWording")));
         }
 
       }
@@ -179,8 +179,20 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     gridPane.add(radioButtonBox, 1, 4);
 //    gridPane.add(teamTwoRadioButton, 2, 4);
 
-    ColorPicker colorPicker = new ColorPicker(Color.web(getString("default_color_selection")));
 
+    Label colorLabel = makeLabel(getWord("color_label_text"));
+    gridPane.add(teamLabel, 0, 5);
+    Label colorSelectionLabel = makeLabel(getWord("color_field_error"));
+    gridPane.add(teamSelectionLabel, 1, 6);
+    ColorPicker colorPicker = new ColorPicker(Color.web(getString("default_color_selection")));
+    colorPicker.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        Color selectedColor = colorPicker.getValue();
+        colorSelectionLabel.setText(String.format("R:%s | G:%s | B:%s %s", selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue(), getWord("selectedWording")));
+        colorSelectionLabel.setTextFill(selectedColor);
+      }
+    });
 
 
     // Add Submit Button
