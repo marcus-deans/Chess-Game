@@ -23,7 +23,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private PieceCollection myPromotionOptions;
   private int team;
   private int pieceValue;
-  private boolean canJump;
   private boolean isCheckable;
   private boolean canCannibalize;
 
@@ -38,15 +37,14 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private static final String EMPTY = "";
 
   private static final String SPOT_COLLECTION_BASE = SpotCollection.class.getPackageName();
-  private static final String TEAM_MATTERS = "teamMatters";
   private static final String PROMOTION = "promotion";
-  private static final String JUMP = "jump";
   private static final String IS_CHECKABLE = "isCheckable";
   private static final String MOVEMENT = "movement";
   private static final String CAPTURE = "capture";
   private static final String CANNIBALIZE = "canCannibalize";
 
-  private boolean teamMatters;
+  private TeamMattersStorage teamMatters;
+  private JumpStorage myJump;
 
   public Piece(String pieceToString, int team, Coordinate myCoordinate, Map<String,String> myAttributeMap) {
     setPieceName(pieceToString);
@@ -55,9 +53,8 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     setPieceProperties(pieceToString);
     setDefaultProperties();
     setTeam(team);
-    setMyTeamMatters();
+    teamMatters = new TeamMattersStorage(attributeMap,PieceProperties,DefaultProperties);
     setCoordinate(myCoordinate);
-    setJump();
     setCannibalize();
     setPromotionSpots();
     setMyCheckable();
@@ -101,20 +98,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
 
 
-  private void setMyTeamMatters() {
-    try{
-      setTeamMatters(Boolean.parseBoolean(getPieceProperties().getString(TEAM_MATTERS)));
-    }
-    catch (Exception e){
-      setTeamMatters(Boolean.parseBoolean(getDefaultProperties().getString(TEAM_MATTERS)));
-    }
-  }
-
-  private void setTeamMatters(boolean value){
-    teamMatters = value;
-  }
-
-
   @Override
   public Coordinate getCoordinate(){
     return myCoordinate;
@@ -127,21 +110,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
 
 
-
-
-  private void setJump() {
-    try{
-      setCanJump(Boolean.parseBoolean(getPieceProperties().getString(JUMP)));
-    }
-    catch (Exception e){
-      setCanJump(Boolean.parseBoolean(getDefaultProperties().getString(JUMP)));
-    }
-  }
-
-  @Override
-  public void setCanJump(boolean newJump) {
-    canJump = newJump;
-  }
 
 
   private void setCannibalize() {
@@ -260,7 +228,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   @Override
   public boolean getCanJump() {
-    return this.canJump;
+    return myJump.getValue();
   }
 
   private void setMovement(String pieceToString) {
@@ -279,7 +247,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   }
 
   private String getTeamIfNecessary(){
-    if(teamMatters){
+    if(teamMatters.getValue()){
       return getTeam() + EMPTY;
     }
     return EMPTY;
