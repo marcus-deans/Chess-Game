@@ -19,8 +19,8 @@ public class BoardTest {
         String[][] a={{"K1","K2"}};
         Board b=new GameBoard(1,2, new HashMap<>());
         Map<String,String> myMap = new HashMap<>();
-        b.setupBoard("K1",0,0);
-        b.setupBoard("K2",0,1);
+        b.setupBoard("K10",0,0);
+        b.setupBoard("K20",0,1);
         List<Spot> c=b.getFullBoard();
         Spot s1=new GameSpot(new King(1,0,0),0,0,0,true);
         Spot s2=new GameSpot(new King(1,1,0),1,0,0,false);
@@ -29,7 +29,7 @@ public class BoardTest {
 
     @Test
     public void hasPiece() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        String[][] a={{"K1","K2"}};
+        String[][] a={{"K10","K20"}};
         Board b=new GameBoard(1,2, new HashMap<>());
         b.setupBoard(a[0][1],0,1);
         b.setupBoard(a[0][0],0,0);
@@ -38,14 +38,14 @@ public class BoardTest {
 
     @Test
     public void hasNoPiece() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        Board b=new GameBoard(1,2);
+        Board b=new GameBoard(1,2,new HashMap<>());
         b.setupBoard("E00",0,0);
         Assertions.assertFalse(((GameBoard) b).hasPiece(new GameCoordinate(0,0)));
     }
 
     @Test
     public void newSpotContainsPiece() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        Board b=new GameBoard(2,2);
+        Board b=new GameBoard(2,2,new HashMap<>());
         b.setupBoard("K10",0,0);
         b.setupBoard("E00",0,1);
         b.setupBoard("E00",1,0);
@@ -56,7 +56,7 @@ public class BoardTest {
 
     @Test
     public void portalSpotHasNoPiece() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        Board b=new GameBoard(2,2);
+        Board b=new GameBoard(2,2,new HashMap<>());
         b.setupBoard("K10",0,0);
         ((GameBoard) b).getSpot(new GameCoordinate(0,0)).setPiece(null);
         b.setupBoard("E00",0,1);
@@ -68,7 +68,7 @@ public class BoardTest {
 
     @Test
     public void portalSpotMoved() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        Board b=new GameBoard(2,2);
+        Board b=new GameBoard(2,2,new HashMap<>());
         b.setupBoard("K10",0,0);
         ((GameBoard) b).getSpot(new GameCoordinate(0,0)).setPiece(null);
         b.setupBoard("E00",0,1);
@@ -80,7 +80,7 @@ public class BoardTest {
 
     @Test
     public void reset() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        Board b=new GameBoard(2,2);
+        Board b=new GameBoard(2,2,new HashMap<>());
         b.setupBoard("K10",0,0);
         //((GameBoard) b).getSpot(new GameCoordinate(0,0)).setPiece(null);
         b.setupBoard("E00",0,1);
@@ -93,7 +93,7 @@ public class BoardTest {
     }
     @Test
     public void atomicTest() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        Board b=new GameBoard(4,3);
+        Board b=new GameBoard(4,3,new HashMap<>());
         b.setupBoard("Q20",0,0);
         b.setupBoard("Q20",0,1);
         b.setupBoard("Q20",0,2);
