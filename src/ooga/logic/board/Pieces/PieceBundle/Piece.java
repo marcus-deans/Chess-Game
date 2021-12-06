@@ -6,14 +6,8 @@ import ooga.logic.board.Pieces.Interfaces.CaptureLogic;
 import ooga.logic.board.Pieces.Interfaces.MoveLogic;
 import ooga.logic.board.Pieces.Interfaces.PieceLogic;
 import ooga.logic.board.Pieces.Interfaces.PromoteLogic;
-import ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses.JumpStorage;
-import ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses.BooleanStorage;
-import ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses.TeamMattersStorage;
-import ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses.cannibalizeStorage;
-import ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses.checkableStorage;
-import ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses.SpotCollectionStorage;
-import ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses.captureStorage;
-import ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses.movementStorage;
+import ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses.*;
+import ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses.*;
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
 import ooga.logic.board.Pieces.PieceCollection.PieceCollection;
 import ooga.logic.board.Pieces.SpotCollection.KingMovement;
@@ -39,9 +33,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private static final String DEFAULT_TO_STRING = "Default";
   private static final String EMPTY = "";
 
-  private static final String SPOT_COLLECTION_BASE = SpotCollection.class.getPackageName();
   private static final String PROMOTION = "promotion";
-  private static final String MOVEMENT = "movement";
 
   private BooleanStorage teamMatters;
   private BooleanStorage myJump;
