@@ -31,6 +31,8 @@ import ooga.view.ui.controlpanel.ControlPanel;
 import ooga.view.ui.gameplaypanel.GameplayPanel;
 import ooga.view.ui.playerlogin.PlayerLoginInterface;
 import ooga.view.ui.playerlogin.PlayerLoginView;
+import ooga.view.ui.playerprofile.PlayerProfileInterface;
+import ooga.view.ui.playerprofile.PlayerProfileView;
 
 
 /**
@@ -376,6 +378,13 @@ public class GameView extends Application implements PanelListener, GameChessVie
   @Override
   public void closePlayerLogin(Stage stage) {
     stage.close();
+  }
+
+  @Override
+  public void openPlayerProfile() {
+    PlayerProfileInterface newPlayerProfileView = new PlayerProfileView();
+    newPlayerProfileView.setPanelListener(this);
+    newPlayerProfileView.start(new Stage());
   }
 
   /**
