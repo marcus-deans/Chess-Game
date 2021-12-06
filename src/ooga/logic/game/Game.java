@@ -170,15 +170,18 @@ public class Game {
         for (List<Coordinate> eachLine: possibleCapturePositions) {
             for (Coordinate individualCoord : eachLine) {
                 Piece tempPiece = myBoard.getSpot(individualCoord).getPiece();
+                // not an empty square
                 if (tempPiece == null){
                     continue;
                 }
 
+                //can cannibalize or opponent; eat and stop
                 if (myPiece.canCannibalize() || (getTeam(tempPiece) != getTeam(myPiece))){
                     listToPopulate.add(individualCoord);
                     break;
                 }
 
+                // me and can jump
                 if (getCanJump(myPiece)){
                     continue;
                 }
@@ -207,14 +210,20 @@ public class Game {
         for (List<Coordinate> eachLine: possibleMovePositions) {
             for (Coordinate individualCoord : eachLine) {
                 Piece tempPiece = myBoard.getSpot(individualCoord).getPiece();
+
+                // empty piece: CAN MOVE HERE
                 if (tempPiece == null){
                     listToPopulate.add(individualCoord);
                     continue;
                 }
+
+                // can't jump? break
                 if (!getCanJump(myPiece)){
                     break;
                 }
-                if (getTeam(tempPiece) != getTeam(myPiece)){
+
+                // can jump and different piece
+                if (getTeam(tempPiece) == getTeam(myPiece)){
                     continue;
                 }
                 break;

@@ -70,7 +70,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
         attributeMap.put(attrKey,keyValue);
       }
     }
-
   }
 
   private void setPieceName(String pieceToString){
