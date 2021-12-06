@@ -183,10 +183,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   }
 
   private String getTeamIfNecessary(){
-    if(teamMatters.getValue()){
-      return getTeam() + EMPTY;
-    }
-    return EMPTY;
+    return (teamMatters.getValue()) ? getTeam() + EMPTY : EMPTY;
 
   }
 
