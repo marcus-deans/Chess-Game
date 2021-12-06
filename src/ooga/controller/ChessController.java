@@ -71,7 +71,7 @@ public class ChessController implements Controller {
      */
     public ChessController(int width, int height, String background, String filename) {
         myGameView = new GameView(width, height, 8, 8, background, filename, this);
-        myGame = new Game(height, width);
+        myGame = new Game(height, width, new HashMap<>());
         myGameView.start(new Stage());
 
         myTempHashMap = new HashMap<>();
@@ -105,7 +105,8 @@ public class ChessController implements Controller {
         myCSVParser.readCSVFile(csvFile);
         BOARDWIDTH = myCSVParser.getDimensions()[0];
         BOARDHEIGHT = myCSVParser.getDimensions()[1];
-        myGame = new Game(BOARDHEIGHT, BOARDWIDTH);
+        Map<String,String> myHashMap = new HashMap<>();
+        myGame = new Game(BOARDHEIGHT, BOARDWIDTH,myHashMap);
         myGame.setGameType(myData.get("Type"));
         if (myData.get("Type").equals("Puzzles")) {myGame.setPuzzleSolution(puzzleMap.getString(puzzleName));}
         myGame.setEdgePolicy(myData.get("EdgePolicy"));

@@ -42,19 +42,21 @@ public class GameBoard implements Board {
     private String spotActionName;
     private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private boolean isAtomic;
+    private Map<String,String> myRules;
 
 
-    public GameBoard(int rows, int columns)
+    public GameBoard(int rows, int columns, Map<String,String> overridingRules)
     {
         board=new ArrayList<>();
         initialBoard=new ArrayList<>();
         this.rows=rows;
         this.columns=columns;
+        this.myRules = overridingRules;
         resourceMap=ResourceBundle.getBundle(PIECES_PACKAGE+GAMEBOARD_MAP);
     }
 
     @Override
-    public void setupBoard(String spot, int i, int j, Map<String, String> overriddenRules) {
+    public void setupBoard(String spot, int i, int j) {
 
             pieceName=PIECE_PATH+resourceMap.getString(spot.substring(0,1));
             Class[] params={int.class,int.class,int.class,Map.class};
@@ -63,7 +65,7 @@ public class GameBoard implements Board {
             Piece p;
             try
             {
-                p=(Piece) Class.forName(pieceName).getDeclaredConstructor(params).newInstance(j,i,team,overriddenRules);
+                p=(Piece) Class.forName(pieceName).getDeclaredConstructor(params).newInstance(j,i,team,myRules);
             }
             catch(Exception e)
             {

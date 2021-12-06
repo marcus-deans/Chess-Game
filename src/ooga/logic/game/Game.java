@@ -31,8 +31,8 @@ public class Game {
     private String gameType;
     private boolean isAtomic=false;
 
-    public Game(int height, int width){
-        myBoard = new GameBoard(height, width);
+    public Game(int height, int width, Map<String,String> myMap){
+        myBoard = new GameBoard(height, width, myMap);
     }
 
     public void setEdgePolicy(String s){
@@ -51,7 +51,7 @@ public class Game {
     public void setupBoard(String spot, int i, int j){
         try {
 
-            myBoard.setupBoard(spot, i, j, new HashMap<>());
+            myBoard.setupBoard(spot, i, j);
         } catch (Exception e){
 
         }
