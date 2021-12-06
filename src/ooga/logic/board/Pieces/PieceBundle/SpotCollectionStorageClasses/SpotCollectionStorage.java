@@ -2,6 +2,7 @@ package ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses;
 
 import java.util.Map;
 import java.util.ResourceBundle;
+import ooga.logic.board.Pieces.SpotCollection.NoMovement;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 
 abstract public class SpotCollectionStorage {
@@ -34,7 +35,6 @@ abstract public class SpotCollectionStorage {
                 String.format("%s.%s",SPOT_COLLECTION_BASE ,pieceProperties.
                     getString(
                         String.format("%s%s",getMySpotType(),teamMatters)
-                        //MOVEMENT OR CAPTURE
                     ))).getConstructor().newInstance()
         );
       }
@@ -46,8 +46,21 @@ abstract public class SpotCollectionStorage {
 
   protected abstract String getMySpotType();
 
-
   private void setDefaultBundle(String pieceToString) {
+    try{
+      setMySpotCollection(
+          (SpotCollection) Class.forName(
+              String.format("%s.%s%s",SPOT_COLLECTION_BASE,pieceToString,capitalizeFirst(getMySpotType()))
+          ).getConstructor().newInstance()
+      );
+
+    }
+    catch(Exception e){
+      movementOrNone(pieceToString);
+    }
+  }
+
+  private void movementOrNone(String pieceToString) {
     try{
       setMySpotCollection(
           (SpotCollection) Class.forName(
@@ -57,11 +70,9 @@ abstract public class SpotCollectionStorage {
 
     }
     catch(Exception e){
-      e.printStackTrace();
+      setMySpotCollection(new NoMovement());
     }
   }
-
-
 
   private void setMySpotCollection(SpotCollection myNewSpotCollection){
     mySpotCollection = myNewSpotCollection;

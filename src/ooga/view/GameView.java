@@ -81,6 +81,7 @@ public class GameView extends Application implements PanelListener, GameChessVie
   private Node myVisualInformationPanel;
   private InformationPanel myInformationPanel;
   private GameplayPanel myGameplayPanel;
+  private ControlPanel myControlPanel;
 
   //Gameplay Panel on Left Side of Screen
   private int gameplayPanelX;
@@ -196,15 +197,6 @@ public class GameView extends Application implements PanelListener, GameChessVie
     myGameParameters[0] = "None";
     myType = "GameOfLife";
     myGridColours = defaultGridColours.getString("GameOfLife").split(",");
-
-//    catch (IncorrectSimFormatException e) {
-//      sendAlert(e.getMessage());
-//    } catch (IncorrectCSVFormatException e) {
-//      sendAlert(e.getMessage());
-//    }
-//    catch (ReflectionException e) {
-//      sendAlert("InternalError Cannot Make Object");
-//    }
   }
 
   /**
@@ -281,9 +273,9 @@ public class GameView extends Application implements PanelListener, GameChessVie
 
   //create control panel on right of screen to control view, animation/gameplay, and loading/saving
   private Node createControlPanel() {
-    ControlPanel newControlPanel = new ControlPanel(controlPanelX, myAnimation);
-    newControlPanel.setPanelListener(this);
-    return newControlPanel.createControlPanel();
+    myControlPanel = new ControlPanel(controlPanelX, myAnimation);
+    myControlPanel.setPanelListener(this);
+    return myControlPanel.createControlPanel();
   }
 
   //create gameplay panel on left of screen to control variant, move history, and dead pieces
