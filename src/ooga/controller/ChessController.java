@@ -1,6 +1,5 @@
 package ooga.controller;
 
-import com.opencsv.exceptions.CsvValidationException;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -70,7 +69,7 @@ public class ChessController implements Controller {
    * @param background
    * @param filename
    */
-  public ChessController(int width, int height, String background, String filename) {
+  public ChessController(int width, int height, String background, String filename) throws IOException {
     myGameView = new GameView(width, height, 8, 8, background, filename, this);
     myGame = new Game(height, width);
     myGameView.start(new Stage());
@@ -85,7 +84,6 @@ public class ChessController implements Controller {
    * classes with the required data
    *
    * @param file
-   * @throws CsvValidationException
    * @throws IOException
    * @throws ClassNotFoundException
    * @throws InvocationTargetException
@@ -96,7 +94,7 @@ public class ChessController implements Controller {
    */
   @Override
   public void initializeFromFile(File file)
-      throws CsvValidationException, IOException, ClassNotFoundException,
+      throws IOException, ClassNotFoundException,
       InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IncorrectCSVFormatException {
 
     File simFile = new File(file.toString());
@@ -166,15 +164,15 @@ public class ChessController implements Controller {
   }
 
   @Override
-  public void setPlayer(String userName, String password, int team, String color) {
-    Player addPlayer = new Player(userName, team);
+  public void setPlayer(String userName, String password, int team, String color) throws IOException {
+    Player addPlayer = new Player(userName, password, team);
     thePlayers.add(addPlayer);
   }
 
   @Deprecated
   public void setPlayer(String userName, int team) {
-    Player addPlayer = new Player(userName, team);
-    thePlayers.add(addPlayer);
+    //Player addPlayer = new Player(userName, team);
+    //thePlayers.add(addPlayer);
   }
 
   /**
