@@ -2,6 +2,7 @@ package ooga;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -61,7 +62,11 @@ public class Main extends Application {
         HBox menuButtonPanel = new HBox();
 
         Button newGameButton = makeButton(getString("newGameButtonText"), value -> {
-            startNewGame("Standard.sim");
+            try {
+                startNewGame("Standard.sim");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
 
         // Create a button to load new files
@@ -69,7 +74,11 @@ public class Main extends Application {
             File selectedSIMFile = makeFileChooser("SIM files (*.sim)", "*.sim");
             if(selectedSIMFile != null) {
                 String filename = selectedSIMFile.getAbsolutePath();
-                startNewGame(filename);
+                try {
+                    startNewGame(filename);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -91,7 +100,7 @@ public class Main extends Application {
     }
 
     //create a new game animation based on the default app file provided
-    private void startNewGame(String appFileName) {
+    private void startNewGame(String appFileName) throws IOException {
         Controller newGame = new ChessController(getInt("frameWidth"), getInt("frameHeight"),
             getString("backgroundColor"), appFileName);
 //        newGameView.start(new Stage());

@@ -57,8 +57,7 @@ public class GameBoard implements Board {
 
     @Override
     public void setupBoard(String spot, int i, int j) {
-
-            pieceName=PIECE_PATH+resourceMap.getString(spot.substring(0,1));
+         pieceName=PIECE_PATH+resourceMap.getString(spot.substring(0,1));
             Class[] params={int.class,int.class,int.class,Map.class};
             team=Integer.parseInt(spot.substring(1,2));
             int type=Integer.parseInt(spot.substring(2,3));
@@ -71,6 +70,7 @@ public class GameBoard implements Board {
             {
                 p=null;
             }
+
 
             initialBoard.add(new GameSpot(p,j,i,type,(i+j)%2==0));
             board=initialBoard;

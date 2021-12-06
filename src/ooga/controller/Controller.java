@@ -36,5 +36,7 @@ public interface Controller {
     @Deprecated
     public void setPlayer(String userName, int team);
 
-    public void setPlayer(String userName, String password, int team, String color);
+    public void setPlayer(String userName, String password, int team, String color) throws IOException;
+
+    public void acceptCheatCode(String identifier);
   }

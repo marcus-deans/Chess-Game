@@ -62,12 +62,13 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private void setMyAttributeMap(Map<String, String> myAttributeMap){
     attributeMap = new HashMap<>();
     for (String myType : myAttributeMap.keySet()){
-      if (myType.equals(PieceName)){
+      int locationOfLine= myType.indexOf("|");
+      String type = myType.substring(0,locationOfLine);
+      String attrKey =  myType.substring(locationOfLine + 1);
+      if (type.equals(PieceName)){
         String result = myAttributeMap.get(myType);
-        int locationOfColon = result.indexOf(":");
-        String attrKey= result.substring(0,locationOfColon);
-        String keyValue = result.substring(locationOfColon + 1);
-        attributeMap.put(attrKey,keyValue);
+        attributeMap.put(attrKey,result);
+        System.out.println(attrKey + " " + result);
       }
     }
   }
