@@ -26,7 +26,7 @@ class BishopTest {
 
   @Test
   void setMyMovement() {
-    myPiece.setMyMovement(new KnightMovement());
+//    myPiece.setMyMovement(new KnightMovement());
     myCoord.setCoordinate(2,4);
     assertFalse(myPiece.getPossibleMoves().getPossibleSpots(myPiece.getCoordinate()).contains(myCoord));
     myCoord.setCoordinate(1,4);
@@ -35,7 +35,7 @@ class BishopTest {
 
   @Test
   void setMyCapture() {
-    myPiece.setMyCapture(new KnightMovement());
+//    myPiece.setMyCapture(new KnightMovement());
     myCoord.setCoordinate(2,4);
     assertFalse(myPiece.getPossibleCaptures().getPossibleSpots(myPiece.getCoordinate()).contains(myCoord));
     myCoord.setCoordinate(1,4);

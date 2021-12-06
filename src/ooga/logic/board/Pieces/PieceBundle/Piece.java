@@ -11,6 +11,9 @@ import ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses.BooleanStorage;
 import ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses.TeamMattersStorage;
 import ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses.cannibalizeStorage;
 import ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses.checkableStorage;
+import ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses.SpotCollectionStorage;
+import ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses.captureStorage;
+import ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses.movementStorage;
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
 import ooga.logic.board.Pieces.PieceCollection.PieceCollection;
 import ooga.logic.board.Pieces.SpotCollection.KingMovement;
@@ -20,8 +23,6 @@ import ooga.logic.board.coordinate.Coordinate;
 
 abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, PromoteLogic{
   private Coordinate myCoordinate;
-  private SpotCollection myMovement;
-  private SpotCollection myCapture;
   private SpotCollection areaOfEffect;
   private SpotCollection myPromotionSpots;
   private PieceCollection myPromotionOptions;
@@ -41,12 +42,13 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private static final String SPOT_COLLECTION_BASE = SpotCollection.class.getPackageName();
   private static final String PROMOTION = "promotion";
   private static final String MOVEMENT = "movement";
-  private static final String CAPTURE = "capture";
 
   private BooleanStorage teamMatters;
   private BooleanStorage myJump;
   private BooleanStorage canCannibalize;
   private BooleanStorage checkable;
+  private SpotCollectionStorage myCaptureStorage;
+  private SpotCollectionStorage myMovementStorage;
 
 
   public Piece(String pieceToString, int team, Coordinate myCoordinate, Map<String,String> myAttributeMap) {
@@ -60,11 +62,11 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     myJump = new JumpStorage(attributeMap,PieceProperties,DefaultProperties);
     canCannibalize = new cannibalizeStorage(attributeMap,PieceProperties,DefaultProperties);
     checkable= new checkableStorage(attributeMap,PieceProperties,DefaultProperties);
+    myCaptureStorage = new captureStorage(pieceToString, attributeMap,PieceProperties,DefaultProperties,getTeamIfNecessary());
+    myMovementStorage = new movementStorage(pieceToString, attributeMap,PieceProperties,DefaultProperties,getTeamIfNecessary());
     setCoordinate(myCoordinate);
     setPromotionSpots();
 
-    setMovement(pieceToString);
-    setCapture(pieceToString);
   }
 
   private void setMyAttributeMap(Map<String, String> myAttributeMap){
@@ -147,21 +149,18 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   @Override
   public SpotCollection getPossibleCaptures() {
-    return myCapture;
+    return myCaptureStorage.getSpotCollection();
   }
 
   @Override
   public SpotCollection getPossibleMoves() {
-    return myMovement;
+    return myMovementStorage.getSpotCollection();
   }
 
-  protected void setMyMovement(SpotCollection movementToSet){
-    myMovement = movementToSet;
-  }
+//  protected void setMyMovement(SpotCollection movementToSet){
+//    myMovement = movementToSet;
+//  }
 
-  protected void setMyCapture(SpotCollection captureToSet){
-    myCapture = captureToSet;
-  }
 
 
 
@@ -191,69 +190,12 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     return myJump.getValue();
   }
 
-  private void setMovement(String pieceToString) {
-    try{
-      setMyMovement(
-          (SpotCollection) Class.forName(
-              String.format("%s.%s",SPOT_COLLECTION_BASE,getPieceProperties().
-                  getString(String.format("%s%s",MOVEMENT,getTeamIfNecessary())))).getConstructor().newInstance()
-      );
-
-
-    }
-    catch (Exception e){
-      setDefaultMovement(pieceToString);
-    }
-  }
-
   private String getTeamIfNecessary(){
     if(teamMatters.getValue()){
       return getTeam() + EMPTY;
     }
     return EMPTY;
 
-  }
-
-  private void setDefaultMovement(String pieceToString) {
-    try{
-      setMyMovement(
-          (SpotCollection) Class.forName(
-              String.format("%s%s",pieceToString,capitalizeFirst(MOVEMENT))
-          ).getConstructor().newInstance()
-      );
-
-    }
-    catch(Exception e){
-      e.printStackTrace();
-    }
-  }
-
-
-  private void setCapture(String pieceToString) {
-    try{
-      setMyCapture(
-          (SpotCollection) Class.forName(
-              String.format("%s.%s",SPOT_COLLECTION_BASE ,getPieceProperties().
-                  getString(String.format("%s%s",CAPTURE,getTeamIfNecessary())))).getConstructor().newInstance()
-      );
-    }
-    catch (Exception e){
-      setDefaultCapture(pieceToString);
-    }
-  }
-
-  private void setDefaultCapture(String pieceToString) {
-    try{
-      setMyCapture(
-          (SpotCollection) Class.forName(
-              String.format("%s.%s%s",SPOT_COLLECTION_BASE,pieceToString,capitalizeFirst(MOVEMENT))
-          ).getConstructor().newInstance()
-      );
-
-    }
-    catch(Exception e){
-      e.printStackTrace();
-    }
   }
 
 
@@ -266,9 +208,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   public boolean getCheckable() {
     return checkable.getValue();
   }
-
-
-
 
   private String capitalizeFirst(String toBeCapitalized){
     return toBeCapitalized.substring(0, 1).toUpperCase() + toBeCapitalized.substring(1);
