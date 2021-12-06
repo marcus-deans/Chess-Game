@@ -8,8 +8,11 @@ GameConfiguration=data/Standard.csv
 
 Portal=False
 BlackHole=False
-EdgePolicy=Toroidal
+EdgePolicy=Basic
 
 PiecesImageDirectory=Standard
 
 //more to come, but the game configuration will all be defined here
+^Rook=canCannibalize:true
+^Bishop=jump:true
+^Knight=capture:kingMovement

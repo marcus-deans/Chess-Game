@@ -37,6 +37,8 @@ public class ChessController implements Controller {
     private CSVParser myCSVParser = new CSVParser();
     private SIMParser mySIMParser = new SIMParser();
 
+    private Map<String, String> myRulesMap;
+
     private Game myGame;
 
     private boolean FIRSTCLICK = true;
@@ -70,6 +72,7 @@ public class ChessController implements Controller {
      * @param filename
      */
     public ChessController(int width, int height, String background, String filename) {
+        myRulesMap = new HashMap<>();
         myGameView = new GameView(width, height, 8, 8, background, filename, this);
         myGame = new Game(height, width, new HashMap<>());
         myGameView.start(new Stage());
@@ -96,7 +99,6 @@ public class ChessController implements Controller {
     @Override
     public void initializeFromFile(File file) throws CsvValidationException, IOException, ClassNotFoundException,
             InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IncorrectCSVFormatException {
-
         File simFile = new File(file.toString());
         myData = mySIMParser.readSimFile(simFile);
         File csvFile;
@@ -105,8 +107,8 @@ public class ChessController implements Controller {
         myCSVParser.readCSVFile(csvFile);
         BOARDWIDTH = myCSVParser.getDimensions()[0];
         BOARDHEIGHT = myCSVParser.getDimensions()[1];
-        Map<String,String> myHashMap = new HashMap<>();
-        myGame = new Game(BOARDHEIGHT, BOARDWIDTH,myHashMap);
+        myRulesMap = getRulesFromSim(myData);
+        myGame = new Game(BOARDHEIGHT, BOARDWIDTH,myRulesMap);
         myGame.setGameType(myData.get("Type"));
         if (myData.get("Type").equals("Puzzles")) {myGame.setPuzzleSolution(puzzleMap.getString(puzzleName));}
         myGame.setEdgePolicy(myData.get("EdgePolicy"));
@@ -122,6 +124,16 @@ public class ChessController implements Controller {
         currentPlayer = thePlayers.get(0);
         numPlayers = thePlayers.size();
         myLogger.log(Level.INFO, "Inititalized: "+myData.get("Type") + " gametype");
+    }
+
+    private Map<String, String> getRulesFromSim(Map<String, String> myData) {
+        for (String key : myData.keySet()){
+            if (key.substring(0,1).equals("^")){
+                myRulesMap.put(key.substring(1), myData.get(key));
+            }
+        }
+
+        return myRulesMap;
     }
 
     private File puzzleBuild() {

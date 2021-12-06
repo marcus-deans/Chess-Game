@@ -2,7 +2,6 @@ package ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses;
 
 import java.util.Map;
 import java.util.ResourceBundle;
-import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 
 public class captureStorage extends SpotCollectionStorage {
   private static final String CAPTURE = "capture";

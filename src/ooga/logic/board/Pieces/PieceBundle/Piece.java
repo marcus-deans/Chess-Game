@@ -1,5 +1,6 @@
 package ooga.logic.board.Pieces.PieceBundle;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import ooga.logic.board.Pieces.Interfaces.*;
@@ -59,7 +60,17 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   }
 
   private void setMyAttributeMap(Map<String, String> myAttributeMap){
-    attributeMap = myAttributeMap;
+    attributeMap = new HashMap<>();
+    for (String myType : myAttributeMap.keySet()){
+      if (myType.equals(PieceName)){
+        String result = myAttributeMap.get(myType);
+        int locationOfColon = result.indexOf(":");
+        String attrKey= result.substring(0,locationOfColon);
+        String keyValue = result.substring(locationOfColon + 1);
+        attributeMap.put(attrKey,keyValue);
+      }
+    }
+
   }
 
   private void setPieceName(String pieceToString){
