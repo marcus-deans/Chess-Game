@@ -250,12 +250,12 @@ public class GameView extends Application implements PanelListener, ChessView{
     List<String> cheatCodeIdentifiers = List.of(getString("allCheatCodeIdentifiers").split(","));
     for(String kcIdentifier : cheatCodeIdentifiers){
       String rnIdentifier = getString(kcIdentifier);
-      addCheatCode(KeyCode.getKeyCode(kcIdentifier), rnIdentifier);
+      addCheatCode(new KeyCodeCombination(KeyCode.getKeyCode(kcIdentifier), KeyCombination.ALT_DOWN), rnIdentifier);
     }
   }
 
   private void addCheatCode(KeyCombination kc, String rnIdentifier){
-    Runnable rn = () -> myChessController.
+    Runnable rn = () -> myChessController.acceptCheatCode(rnIdentifier);
     myGameViewScene.getAccelerators().put(kc, rn);
   }
 

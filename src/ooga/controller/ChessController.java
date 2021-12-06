@@ -282,6 +282,7 @@ public class ChessController implements Controller {
   @Override
   public void acceptCheatCode(String identifier){
       //TODO: implement cheat code functionality
+    System.out.println(identifier + " cheat code works");
   }
 
 
