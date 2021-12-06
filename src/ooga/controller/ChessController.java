@@ -13,6 +13,8 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.opencsv.exceptions.CsvValidationException;
 import javafx.stage.Stage;
 import ooga.Parser.CSVParser;
 import ooga.Parser.SIMParser;
@@ -49,7 +51,7 @@ public class ChessController implements Controller {
   private GameCoordinate nextMove;
   private int numTurns;
   private Player currentPlayer;
-  private List<Player> thePlayers;
+  private List<Player> thePlayers = new ArrayList<>();
   private int numPlayers;
   private int turnIterator;
   private ResourceBundle puzzleMap;
@@ -94,8 +96,8 @@ public class ChessController implements Controller {
    */
   @Override
   public void initializeFromFile(File file)
-      throws IOException, ClassNotFoundException,
-      InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IncorrectCSVFormatException {
+          throws IOException, ClassNotFoundException,
+          InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IncorrectCSVFormatException, CsvValidationException {
 
     File simFile = new File(file.toString());
     myData = mySIMParser.readSimFile(simFile);
@@ -117,14 +119,10 @@ public class ChessController implements Controller {
     boardInitializer(myCSVParser.getInitialStates(), myGame);
     boardViewBuild(myGame);
     numTurns = 1;
-    thePlayers = new ArrayList<>();
-    setPlayer("Player1", "Password1", 1, "#012169");
-    setPlayer("Player2", "Password2", 2, "#00539B");
+//    setPlayer("Player1", "Password1", 1, "#012169");
+//    setPlayer("Player2", "Password2", 2, "#00539B");
     history = new Stack<GameCoordinate[]>();
     unwind = new Stack<GameCoordinate[]>();
-
-    currentPlayer = thePlayers.get(0);
-    numPlayers = thePlayers.size();
     myLogger.log(Level.INFO, "Inititalized: " + myData.get("Type") + " gametype");
   }
 
@@ -167,6 +165,10 @@ public class ChessController implements Controller {
   public void setPlayer(String userName, String password, int team, String color) throws IOException {
     Player addPlayer = new Player(userName, password, team);
     thePlayers.add(addPlayer);
+    myLogger.log(Level.INFO, "Welcome: "+ addPlayer.getUsername());
+    currentPlayer = thePlayers.get(0);
+    numPlayers = thePlayers.size();
+
   }
 
   @Deprecated

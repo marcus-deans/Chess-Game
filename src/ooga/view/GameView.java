@@ -439,7 +439,7 @@ public class GameView extends Application implements PanelListener, ChessView{
   }
 
   @Override
-  public void setNewPlayer(String username, String email, String password, int team, String colour) {
+  public void setNewPlayer(String username, String email, String password, int team, String colour) throws IOException {
     myChessController.setPlayer(username, password, team, colour);
   }
 

@@ -32,6 +32,7 @@ import javafx.stage.Window;
 import ooga.util.ResourceRetriever;
 import ooga.view.PanelListener;
 
+import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class PlayerLoginView extends Application implements PlayerLoginInterface {
@@ -251,7 +252,11 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
 
         showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(),
                 getWord("login_form_success"), getWord("login_welcome_message") + name);
-        myPanelListener.setNewPlayer(name, email, password, teamValue, colour);
+        try {
+          myPanelListener.setNewPlayer(name, email, password, teamValue, colour);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
         myPanelListener.closePlayerLogin(myStage);
       }
     });

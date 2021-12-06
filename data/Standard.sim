@@ -8,7 +8,7 @@ GameConfiguration=data/Standard.csv
 
 Portal=False
 BlackHole=False
-EdgePolicy=Toroidal
+EdgePolicy=Basic
 
 PiecesImageDirectory=Standard
 

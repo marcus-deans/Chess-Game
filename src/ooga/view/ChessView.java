@@ -1,6 +1,8 @@
 package ooga.view;
 
 import java.lang.reflect.InvocationTargetException;
+
+import javafx.stage.Stage;
 import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.logic.board.spot.Spot;
 import ooga.logic.game.Game;
@@ -14,6 +16,8 @@ public interface ChessView {
    *  Update the history of past moves
    */
   public void updateHistory(String historyText);
+
+  public void start(Stage primaryStage);
 
   /**
    * Update the graveyard of dead pieces
