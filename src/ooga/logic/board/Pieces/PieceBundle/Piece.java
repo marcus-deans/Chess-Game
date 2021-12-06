@@ -27,6 +27,9 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private boolean isCheckable;
   private boolean canCannibalize;
 
+  private String PieceName;
+  private Map<String,String> attributeMap;
+
   private ResourceBundle PieceProperties;
   private ResourceBundle DefaultProperties;
 
@@ -46,19 +49,57 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private boolean teamMatters;
 
   public Piece(String pieceToString, int team, Coordinate myCoordinate, Map<String,String> myAttributeMap) {
+    setPieceName(pieceToString);
+    setMyAttributeMap(myAttributeMap);
+
     setPieceProperties(pieceToString);
     setDefaultProperties();
-    setMyTeamMatters();
     setTeam(team);
+    setMyTeamMatters();
     setCoordinate(myCoordinate);
     setJump();
     setCannibalize();
-    setMyTeamMatters();
-    setMovement(pieceToString);
-    setCapture(pieceToString);
     setPromotionSpots();
     setMyCheckable();
+
+    setMovement(pieceToString);
+    setCapture(pieceToString);
   }
+
+  private void setMyAttributeMap(Map<String, String> myAttributeMap){
+    attributeMap = myAttributeMap;
+  }
+
+  private void setPieceName(String pieceToString){
+    PieceName = pieceToString;
+  }
+
+  public String getPieceName(){
+    return PieceName;
+  }
+
+  public boolean equals(Piece otherPiece){
+    return this.PieceName == otherPiece.getPieceName();
+  }
+
+
+  private ResourceBundle getPieceProperties() {
+    return PieceProperties;
+  }
+
+  private void setPieceProperties(String PIECE_AS_STRING) {
+    PieceProperties=ResourceBundle.getBundle(PIECES_PACKAGE+PIECE_AS_STRING);
+  }
+
+  private ResourceBundle getDefaultProperties() {
+    return DefaultProperties;
+  }
+
+  private void setDefaultProperties() {
+    DefaultProperties=ResourceBundle.getBundle(PIECES_PACKAGE+DEFAULT_TO_STRING);
+  }
+
+
 
   private void setMyTeamMatters() {
     try{
@@ -73,11 +114,20 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     teamMatters = value;
   }
 
-  protected void setPromotionSpots(){
-    if (PieceProperties.containsKey(PROMOTION)){
-      setMyPromotionSpots(new LastRankSpots(new DefaultPromotionPieces()));
-    }
+
+  @Override
+  public Coordinate getCoordinate(){
+    return myCoordinate;
   }
+
+  @Override
+  public void setCoordinate(Coordinate passedCoordinate) {
+    myCoordinate = passedCoordinate;
+  }
+
+
+
+
 
   private void setJump() {
     try{
@@ -88,37 +138,71 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     }
   }
 
-  private void setMyCheckable() {
+  @Override
+  public void setCanJump(boolean newJump) {
+    canJump = newJump;
+  }
+
+
+  private void setCannibalize() {
     try{
-      setCanJump(Boolean.parseBoolean(getPieceProperties().getString(IS_CHECKABLE)));
+      setCanCannibalize(Boolean.parseBoolean(getPieceProperties().getString(CANNIBALIZE)));
     }
     catch (Exception e){
-      setCanJump(Boolean.parseBoolean(getDefaultProperties().getString(IS_CHECKABLE)));
+      setCanCannibalize(Boolean.parseBoolean(getDefaultProperties().getString(CANNIBALIZE)));
     }
   }
 
-
-  protected ResourceBundle getPieceProperties() {
-    return PieceProperties;
+  @Override
+  public void setCanCannibalize(boolean cannibalize) {
+    canCannibalize = cannibalize;
   }
-
-  protected void setPieceProperties(String PIECE_AS_STRING) {
-    PieceProperties=ResourceBundle.getBundle(PIECES_PACKAGE+PIECE_AS_STRING);
-  }
-
-  protected ResourceBundle getDefaultProperties() {
-    return DefaultProperties;
-  }
-
-  protected void setDefaultProperties() {
-    DefaultProperties=ResourceBundle.getBundle(PIECES_PACKAGE+DEFAULT_TO_STRING);
-  }
-
 
   @Override
-  public Coordinate getCoordinate(){
-    return myCoordinate;
+  public boolean canCannibalize() {
+    return canCannibalize;
   }
+
+
+  protected void setPromotionSpots(){
+    if (PieceProperties.containsKey(PROMOTION)){
+      setMyPromotionSpots(new LastRankSpots(new DefaultPromotionPieces()));
+    }
+  }
+
+  protected void setMyPromotionSpots(SpotCollection promotionToSet){
+    myPromotionSpots = promotionToSet;
+  }
+
+  @Override
+  public SpotCollection promotionSquares() {
+    return myPromotionSpots;
+  }
+
+//  protected void setMyPromotionPieces(PieceCollection myPieceCollection) {
+//    myPromotionOptions = myPieceCollection;
+//  }
+
+
+  private void setMyCheckable() {
+    try{
+      setCheckable(Boolean.parseBoolean(getPieceProperties().getString(IS_CHECKABLE)));
+    }
+    catch (Exception e){
+      setCheckable(Boolean.parseBoolean(getDefaultProperties().getString(IS_CHECKABLE)));
+    }
+  }
+
+  @Override
+  public void setCheckable(boolean checkable) {
+    this.isCheckable = checkable;
+  }
+
+  @Override
+  public boolean getCheckable() {
+    return isCheckable;
+  }
+
 
 
   @Override
@@ -126,10 +210,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     return getPossibleCaptures().getPossibleSpots(myCoordinate).contains(captureCoordinate);
   }
 
-  @Override
-  public void setCoordinate(Coordinate passedCoordinate) {
-    myCoordinate = passedCoordinate;
-  }
 
 
   @Override
@@ -155,18 +235,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     myCapture = captureToSet;
   }
 
-  protected void setMyPromotionSpots(SpotCollection promotionToSet){
-    myPromotionSpots = promotionToSet;
-  }
 
-  protected void setMyPromotionPieces(PieceCollection myPieceCollection) {
-    myPromotionOptions = myPieceCollection;
-  }
-
-  @Override
-  public SpotCollection promotionSquares() {
-    return myPromotionSpots;
-  }
 
   @Override
   public void setTeam(int newTeam) {
@@ -188,10 +257,6 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     return pieceValue;
   }
 
-  @Override
-  public void setCanJump(boolean newJump) {
-    canJump = newJump;
-  }
 
   @Override
   public boolean getCanJump() {
@@ -263,37 +328,9 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     }
   }
 
-  @Override
-  public void setCheckable(boolean checkable) {
-    this.isCheckable = checkable;
-  }
-
-  @Override
-  public boolean getCheckable() {
-    return isCheckable;
-  }
 
   private String capitalizeFirst(String toBeCapitalized){
     return toBeCapitalized.substring(0, 1).toUpperCase() + toBeCapitalized.substring(1);
-  }
-
-  private void setCannibalize() {
-    try{
-      setCanCannibalize(Boolean.parseBoolean(getPieceProperties().getString(CANNIBALIZE)));
-    }
-    catch (Exception e){
-      setCanCannibalize(Boolean.parseBoolean(getDefaultProperties().getString(CANNIBALIZE)));
-    }
-  }
-
-  @Override
-  public void setCanCannibalize(boolean cannibalize) {
-    canCannibalize = cannibalize;
-  }
-
-  @Override
-  public boolean canCannibalize() {
-    return canCannibalize;
   }
 
 /*
