@@ -1,5 +1,7 @@
 package ooga.view;
 
+import java.lang.reflect.InvocationTargetException;
+import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.logic.board.spot.Spot;
 import ooga.logic.game.Game;
 
@@ -9,24 +11,14 @@ import ooga.logic.game.Game;
 public interface ChessView {
 
   /**
-   * Change the language of the text in the program
-   */
-  public void changeLanguage();
-
-  /**
-   * Change the apperance of the view (i.e. light, dark, etc.)
-   */
-  public void changeAppearance();
-
-  /**
    *  Update the history of past moves
    */
-  public void updateHistory();
+  public void updateHistory(String historyText);
 
   /**
    * Update the graveyard of dead pieces
    */
-  public void updateGraveyard();
+  public void updateGraveyard(Piece deadPiece);
 
   /**
    * Update a specific cell on the board
@@ -41,28 +33,12 @@ public interface ChessView {
   public void highlightChessCell(Spot spot);
 
   /**
-   * Load a game that existed previously
-   * @return the prior Game
-   */
-  public Game loadGame();
-
-  /**
-   * Save the current game state to return later
-   */
-  public void saveGame();
-
-  /**
-   * Method to reset the game and begin afresh
-   */
-  public void resetGame();
-
-  /**
    * Redo a move that was previously undone
    */
-  public void redoMove();
+  public void redoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 
   /**
    * Undo the previous move
    */
-  public void undoMove();
+  public void undoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 }

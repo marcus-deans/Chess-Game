@@ -1,6 +1,7 @@
 package ooga.logic.game;
 
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.logic.board.board.GameBoard;
 import ooga.logic.board.coordinate.Coordinate;
@@ -33,6 +34,8 @@ public class Game {
     private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private Coordinate puzzleStart;
     private Coordinate puzzleFinish;
+    private String gameType;
+    private boolean isAtomic=false;
 
     public Game(int height, int width) throws IOException {
         myBoard = new GameBoard(height, width);
@@ -46,6 +49,7 @@ public class Game {
         }
     }
 
+
     public List<Spot> getFullBoard(){
         return myBoard.getFullBoard();
     }
@@ -53,7 +57,6 @@ public class Game {
     public void setupBoard(String spot, int i, int j){
         try {
             myBoard.setupBoard(spot, i, j);
-            initialBoard = myBoard.getFullBoard();
         } catch (Exception e){
 
         }
@@ -61,7 +64,7 @@ public class Game {
     }
 
     public void reset(){
-        myBoard.reset(initialBoard);
+        myBoard.reset();
     }
 
     public void setSelected(GameCoordinate select){
@@ -120,7 +123,6 @@ public class Game {
         int finalMaxX = maxX;
         int finalMinX = minX;
         for (List<Coordinate> myIndividualList : list){
-            List<Coordinate> myListToAdd = new ArrayList<>();
             myIndividualList.stream().
                 filter(elem -> (elem.getY_pos() < finalMaxY) && (elem.getY_pos() > finalMinY)).
                 filter(elem -> (elem.getY_pos() < finalMaxX) && (elem.getY_pos() > finalMinX)).
@@ -239,10 +241,10 @@ public class Game {
     public Set<Spot> getPossibleCoordinates(GameCoordinate selected, int team){
         List<Coordinate> myMoveList = filterMoves(selected);
         List<Coordinate> myCaptureList = filterCaptures(selected);
+        myMoveList.addAll(myCaptureList);
 
-        Set<Spot> possibleSet = new HashSet<>();
-        myMoveList.stream().forEach(coord -> possibleSet.add(myBoard.getSpot(coord)));
-        myCaptureList.stream().forEach(coord -> possibleSet.add(myBoard.getSpot(coord)));
+        Set<Spot> possibleSet = myMoveList.stream().
+            map(myBoard::getSpot).collect(Collectors.toSet());
         return possibleSet;
     }
 
@@ -250,12 +252,27 @@ public class Game {
 
         try {
             if (capturedPiece.getCheckable()) isGameOver = true;
+            if (isAtomic) isGameOver=checkAtomic(capturedPiece);
             currentPlayer.addPieceToGraveyard(capturedPiece);
         }
         catch(Exception e)
         {
             myLogger.log(Level.INFO, "Error in removePiece");
         }
+    }
+
+    private boolean checkAtomic(Piece capturedPiece)
+    {
+//        List<List<Coordinate>> list=capturedPiece.getAtomicRadius();
+//        for (int i = 0; i < list.size(); i++){
+//            for(int j = 0; j < list.size(); j++){
+//                if(getSpot(list.get(i).get(j)).getPiece().getCheckable())
+//                {
+//                    return true;
+//                }
+//            }
+//        }
+        return false;
     }
 
     private void setMovingPiece(GameCoordinate newPosition, Piece movingPiece)
@@ -277,24 +294,35 @@ public class Game {
         try {
             setMovingPiece(newPosition, myBoard.getSpot(prevPosition).getPiece());
             myBoard.getSpot(prevPosition).setPiece(null);
-            if (puzzleStart!=null && puzzleFinish!=null && puzzleStart.equals(prevPosition) && puzzleFinish.equals(newPosition))
+            if(gameType.equals("Puzzles"))
             {
-                myLogger.log(Level.INFO, "PUZZLE COMPLETED SUCCESSFULLY");
-                isGameOver = true;
+                isGameOver=puzzleRules(prevPosition,newPosition);
             }
-            else if (puzzleStart!=null && puzzleFinish!=null && (!puzzleStart.equals(prevPosition) || !puzzleFinish.equals(newPosition)))
+            if(gameType.equals("Atomic"))
             {
-                myLogger.log(Level.INFO, "PUZZLE FAILED! TRY AGAIN!");
-                reset();
+
             }
-
-
-
         }
         catch(Exception e)
         {
             myLogger.log(Level.INFO, "Error in movePiece");
         }
+    }
+
+    public Boolean puzzleRules(Coordinate prevPosition, Coordinate newPosition)
+    {
+        boolean gameOver=false;
+        if (puzzleStart!=null && puzzleFinish!=null && puzzleStart.equals(prevPosition) && puzzleFinish.equals(newPosition))
+        {
+            myLogger.log(Level.INFO, "PUZZLE COMPLETED SUCCESSFULLY");
+            gameOver = true;
+        }
+        else if (puzzleStart!=null && puzzleFinish!=null && (!puzzleStart.equals(prevPosition) || !puzzleFinish.equals(newPosition)))
+        {
+            myLogger.log(Level.INFO, "PUZZLE FAILED! TRY AGAIN!");
+            reset();
+        }
+        return gameOver;
     }
 
     public boolean getIsGameOver(){
@@ -326,5 +354,11 @@ public class Game {
         } catch (NullPointerException e) {
             //myErrorFactory.updateError(GAME_ERROR);
         }
+    }
+
+    public void setGameType(String type)
+    {
+        this.gameType=type;
+        if (gameType.equals("Atomic")) isAtomic=true;
     }
 }

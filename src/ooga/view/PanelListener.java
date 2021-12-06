@@ -24,13 +24,15 @@ public interface PanelListener {
      */
     void undoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 
+    void redoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
+
     void changeVariant(String variant);
 
     void getBoardClick(int x, int y) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 
     void openPlayerLogin();
 
-    void setNewPlayer(String username, String email, String password, int team) throws IOException;
+    void setNewPlayer(String username, String email, String password, int team, String colour);
 
     void closePlayerLogin(Stage stage);
 }

@@ -46,17 +46,8 @@ abstract public class SpecificSpotCollection implements SpecificSpotCollectionIn
   protected List<Coordinate> Diagonal(Coordinate myCoordinate, int xAmount, int yAmount){
     List<Coordinate> myCoords = new ArrayList<>();
     Coordinate myNewCoordinate = new GameCoordinate(myCoordinate.getX_pos() + xAmount,myCoordinate.getY_pos() + yAmount);
-    if (!isValidSquare(myNewCoordinate)){
-      return myCoords;
-    }
     myCoords.add(myNewCoordinate);
     return myCoords;
-  }
-
-  private boolean isValidSquare(Coordinate captureCoordinate) {
-    // TODO: Connect to neighbors
-    return !(captureCoordinate.getX_pos() < 0 || captureCoordinate.getY_pos() < 0
-        || captureCoordinate.getX_pos() > 7 || captureCoordinate.getY_pos() > 7);
   }
 
 }

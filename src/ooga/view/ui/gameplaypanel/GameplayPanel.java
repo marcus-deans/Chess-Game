@@ -4,6 +4,7 @@ import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
+import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.view.ui.SharedUIComponents;
 import ooga.view.ui.controlpanel.AnimationControlPanel;
 import ooga.view.ui.controlpanel.LoadControlPanel;
@@ -11,6 +12,8 @@ import ooga.view.ui.controlpanel.ViewControlPanel;
 
 public class GameplayPanel extends SharedUIComponents {
   private int myGameplayPanelX;
+  private GraveyardPanel myGraveyardPanel;
+  private HistoryPanel myHistoryPanel;
 
   /**
    * Create the general control panel constructor
@@ -33,14 +36,22 @@ public class GameplayPanel extends SharedUIComponents {
     myVariantPanel.setPanelListener(this.getPanelListener());
     newGameplayPanel.getChildren().add(myVariantPanel.createVariantPanel());
 
-    HistoryPanel myHistoryPanel = new HistoryPanel();
+    myHistoryPanel = new HistoryPanel();
     myHistoryPanel.setPanelListener(this.getPanelListener());
     newGameplayPanel.getChildren().add(myHistoryPanel.createHistoryPanel());
 
-    GraveyardPanel myGraveyardPanel = new GraveyardPanel();
+    myGraveyardPanel = new GraveyardPanel();
     myGraveyardPanel.setPanelListener(this.getPanelListener());
     newGameplayPanel.getChildren().add(myGraveyardPanel.createGraveyardPanel());
 
     return newGameplayPanel;
+  }
+
+  public void updateHistory(String historyText){
+    myHistoryPanel.addHistory(historyText);
+  }
+
+  public void updateGraveyard(Piece deadPiece){
+    myGraveyardPanel.addGraveyardEntry(deadPiece);
   }
 }

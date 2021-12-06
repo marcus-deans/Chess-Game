@@ -1,10 +1,10 @@
-Type=Standard
-Title=Standard Chess
+Type=MiniGame
+Title=Tiny Chess
 Author=Carter Stonesifer
 
 GameTimer=0
 
-GameConfiguration=data/Standard.csv
+GameConfiguration=data/MiniGame.csv
 
 Portal=False
 BlackHole=False

@@ -14,9 +14,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GameBoard implements Board {
-    List<Spot> board;
+    private List<Spot> board;
+    private List<Spot> initialBoard;
     private int rows;
     private int columns;
     private String pieceName;
@@ -36,11 +39,14 @@ public class GameBoard implements Board {
     private static final String SPOTACTION_MAP = "Spot";
     private static final String SPOTACTION_PATH="ooga.logic.board.spot.spotactions.";
     private String spotActionName;
+    private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private boolean isAtomic;
 
 
     public GameBoard(int rows, int columns)
     {
         board=new ArrayList<>();
+        initialBoard=new ArrayList<>();
         this.rows=rows;
         this.columns=columns;
         resourceMap=ResourceBundle.getBundle(PIECES_PACKAGE+GAMEBOARD_MAP);
@@ -63,7 +69,8 @@ public class GameBoard implements Board {
             p=null;
         }
 
-        board.add(new GameSpot(p,j,i,type,(i+j)%2==0));
+            initialBoard.add(new GameSpot(p,j,i,type,(i+j)%2==0));
+            board=initialBoard;
     }
 
     @Override
@@ -76,11 +83,24 @@ public class GameBoard implements Board {
             throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
 
         getSpot(newPosition).setPiece(movingPiece);
+        if(isAtomic) atomic(newPosition);
         int spotType=getSpot(newPosition).getTypeOfSpot();
         spotActionName=SPOTACTION_PATH+resourceMap.getString(String.valueOf(spotType));
         SpotAction spotAction=(SpotAction) Class.forName(spotActionName).getConstructor().newInstance();
         this.board=spotAction.commitSpotAction(board,getSpot(newPosition));
     }
+
+    private void atomic(Coordinate newPosition){
+//        List<List<Coordinate>> list=getSpot(newPosition).getPiece().getAtomicRadius();
+//        getSpot(newPosition).setPiece(null);
+//        for (int i = 0; i < list.size(); i++){
+//            for(int j = 0; j < list.size(); j++){
+//                getSpot(list.get(i).get(j)).setPiece(null);
+//            }
+//        }
+
+    }
+
 
     public boolean hasPiece(Coordinate c)
     {
@@ -128,7 +148,17 @@ public class GameBoard implements Board {
         return edgePolicy;
     }
 
-    public void reset(List<Spot> newList){
-        this.board = newList;
+    public void reset(){
+        this.board = initialBoard;
+        myLogger.log(Level.INFO, "Reset in gameboard");
+        for(int i=0;i<board.size();i++){
+            System.out.println(board.get(i).getPiece());
+            System.out.println(initialBoard.get(i).getPiece());
+        }
+    }
+
+    public void setAtomic(boolean atomic)
+    {
+        this.isAtomic=atomic;
     }
 }

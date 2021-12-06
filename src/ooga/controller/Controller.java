@@ -19,14 +19,24 @@ public interface Controller {
   //Resets the active game and the display.
     public void resetGame();
 
+    public int getHeight();
+
+    public int getWidth();
     //sets time limit of each round in the game
     public void setTime(int speed);
 
     public void undoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 
+    public void redoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
+
     public void changeVariant(String variant);
 
     public void clickedCoordinates(int x, int y) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 
-    public void setPlayer(String userName,String password, int team) throws IOException;
+    @Deprecated
+    public void setPlayer(String userName, int team);
+
+    public void setPlayer(String userName, String password, int team, String color);
+
+    public void acceptCheatCode(String identifier);
   }
