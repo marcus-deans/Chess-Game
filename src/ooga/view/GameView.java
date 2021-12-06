@@ -353,8 +353,6 @@ public class GameView extends Application implements PanelListener, ChessView{
    */
   @Override
   public void resetGame() {
-    //TODO: adjust for this game and callback to Controller to match
-//    loadNewFile(myFilename);
     myChessController.resetGame();
   }
 
