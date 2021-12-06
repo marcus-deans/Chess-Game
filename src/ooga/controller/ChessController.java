@@ -170,14 +170,21 @@ public class ChessController implements Controller {
     }
 
     @Override
-    public void setPlayer(String userName, String password, int team, String color){
-        Player addPlayer = new Player(userName, team);
+    public void setPlayer(String userName, String password, int team, String color)
+        throws IOException {
+        Player addPlayer = new Player(userName,password, team);
         thePlayers.add(addPlayer);
     }
 
-    @Deprecated
-    public void setPlayer(String userName, int team){
-        Player addPlayer = new Player(userName, team);
+  @Override
+  public void acceptCheatCode(String identifier) {
+
+  }
+
+  @Deprecated
+    public void setPlayer(String userName, int team) throws IOException {
+        String password = "";
+        Player addPlayer = new Player(userName,password, team);
         thePlayers.add(addPlayer);
     }
 

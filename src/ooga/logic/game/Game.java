@@ -37,13 +37,8 @@ public class Game {
     private String gameType;
     private boolean isAtomic=false;
 
-<<<<<<< HEAD
     public Game(int height, int width, Map<String,String> myMap){
         myBoard = new GameBoard(height, width, myMap);
-=======
-    public Game(int height, int width) throws IOException {
-        myBoard = new GameBoard(height, width);
->>>>>>> 509053a156c782585d9ff4c80bf90314b0fda97f
     }
 
     public void setEdgePolicy(String s){
