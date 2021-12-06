@@ -46,7 +46,7 @@ class GeneralPieceTest {
 
   @Test
   void setAndGetCanJump() {
-    myPiece.setCanJump(true);
+//    myPiece.setCanJump(true);
     assertTrue(myPiece.getCanJump());
   }
 

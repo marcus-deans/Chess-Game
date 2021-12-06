@@ -10,7 +10,7 @@ GameConfiguration=data/StarWars.csv
 
 Portal=True
 BlackHole=True
-EdgePolicy=Toroidal
+EdgePolicy=Basic
 
 PiecesImageDirectory=StarWars
 

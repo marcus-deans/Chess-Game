@@ -37,8 +37,8 @@ public class Game {
     private String gameType;
     private boolean isAtomic=false;
 
-    public Game(int height, int width) throws IOException {
-        myBoard = new GameBoard(height, width);
+    public Game(int height, int width, Map<String,String> myMap){
+        myBoard = new GameBoard(height, width, myMap);
     }
 
     public void setEdgePolicy(String s){
@@ -56,6 +56,7 @@ public class Game {
 
     public void setupBoard(String spot, int i, int j){
         try {
+
             myBoard.setupBoard(spot, i, j);
         } catch (Exception e){
 
@@ -175,15 +176,18 @@ public class Game {
         for (List<Coordinate> eachLine: possibleCapturePositions) {
             for (Coordinate individualCoord : eachLine) {
                 Piece tempPiece = myBoard.getSpot(individualCoord).getPiece();
+                // not an empty square
                 if (tempPiece == null){
                     continue;
                 }
 
+                //can cannibalize or opponent; eat and stop
                 if (myPiece.canCannibalize() || (getTeam(tempPiece) != getTeam(myPiece))){
                     listToPopulate.add(individualCoord);
                     break;
                 }
 
+                // me and can jump
                 if (getCanJump(myPiece)){
                     continue;
                 }
@@ -212,14 +216,20 @@ public class Game {
         for (List<Coordinate> eachLine: possibleMovePositions) {
             for (Coordinate individualCoord : eachLine) {
                 Piece tempPiece = myBoard.getSpot(individualCoord).getPiece();
+
+                // empty piece: CAN MOVE HERE
                 if (tempPiece == null){
                     listToPopulate.add(individualCoord);
                     continue;
                 }
+
+                // can't jump? break
                 if (!getCanJump(myPiece)){
                     break;
                 }
-                if (getTeam(tempPiece) != getTeam(myPiece)){
+
+                // can jump and different piece
+                if (getTeam(tempPiece) == getTeam(myPiece)){
                     continue;
                 }
                 break;
@@ -263,15 +273,15 @@ public class Game {
 
     private boolean checkAtomic(Piece capturedPiece)
     {
-//        List<List<Coordinate>> list=capturedPiece.getAtomicRadius();
-//        for (int i = 0; i < list.size(); i++){
-//            for(int j = 0; j < list.size(); j++){
-//                if(getSpot(list.get(i).get(j)).getPiece().getCheckable())
-//                {
-//                    return true;
-//                }
-//            }
-//        }
+        List<List<Coordinate>> list=capturedPiece.getAtomicArea().getPossibleSpots(capturedPiece.getCoordinate());
+        for (int i = 0; i < list.size(); i++){
+            for(int j = 0; j < list.size(); j++){
+                if(getSpot(list.get(i).get(j)).getPiece().getCheckable())
+                {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
