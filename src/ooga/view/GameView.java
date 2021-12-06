@@ -381,7 +381,7 @@ public class GameView extends Application implements PanelListener, GameChessVie
   }
 
   @Override
-  public void openPlayerProfile() {
+  public void openPlayerProfile(int playerIdentifier) {
     PlayerProfileInterface newPlayerProfileView = new PlayerProfileView();
     newPlayerProfileView.setPanelListener(this);
     newPlayerProfileView.start(new Stage());

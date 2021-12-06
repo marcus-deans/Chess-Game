@@ -36,5 +36,5 @@ public interface PanelListener {
 
     void closePlayerLogin(Stage stage);
 
-    void openPlayerProfile();
+    void openPlayerProfile(int playerIdentifier);
 }

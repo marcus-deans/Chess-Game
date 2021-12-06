@@ -11,17 +11,21 @@ import ooga.view.ui.SharedUIComponents;
 
 public class PlayerControlPanel extends SharedUIComponents {
   List<Player> myPlayerList;
+  List<Button> myPlayerButtons;
+  int myPlayerButtonIndex;
 
   public PlayerControlPanel(){
     myPlayerList = new ArrayList<>();
+    myPlayerButtons = new ArrayList<>();
+    myPlayerButtonIndex = 0;
   }
 
   public Node createPlayerControlPanel(){
     VBox playerControlPanel = new VBox();
     playerControlPanel.setSpacing(getInt("control_subpanel_spacing"));
 
-    Node clearScreenButton = initializePlayerLoginButton();
-    playerControlPanel.getChildren().add(clearScreenButton);
+    Node playerLoginButton = initializePlayerLoginButton();
+    playerControlPanel.getChildren().add(playerLoginButton);
 
     playerControlPanel.setAlignment(Pos.CENTER);
     playerControlPanel.setId("player-control-panel");
@@ -29,19 +33,22 @@ public class PlayerControlPanel extends SharedUIComponents {
   }
 
   private Node initializePlayerLoginButton(){
-    Button playerLoginButton = new Button();
-    playerLoginButton.setText(getWord("player_login_button_prompt"));
-    playerLoginButton.setOnAction(event -> {
+    Button playerLoginButton = makeButton(getWord("player_login_button_prompt"), event -> {
       if(this.getPanelListener() != null){
         this.getPanelListener().openPlayerLogin();
       }
-      playerLoginButton.setText(getWord("player_login_button_display"));
-      playerLoginButton.setOnAction(action -> this.getPanelListener().openPlayerProfile());
     });
+    myPlayerButtons.add(playerLoginButton);
     return playerLoginButton;
   }
 
-  private void newPlayerCreated(){
-
+  public void playerHasLoggedIn(int playerIndex){
+    try {
+      Button loggedInPlayerButton = myPlayerButtons.get(playerIndex);
+      loggedInPlayerButton.setText(getWord("player_login_button_display"));
+      loggedInPlayerButton.setOnAction(action -> this.getPanelListener().openPlayerProfile(playerIndex);
+    } catch (Exception e){
+      sendAlert(getWord("player_display_error"));
+    }
   }
 }
