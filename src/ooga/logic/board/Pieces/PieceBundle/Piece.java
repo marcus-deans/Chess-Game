@@ -1,5 +1,6 @@
 package ooga.logic.board.Pieces.PieceBundle;
 
+import java.util.List;
 import java.util.ResourceBundle;
 import ooga.logic.board.Pieces.Interfaces.CaptureLogic;
 import ooga.logic.board.Pieces.Interfaces.MoveLogic;
@@ -7,6 +8,7 @@ import ooga.logic.board.Pieces.Interfaces.PieceLogic;
 import ooga.logic.board.Pieces.Interfaces.PromoteLogic;
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
 import ooga.logic.board.Pieces.PieceCollection.PieceCollection;
+import ooga.logic.board.Pieces.SpotCollection.KingMovement;
 import ooga.logic.board.Pieces.SpotCollection.LastRankSpots;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 import ooga.logic.board.coordinate.Coordinate;
@@ -15,6 +17,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   private Coordinate myCoordinate;
   private SpotCollection myMovement;
   private SpotCollection myCapture;
+  private SpotCollection areaOfEffect;
   private SpotCollection myPromotionSpots;
   private PieceCollection myPromotionOptions;
   private int team;
@@ -48,6 +51,7 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     setTeam(team);
     setCoordinate(myCoordinate);
     setJump();
+    setCannibalize();
     setMyTeamMatters();
     setMovement(pieceToString);
     setCapture(pieceToString);
@@ -289,6 +293,16 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
   @Override
   public boolean canCannibalize() {
     return canCannibalize;
+  }
+
+/*
+TEMPORARY
+ */
+  public SpotCollection getAtomicArea(){
+    return areaOfEffect;
+  }
+  public void setAtomicArea(){
+    areaOfEffect = new KingMovement();
   }
 
 }
