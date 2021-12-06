@@ -40,17 +40,17 @@ class PawnTest {
     assertTrue(myPiece.getPossibleCaptures().getPossibleSpots(myPiece.getCoordinate()).contains(myCoord));
   }
 
-
-  @Test
-  void setMyPromotionPieces() {
-    myPiece.setMyPromotionPieces(new DefaultPromotionPieces());
-    assertTrue(myPiece.possiblePromotionPieces().getPossiblePieces().size() == 4);
-  }
-
-  @Test
-  void promotionSquares() {
-    myPiece.setMyPromotionPieces(new DefaultPromotionPieces());
-    myPiece.setMyPromotionSpots(new LastRankSpots(new DefaultPromotionPieces()));
-    assertTrue(myPiece.promotionSquares().getPossibleSpots(myCoord).size() == 8);
-  }
+//
+//  @Test
+//  void setMyPromotionPieces() {
+//    myPiece.setMyPromotionPieces(new DefaultPromotionPieces());
+//    assertTrue(myPiece.possiblePromotionPieces().getPossiblePieces().size() == 4);
+//  }
+//
+//  @Test
+//  void promotionSquares() {
+//    myPiece.setMyPromotionPieces(new DefaultPromotionPieces());
+//    myPiece.setMyPromotionSpots(new LastRankSpots(new DefaultPromotionPieces()));
+//    assertTrue(myPiece.promotionSquares().getPossibleSpots(myCoord).size() == 8);
+//  }
 }

@@ -1,6 +1,7 @@
 package ooga.logic.board.board;
 
 
+import java.util.Map;
 import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
@@ -41,33 +42,35 @@ public class GameBoard implements Board {
     private String spotActionName;
     private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private boolean isAtomic;
+    private Map<String,String> myRules;
 
 
-    public GameBoard(int rows, int columns)
+    public GameBoard(int rows, int columns, Map<String,String> overridingRules)
     {
         board=new ArrayList<>();
         initialBoard=new ArrayList<>();
         this.rows=rows;
         this.columns=columns;
+        this.myRules = overridingRules;
         resourceMap=ResourceBundle.getBundle(PIECES_PACKAGE+GAMEBOARD_MAP);
     }
 
     @Override
     public void setupBoard(String spot, int i, int j) {
+         pieceName=PIECE_PATH+resourceMap.getString(spot.substring(0,1));
+            Class[] params={int.class,int.class,int.class,Map.class};
+            team=Integer.parseInt(spot.substring(1,2));
+            int type=Integer.parseInt(spot.substring(2,3));
+            Piece p;
+            try
+            {
+                p=(Piece) Class.forName(pieceName).getDeclaredConstructor(params).newInstance(j,i,team,myRules);
+            }
+            catch(Exception e)
+            {
+                p=null;
+            }
 
-        pieceName=PIECE_PATH+resourceMap.getString(spot.substring(0,1));
-        Class[] params={int.class,int.class,int.class};
-        team=Integer.parseInt(spot.substring(1,2));
-        int type=Integer.parseInt(spot.substring(2,3));
-        Piece p;
-        try
-        {
-            p=(Piece) Class.forName(pieceName).getDeclaredConstructor(params).newInstance(j,i,team);
-        }
-        catch(Exception e)
-        {
-            p=null;
-        }
 
             initialBoard.add(new GameSpot(p,j,i,type,(i+j)%2==0));
             board=initialBoard;

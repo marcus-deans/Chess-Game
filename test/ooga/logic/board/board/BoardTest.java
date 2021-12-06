@@ -1,5 +1,7 @@
 package ooga.logic.board.board;
 
+import java.util.HashMap;
+import java.util.Map;
 import ooga.logic.board.Pieces.PieceBundle.King;
 import ooga.logic.board.coordinate.GameCoordinate;
 import ooga.logic.board.spot.GameSpot;
@@ -14,7 +16,8 @@ public class BoardTest {
     @Test
     public void boardSetup() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         String[][] a={{"K1","K2"}};
-        Board b=new GameBoard(1,2);
+        Board b=new GameBoard(1,2, new HashMap<>());
+        Map<String,String> myMap = new HashMap<>();
         b.setupBoard("K1",0,0);
         b.setupBoard("K2",0,1);
         List<Spot> c=b.getFullBoard();
@@ -26,7 +29,7 @@ public class BoardTest {
     @Test
     public void hasPiece() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         String[][] a={{"K1","K2"}};
-        Board b=new GameBoard(1,2);
+        Board b=new GameBoard(1,2, new HashMap<>());
         b.setupBoard(a[0][1],0,1);
         b.setupBoard(a[0][0],0,0);
         List<Spot> c=b.getFullBoard();
