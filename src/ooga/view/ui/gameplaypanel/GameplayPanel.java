@@ -3,7 +3,7 @@ package ooga.view.ui.gameplaypanel;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
-import ooga.logic.board.Pieces.PieceBundle.pieces.Piece;
+import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.view.ui.SharedUIComponents;
 
 /**

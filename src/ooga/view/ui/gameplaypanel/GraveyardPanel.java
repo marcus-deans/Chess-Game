@@ -7,7 +7,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import ooga.logic.board.Pieces.PieceBundle.pieces.Piece;
+import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.view.ui.SharedUIComponents;
 
 /**

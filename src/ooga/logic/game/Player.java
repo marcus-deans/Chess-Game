@@ -1,6 +1,6 @@
 package ooga.logic.game;
 
-import ooga.logic.board.Pieces.PieceBundle.pieces.Piece;
+import ooga.logic.board.Pieces.PieceBundle.Piece;
 
 import java.io.*;
 import java.net.HttpURLConnection;

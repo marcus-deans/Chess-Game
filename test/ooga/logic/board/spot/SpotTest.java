@@ -1,6 +1,6 @@
 package ooga.logic.board.spot;
 
-import ooga.logic.board.Pieces.PieceBundle.pieces.Piece;
+import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.logic.board.coordinate.GameCoordinate;
 import org.junit.jupiter.api.Test;
 

@@ -428,7 +428,7 @@ public class ChessController implements Controller {
   }
 
   private void switchPlayers() {
-    turnIterator = (turnIterator + 1) % numPlayers;
+    turnIterator = (turnIterator + 1) % (numPlayers);
     currentPlayer = thePlayers.get(turnIterator);
   }
 
