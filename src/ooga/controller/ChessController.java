@@ -467,8 +467,9 @@ public class ChessController implements Controller {
   /**
    * Change all Pawns to Knights
    */
-  private void PawnsToKnights(){
-
+  private void PawnsToKnights() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    myGame.pawnsToPiece("N");
+    boardViewBuild(myGame);
   }
   /**
    * Change all Pawns to Bishops
