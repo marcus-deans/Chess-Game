@@ -494,8 +494,9 @@ public class ChessController implements Controller {
   /**
    *
    */
-  private void OpeningAlpha(){
-
+  private void PawnBattle() throws CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, IncorrectCSVFormatException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    File file=new File("data/PawnBattle.sim");
+    initializeFromFile(file);
   }
 
   /**
