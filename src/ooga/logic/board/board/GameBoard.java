@@ -55,6 +55,15 @@ public class GameBoard implements Board {
         resourceMap=ResourceBundle.getBundle(PIECES_PACKAGE+GAMEBOARD_MAP);
     }
 
+    /**
+     * Method takes in a string, spot, and two integers i and j. The string is made up of 3 characters
+     * which are reflectively sets up a spot and adds it to board. The first character in spot is the
+     * piece, the second is the team, and the third is the spot type. i and j refer to the position of
+     * the spot on the board
+     * @param spot
+     * @param i
+     * @param j
+     */
     @Override
     public void setupBoard(String spot, int i, int j) {
          pieceName=PIECE_PATH+resourceMap.getString(spot.substring(0,1));
@@ -77,6 +86,11 @@ public class GameBoard implements Board {
         //Collections.copy(board,initialBoard);
     }
 
+    /**
+     * copyInitialBoard copies over the elements from the initial board into the board that is used
+     * when movements are made in the game
+     * @param initial
+     */
     private void copyInitialBoard(List<Spot> initial)
     {
         board=new ArrayList<>();
@@ -87,12 +101,28 @@ public class GameBoard implements Board {
         }
     }
 
+    /**
+     *
+     * @return board
+     */
     @Override
     public List<Spot> getFullBoard()
     {
         return board;
     }
 
+    /**
+     * updateBoard takes in a position that a piece is moving to and the piece. If the game mode is atomic
+     * then the method clears out the atomic radius, if not it sets the newPosition equal to the movingPiece.
+     * It then looks at the type of spot and does the proper spotAction reflectively
+     * @param newPosition
+     * @param movingPiece
+     * @throws ClassNotFoundException
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
     public void updateBoard(Coordinate newPosition, Piece movingPiece)
             throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         if(isAtomic && getSpot(newPosition).getPiece()!=null)
@@ -109,6 +139,10 @@ public class GameBoard implements Board {
         this.board=spotAction.commitSpotAction(board,getSpot(newPosition));
     }
 
+    /**
+     * Clears out the atomicArea at the coordinate
+     * @param newPosition
+     */
     private void atomic(Coordinate newPosition){
         List<List<Coordinate>> list=getSpot(newPosition).getPiece().getAtomicArea().getPossibleSpots(newPosition);
 
@@ -128,6 +162,11 @@ public class GameBoard implements Board {
     }
 
 
+    /**
+     *
+     * @param c
+     * @return true if the spot at the coordinate c has a piece, else false
+     */
     public boolean hasPiece(Coordinate c)
     {
         for (Spot s:board) {
@@ -148,7 +187,11 @@ public class GameBoard implements Board {
 //    }
 
 
-
+    /**
+     *
+     * @param selected
+     * @return the spot at the coordinate selected, else null
+     */
     public GameSpot getSpot(Coordinate selected) {
 //       final Spot mySpot;
 //        board.stream().filter(spot -> spot.getCoordinate().equals(selected)).
@@ -164,26 +207,55 @@ public class GameBoard implements Board {
         return null;
     }
 
+    /**
+     * Sets the edge policy reflectively using the String edge
+     * @param edge
+     * @throws ClassNotFoundException
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
     public void setEdgePolicy(String edge) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         Class[] params={int.class,int.class};
         edgeName=EDGEPOLICY_PATH+resourceMap.getString(edge);
         edgePolicy=(EdgePolicies) Class.forName(edgeName).getDeclaredConstructor(params).newInstance(rows,columns);
     }
 
+    /**
+     *
+     * @return edgePolicy
+     */
     public EdgePolicies getEdgePolicy() {
         return edgePolicy;
     }
 
+    /**
+     * copies the data from the initial board into the current board
+     */
     public void reset(){
         copyInitialBoard(initialBoard);
         myLogger.log(Level.INFO, "Reset in gameboard");
     }
 
+    /**
+     * sets the boolean isAtomic to atomic which triggers the atomic method
+     * @param atomic
+     */
     public void setAtomic(boolean atomic)
     {
         isAtomic=atomic;
     }
 
+    /**
+     * Used for cheat codes. Sets all the pawns on the board to a specified piece using reflection
+     * @param piece
+     * @throws ClassNotFoundException
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
     public void pawnsToPiece(String piece) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         Class[] params={int.class,int.class,int.class,Map.class};
         String pieceName=PIECE_PATH+resourceMap.getString(piece);
