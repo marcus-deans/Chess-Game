@@ -63,6 +63,7 @@ public class AnimationControlPanel extends SharedUIComponents {
         }
       }
     });
+    undoButton.setId("undo-button");
     return undoButton;
   }
 
@@ -78,6 +79,7 @@ public class AnimationControlPanel extends SharedUIComponents {
         }
       }
     });
+    redoButton.setId("redo-button");
     return redoButton;
   }
 
