@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 
 public class Game {
     private GameBoard myBoard;
-    private GameCoordinate selected;
+    private Coordinate selected;
     private Player currentPlayer;
     private GameSpot selectedSpot;
     private List<Coordinate> possibleCoordinates;
@@ -43,6 +43,7 @@ public class Game {
             myBoard.setEdgePolicy(s);
         }
         catch (Exception e){
+            //myBoard.setEdgePolicy("Basic");
         }
     }
 
@@ -65,7 +66,7 @@ public class Game {
         myBoard.reset();
     }
 
-    public void setSelected(GameCoordinate select){
+    public void setSelected(Coordinate select){
         selected = select;
     }
 
@@ -139,7 +140,7 @@ public class Game {
     }
 
 
-    private List<Coordinate> filterCaptures(GameCoordinate selected) {
+    private List<Coordinate> filterCaptures(Coordinate selected) {
         Piece myPiece = getMyPiece(selected);
         List<List<Coordinate>> possibleCapturePositions = myPiece.getPossibleCaptures().getPossibleSpots(selected);
         possibleCapturePositions = applyEdgePolicy(possibleCapturePositions);
@@ -190,7 +191,7 @@ public class Game {
     }
 
 
-    private List<Coordinate> filterMoves(GameCoordinate selected) {
+    private List<Coordinate> filterMoves(Coordinate selected) {
         Piece myPiece = getMyPiece(selected);
         List<List<Coordinate>> possibleMovePositions = myPiece.getPossibleMoves().getPossibleSpots(selected);
         possibleMovePositions = applyEdgePolicy(possibleMovePositions);
@@ -227,11 +228,11 @@ public class Game {
         return myBoard.getEdgePolicy().filterList(possiblePositions);
     }
 
-    private Piece getMyPiece(GameCoordinate selected) {
+    private Piece getMyPiece(Coordinate selected) {
         return myBoard.getSpot(selected).getPiece();
     }
 
-    public Set<Spot> getPossibleCoordinates(GameCoordinate selected, int team){
+    public Set<Spot> getPossibleCoordinates(Coordinate selected, int team){
         List<Coordinate> myMoveList = filterMoves(selected);
         List<Coordinate> myCaptureList = filterCaptures(selected);
         myMoveList.addAll(myCaptureList);
@@ -268,7 +269,7 @@ public class Game {
         return false;
     }
 
-    private void setMovingPiece(GameCoordinate newPosition, Piece movingPiece)
+    private void setMovingPiece(Coordinate newPosition, Piece movingPiece)
             throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
 
@@ -282,7 +283,7 @@ public class Game {
         }
     }
 
-    public void movePiece(GameCoordinate prevPosition, GameCoordinate newPosition)
+    public void movePiece(Coordinate prevPosition, Coordinate newPosition)
             throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         try {
             setMovingPiece(newPosition, myBoard.getSpot(prevPosition).getPiece());
@@ -322,9 +323,6 @@ public class Game {
         return isGameOver;
     }
 
-    public Spot getSpot(GameCoordinate coordinate){
-        return myBoard.getSpot(coordinate);
-    }
 
     public void resetClick(){
 

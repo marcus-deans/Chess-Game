@@ -1,7 +1,9 @@
 package ooga.logic.game;
 
+import java.util.Set;
 import ooga.logic.board.Pieces.PieceBundle.King;
 import ooga.logic.board.board.GameBoard;
+import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
 import ooga.logic.board.spot.GameSpot;
 import ooga.logic.board.spot.Spot;
@@ -48,6 +50,15 @@ public class GameTest {
 
     @Test
     public void getPossibleMovesTest() throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        Game testGame = new Game(8,8,new HashMap<>());
+        testGame.setEdgePolicy("Basic");
+        testGame.setupBoard("K10",0,0);
+        testGame.setupBoard("R20",1,0);
+        testGame.setupBoard("R10",0,1);
+        Coordinate myCoord = new GameCoordinate(0,0);
+        Spot mySpot = testGame.getSpot(myCoord);
+        Set<Spot> mySetOfSpots= testGame.getPossibleCoordinates(myCoord,1);
+        assertEquals(mySetOfSpots.size(),2);
 
     }
 }
