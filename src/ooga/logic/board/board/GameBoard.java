@@ -111,12 +111,12 @@ public class GameBoard implements Board {
 
     private void atomic(Coordinate newPosition){
         List<List<Coordinate>> list=getSpot(newPosition).getPiece().getAtomicArea().getPossibleSpots(newPosition);
+
         getSpot(newPosition).setPiece(null);
 
         for (List<Coordinate> myList : list){
             for(Coordinate eachCoord : myList){
                 Spot thisSpot = getSpot(eachCoord);
-                System.out.println(thisSpot.getPiece().getPieceName());
                 if (thisSpot.isEmpty()){
                     continue;
                 }
