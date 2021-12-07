@@ -161,11 +161,9 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
     return mySpotCollection;
   }
 
-  private String capitalizeFirst(String toBeCapitalized){
-    if (toBeCapitalized.length() == 0){
-      return toBeCapitalized;
-    }
-    return toBeCapitalized.substring(0, 1).toUpperCase() + toBeCapitalized.substring(1);
+  private String capitalizeFirst(String toBeCapitalized) {
+    return (toBeCapitalized.length() == 0) ? toBeCapitalized
+        : toBeCapitalized.substring(0, 1).toUpperCase() + toBeCapitalized.substring(1);
   }
 
   /**
