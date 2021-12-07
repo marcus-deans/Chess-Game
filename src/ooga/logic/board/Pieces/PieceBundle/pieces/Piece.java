@@ -30,7 +30,7 @@ abstract public class Piece implements PieceLogic{
   private ResourceBundle PieceProperties;
   private ResourceBundle DefaultProperties;
 
-  private static final String PIECES_PACKAGE = Piece.class.getPackageName() + ".resources.";
+  private static final String PIECES_PACKAGE = "ooga.logic.board.Pieces.PieceBundle.resources.";
   private static final String DEFAULT_TO_STRING = "Default";
   private static final String EMPTY = "";
 

@@ -14,7 +14,7 @@ class BooleanStorageTest {
   private Map<String,String> myRulesMap;
   private ResourceBundle pieceProperties;
   private ResourceBundle defaultProperties;
-  private static final String PIECES_PACKAGE = Piece.class.getPackageName() + ".resources.";
+  private static final String PIECES_PACKAGE = "ooga.logic.board.Pieces.PieceBundle.resources.";
 
   @BeforeEach
   void setUp() {
