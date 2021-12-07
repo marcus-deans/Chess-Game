@@ -1,8 +1,10 @@
 package ooga.logic.board.Pieces.PieceCollection;
 
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DefaultPromotionPieces
+ */
 public class DefaultPromotionPieces extends PieceCollection{
 
   private static final String BISHOP = "Bishop";
@@ -10,13 +12,23 @@ public class DefaultPromotionPieces extends PieceCollection{
   private static final String ROOK = "Rook";
   private static final String QUEEN = "Queen";
 
+  /**
+   * Call upon the super to initialize the pieceList
+   */
+  public DefaultPromotionPieces(){
+    super();
+  }
+
+  /**
+   * @return the list of possible pieces
+   */
+  @Override
   public List<String> getPossiblePieces() {
-    List<String> myPieces = new ArrayList<>();
-    myPieces.add(BISHOP);
-    myPieces.add(KNIGHT);
-    myPieces.add(ROOK);
-    myPieces.add(QUEEN);
-    return myPieces;
+    addToPieceCollection(BISHOP);
+    addToPieceCollection(KNIGHT);
+    addToPieceCollection(ROOK);
+    addToPieceCollection(QUEEN);
+    return getMyPieceList();
   }
 }
 
