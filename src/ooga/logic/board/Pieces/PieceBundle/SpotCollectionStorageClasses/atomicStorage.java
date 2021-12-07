@@ -3,6 +3,10 @@ package ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+/**
+ * Store the spotCollection explaining the atomic explosion of a piece (ie when this piece explodes,
+ * what kind of blast radius is resulted
+ */
 public class atomicStorage extends SpotCollectionStorage {
   private static final String ATOMIC = "atomic";
 

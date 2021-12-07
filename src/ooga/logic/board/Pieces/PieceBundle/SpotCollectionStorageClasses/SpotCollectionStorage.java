@@ -5,9 +5,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 
-/**
- * 
- */
+
 abstract public class SpotCollectionStorage implements SpotCollectionStorageInterface {
   private static final String CAPTURE = "capture";
   private static final String MOVEMENT = "movement";
@@ -27,7 +25,7 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
   private Map<String,String> myDataMap;
 
   /**
-   *
+   * 
    * @param pieceToString
    * @param attributeMap
    * @param pieceProperties
@@ -144,7 +142,7 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
   }
 
   /**
-   *
+   * 
    * @return
    */
   @Override
@@ -163,7 +161,7 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
   }
 
   /**
-   *
+   * 
    * @param myMap Map of relevant keys and what we want them to be set to
    */
   @Override
