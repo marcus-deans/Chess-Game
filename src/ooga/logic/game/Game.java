@@ -32,6 +32,7 @@ public class Game {
     private Coordinate puzzleFinish;
     private String gameType;
     private boolean isAtomic=false;
+    private boolean filter=true;
 
     public Game(int height, int width, Map<String,String> myMap){
         myBoard = new GameBoard(height, width, myMap);
@@ -163,13 +164,34 @@ public class Game {
     }
 
     public Set<Spot> getPossibleCoordinates(Coordinate selected, int team){
-        List<Coordinate> myMoveList = filterMoves(selected);
-        List<Coordinate> myCaptureList = filterCaptures(selected);
+        List<Coordinate> myMoveList;
+        List<Coordinate> myCaptureList;
+        if(filter)
+        {
+            myMoveList = filterMoves(selected);
+            myCaptureList = filterCaptures(selected);
+        }
+        else
+        {
+            myMoveList = listOfListToList(getMyPiece(selected).getPossibleMoves().getPossibleSpots(selected));
+            myCaptureList = listOfListToList(getMyPiece(selected).getPossibleCaptures().getPossibleSpots(selected));
+        }
         myMoveList.addAll(myCaptureList);
 
         Set<Spot> possibleSet = myMoveList.stream().
             map(myBoard::getSpot).collect(Collectors.toSet());
         return possibleSet;
+    }
+
+    public List<Coordinate> listOfListToList(List<List<Coordinate>> a)
+    {
+        List<Coordinate> coords=new ArrayList<>();
+        for (List<Coordinate> myList : a){
+            for(Coordinate eachCoord : myList){
+                coords.add(eachCoord);
+            }
+        }
+        return coords;
     }
 
     private void removePieceFromGame(Piece capturedPiece){
@@ -285,5 +307,9 @@ public class Game {
 
     public void pawnsToPiece(String piece) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         myBoard.pawnsToPiece(piece);
+    }
+
+    public void setFilter(boolean filter) {
+        this.filter = filter;
     }
 }

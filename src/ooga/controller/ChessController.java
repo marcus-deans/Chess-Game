@@ -441,7 +441,7 @@ public class ChessController implements Controller {
    *
    */
   private void IgnoreFilters(){
-
+    myGame.setFilter(false);
   }
 
   /**
