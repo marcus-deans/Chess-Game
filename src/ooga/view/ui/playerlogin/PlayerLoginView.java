@@ -45,7 +45,6 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
   PanelListener myPanelListener;
   Stage myStage;
   TextField nameField;
-  TextField emailField;
   TextField passwordField;
   int myPlayerIdentifier;
 
@@ -193,12 +192,6 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
               getWord("name_field_error"));
           return;
         }
-        if (emailField.getText().isEmpty()) {
-          showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(),
-              getWord("login_form_error"),
-              getWord("email_field_error"));
-          return;
-        }
         if (passwordField.getText().isEmpty()) {
           showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(),
               getWord("login_form_error"),
@@ -207,7 +200,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
         }
 
         String name = nameField.getText();
-        String email = emailField.getText();
+        String email = getWord("login_form_error");
         String password = passwordField.getText();
         String team = teamSelected[0];
         String colour = colorSelected[0];
@@ -248,15 +241,6 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     nameField = new TextField();
     nameField.setPrefHeight(getInt("input_field_height"));
     gridPane.add(nameField, getInt("field_column"), getInt("name_row"));
-
-    // Add Email Label
-    Label emailLabel = makeLabel(getWord("email_label_text"));
-    gridPane.add(emailLabel, getInt("label_column"), getInt("email_row"));
-
-    // Add Email Text Field
-    emailField = new TextField();
-    emailField.setPrefHeight(getInt("input_field_height"));
-    gridPane.add(emailField, getInt("field_column"), getInt("email_row"));
 
     // Add Password Label
     Label passwordLabel = makeLabel(getWord("password_label_text"));

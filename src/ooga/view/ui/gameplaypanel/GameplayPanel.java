@@ -11,14 +11,17 @@ public class GameplayPanel extends SharedUIComponents {
   private int myGameplayPanelX;
   private GraveyardPanel myGraveyardPanel;
   private HistoryPanel myHistoryPanel;
+  private VariantPanel myVariantPanel;
+  private String myDescription;
 
   /**
    * Create the general control panel constructor
    *
    * @param gameplayPanelX the location on the UI that the control panel should be located at
    */
-  public GameplayPanel(int gameplayPanelX) {
+  public GameplayPanel(int gameplayPanelX, String description) {
     myGameplayPanelX = gameplayPanelX;
+    myDescription = description;
   }
 
   public Node createGameplayPanel() {
@@ -28,9 +31,7 @@ public class GameplayPanel extends SharedUIComponents {
     newGameplayPanel.setLayoutX(myGameplayPanelX);
     newGameplayPanel.setLayoutY(getInt("gameplay_panel_y"));
 
-    //TODO: fix description
-    String myDescription = "Fix me by passing in from controller";
-    VariantPanel myVariantPanel = new VariantPanel(myDescription);
+    myVariantPanel = new VariantPanel(myDescription);
     myVariantPanel.setPanelListener(this.getPanelListener());
     newGameplayPanel.getChildren().add(myVariantPanel.createVariantPanel());
 
@@ -55,5 +56,9 @@ public class GameplayPanel extends SharedUIComponents {
 
   public void updateGraveyard(Piece deadPiece) {
     myGraveyardPanel.addGraveyardEntry(deadPiece);
+  }
+
+  public void setBoardDescription(String description){
+    myVariantPanel.setBoardDescription(description);
   }
 }

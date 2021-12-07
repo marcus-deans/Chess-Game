@@ -131,12 +131,13 @@ public class GameView extends Application implements PanelListener, GameChessVie
    *                       of a UI panel changes due to user interaction
    */
   public GameView(int frameWidth, int frameHeight, int boardWidth, int boardHeight,
-      String background, String filename, Controller gameController) {
+      String background, String filename, String description, Controller gameController) {
     this.frameWidth = frameWidth;
     this.frameHeight = frameHeight;
     this.boardWidth = boardWidth;
     this.boardHeight = boardHeight;
     frameBackground = Color.web(background);
+    myDescription = description;
     myFilename = filename;
     myChessController = gameController;
     gridDisplayLength = frameWidth - getInt("width_buffer");
@@ -240,7 +241,7 @@ public class GameView extends Application implements PanelListener, GameChessVie
 
   //create gameplay panel on left of screen to control variant, move history, and dead pieces
   private Node createGameplayPanel() {
-    myGameplayPanel = new GameplayPanel(gameplayPanelX);
+    myGameplayPanel = new GameplayPanel(gameplayPanelX, myDescription);
     myGameplayPanel.setPanelListener(this);
     return myGameplayPanel.createGameplayPanel();
   }
@@ -351,9 +352,8 @@ public class GameView extends Application implements PanelListener, GameChessVie
   }
 
   @Override
-  public void changeVariant(String variant) {
-    //TODO: callback to controller to change the variant
-    myChessController.changeVariant(variant);
+  public void selectCheatCode(String cheatCode) {
+    myChessController.acceptCheatCode(cheatCode);
   }
 
   //compute which cell on the grid this corresponds to, NOT the pixel position
@@ -450,6 +450,13 @@ public class GameView extends Application implements PanelListener, GameChessVie
     myGridView.colourChessCell(spot, hexColour);
   }
 
+  @Override
+  public void setBoardDescription(String boardDescription){
+    myDescription = boardDescription;
+    myGameplayPanel.setBoardDescription(myDescription);
+  }
+
+
   //get the filename for the simulation file that the user wants to save the current simulation to
   private String getUserSaveFileName(String message) {
     // TODO: implement interface from gamecontroller
@@ -508,4 +515,5 @@ public class GameView extends Application implements PanelListener, GameChessVie
     }
     return value;
   }
+
 }

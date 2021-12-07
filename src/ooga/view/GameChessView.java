@@ -52,4 +52,6 @@ public interface GameChessView {
   public void undoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 
   public void displayGameComplete(int teamNumber);
+
+  public void setBoardDescription(String boardDescription);
 }

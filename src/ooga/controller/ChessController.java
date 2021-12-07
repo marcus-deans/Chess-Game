@@ -25,6 +25,7 @@ import ooga.logic.board.spot.Spot;
 import ooga.logic.game.Game;
 import ooga.logic.game.Player;
 import ooga.util.IncorrectCSVFormatException;
+import ooga.view.GameChessView;
 import ooga.view.GameView;
 
 
@@ -39,7 +40,7 @@ public class ChessController implements Controller {
   private static final String PIECES_PACKAGE =
       ChessController.class.getPackageName() + ".controllerresources.";
   private static final String PUZZLE_CSV_MAP = "Puzzles";
-  private GameView myGameView;
+  private GameChessView myGameView;
   private int BOARDWIDTH;
   private int BOARDHEIGHT;
   private Stack<GameCoordinate[]> history;
@@ -80,7 +81,7 @@ public class ChessController implements Controller {
    * @param filename
    */
   public ChessController(int width, int height, String background, String filename) throws IOException {
-    myGameView = new GameView(width, height, 8, 8, background, filename, this);
+    myGameView = new GameView(width, height, 8, 8, background, filename, filename,this);
     myGame = new Game(height, width, new HashMap<>());
     myGameView.start(new Stage());
 
@@ -121,6 +122,7 @@ public class ChessController implements Controller {
     myRulesMap = getRulesFromSim(myData);
     myGame = new Game(BOARDHEIGHT, BOARDWIDTH,myRulesMap);
     myGame.setGameType(myData.get("Type"));
+    setBoardDescription(myData.get("Description"));
     if (myData.get("Type").equals("Puzzles")) {
       myGame.setPuzzleSolution(puzzleMap.getString(puzzleName));
     }
@@ -133,6 +135,10 @@ public class ChessController implements Controller {
     history = new Stack<GameCoordinate[]>();
     unwind = new Stack<GameCoordinate[]>();
     myLogger.log(Level.INFO, "Inititalized: " + myData.get("Type") + " gametype");
+  }
+
+  private void setBoardDescription(String boardDescription){
+    myGameView.setBoardDescription(boardDescription);
   }
 
   private File puzzleBuild() {
@@ -181,18 +187,12 @@ public class ChessController implements Controller {
   @Override
   public boolean setPlayer(int playerIdentifier, String userName, String password, int team, String color) throws IOException {
     Player addPlayer = new Player(playerIdentifier, userName, password, team);
-    if(!addPlayer.checkUser()){
-      //TODO: previous user
-      myLogger.log(Level.INFO, "Welcome Back: " + addPlayer.getUsername());
-    }
-    else {
-      //TODO: new player
-      myLogger.log(Level.INFO, "Welcome: " + addPlayer.getUsername());
-    }
     thePlayers.add(addPlayer);
     currentPlayer = thePlayers.get(0);
     numPlayers = thePlayers.size();
-    return true; //TODO: change to returning appropriate value if player created
+    boolean result = addPlayer.checkUser();
+    addPlayer.setProfileColor(color);
+    return result; //TODO: change to returning appropriate value if player created
   }
 
   @Deprecated
@@ -265,8 +265,8 @@ public class ChessController implements Controller {
     if (myGame.getSpot(clickedPiece).getPiece() != null) {
       if (myTempHashMap.get(turnIterator) == myGame.getSpot(clickedPiece).getPiece().getTeam()) {
         Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece, currentPlayer.getTeam());
-//        highlightSpots(test);
-//        myGameView.colourChessCell(myGame.getSpot(clickedPiece),myData.get("MoveColor"));
+        highlightSpots(test);
+        myGameView.colourChessCell(myGame.getSpot(clickedPiece),myData.get("MoveColor"));
         myLogger.log(Level.INFO, "FIRST CLICK");
         FIRSTCLICK = false;
       }
@@ -449,29 +449,28 @@ public class ChessController implements Controller {
   private void ToroidalYAxis(){
     myGame.setEdgePolicy("CheatCode");
   }
-  /**
-   * Change all Pawns to Queens
-   */
-  private void PawnsToQueens(){
-
+  private void PawnsToQueens()
+          throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    myGame.pawnsToPiece("Q");
+    boardViewBuild(myGame);
   }
-  /**
-   * Change all Pawns to Rooks
-   */
-  private void PawnsToRooks(){
-
+  private void PawnsToRooks() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    myGame.pawnsToPiece("R");
+    boardViewBuild(myGame);
   }
   /**
    * Change all Pawns to Knights
    */
-  private void PawnsToKnights(){
-
+  private void PawnsToKnights() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    myGame.pawnsToPiece("N");
+    boardViewBuild(myGame);
   }
   /**
    * Change all Pawns to Bishops
    */
-  private void PawnsToBishops(){
-
+  private void PawnsToBishops() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    myGame.pawnsToPiece("B");
+    boardViewBuild(myGame);
   }
   /**
    * Allow pieces to jump eachother like horses
@@ -495,8 +494,9 @@ public class ChessController implements Controller {
   /**
    *
    */
-  private void OpeningAlpha(){
-
+  private void PawnBattle() throws CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, IncorrectCSVFormatException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    File file=new File("data/PawnBattle.sim");
+    initializeFromFile(file);
   }
 
   /**

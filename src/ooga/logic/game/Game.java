@@ -43,6 +43,7 @@ public class Game {
             myBoard.setEdgePolicy(s);
         }
         catch (Exception e){
+            //myBoard.setEdgePolicy("Basic");
         }
     }
 
@@ -68,77 +69,7 @@ public class Game {
     public void setSelected(Coordinate select){
         selected = select;
     }
-
-    public int getSelectedTeam(){
-        return myBoard.getSpot(selected).getPiece().getTeam();
-    }
-
-    private List<Coordinate> getJumpPossibleCoordinate(List<List<Coordinate>> list){
-        List<Coordinate> myNewList = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++){
-            for(int j = 0; j < list.size(); j++){
-                if(!myBoard.hasPiece(list.get(i).get(j))){
-                   myNewList.add(list.get(i).get(j));
-                }
-            }
-
-        }
-        return myNewList;
-    }
-
-
-    private List<Coordinate> getStandardPossibleCoordinate(List<List<Coordinate>> list){
-        int maxX = Integer.MIN_VALUE;
-        int maxY = Integer.MIN_VALUE;
-        int minX = Integer.MAX_VALUE;
-        int minY = Integer.MAX_VALUE;
-
-        for (List<Coordinate> miniList : list) {
-            for (int i = 0; i < list.size(); i++) {
-                if (myBoard.hasPiece(miniList.get(i))) {
-                    int posX = miniList.get(i).getX_pos();
-                    int posY = miniList.get(i).getY_pos();
-                    //maxX = (selected.getX_pos() < posX && posX < maxX) ? posX: maxX;
-
-                    if (selected.getX_pos() < posX && posX < maxX) {
-                        maxX = posX;
-                    } else if (selected.getX_pos() > posX && posX > minX) {
-                        minX = posX;
-                    }
-                    if (selected.getY_pos() < posY && posY < maxY) {
-                        maxY = posY;
-                    } else if (selected.getY_pos() > posY && posY > minY) {
-                        minY = posY;
-                    }
-                }
-            }
-        }
-
-        List<Coordinate> possiblePositions = new ArrayList<>();
-
-        int finalMaxY = maxY;
-        int finalMinY = minY;
-        int finalMaxX = maxX;
-        int finalMinX = minX;
-        for (List<Coordinate> myIndividualList : list){
-            myIndividualList.stream().
-                filter(elem -> (elem.getY_pos() < finalMaxY) && (elem.getY_pos() > finalMinY)).
-                filter(elem -> (elem.getY_pos() < finalMaxX) && (elem.getY_pos() > finalMinX)).
-                forEach(elem-> possiblePositions.add(elem));
-        }
-
-
-        return possiblePositions;
-    }
-
-    private void addCapturePositions(List<List<Coordinate>> possibleCapture){
-        for (List<Coordinate> miniCaptureSet : possibleCapture){
-            miniCaptureSet.stream().filter(piece -> myBoard.hasPiece(piece)).
-                forEach(piece -> possibleCoordinates.add(piece));
-        }
-    }
-
-
+    
     private List<Coordinate> filterCaptures(Coordinate selected) {
         Piece myPiece = getMyPiece(selected);
         List<List<Coordinate>> possibleCapturePositions = myPiece.getPossibleCaptures().getPossibleSpots(selected);
@@ -322,9 +253,6 @@ public class Game {
         return isGameOver;
     }
 
-    public Spot getSpot(GameCoordinate coordinate){
-        return myBoard.getSpot(coordinate);
-    }
 
     public void resetClick(){
 
@@ -353,5 +281,9 @@ public class Game {
     {
         this.gameType=type;
         if (gameType.equals("Atomic")) isAtomic=true;
+    }
+
+    public void pawnsToPiece(String piece) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        myBoard.pawnsToPiece(piece);
     }
 }
