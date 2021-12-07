@@ -290,11 +290,12 @@ public class GameBoard implements Board {
      */
     public void makePiecesCannibalize()
     {
+        myRules.put("All|jump","true");
         for (Spot s : board)
         {
             if(s.getPiece()!=null)
             {
-
+                s.getPiece().updateRules(myRules);
             }
         }
     }
