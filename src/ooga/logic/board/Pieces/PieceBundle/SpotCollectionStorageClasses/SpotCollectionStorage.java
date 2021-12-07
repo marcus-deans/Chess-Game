@@ -3,6 +3,7 @@ package ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.ResourceBundle;
+import jdk.swing.interop.SwingInterOpUtils;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 
 abstract public class SpotCollectionStorage implements SpotCollectionStorageInterface {
@@ -88,38 +89,44 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
 
   private SpotCollection getSpotCollectionFromBundle(ResourceBundle pieceProperties)
       throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
-    Class[] params={int.class, int.class};
+    Class[] params={int.class};
     return (SpotCollection) Class.forName(
         String.format("%s.%s", SPOT_COLLECTION_BASE, pieceProperties.
             getString(
                 String.format("%s%s", getMySpotType(), teamMatters)
             ))
-    ).getConstructor(params).newInstance(getBoardWidth(),getBoardHeight());
+    ).getConstructor(params).newInstance(Math.max(getBoardHeight(),getBoardWidth()));
   }
 
   private int getBoardWidth(){
-    return (myDataMap.containsKey(WIDTH) ? Integer.parseInt(myDataMap.get(WIDTH)) : DEFAULT_BOARD_WIDTH);
+    if (myDataMap == null){
+      return DEFAULT_BOARD_WIDTH;
+    }
+    return myDataMap.containsKey(WIDTH) ? Integer.parseInt(myDataMap.get(WIDTH)) : DEFAULT_BOARD_WIDTH;
   }
   private int getBoardHeight(){
-    return (myDataMap.containsKey(HEIGHT) ? Integer.parseInt(myDataMap.get(HEIGHT)) : DEFAULT_BOARD_HEIGHT);
+    if (myDataMap == null){
+      return DEFAULT_BOARD_HEIGHT;
+    }
+    return myDataMap.containsKey(HEIGHT) ? Integer.parseInt(myDataMap.get(HEIGHT)) : DEFAULT_BOARD_HEIGHT;
 
   }
 
   private SpotCollection getFromSpotCollection()
       throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
-    Class[] params={int.class, int.class};
+    Class[] params={int.class};
     return (SpotCollection) Class.forName(
         String.format("%s.%s",SPOT_COLLECTION_BASE ,
             myDataMap.get(getMySpotType())
-        )).getConstructor().newInstance(getBoardWidth(),getBoardHeight());
+        )).getConstructor(params).newInstance(Math.max(getBoardHeight(),getBoardWidth()));
   }
 
   private SpotCollection getFromType(String mySpotType)
       throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
-    Class[] params={int.class, int.class};
+    Class[] params={int.class};
     return (SpotCollection) Class.forName(
         String.format("%s.%s%s", SPOT_COLLECTION_BASE, pieceToString, capitalizeFirst(mySpotType))
-    ).getConstructor().newInstance(Math.max(getBoardHeight(),getBoardWidth()));
+    ).getConstructor(params).newInstance(Math.max(getBoardHeight(),getBoardWidth()));
   }
 
 
