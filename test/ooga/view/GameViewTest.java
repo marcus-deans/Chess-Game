@@ -51,7 +51,6 @@ public class GameViewTest extends DukeApplicationTest {
     mySaveButton = lookup("#save-button").queryButton();
     myUndoButton = lookup("#undo-button").queryButton();
     myRedoButton = lookup("#redo-button").queryButton();
-
   }
 
   @Test
@@ -100,8 +99,15 @@ public class GameViewTest extends DukeApplicationTest {
   @Test
   void testUndoHistoryButton(){
     String expected = "Undo Move";
-    clickOn(undoHistoryButton);
-    assertEquals(expected, undoHistoryButton.getText());
+    clickOn(myUndoButton);
+    assertEquals(expected, myUndoButton.getText());
+  }
+
+  @Test
+  void testRedoHistoryButton(){
+    String expected = "Redo Move";
+    clickOn(myRedoButton);
+    assertEquals(expected, myRedoButton.getText());
   }
 
   @Test
