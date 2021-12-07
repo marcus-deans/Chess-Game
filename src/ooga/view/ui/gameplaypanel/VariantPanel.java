@@ -36,6 +36,7 @@ public class VariantPanel extends SharedUIComponents {
     initializeDropdownOptions();
   }
 
+  //create the list of cheat code options that can be selected from
   private void initializeDropdownOptions(){
     cheatCodeOptions = new ArrayList<String>();
     String[] cheatCodeIdentifiers = getString("CheatCodeOptions").split(",");
@@ -75,6 +76,7 @@ public class VariantPanel extends SharedUIComponents {
     return cheatControlDropDown;
   }
 
+  //create the JavaFX button that will show a description of hte simulation
   private Button initializeVariantDescriptionButton() {
     variantDescriptionButton = makeButton(getWord("variant_description_button"), event -> {
       Alert alert = new Alert(AlertType.INFORMATION);
@@ -88,6 +90,10 @@ public class VariantPanel extends SharedUIComponents {
     return variantDescriptionButton;
   }
 
+  /**
+   * Set the new description of the simulation
+   * @param description the text of the simulation description
+   */
   public void setBoardDescription(String description) {
     myDescription = description;
     variantDescriptionButton.setOnAction(event -> {
