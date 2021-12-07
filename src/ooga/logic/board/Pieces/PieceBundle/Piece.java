@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import ooga.logic.board.Pieces.Interfaces.*;
+import ooga.logic.board.Pieces.Interfaces.PieceLogic;
 import ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses.*;
 import ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses.*;
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
@@ -14,7 +14,7 @@ import ooga.logic.board.Pieces.SpotCollection.LastRankSpots;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 import ooga.logic.board.coordinate.Coordinate;
 
-abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, PromoteLogic{
+abstract public class Piece implements PieceLogic{
   private Coordinate myCoordinate;
   private SpotCollection areaOfEffect;
   private SpotCollection myPromotionSpots;
