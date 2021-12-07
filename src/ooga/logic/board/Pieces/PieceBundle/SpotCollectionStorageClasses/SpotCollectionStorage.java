@@ -3,8 +3,15 @@ package ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.ResourceBundle;
+import ooga.logic.board.Pieces.SpotCollection.NoMovement;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 
+
+/**
+ * Abstract class to generally parse through and figure out the SpotCollection for a specific aspect
+ * of a piece
+ * @author Amr Tagel-Din
+ */
 abstract public class SpotCollectionStorage implements SpotCollectionStorageInterface {
   private static final String CAPTURE = "capture";
   private static final String MOVEMENT = "movement";
@@ -23,7 +30,17 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
   private String teamMatters;
   private Map<String,String> myDataMap;
 
-
+  /**
+   * Scan all the sources of information below for the atomic nature of this given piece
+   * @param pieceToString String that we want to scan the attribute map for
+   * @param attributeMap map of keys and values that define the pieces outside of the default;
+   *                     allow for flexible pieces
+   * @param pieceProperties default properties of this particular piece
+   * @param defaultProperties default properties of any piece assuming that the property is not
+   *                          available in the piece properties
+   * @param teamMatters either an empty variable, or the team number depending on if the team affects
+   *                    the manner in which the piece moves (ex: white pawns vs black pawns)
+   */
   public SpotCollectionStorage(String pieceToString, Map<String, String> attributeMap,
       ResourceBundle pieceProperties, ResourceBundle defaultProperties, String teamMatters) {
       this.pieceProperties = pieceProperties;
@@ -63,7 +80,7 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
       movementOrNone();
     }
   }
-  private void movementOrNone() {
+  protected void movementOrNone() {
     try{
       setMySpotCollection(
           getFromType(MOVEMENT)
@@ -82,7 +99,7 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
     );
   }
   catch (Exception e){
-    //SOME KIND OF ERROR
+    setMySpotCollection(new NoMovement(getWidthHeightMax()));
   }
   }
 
@@ -94,7 +111,7 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
             getString(
                 String.format("%s%s", getMySpotType(), teamMatters)
             ))
-    ).getConstructor(params).newInstance(Math.max(getBoardHeight(),getBoardWidth()));
+    ).getConstructor(params).newInstance(getWidthHeightMax());
   }
 
   private int getBoardWidth(){
@@ -117,7 +134,7 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
     return (SpotCollection) Class.forName(
         String.format("%s.%s",SPOT_COLLECTION_BASE ,
             myDataMap.get(getMySpotType())
-        )).getConstructor(params).newInstance(Math.max(getBoardHeight(),getBoardWidth()));
+        )).getConstructor(params).newInstance(getWidthHeightMax());
   }
 
   private SpotCollection getFromType(String mySpotType)
@@ -125,7 +142,7 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
     Class[] params={int.class};
     return (SpotCollection) Class.forName(
         String.format("%s.%s%s", SPOT_COLLECTION_BASE, pieceToString, capitalizeFirst(mySpotType))
-    ).getConstructor(params).newInstance(Math.max(getBoardHeight(),getBoardWidth()));
+    ).getConstructor(params).newInstance(getWidthHeightMax());
   }
 
 
@@ -133,6 +150,10 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
     mySpotCollection = myNewSpotCollection;
   }
 
+  /**
+   * @return The specific SpotCollection we've found
+   */
+  @Override
   public SpotCollection getSpotCollection(){
     if (mySpotCollection == null){
       setBundle();
@@ -140,18 +161,25 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
     return mySpotCollection;
   }
 
-  private String capitalizeFirst(String toBeCapitalized){
-    if (toBeCapitalized.length() == 0){
-      return toBeCapitalized;
-    }
-    return toBeCapitalized.substring(0, 1).toUpperCase() + toBeCapitalized.substring(1);
+  private String capitalizeFirst(String toBeCapitalized) {
+    return (toBeCapitalized.length() == 0) ? toBeCapitalized
+        : toBeCapitalized.substring(0, 1).toUpperCase() + toBeCapitalized.substring(1);
   }
 
+  /**
+   * 
+   * @param myMap Map of relevant keys and what we want them to be set to
+   */
   @Override
   public void update(Map<String, String> myMap) {
     myDataMap = myMap;
     setBundle();
   }
   protected abstract String getMySpotType();
+
+  private int getWidthHeightMax(){
+    return Math.max(getBoardHeight(),getBoardWidth());
+  }
+
 
 }

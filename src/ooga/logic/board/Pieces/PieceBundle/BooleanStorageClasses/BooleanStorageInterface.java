@@ -5,6 +5,7 @@ import java.util.Map;
 /**
  * Using a map that stores keys and values, this interface allows you to calculate and
  * store specific values
+ * @author Amr Tagel-Din
  */
 public interface BooleanStorageInterface {
 

@@ -11,6 +11,9 @@ import ooga.logic.board.coordinate.Coordinate;
  */
 public class ContinuousLine extends SpecificSpotCollection {
 
+  /**
+   * @param width max of width or height
+   */
   public ContinuousLine(int width){
     setMyWidth(width);
   }

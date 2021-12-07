@@ -1,8 +1,7 @@
 package ooga.logic.game;
 
 import java.util.Set;
-import ooga.logic.board.Pieces.PieceBundle.King;
-import ooga.logic.board.board.GameBoard;
+import ooga.logic.board.Pieces.PieceBundle.pieces.King;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
 import ooga.logic.board.spot.GameSpot;
@@ -14,10 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class GameTest {
     @Test

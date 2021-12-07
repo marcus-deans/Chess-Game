@@ -11,19 +11,21 @@ import ooga.logic.board.coordinate.Coordinate;
  */
 public class OneTimeDirection extends SpecificSpotCollection {
 
-//  /**
-//   * return the specific spot that we are pointing to, or an empty list if this spot is invalid
-//   * @param coordinate The coordinate that we are starting at
-//   * @param xChange the xChange is the x distance away from the coordinate we will check
-//   * @param yChange the yChange is the y distance away from the coordinate we will check
-//   * @return an empty list if the coordinate is invalid, or a list with the single spot if it is
-//   * valid
-//   */
+  /**
+   * @param width the max of either the width or height of the board
+   */
   public OneTimeDirection(int width){
     setMyWidth(width);
   }
 
 
+  /**
+   * Get the possible coordinates in a given direction
+   * @param coordinate The coordinate that we are starting at
+   * @param xChange the xChange is the change in the xDirection we will take either once, or repeatedly
+   * @param yChange the yChange is the change in the yDirection we will take either once, or repeatedly
+   * @return
+   */
   @Override
   public List<Coordinate> getPossibleSpots(Coordinate coordinate, int xChange, int yChange) {
     return Diagonal(coordinate, xChange, yChange);

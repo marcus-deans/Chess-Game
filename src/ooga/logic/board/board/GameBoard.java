@@ -2,9 +2,8 @@ package ooga.logic.board.board;
 
 
 import java.util.Map;
-import ooga.logic.board.Pieces.PieceBundle.Piece;
+import ooga.logic.board.Pieces.PieceBundle.pieces.Piece;
 import ooga.logic.board.coordinate.Coordinate;
-import ooga.logic.board.coordinate.GameCoordinate;
 import ooga.logic.board.edgepolicies.EdgePolicies;
 import ooga.logic.board.spot.GameSpot;
 import ooga.logic.board.spot.Spot;
@@ -13,7 +12,6 @@ import ooga.logic.game.Game;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;

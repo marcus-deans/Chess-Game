@@ -7,20 +7,31 @@ import ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle.Conti
 import ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle.OneTimeDirection;
 import ooga.logic.board.coordinate.Coordinate;
 
+/**
+ * Class that stores a collection of spots
+ */
 abstract public class SpotCollection implements SpotCollectionInterface{
   private ResourceBundle pieceProperties;
-  private ResourceBundle teamProperties;
   private static final String BASE = SpotCollection.class.getPackageName() + ".resources";
   private static final String DIRECTION = "Directions";
-//  private static final String TEAM_DEFAULT_DIRECTIONS = "TeamDefaultDirections";
   private int boardWidth;
 
+  /**
+   * Set width and piece Properties
+   * Pass width back to define bounds
+   * @param width max of width of height of board
+   */
   public SpotCollection(int width){
     boardWidth = width;
     pieceProperties = ResourceBundle.getBundle(String.format("%s.%s",BASE,DIRECTION));
-//    teamProperties = ResourceBundle.getBundle(String.format("%s.%s",BASE, TEAM_DEFAULT_DIRECTIONS));
   }
 
+  /**
+   * return a list of list of coordinates, where within each list a coordinate being reached
+   * depends on the coordinate before it
+   * @param coordinate the coordinate we are currently at
+   * @return the coordinates we could reach with no regard to bounds
+   */
   @Override
   public abstract List<List<Coordinate>> getPossibleSpots(Coordinate coordinate);
 
@@ -28,9 +39,6 @@ abstract public class SpotCollection implements SpotCollectionInterface{
     return pieceProperties;
   }
 
-//  protected ResourceBundle setPieceProperties(){
-//    return teamProperties;
-//  }
 
   protected List<List<Coordinate>> availableSquares(Coordinate myCoordinate,int[] addXAmount, int[] addYAmount){
     List<List<Coordinate>> myCoordinateList = new ArrayList<>();

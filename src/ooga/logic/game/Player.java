@@ -1,15 +1,12 @@
 package ooga.logic.game;
 
-import ooga.logic.board.Pieces.PieceBundle.Piece;
+import ooga.logic.board.Pieces.PieceBundle.pieces.Piece;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;

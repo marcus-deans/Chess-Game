@@ -2,20 +2,14 @@ package ooga.logic.game;
 
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import ooga.logic.board.Pieces.PieceBundle.Piece;
+import ooga.logic.board.Pieces.PieceBundle.pieces.Piece;
 import ooga.logic.board.board.GameBoard;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
 import ooga.logic.board.spot.GameSpot;
 import ooga.logic.board.spot.Spot;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
