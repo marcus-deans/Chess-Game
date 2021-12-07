@@ -187,18 +187,10 @@ public class ChessController implements Controller {
   @Override
   public boolean setPlayer(int playerIdentifier, String userName, String password, int team, String color) throws IOException {
     Player addPlayer = new Player(playerIdentifier, userName, password, team);
-    if(!addPlayer.checkUser()){
-      //TODO: previous user
-      myLogger.log(Level.INFO, "Welcome Back: " + addPlayer.getUsername());
-    }
-    else {
-      //TODO: new player
-      myLogger.log(Level.INFO, "Welcome: " + addPlayer.getUsername());
-    }
     thePlayers.add(addPlayer);
     currentPlayer = thePlayers.get(0);
     numPlayers = thePlayers.size();
-    return true; //TODO: change to returning appropriate value if player created
+    return addPlayer.checkUser(); //TODO: change to returning appropriate value if player created
   }
 
   @Deprecated
