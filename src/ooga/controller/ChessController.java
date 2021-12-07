@@ -267,7 +267,8 @@ public class ChessController implements Controller {
         Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece, currentPlayer.getTeam());
         highlightSpots(test);
         myGameView.colourChessCell(myGame.getSpot(clickedPiece),myData.get("MoveColor"));
-        myLogger.log(Level.INFO, "FIRST CLICK");
+        myLogger.log(Level.INFO, currentPlayer.getUsername() + "'s turn!");
+
         FIRSTCLICK = false;
       }
     }
