@@ -3,6 +3,9 @@ package ooga.logic.board.Pieces.SpotCollection;
 import java.util.List;
 import ooga.logic.board.coordinate.Coordinate;
 
+/**
+ * Class that stores the possible coordinates a Knight could reach from a given coordinate
+ */
 public class KnightMovement extends SpotCollection {
   private static final String PIECE_AS_STRING = "knight";
   private static final String SIGNS_AS_STRING = "signs";

@@ -7,6 +7,9 @@ import ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle.Conti
 import ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle.OneTimeDirection;
 import ooga.logic.board.coordinate.Coordinate;
 
+/**
+ * Class that stores a collection of spots
+ */
 abstract public class SpotCollection implements SpotCollectionInterface{
   private ResourceBundle pieceProperties;
   private ResourceBundle teamProperties;

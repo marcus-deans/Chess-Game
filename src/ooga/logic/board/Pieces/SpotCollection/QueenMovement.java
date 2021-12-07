@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import ooga.logic.board.coordinate.Coordinate;
 
+/**
+ * Class that stores the possible coordinates a Queen could reach from a given coordinate
+ */
 public class QueenMovement extends SpotCollection {
 
   public QueenMovement(int width){

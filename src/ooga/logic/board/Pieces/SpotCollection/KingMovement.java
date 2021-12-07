@@ -3,6 +3,9 @@ package ooga.logic.board.Pieces.SpotCollection;
 import java.util.List;
 import ooga.logic.board.coordinate.Coordinate;
 
+/**
+ * Class that stores the possible coordinates a King could reach from a given coordinate
+ */
 public class KingMovement extends SpotCollection {
   private static final String HORIZONTAL_RANGE = "horizontalRange";
   private static final String VERTICAL_RANGE = "verticalRange";

@@ -1,11 +1,13 @@
 package ooga.logic.board.Pieces.SpotCollection;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
 
+/**
+ * Class that stores the possible coordinates a reverse pawn could reach from a given coordinate
+ */
 public class ReversePawnMovement extends SpotCollection {
   private static final String PIECE_AS_STRING = "reversePawnMovement";
 

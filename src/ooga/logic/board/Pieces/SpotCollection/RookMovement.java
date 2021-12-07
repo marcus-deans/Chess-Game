@@ -3,6 +3,9 @@ package ooga.logic.board.Pieces.SpotCollection;
 import java.util.List;
 import ooga.logic.board.coordinate.Coordinate;
 
+/**
+ * Class that stores the possible coordinates a rook could reach from a given coordinate
+ */
 public class RookMovement extends SpotCollection {
   private static final String PIECE_AS_STRING = "rook";
 
