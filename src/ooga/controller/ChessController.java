@@ -25,6 +25,7 @@ import ooga.logic.board.spot.Spot;
 import ooga.logic.game.Game;
 import ooga.logic.game.Player;
 import ooga.util.IncorrectCSVFormatException;
+import ooga.view.GameChessView;
 import ooga.view.GameView;
 
 
@@ -39,7 +40,7 @@ public class ChessController implements Controller {
   private static final String PIECES_PACKAGE =
       ChessController.class.getPackageName() + ".controllerresources.";
   private static final String PUZZLE_CSV_MAP = "Puzzles";
-  private GameView myGameView;
+  private GameChessView myGameView;
   private int BOARDWIDTH;
   private int BOARDHEIGHT;
   private Stack<GameCoordinate[]> history;
@@ -80,7 +81,7 @@ public class ChessController implements Controller {
    * @param filename
    */
   public ChessController(int width, int height, String background, String filename) throws IOException {
-    myGameView = new GameView(width, height, 8, 8, background, filename, this);
+    myGameView = new GameView(width, height, 8, 8, background, filename, filename,this);
     myGame = new Game(height, width, new HashMap<>());
     myGameView.start(new Stage());
 
@@ -121,6 +122,7 @@ public class ChessController implements Controller {
     myRulesMap = getRulesFromSim(myData);
     myGame = new Game(BOARDHEIGHT, BOARDWIDTH,myRulesMap);
     myGame.setGameType(myData.get("Type"));
+    setBoardDescription(myData.get("Description"));
     if (myData.get("Type").equals("Puzzles")) {
       myGame.setPuzzleSolution(puzzleMap.getString(puzzleName));
     }
@@ -133,6 +135,10 @@ public class ChessController implements Controller {
     history = new Stack<GameCoordinate[]>();
     unwind = new Stack<GameCoordinate[]>();
     myLogger.log(Level.INFO, "Inititalized: " + myData.get("Type") + " gametype");
+  }
+
+  private void setBoardDescription(String boardDescription){
+    myGameView.setBoardDescription(boardDescription);
   }
 
   private File puzzleBuild() {
