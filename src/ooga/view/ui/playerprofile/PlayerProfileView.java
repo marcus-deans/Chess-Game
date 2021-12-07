@@ -3,6 +3,7 @@ package ooga.view.ui.playerprofile;
 import static ooga.util.ResourceRetriever.getWord;
 import static ooga.util.ResourceRetriever.showAlert;
 
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.geometry.HPos;
@@ -152,17 +153,8 @@ public class PlayerProfileView extends Application implements PlayerProfileInter
 
   //determine which team the player is on based on the field
   private String determineTeam(int teamNumber){
-    switch(teamNumber){
-      case 1 -> {
-        return "White";
-      }
-      case 2 -> {
-        return "Black";
-      }
-      default -> {
-        return "Team Error";
-      }
-    }
+    Map<Integer, String> intMap = Map.of(1, "Black", 2, "White");
+    return intMap.getOrDefault(teamNumber, "Error");
   }
 
   /**
