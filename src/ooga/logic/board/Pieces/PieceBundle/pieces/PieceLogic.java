@@ -68,6 +68,13 @@ public interface PieceLogic {
     boolean canCapture(Coordinate captureCoordinate);
 
     /**
+     *  can you move a piece to a given coordinate?
+     * @param moveCoordinate the coordinate to be moved to
+     * @return whether you can move to a square at the given coordinate
+     */
+    boolean canMoveTo(Coordinate moveCoordinate);
+
+    /**
      *
      * @return the list of possible coordinates to move to
      */
@@ -94,4 +101,30 @@ public interface PieceLogic {
      */
     PieceCollection possiblePromotionPieces();
 
+    /**
+     * @return the area of atomic impact upon being eaten
+     */
+    SpotCollection getAtomicArea();
+
+    /**
+     * @return whether or not a piece is immune to being killed by an atomic blast
+     */
+    boolean getAtomicImmunity();
+
+    /**
+     * @return the name of a piece, the string representing its name
+     */
+    String getPieceName();
+
+    /**
+     *
+     * @param otherPiece the other piece we're comparing
+     * @return if the two pieces are of the same type
+     */
+    boolean equals(Piece otherPiece);
+
+    /**
+     * @param promotionToSet; the new spots that a piece can promote at
+     */
+    void setMyPromotionSpots(SpotCollection promotionToSet);
 }
