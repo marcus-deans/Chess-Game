@@ -75,7 +75,7 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
     }
   }
 
-  private void getDefaultState(){
+  protected void getDefaultState(){
   try {
     setMySpotCollection(
         getSpotCollectionFromBundle(defaultProperties)
