@@ -45,7 +45,7 @@ public class PlayerControlPanel extends SharedUIComponents {
 
   public void playerHasLoggedIn(int playerIndex){
     try {
-      Button loggedInPlayerButton = myPlayerButtons.get(playerIndex);
+      Button loggedInPlayerButton = myPlayerButtons.get(playerIndex-1);
       loggedInPlayerButton.setText(getWord("player_login_button_display"));
       loggedInPlayerButton.setOnAction(action -> this.getPanelListener().openPlayerProfile(playerIndex));
     } catch (Exception e){

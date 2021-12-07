@@ -59,6 +59,7 @@ public class ChessController implements Controller {
   private ResourceBundle puzzleMap;
   private int puzzleNumber;
   private String puzzleName;
+  private final String[] ALPHABET = {"a","b","c","d","e","f","g","h","i","j","k"};
 
   private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
@@ -186,9 +187,9 @@ public class ChessController implements Controller {
     }
     else {
       //TODO: new player
-      thePlayers.add(addPlayer);
       myLogger.log(Level.INFO, "Welcome: " + addPlayer.getUsername());
     }
+    thePlayers.add(addPlayer);
     currentPlayer = thePlayers.get(0);
     numPlayers = thePlayers.size();
     return true; //TODO: change to returning appropriate value if player created
@@ -202,7 +203,7 @@ public class ChessController implements Controller {
 
   @Override
   public Player getPlayer(int playerIdentifier){
-    return thePlayers.get(playerIdentifier);
+    return thePlayers.get(playerIdentifier-1);
   }
 
 
@@ -293,10 +294,11 @@ public class ChessController implements Controller {
       myGame.movePiece(clickedPiece, nextMove);
       myGameView.updateChessCell(myGame.getSpot(clickedPiece));
       FIRSTCLICK = true;
-      myGameView.addHistory(clickedPiece.getX_pos() + "," + clickedPiece.getY_pos() + " -> "+ nextMove.getX_pos() + "," + nextMove.getY_pos());
+      myGameView.addHistory(ALPHABET[clickedPiece.getX_pos()] + "," + clickedPiece.getY_pos()+1 + " -> "+ ALPHABET[nextMove.getX_pos()] + "," + nextMove.getY_pos()+1);
       numTurns++;
       unwind.clear();
       //TODO IS GAME OVER: (update user score: winner ->true, loser ->false) (check isGameOver from Game)
+      checkEndGame();
       nextTurn(clickedPiece, nextMove);
     } else {
       myLogger.log(Level.WARNING, "INVALID PIECE SELECTED");
@@ -309,9 +311,16 @@ public class ChessController implements Controller {
     GameCoordinate[] moveRecord = {original, next};
     history.push(moveRecord);
     myLogger.log(Level.INFO,
-        "MOVED: " + moveRecord[0].getX_pos() + "," + moveRecord[0].getY_pos() + " to "
-            + moveRecord[1].getX_pos() + "," + moveRecord[1].getY_pos());
+        "MOVED: " + ALPHABET[moveRecord[0].getX_pos()] + "," + moveRecord[0].getY_pos()+1 + " to "
+            + ALPHABET[moveRecord[1].getX_pos()] + "," + moveRecord[1].getY_pos()+1);
     boardViewBuild(myGame);
+  }
+
+  private void checkEndGame() throws IOException {
+    if(myGame.getIsGameOver()) {
+      myGameView.displayGameComplete(currentPlayer.getTeam());
+      currentPlayer.updateUserScore(true);
+    }
   }
 
   /**
@@ -324,8 +333,8 @@ public class ChessController implements Controller {
       GameCoordinate[] recentMove = history.pop();
       unwind.push(recentMove);
       myLogger.log(Level.INFO,
-          "MOVED: " + recentMove[0].getX_pos() + "," + recentMove[0].getY_pos() + " to "
-              + recentMove[1].getX_pos() + "," + recentMove[1].getY_pos());
+          "MOVED: " + ALPHABET[recentMove[0].getX_pos()] + "," + recentMove[0].getY_pos()+1 + " to "
+              + ALPHABET[recentMove[1].getX_pos()] + "," + recentMove[1].getY_pos()+1);
       myGame.movePiece(recentMove[1], recentMove[0]);
       myGameView.removeHistory();
       numTurns -= numTurns;
@@ -368,8 +377,8 @@ public class ChessController implements Controller {
       GameCoordinate[] reDoneMove = unwind.pop();
       history.push(reDoneMove);
       myLogger.log(Level.INFO,
-          "MOVED: " + reDoneMove[1].getX_pos() + "," + reDoneMove[1].getY_pos() + " to "
-              + reDoneMove[0].getX_pos() + "," + reDoneMove[0].getY_pos());
+          "MOVED: " + ALPHABET[reDoneMove[1].getX_pos()] + "," + reDoneMove[1].getY_pos()+1 + " to "
+              + ALPHABET[reDoneMove[0].getX_pos()] + "," + reDoneMove[0].getY_pos()+1);
       myGame.movePiece(reDoneMove[0], reDoneMove[1]);
       myGameView.addHistory(reDoneMove[0].getX_pos() + "," + reDoneMove[0].getY_pos() + " -> "
               + reDoneMove[1].getX_pos() + "," + reDoneMove[1].getY_pos());

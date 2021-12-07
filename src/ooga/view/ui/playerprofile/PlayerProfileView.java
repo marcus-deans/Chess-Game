@@ -63,7 +63,13 @@ public class PlayerProfileView extends Application implements PlayerProfileInter
     //    public String getUserScore() throws IOException {
     // wins, losses
 
+
+
     try {
+//      String score = currentPlayer.getUserScore();
+      myPlayer.getUsername();
+      myPlayer.getTeam();
+      myPlayer.getProfileColor();
       System.out.println(myPlayer.getUserScore());
     } catch(Exception e){
       e.printStackTrace();

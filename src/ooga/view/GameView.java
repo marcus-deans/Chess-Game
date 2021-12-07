@@ -27,6 +27,7 @@ import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.logic.board.spot.Spot;
 import ooga.logic.game.Player;
 import ooga.util.IncorrectCSVFormatException;
+import ooga.util.ResourceRetriever;
 import ooga.view.ui.InformationPanel;
 import ooga.view.ui.controlpanel.ControlPanel;
 import ooga.view.ui.gameplaypanel.GameplayPanel;
@@ -424,6 +425,18 @@ public class GameView extends Application implements PanelListener, GameChessVie
   @Override
   public void updateChessCell(Spot spot) {
     myGridView.updateChessCell(spot);
+  }
+
+  @Override
+  public void displayGameComplete(int teamNumber){
+    String teamName;
+    if(teamNumber == 1){
+      teamName = "White";
+    } else {
+      teamName = "Black";
+    }
+    ResourceRetriever.showAlert(Alert.AlertType.INFORMATION, myGameViewScene.getWindow(), "Game Complete", String.format("%s has won!", teamName));
+    resetGame();
   }
 
   /**
