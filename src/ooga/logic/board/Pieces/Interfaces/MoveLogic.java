@@ -20,9 +20,6 @@ public interface MoveLogic {
   void setCoordinate(Coordinate passedCoordinate);
 
 
-//  void setCanJump(boolean canJump);
-
-
   boolean getCanJump();
 
 }

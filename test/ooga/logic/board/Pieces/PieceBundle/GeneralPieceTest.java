@@ -1,10 +1,16 @@
 package ooga.logic.board.Pieces.PieceBundle;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
 import ooga.logic.board.Pieces.SpotCollection.LastRankSpots;
+import ooga.logic.board.Pieces.SpotCollection.PawnCapture;
+import ooga.logic.board.Pieces.SpotCollection.PawnMovement;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,7 +53,35 @@ class GeneralPieceTest {
   @Test
   void setAndGetCanJump() {
 //    myPiece.setCanJump(true);
-    assertTrue(myPiece.getCanJump());
+    assertFalse(myPiece.getCanJump());
   }
 
+  @Test
+  void update(){
+    Map<String,String> myMap = new HashMap<>();
+    myMap.put("canCannibalize", "true");
+    myMap.put("isCheckable", "true");
+    myMap.put("jump", "true");
+    myMap.put("teamMatters", "true");
+    myMap.put("capture", "PawnCapture");
+    myMap.put("movement", "PawnMovement");
+
+    Coordinate myCoord = new GameCoordinate(2,2);
+    myPiece.updateRules(myMap);
+    assertTrue(myPiece.getCanJump());
+    assertTrue(myPiece.getCheckable());
+    assertTrue(myPiece.canCannibalize());
+    assertEquals(getSize(myPiece.getPossibleCaptures().getPossibleSpots(myCoord)),
+        getSize(new PawnCapture().getPossibleSpots(myCoord)));
+    assertEquals(getSize(myPiece.getPossibleCaptures().getPossibleSpots(myCoord)),
+        getSize(new PawnMovement().getPossibleSpots(myCoord)));
+
+  }
+  private int getSize(List<List<Coordinate>> myCoords) {
+    int size = 0;
+    for (List<Coordinate> x : myCoords){
+      size += x.size();
+    }
+    return size;
+  }
 }

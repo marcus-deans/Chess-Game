@@ -2,7 +2,6 @@ package ooga.logic.board.Pieces.PieceBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import ooga.logic.board.Pieces.SpotCollection.KnightMovement;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,20 +25,19 @@ class BishopTest {
 
   @Test
   void setMyMovement() {
-//    myPiece.setMyMovement(new KnightMovement());
     myCoord.setCoordinate(2,4);
-    assertFalse(myPiece.getPossibleMoves().getPossibleSpots(myPiece.getCoordinate()).contains(myCoord));
+    assertTrue(myPiece.canMoveTo(myCoord));
     myCoord.setCoordinate(1,4);
-    assertTrue(myPiece.getPossibleMoves().getPossibleSpots(myPiece.getCoordinate()).contains(myCoord));
+    assertFalse(myPiece.canMoveTo(myCoord));
   }
 
   @Test
   void setMyCapture() {
 //    myPiece.setMyCapture(new KnightMovement());
     myCoord.setCoordinate(2,4);
-    assertFalse(myPiece.getPossibleCaptures().getPossibleSpots(myPiece.getCoordinate()).contains(myCoord));
+    assertTrue(myPiece.canCapture(myCoord));
     myCoord.setCoordinate(1,4);
-    assertTrue(myPiece.getPossibleCaptures().getPossibleSpots(myPiece.getCoordinate()).contains(myCoord));
+    assertFalse(myPiece.canCapture(myCoord));
   }
 
 
