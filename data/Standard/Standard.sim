@@ -17,11 +17,4 @@ SelectColor=#00FF00
 
 PiecesImageDirectory=Standard
 
-//more to come, but the game configuration will all be defined here
-^All|jump=true
-^All|width=8
-^All|height=8
-^Rook|canCannibalize=true
-^Bishop|jump=true
-^Knight|capture=KingMovement
-^Knight|movement=PawnCapture
+
