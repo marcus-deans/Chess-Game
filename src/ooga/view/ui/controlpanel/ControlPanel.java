@@ -11,7 +11,7 @@ import ooga.view.ui.SharedUIComponents;
  * JavaFX superclass that holds the necessary shared information for the control panel displays.
  * Relies on appropriate resourcebundles being configured, SharedUIComponents, and JavaFX
  *
- * @author marcusdeans, drewpeterson
+ * @author marcusdeans
  */
 public class ControlPanel extends SharedUIComponents {
   private int myControlPanelX;
@@ -27,6 +27,10 @@ public class ControlPanel extends SharedUIComponents {
     myAnimation = animation;
   }
 
+  /**
+   * Create the control panel itself with all relevant buton
+   * @return the completed JavaFX control panel
+   */
   public Node createControlPanel(){
     VBox newControlPanel = new VBox();
     newControlPanel.setSpacing(getInt("control_panel_spacing"));
@@ -53,6 +57,10 @@ public class ControlPanel extends SharedUIComponents {
     return newControlPanel;
   }
 
+  /**
+   * When playerh as logged in, must adjust control panel
+   * @param playerIndex the index of the player who has screwed in
+   */
   public void playerHasLoggedIn(int playerIndex){
     myPlayerControlPanel.playerHasLoggedIn(playerIndex);
   }

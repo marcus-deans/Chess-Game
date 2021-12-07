@@ -14,7 +14,7 @@ import java.lang.reflect.InvocationTargetException;
  * JavaFX panel that creates the animation control panel for start/clear/stop/run/step simulation
  * Relies on appropriate resourcebundles being configured, SharedUIComponents, and JavaFX
  *
- * @author marcusdeans, drewpeterson
+ * @author marcusdeans
  */
 public class AnimationControlPanel extends SharedUIComponents {
   private Button pauseGameButton;
