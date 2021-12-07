@@ -24,8 +24,6 @@ public class Game {
     private GameBoard myBoard;
     private Coordinate selected;
     private Player currentPlayer;
-    private GameSpot selectedSpot;
-    private List<Coordinate> possibleCoordinates;
     private boolean isGameOver;
     private Logger myLogger;
     private Coordinate puzzleStart;
@@ -45,7 +43,6 @@ public class Game {
             myBoard.setEdgePolicy(s);
         }
         catch (Exception e){
-            //myBoard.setEdgePolicy("Basic");
         }
     }
 
@@ -56,7 +53,6 @@ public class Game {
 
     public void setupBoard(String spot, int i, int j){
         try {
-
             myBoard.setupBoard(spot, i, j);
         } catch (Exception e){
 
@@ -270,14 +266,6 @@ public class Game {
         puzzleFinish = new GameCoordinate(Integer.parseInt(s.substring(2,3)),Integer.parseInt(s.substring(3,4)));
     }
 
-
-    protected void consumerGenerateNextState(int currentState, Consumer<Integer> consumer) {
-        try {
-            consumer.accept(currentState);
-        } catch (NullPointerException e) {
-            //myErrorFactory.updateError(GAME_ERROR);
-        }
-    }
 
     public void setGameType(String type)
     {
