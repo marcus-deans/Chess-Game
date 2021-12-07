@@ -21,7 +21,7 @@ public interface PieceLogic {
 
     /**
      *
-     * @param newTeam
+     * @param newTeam team to set a piece
      */
     void setTeam(int newTeam);
 

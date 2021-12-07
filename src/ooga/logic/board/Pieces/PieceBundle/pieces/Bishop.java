@@ -21,6 +21,13 @@ public class Bishop extends Piece {
     this(xPosition,yPosition,team,new HashMap<>());
   }
 
+  /**
+   * pass the Bishop back to prep its values
+   * @param xPosition xCoordinate of piece
+   * @param yPosition yCoordinate of piece
+   * @param team team of piece
+   * @param mapAttributes the map combining keys and attributes to their values that aren't default
+   */
   public Bishop(int xPosition, int yPosition, int team, Map<String,String> mapAttributes){
     super(PIECE_TO_STRING, team, new GameCoordinate(xPosition,yPosition), mapAttributes);
   }
