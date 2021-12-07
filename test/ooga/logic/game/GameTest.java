@@ -50,16 +50,36 @@ public class GameTest {
 
     @Test
     public void getPossibleMovesTest() throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        Game testGame = new Game(8,8,new HashMap<>());
+        Game testGame = new Game(2,2,new HashMap<>());
         testGame.setEdgePolicy("Basic");
         testGame.setupBoard("K10",0,0);
         testGame.setupBoard("R20",1,0);
         testGame.setupBoard("R10",0,1);
+        testGame.setupBoard("R20",1,1);
+        testGame.setupBoard("R10",0, 2);
+        testGame.setupBoard("R10",2, 0);
+        testGame.setupBoard("R10",1, 2);
+        testGame.setupBoard("R10",2, 1);
         Coordinate myCoord = new GameCoordinate(0,0);
-        Spot mySpot = testGame.getSpot(myCoord);
         Set<Spot> mySetOfSpots= testGame.getPossibleCoordinates(myCoord,1);
         assertEquals(mySetOfSpots.size(),2);
+    }
 
+    @Test
+    public void movePieceTest() throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        Game testGame = new Game(2,2,new HashMap<>());
+        testGame.setEdgePolicy("Basic");
+        testGame.setupBoard("K10",0,0);
+        testGame.setupBoard("R20",1,0);
+        testGame.setupBoard("R10",0,1);
+        testGame.setupBoard("R20",1,1);
+        testGame.setupBoard("R10",0, 2);
+        testGame.setupBoard("R10",2, 0);
+        testGame.setupBoard("R10",1, 2);
+        testGame.setupBoard("R10",2, 1);
+        Coordinate myCoord = new GameCoordinate(0,0);
+        Set<Spot> mySetOfSpots= testGame.getPossibleCoordinates(myCoord,1);
+        assertEquals(mySetOfSpots.size(),2);
     }
 }
 
