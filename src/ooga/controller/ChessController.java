@@ -363,8 +363,10 @@ public class ChessController implements Controller {
   private void IgnoreFilters(){
 
   }
-  private void InstantEnd(){
-
+  private void InstantEnd()
+          throws CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, IncorrectCSVFormatException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    File file=new File("data/CheatCode.sim");
+    initializeFromFile(file);
   }
   private void ToroidalYAxis(){
     myGame.setEdgePolicy("CheatCode");
