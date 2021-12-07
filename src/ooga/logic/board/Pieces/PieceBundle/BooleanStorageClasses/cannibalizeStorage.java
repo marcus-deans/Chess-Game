@@ -3,6 +3,11 @@ package ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+
+/**
+ * Calculate and store whether a piece can cannibalize
+ * @author Amr Tagel-Din
+ */
 public class cannibalizeStorage extends BooleanStorage {
   private static final String MY_STRING = "canCannibalize";
 
