@@ -36,14 +36,14 @@ class PawnCaptureTest {
     List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(outerCoordinate);
 
     int size = getSize(myCoords);
-    assertTrue(size == 1);
+    assertTrue(size == 2);
   }
 
   @Test
   void getPossibleSpotsTopCoordinate() {
     List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(topCoordinate);
     int size = getSize(myCoords);
-    assertTrue(size == 0);
+    assertTrue(size == 2);
   }
 
   private int getSize(List<List<Coordinate>> myCoords) {

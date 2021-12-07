@@ -36,14 +36,14 @@ class KnightMovementTest {
     List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(outerCoordinate);
 
     int size = getSize(myCoords);
-    assertTrue(size == 2);
+    assertTrue(size == 8);
   }
 
   @Test
   void getPossibleSpotsTopCoordinate() {
     List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(topCoordinate);
     int size = getSize(myCoords);
-    assertTrue(size == 4);
+    assertTrue(size == 8);
   }
 
   private int getSize(List<List<Coordinate>> myCoords) {
