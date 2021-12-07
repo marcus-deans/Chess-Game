@@ -22,10 +22,6 @@ import java.util.logging.Logger;
 
 public class Game {
     private GameBoard myBoard;
-    private List<Spot> initialBoard;
-
-    //A map containing the game's data collected from the game's sim files.
-    private Map<String, String> metadata;
     private GameCoordinate selected;
     private Player currentPlayer;
     private GameSpot selectedSpot;
@@ -138,31 +134,6 @@ public class Game {
         for (List<Coordinate> miniCaptureSet : possibleCapture){
             miniCaptureSet.stream().filter(piece -> myBoard.hasPiece(piece)).
                 forEach(piece -> possibleCoordinates.add(piece));
-        }
-//        for(Coordinate current : possibleCapture){
-//            if(myBoard.hasPiece(current)) possibleCoordinates.add(current);
-//        }
-    }
-
-    public void searchPossiblePositions(GameCoordinate selected){
-        if (myBoard.getSpot(selected)!=null)
-        {
-            this.selectedSpot = myBoard.getSpot(selected);
-        }
-        if (selectedSpot.getPiece()!=null) {
-
-            List<List<Coordinate>> possibleMovePositions = selectedSpot.getPiece().getPossibleMoves().getPossibleSpots(selected);
-            List<List<Coordinate>> possibleCapturePositions = selectedSpot.getPiece().getPossibleCaptures().getPossibleSpots(selected);
-
-
-            Boolean isJump = selectedSpot.getPiece().getCanJump();
-
-//            if (isJump) possibleCetes = getStandardPossibleCoordinate(possibleMovePositions);
-            possibleCoordinates = (isJump) ? getJumpPossibleCoordinate(possibleMovePositions) :
-                getStandardPossibleCoordinate(possibleMovePositions);
-
-
-            if (possibleCapturePositions.size() > 0) addCapturePositions(possibleCapturePositions);
         }
     }
 

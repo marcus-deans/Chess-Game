@@ -28,7 +28,7 @@ public class Player {
         myUsername = username;
         myPassword = password;
         myTeam = team;
-        myResource = ResourceBundle.getBundle("ooga.logic.game.Player");
+        myResource = ResourceBundle.getBundle("ooga.logic.game.REST");
         apiURL = readFromProperties("api_url");
     }
 
@@ -48,37 +48,37 @@ public class Player {
                 result.append(line);
             }
         }
-
         return result.toString();
     }
 
 
     public int checkUser() throws IOException {
-        String url = apiURL + readFromProperties("check_user_path") + "?id=" + myUsername + "&password=" + myPassword;
+        String url = apiURL + readFromProperties("check_user_path") + "?" + readFromProperties("id_parameter") + myUsername + "&" + readFromProperties("password_parameter") + myPassword;
 
         String result = getFromDatabase(url);
 
-        if(result.equals("createduser")) return 0;
-        else if(result.equals("wrongpassword"))return 1;
-        else if(result.equals("loggedin"))return 2;
+        if(result.equals(readFromProperties("insert_new_user_output"))) return 0;
+        else if(result.equals(readFromProperties("incorrect_password_match_output"))) return 1;
+        else if(result.equals(readFromProperties("successful_login_output"))) return 2;
 
         return -1;
     }
 
     public void updateUserScore(boolean didWin) throws IOException {
+        String result;
         if(didWin){
-            String result = getFromDatabase(apiURL + readFromProperties("add_score_path") +"?id=" + myUsername);
+            result = getFromDatabase(apiURL + readFromProperties("add_score_path") +"?" + readFromProperties("id_parameter") + myUsername);
         }else{
-            String result = getFromDatabase(apiURL + readFromProperties("subtract_score_path") + "?id=" + myUsername);
+            result = getFromDatabase(apiURL + readFromProperties("subtract_score_path") + "?" + readFromProperties("id_parameter") + myUsername);
         }
     }
 
     public void setProfileColor() throws IOException {
-        String result = getFromDatabase(apiURL + readFromProperties("set_profile_color_path") + "?id=" + myUsername);
+        String result = getFromDatabase(apiURL + readFromProperties("set_profile_color_path") + "?" + readFromProperties("id_parameter") + myUsername);
     }
 
     public String getUserScore() throws IOException {
-        String result = getFromDatabase(apiURL + readFromProperties("get_user_score_path") + "?id=" + myUsername);
+        String result = getFromDatabase(apiURL + readFromProperties("get_user_score_path") + "?" + readFromProperties("id_parameter") + myUsername);
 
         return result;
     }
