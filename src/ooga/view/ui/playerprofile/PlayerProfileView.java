@@ -24,6 +24,12 @@ import ooga.logic.game.Player;
 import ooga.view.PanelListener;
 import ooga.view.ui.playerlogin.PlayerLoginView;
 
+/**
+ * JavaFX panel that creates the player profile modal that allows the user to see their profile details
+ * Relies on appropriate resourcebundles being configured and JavaFX
+ *
+ * @author marcusdeans
+ */
 public class PlayerProfileView extends Application implements PlayerProfileInterface {
 
   private static final String FORMATTING_FILE = "PlayerProfileFormatting.css";
@@ -35,6 +41,10 @@ public class PlayerProfileView extends Application implements PlayerProfileInter
   Stage myStage;
   GridPane myGridPane;
 
+  /**
+   * Create a new player profile modal
+   * @param player the player that the modal will describe
+   */
   public PlayerProfileView(Player player) {
     myPlayer = player;
   }
@@ -72,6 +82,7 @@ public class PlayerProfileView extends Application implements PlayerProfileInter
     myStage.show();
   }
 
+  //create the GridPane that will serve as the root of the application
   private GridPane createPlayerProfilePane() {
     GridPane gridPane = new GridPane();
 
@@ -94,6 +105,7 @@ public class PlayerProfileView extends Application implements PlayerProfileInter
     return gridPane;
   }
 
+  //add the standard UI for the player profile modal
   private void addUI() {
     Label headerLabel = new Label(getWord("login_title_text"));
     headerLabel.setId("login-header-label");
@@ -113,6 +125,7 @@ public class PlayerProfileView extends Application implements PlayerProfileInter
     // wins, losses
   }
 
+  //determine the olayer's specific details from theo bject
   private void addPlayerDetailsToUI(){
     Label nameField = new Label();
     Label teamField  = new Label();
@@ -137,6 +150,7 @@ public class PlayerProfileView extends Application implements PlayerProfileInter
     myGridPane.setBackground(new Background(new BackgroundFill(playerColor, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
+  //determine which team the player is on based on the field
   private String determineTeam(int teamNumber){
     switch(teamNumber){
       case 1 -> {
@@ -151,11 +165,16 @@ public class PlayerProfileView extends Application implements PlayerProfileInter
     }
   }
 
+  /**
+   * Define the PanelListener that allows for conectivity of this modal
+   * @param panelListener the PanelListener instance
+   */
   @Override
   public void setPanelListener(PanelListener panelListener) {
     myPanelListener = panelListener;
   }
 
+  //Make an individual JavaFX label
   private Label makeLabel(String text) {
     Label newLabel = new Label(text);
     newLabel.setId("field_label");

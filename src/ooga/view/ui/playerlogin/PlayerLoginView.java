@@ -33,6 +33,12 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import ooga.view.PanelListener;
 
+/**
+ * JavaFX panel that creates the player login modal that allows for creation/login of profile
+ * Relies on appropriate resourcebundles being configured and JavaFX
+ *
+ * @author marcusdeans
+ */
 public class PlayerLoginView extends Application implements PlayerLoginInterface {
 
   //General resource file structure
@@ -48,10 +54,18 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
   TextField passwordField;
   int myPlayerIdentifier;
 
+  /**
+   * Create the modal allowing hte player to log in
+   * @param playerIdentifier the integer identifier of hte player
+   */
   public PlayerLoginView(int playerIdentifier) {
     myPlayerIdentifier = playerIdentifier;
   }
 
+  /**
+   * Start the JavaFX application
+   * @param primaryStage the JavaFX stage upon which the application will be situated
+   */
   @Override
   public void start(Stage primaryStage) {
     myStage = primaryStage;
@@ -75,11 +89,16 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     myStage.show();
   }
 
+  /**
+   * Define the PanelListener for the application to communicate with
+   * @param panelListener the PanelListener instance
+   */
   @Override
   public void setPanelListener(PanelListener panelListener) {
     myPanelListener = panelListener;
   }
 
+  //create the gridpane that will serve as the root of the application
   private GridPane createRegistrationFormPane() {
     GridPane gridPane = new GridPane();
 
@@ -102,6 +121,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     return gridPane;
   }
 
+  //add the UI controls and formatting onto the gridpane
   private void addUIControls(GridPane gridPane) {
     Label headerLabel = new Label(getWord("login_title_text"));
     headerLabel.setId("login-header-label");
@@ -117,6 +137,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     createSubmitButton(gridPane);
   }
 
+  //create the label and field allowing the user to select the team they want to be on
   private void createTeamSelector(GridPane gridPane) {
     //Add Team Label
     Label teamLabel = makeLabel(getWord("team_label_text"));
@@ -151,6 +172,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     gridPane.add(radioButtonBox, getInt("field_column"), getInt("team_row"));
   }
 
+  //allow the user to select the color that they want their profile to be associated with
   private void createColorPicker(GridPane gridPane) {
     Label colorLabel = makeLabel(getWord("color_label_text"));
     gridPane.add(colorLabel, getInt("label_column"), getInt("colour_row"));
@@ -171,6 +193,8 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     gridPane.add(colorPicker, getInt("field_column"), getInt("colour_row"));
   }
 
+  //create the submit button allowing the user to create/login to their profile
+  //also performs necesary field validation and error checking
   private void createSubmitButton(GridPane gridPane) {
     // Add Submit Button
     Button submitButton = new Button(getWord("submit_button_text"));
@@ -232,6 +256,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     });
   }
 
+  //create the labels and text fields for entry by the user
   private void createLabelsAndTextFields(GridPane gridPane) {
     // Add Name Label
     Label nameLabel = makeLabel(getWord("name_label_text"));
@@ -252,6 +277,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     gridPane.add(passwordField, getInt("field_column"), getInt("password_row"));
   }
 
+  //make an individual JavaFX label
   private Label makeLabel(String text) {
     Label newLabel = new Label(text);
     newLabel.setId("field_label");

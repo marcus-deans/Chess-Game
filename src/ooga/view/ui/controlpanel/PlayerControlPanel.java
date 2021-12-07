@@ -48,6 +48,7 @@ public class PlayerControlPanel extends SharedUIComponents {
     return playerControlPanel;
   }
 
+  //create a single button that will allow the player to log in
   private Node initializePlayerLoginButton(){
     Button playerLoginButton = makeButton(String.format("%s %d %s", getWord("player"), myPlayerButtonIndex+1, getWord("login")), event -> {
       if(this.getPanelListener() != null){
@@ -59,6 +60,10 @@ public class PlayerControlPanel extends SharedUIComponents {
     return playerLoginButton;
   }
 
+  /**
+   * When player logs in, adjust button accordingly to reflect new profile
+   * @param playerIndex the index of the player, used to keep track of buttons
+   */
   public void playerHasLoggedIn(int playerIndex){
     try {
       Button loggedInPlayerButton = myPlayerButtons.get(playerIndex-1);

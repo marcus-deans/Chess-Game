@@ -53,6 +53,10 @@ public class HistoryPanel extends SharedUIComponents {
     return myHistoryPanel;
   }
 
+  /**
+   * Create the ScrollPane containing all the history of the game
+   * @return the JavaFX ScrollPane
+   */
   private ScrollPane makeHistoryScrollPane() {
     ScrollPane newScrollPane = new ScrollPane();
     newScrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
@@ -71,17 +75,27 @@ public class HistoryPanel extends SharedUIComponents {
     return newScrollPane;
   }
 
+  /**
+   * Add a single element to the history
+   * @param action the string that will be added
+   */
   public void addHistory(String action) {
     myHistoryList.add(makeHistoryLabel(action));
     rebuildHistoryDisplay();
   }
 
+  /**
+   * Make the text for a specific history element
+   * @param text the history to be labeled
+   * @return the JavaFX label
+   */
   private Label makeHistoryLabel(String text) {
     Label newLabel = new Label(text);
     newLabel.setId("history-label");
     return newLabel;
   }
 
+  //rebuild the history display to reflect all changes
   private void rebuildHistoryDisplay() {
     Iterator<Label> it = myHistoryList.iterator();
     myHistoryContent = new VBox();
@@ -91,6 +105,9 @@ public class HistoryPanel extends SharedUIComponents {
     myHistoryScrollpane.setContent(myHistoryContent);
   }
 
+  /**
+   * Remove the last element from the history
+   */
   public void removeHistory() {
     myHistoryList.removeLast();
     rebuildHistoryDisplay();
