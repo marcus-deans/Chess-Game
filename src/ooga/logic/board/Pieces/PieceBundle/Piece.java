@@ -15,7 +15,6 @@ import ooga.logic.board.coordinate.Coordinate;
 
 abstract public class Piece implements PieceLogic{
   private Coordinate myCoordinate;
-  private SpotCollection areaOfEffect;
   private SpotCollection myPromotionSpots;
   private PieceCollection myPromotionOptions;
   private int team;
@@ -39,6 +38,7 @@ abstract public class Piece implements PieceLogic{
   private BooleanStorage myJump;
   private BooleanStorage canCannibalize;
   private BooleanStorage checkable;
+  private BooleanStorage atomicImmunity;
   private SpotCollectionStorage myCaptureStorage;
   private SpotCollectionStorage myMovementStorage;
   private SpotCollectionStorage myAtomicStorage;
@@ -56,15 +56,16 @@ abstract public class Piece implements PieceLogic{
     setJump();
     setCanCannibalize();
     setCheckable();
+    setAtomicImmunity();
     setCapture();
     setMovement();
     setAtomic();
 
     setCoordinate(myCoordinate);
     setPromotionSpots();
-    setAtomicArea();
-
   }
+
+
 
   private void setAtomic(){
     myAtomicStorage = new atomicStorage(PieceName,attributeMap,PieceProperties,DefaultProperties,getTeamIfNecessary());
@@ -76,6 +77,10 @@ abstract public class Piece implements PieceLogic{
 
   private void setCanCannibalize() {
     canCannibalize = new cannibalizeStorage(attributeMap,PieceProperties,DefaultProperties);
+  }
+
+  private void setAtomicImmunity(){
+    atomicImmunity = new atomicImmunityStorage(attributeMap,PieceProperties,DefaultProperties);
   }
 
   private void setCheckable() {
@@ -250,16 +255,15 @@ abstract public class Piece implements PieceLogic{
     checkable.update(attributeMap);
     myCaptureStorage.update(attributeMap);
     myMovementStorage.update(attributeMap);
+    myAtomicStorage.update(attributeMap);
   }
 
-/**
-TEMPORARY
- */
   public SpotCollection getAtomicArea(){
-    return areaOfEffect;
+    return myAtomicStorage.getSpotCollection();
   }
-  public void setAtomicArea(){
-    areaOfEffect = new KingMovement(8);
+
+  public boolean getAtomicIMmunity(){
+    return atomicImmunity.getValue();
   }
 
 }
