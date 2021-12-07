@@ -68,15 +68,53 @@ public class GameTest {
         testGame.setEdgePolicy("Basic");
         testGame.setupBoard("K10",0,0);
         testGame.setupBoard("R20",1,0);
-        testGame.setupBoard("R10",0,1);
+        testGame.setupBoard("E00",0,1);
         testGame.setupBoard("R20",1,1);
         testGame.setupBoard("R10",0, 2);
         testGame.setupBoard("R10",2, 0);
         testGame.setupBoard("R10",1, 2);
         testGame.setupBoard("R10",2, 1);
-        Coordinate myCoord = new GameCoordinate(0,0);
-        Set<Spot> mySetOfSpots= testGame.getPossibleCoordinates(myCoord,1);
-        assertEquals(mySetOfSpots.size(),2);
+        Coordinate oldCoord = new GameCoordinate(0,0);
+        Coordinate newCoord = new GameCoordinate(0,1);
+        testGame.movePiece(oldCoord, newCoord);
+        Assertions.assertEquals("King", testGame.getSpot(newCoord).getPiece().getPieceName());
+    }
+
+    @Test
+    public void isGameOverTestFalse() throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        Game testGame = new Game(2,2,new HashMap<>());
+        testGame.setEdgePolicy("Basic");
+        testGame.setupBoard("R20",0,0);
+        testGame.setupBoard("R20",1,0);
+        testGame.setupBoard("K10",0,1);
+        testGame.setupBoard("R20",1,1);
+        testGame.setupBoard("R10",0, 2);
+        testGame.setupBoard("R10",2, 0);
+        testGame.setupBoard("R10",1, 2);
+        testGame.setupBoard("R10",2, 1);
+        Coordinate oldCoord = new GameCoordinate(0,0);
+        Coordinate newCoord = new GameCoordinate(0,1);
+        testGame.movePiece(oldCoord, newCoord);
+        Assertions.assertFalse(testGame.getIsGameOver());
+    }
+
+    @Test
+    public void isGameOverTestTrue() throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        Game testGame = new Game(2,2,new HashMap<>());
+        testGame.setEdgePolicy("Basic");
+        testGame.setGameType("Standard");
+        testGame.setupBoard("R20",0,0);
+        testGame.setupBoard("R20",1,0);
+        testGame.setupBoard("K10",0,1);
+        testGame.setupBoard("R20",1,1);
+        testGame.setupBoard("R10",0, 2);
+        testGame.setupBoard("R10",2, 0);
+        testGame.setupBoard("R10",1, 2);
+        testGame.setupBoard("R10",2, 1);
+        Coordinate oldCoord = new GameCoordinate(0,0);
+        Coordinate newCoord = new GameCoordinate(0,1);
+        testGame.movePiece(oldCoord, newCoord);
+        Assertions.assertTrue(!testGame.getIsGameOver());
     }
 }
 

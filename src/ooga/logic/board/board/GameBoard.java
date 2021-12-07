@@ -268,4 +268,67 @@ public class GameBoard implements Board {
             }
         }
     }
+
+    /**
+     * Make all the pieces in the board capable of jumping
+     */
+    public void makePiecesJump()
+    {
+        for (Spot s : board)
+        {
+            if(s.getPiece()!=null)
+            {
+
+            }
+        }
+    }
+
+    /**
+     * Make all the pieces in the board capable of attacking their own team's pieces
+     */
+    public void makePiecesCannibalize()
+    {
+        myRules.put("All|jump","true");
+        for (Spot s : board)
+        {
+            if(s.getPiece()!=null)
+            {
+                s.getPiece().updateRules(myRules);
+            }
+        }
+    }
+
+    /**
+     *
+     * @return list of portal spots
+     */
+    public List<Spot> getPortalList(){
+        List<Spot> portals=new ArrayList<>();
+        for (Spot s : board)
+        {
+            if(((GameSpot) s).getTypeOfSpot()==1)
+            {
+                portals.add(s);
+            }
+        }
+        return portals;
+    }
+
+    /**
+     *
+     * @return list of blackhole spots
+     */
+    public List<Spot> getBlackHoleList(){
+        List<Spot> blackholes=new ArrayList<>();
+        for (Spot s : board)
+        {
+            if(((GameSpot) s).getTypeOfSpot()==2)
+            {
+                blackholes.add(s);
+            }
+        }
+        return blackholes;
+    }
+
+
 }

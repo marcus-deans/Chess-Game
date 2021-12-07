@@ -18,37 +18,63 @@ public class Game {
     private GameBoard myBoard;
     private Coordinate selected;
     private Player currentPlayer;
-    private GameSpot selectedSpot;
-    private List<Coordinate> possibleCoordinates;
     private boolean isGameOver;
     private Logger myLogger;
     private Coordinate puzzleStart;
     private Coordinate puzzleFinish;
     private String gameType;
-    private boolean isAtomic=false;
+    private boolean isAtomic;
+    private boolean filter;
 
+
+    /**
+     * Game constructor. Height and width and myMap are taken in as parameters which are then used to make GameBoard
+     * using those values.
+     *
+     * @param height
+     * @param width
+     * @param myMap
+     */
     public Game(int height, int width, Map<String,String> myMap){
         myBoard = new GameBoard(height, width, myMap);
         myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+        isGameOver = false;
+        isAtomic = false;
+        filter = true;
     }
 
-    public void setEdgePolicy(String s){
+    /**
+     * Takes in the corresponding edge policy as read from the parser and sets it in this class so that
+     * the getting possible moves corresponds with the selected policy.
+     *
+     * @param policy
+     */
+    public void setEdgePolicy(String policy){
         try{
-            myBoard.setEdgePolicy(s);
+            myBoard.setEdgePolicy(policy);
         }
         catch (Exception e){
-            //myBoard.setEdgePolicy("Basic");
         }
     }
 
-
+    /**
+     * returns List<Spot> from myBoard
+     *
+     * @return myBoard.getFullBoard();
+     */
     public List<Spot> getFullBoard(){
         return myBoard.getFullBoard();
     }
 
+    /**
+     * sets up each spot on the board.
+     *
+     * @param spot
+     * @param i pos
+     * @param j pos
+     */
     public void setupBoard(String spot, int i, int j){
         try {
-
             myBoard.setupBoard(spot, i, j);
         } catch (Exception e){
 
@@ -56,14 +82,26 @@ public class Game {
 
     }
 
+    /**
+     * resets the board
+     */
     public void reset(){
         myBoard.reset();
     }
 
+    /**
+     * sets selected spot
+     * @param select
+     */
     public void setSelected(Coordinate select){
         selected = select;
     }
-    
+
+    /**
+     * filters possible capture positions based on where other pieces are placed on the board
+     * relative to the selected piece (that is about to move)
+     * @param selected
+     */
     private List<Coordinate> filterCaptures(Coordinate selected) {
         Piece myPiece = getMyPiece(selected);
         List<List<Coordinate>> possibleCapturePositions = myPiece.getPossibleCaptures().getPossibleSpots(selected);
@@ -106,15 +144,28 @@ public class Game {
         return listToPopulate;
     }
 
+    /**
+     * get whether a piece has the ability to jump
+     * @param piece
+     */
     private boolean getCanJump(Piece piece) {
         return piece.getCanJump();
     }
 
+    /**
+     * get the team of the piece
+     * @param piece
+     */
     private int getTeam(Piece piece) {
         return piece.getTeam();
     }
 
 
+    /**
+     * Filter the move of the selected piece that the user can move. returns a list of available coordinates
+     *
+     * @param selected
+     */
     private List<Coordinate> filterMoves(Coordinate selected) {
         Piece myPiece = getMyPiece(selected);
         List<List<Coordinate>> possibleMovePositions = myPiece.getPossibleMoves().getPossibleSpots(selected);
@@ -148,6 +199,10 @@ public class Game {
 
         }
 
+    /**
+     * sets the correct edge policy
+     * @param possiblePositions
+     */
     private List<List<Coordinate>> applyEdgePolicy(List<List<Coordinate>> possiblePositions) {
         return myBoard.getEdgePolicy().filterList(possiblePositions);
     }
@@ -156,6 +211,11 @@ public class Game {
         return myBoard.getSpot(selected).getPiece();
     }
 
+    /**
+     * API for getting possible moves for the selected piece
+     *
+     * @param selected
+     */
     public Set<Spot> getPossibleCoordinates(Coordinate selected, int team){
         List<Coordinate> myMoveList = filterMoves(selected);
         List<Coordinate> myCaptureList = filterCaptures(selected);
@@ -166,6 +226,12 @@ public class Game {
         return possibleSet;
     }
 
+    /**
+     * removes piece from the game if it has been captured. Also records whether a checkable piece
+     * has been captured and ends game accordingly
+     *
+     * @param capturedPiece
+     */
     private void removePieceFromGame(Piece capturedPiece){
 
         try {
@@ -179,6 +245,11 @@ public class Game {
         }
     }
 
+    /**
+     * checks if capturedpiece is atomic
+     *
+     * @param capturedPiece
+     */
     private boolean checkAtomic(Piece capturedPiece)
     {
         List<List<Coordinate>> list=capturedPiece.getAtomicArea().getPossibleSpots(capturedPiece.getCoordinate());
@@ -193,6 +264,12 @@ public class Game {
         return false;
     }
 
+    /**
+     * moves the moving piece to the new location
+     *
+     * @param newPosition
+     * @param movingPiece
+     */
     private void setMovingPiece(Coordinate newPosition, Piece movingPiece)
             throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
@@ -207,6 +284,12 @@ public class Game {
         }
     }
 
+    /**
+     * API for moving a piece on the board.
+     *
+     * @param prevPosition
+     * @param newPosition
+     */
     public void movePiece(Coordinate prevPosition, Coordinate newPosition)
             throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         try {
@@ -227,6 +310,12 @@ public class Game {
         }
     }
 
+    /**
+     * sets puzzle rules
+     *
+     * @param prevPosition
+     * @param newPosition
+     */
     public Boolean puzzleRules(Coordinate prevPosition, Coordinate newPosition)
     {
         boolean gameOver=false;
@@ -243,18 +332,23 @@ public class Game {
         return gameOver;
     }
 
+    /**
+     * returns whether the game is over or not
+     *
+     */
     public boolean getIsGameOver(){
         return isGameOver;
     }
 
-
-    public void resetClick(){
-
-    }
-
+    /**
+     * returns spot given coordinate
+     *
+     * @param coordinate
+     */
     public Spot getSpot(Coordinate coordinate){
         return myBoard.getSpot(coordinate);
     }
+
 
     public void setPuzzleSolution(String s)
     {
@@ -262,22 +356,44 @@ public class Game {
         puzzleFinish = new GameCoordinate(Integer.parseInt(s.substring(2,3)),Integer.parseInt(s.substring(3,4)));
     }
 
-
-    protected void consumerGenerateNextState(int currentState, Consumer<Integer> consumer) {
-        try {
-            consumer.accept(currentState);
-        } catch (NullPointerException e) {
-            //myErrorFactory.updateError(GAME_ERROR);
-        }
-    }
-
+    /**
+     * sets the type of the game
+     *
+     * @param type
+     */
     public void setGameType(String type)
     {
         this.gameType=type;
         if (gameType.equals("Atomic")) isAtomic=true;
     }
 
+    /**
+     * turns all piece to pawns - cheat code
+     *
+     * @param piece
+     */
     public void pawnsToPiece(String piece) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         myBoard.pawnsToPiece(piece);
     }
+
+    /**
+     * makes all pieces jump - cheat code
+     */
+    public void makePiecesJump()
+    {
+        myBoard.makePiecesJump();
+    }
+
+    /**
+     * makes all pieces cannibalized - cheat code
+     */
+    public void makePiecesCannibalize()
+    {
+        myBoard.makePiecesCannibalize();
+    }
+
+    public void setFilter(boolean filter) {
+        this.filter = filter;
+    }
+
 }

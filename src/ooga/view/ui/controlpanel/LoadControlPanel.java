@@ -17,7 +17,7 @@ import ooga.view.ui.SharedUIComponents;
  * JavaFX panel that creates the load control panel that allows the user to control saving/loading
  * Relies on appropriate resourcebundles being configured, SharedUIComponents, and JavaFX
  *
- * @author marcusdeans, drewpeterson
+ * @author marcusdeans
  */
 public class LoadControlPanel extends SharedUIComponents {
   private Timeline myAnimation;
@@ -45,8 +45,6 @@ public class LoadControlPanel extends SharedUIComponents {
     Node saveFileButton = initializeSaveFileButton();
     panel.getChildren().add(saveFileButton);
 
-//    panel.setLayoutX(myControlPanelX);
-//    panel.setLayoutY(getInt("load_control_panel_y"));
     panel.setId("load-control-panel");
 
     return panel;
@@ -77,8 +75,6 @@ public class LoadControlPanel extends SharedUIComponents {
     return selectedFile;
   }
 
-
-  //TODO: this one works in OOLALA, fix to work here
   //create button to save current grid to file
   private Node initializeSaveFileButton() {
     Button saveFileButton = makeButton(getWord("save_text"), event -> {

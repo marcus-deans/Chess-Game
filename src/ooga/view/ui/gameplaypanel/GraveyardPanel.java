@@ -10,6 +10,12 @@ import javafx.scene.text.Text;
 import ooga.logic.board.Pieces.PieceBundle.pieces.Piece;
 import ooga.view.ui.SharedUIComponents;
 
+/**
+ * JavaFX panel that creates the greaveyard panel for the dead pieces
+ * Relies on appropriate resourcebundles being configured, SharedUIComponents, and JavaFX
+ *
+ * @author marcusdeans
+ */
 public class GraveyardPanel extends SharedUIComponents {
   private VBox myGraveyardContent;
 
@@ -38,6 +44,10 @@ public class GraveyardPanel extends SharedUIComponents {
     return myGraveyardPanel;
   }
 
+  /**
+   * Create the scrollpane that will contain everything inside the graveyard
+   * @return the JavaFX ScvrollPane
+   */
   private ScrollPane makeGraveyardScrollPane(){
     ScrollPane newScrollPane = new ScrollPane();
     newScrollPane.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
@@ -55,6 +65,10 @@ public class GraveyardPanel extends SharedUIComponents {
     return newScrollPane;
   }
 
+  /**
+   * Add an element to the graveyeard
+   * @param deadPiece the pieces that is dead
+   */
   public void addGraveyardEntry(Piece deadPiece){
     String action = "dyanmically get piece image";
     Text newGraveyardEntry = makeText(action);

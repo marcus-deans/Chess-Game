@@ -6,6 +6,12 @@ import javafx.scene.layout.VBox;
 import ooga.logic.board.Pieces.PieceBundle.pieces.Piece;
 import ooga.view.ui.SharedUIComponents;
 
+/**
+ * JavaFX panel that creates the gameplay control panel for direct gameplay features like history and variants
+ * Relies on appropriate resourcebundles being configured, SharedUIComponents, and JavaFX
+ *
+ * @author marcusdeans
+ */
 public class GameplayPanel extends SharedUIComponents {
 
   private int myGameplayPanelX;
@@ -24,6 +30,10 @@ public class GameplayPanel extends SharedUIComponents {
     myDescription = description;
   }
 
+  /**
+   * Create the gameplay panel with all necessary components
+   * @return the JavaFX gameplay panel
+   */
   public Node createGameplayPanel() {
     VBox newGameplayPanel = new VBox();
     newGameplayPanel.setSpacing(getInt("gameplay_panel_spacing"));
@@ -46,18 +56,33 @@ public class GameplayPanel extends SharedUIComponents {
     return newGameplayPanel;
   }
 
+  /**
+   * Add an element to the history
+   * @param historyText text to be aded
+   */
   public void updateHistory(String historyText) {
     myHistoryPanel.addHistory(historyText);
   }
 
+  /**
+   * Remove the last element from the history
+   */
   public void removeHistory() {
     myHistoryPanel.removeHistory();
   }
 
+  /**
+   * Add a piece to the graveyard of dead pieces
+   * @param deadPiece the piece that has been eliminated
+   */
   public void updateGraveyard(Piece deadPiece) {
     myGraveyardPanel.addGraveyardEntry(deadPiece);
   }
 
+  /**
+   * Set the description of the current simulation
+   * @param description the string description of the simulatiobn
+   */
   public void setBoardDescription(String description){
     myVariantPanel.setBoardDescription(description);
   }

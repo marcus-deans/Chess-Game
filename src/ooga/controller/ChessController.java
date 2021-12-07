@@ -267,7 +267,8 @@ public class ChessController implements Controller {
         Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece, currentPlayer.getTeam());
         highlightSpots(test);
         myGameView.colourChessCell(myGame.getSpot(clickedPiece),myData.get("MoveColor"));
-        myLogger.log(Level.INFO, "FIRST CLICK");
+        myLogger.log(Level.INFO, currentPlayer.getUsername() + "'s turn!");
+
         FIRSTCLICK = false;
       }
     }
@@ -323,6 +324,9 @@ public class ChessController implements Controller {
     if(myGame.getIsGameOver()) {
       myGameView.displayGameComplete(currentPlayer.getTeam());
       currentPlayer.updateUserScore(true);
+      for(Player player : thePlayers){
+        if(player != currentPlayer) player.updateUserScore(false);
+      }
     }
   }
 
@@ -434,14 +438,14 @@ public class ChessController implements Controller {
    * Allows player to enable "friendly fire" and attacks own pieces
    */
   public void Cannibalism(){
-
+    myGame.makePiecesCannibalize();
   }
 
   /**
    *
    */
   private void IgnoreFilters(){
-
+    myGame.setFilter(false);
   }
 
   /**
@@ -483,10 +487,10 @@ public class ChessController implements Controller {
     boardViewBuild(myGame);
   }
   /**
-   * Allow pieces to jump eachother like horses
+   * Allow pieces to jump each other like horses
    */
   private void JumpingPieces(){
-
+    myGame.makePiecesJump();
   }
   /**
    * Highlight Portals on the board
