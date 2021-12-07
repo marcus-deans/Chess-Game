@@ -1,8 +1,6 @@
-Type=Standard
+Type=Atomic
 Title=Standard Chess
 Author=Carter Stonesifer
-
-Description=Good Ol'fashioned Game of Chess
 
 GameTimer=0
 
@@ -12,14 +10,11 @@ Portal=False
 BlackHole=False
 EdgePolicy=Basic
 
-MoveColor=#FF0000
-SelectColor=#00FF00
-
 PiecesImageDirectory=Standard
 
 //more to come, but the game configuration will all be defined here
 ^All|jump=true
-^Rook|canCannibalize=true
-^Bishop|jump=true
+^Rook|canCannibalize=false
+^Bishop|jump=false
 ^Knight|capture=KingMovement
 ^Knight|movement=PawnCapture

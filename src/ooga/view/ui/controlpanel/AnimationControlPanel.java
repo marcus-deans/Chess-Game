@@ -58,16 +58,8 @@ public class AnimationControlPanel extends SharedUIComponents {
       if(this.getPanelListener() != null){
         try {
           this.getPanelListener().undoMove();
-        } catch (ClassNotFoundException e) {
-          e.printStackTrace();
-        } catch (InvocationTargetException e) {
-          e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-          e.printStackTrace();
-        } catch (InstantiationException e) {
-          e.printStackTrace();
-        } catch (IllegalAccessException e) {
-          e.printStackTrace();
+        } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+          sendAlert(getWord("reflection_error"));
         }
       }
     });
@@ -81,16 +73,8 @@ public class AnimationControlPanel extends SharedUIComponents {
       if(this.getPanelListener() != null){
         try {
           this.getPanelListener().redoMove();
-        } catch (ClassNotFoundException e) {
-          e.printStackTrace();
-        } catch (InvocationTargetException e) {
-          e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-          e.printStackTrace();
-        } catch (InstantiationException e) {
-          e.printStackTrace();
-        } catch (IllegalAccessException e) {
-          e.printStackTrace();
+        } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+          sendAlert(getWord("reflection_error"));
         }
       }
     });
@@ -99,12 +83,11 @@ public class AnimationControlPanel extends SharedUIComponents {
 
   //create the clear screen button
   private Node initializeResetGameButton() {
-    Button resetGameButton = makeButton(getWord("clear_text"), event -> {
+    return makeButton(getWord("clear_text"), event -> {
       if(this.getPanelListener() != null){
         this.getPanelListener().resetGame();
       }
     });
-    return resetGameButton;
   }
 
 }

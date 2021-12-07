@@ -22,16 +22,12 @@ import java.util.logging.Logger;
 
 public class Game {
     private GameBoard myBoard;
-    private List<Spot> initialBoard;
-
-    //A map containing the game's data collected from the game's sim files.
-    private Map<String, String> metadata;
     private GameCoordinate selected;
     private Player currentPlayer;
     private GameSpot selectedSpot;
     private List<Coordinate> possibleCoordinates;
     private boolean isGameOver;
-    private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private Logger myLogger;
     private Coordinate puzzleStart;
     private Coordinate puzzleFinish;
     private String gameType;
@@ -39,6 +35,7 @@ public class Game {
 
     public Game(int height, int width, Map<String,String> myMap){
         myBoard = new GameBoard(height, width, myMap);
+        myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     }
 
     public void setEdgePolicy(String s){
@@ -138,31 +135,6 @@ public class Game {
         for (List<Coordinate> miniCaptureSet : possibleCapture){
             miniCaptureSet.stream().filter(piece -> myBoard.hasPiece(piece)).
                 forEach(piece -> possibleCoordinates.add(piece));
-        }
-//        for(Coordinate current : possibleCapture){
-//            if(myBoard.hasPiece(current)) possibleCoordinates.add(current);
-//        }
-    }
-
-    public void searchPossiblePositions(GameCoordinate selected){
-        if (myBoard.getSpot(selected)!=null)
-        {
-            this.selectedSpot = myBoard.getSpot(selected);
-        }
-        if (selectedSpot.getPiece()!=null) {
-
-            List<List<Coordinate>> possibleMovePositions = selectedSpot.getPiece().getPossibleMoves().getPossibleSpots(selected);
-            List<List<Coordinate>> possibleCapturePositions = selectedSpot.getPiece().getPossibleCaptures().getPossibleSpots(selected);
-
-
-            Boolean isJump = selectedSpot.getPiece().getCanJump();
-
-//            if (isJump) possibleCetes = getStandardPossibleCoordinate(possibleMovePositions);
-            possibleCoordinates = (isJump) ? getJumpPossibleCoordinate(possibleMovePositions) :
-                getStandardPossibleCoordinate(possibleMovePositions);
-
-
-            if (possibleCapturePositions.size() > 0) addCapturePositions(possibleCapturePositions);
         }
     }
 
@@ -321,7 +293,7 @@ public class Game {
             }
             if(gameType.equals("Atomic"))
             {
-
+                myBoard.setAtomic(true);
             }
         }
         catch(Exception e)

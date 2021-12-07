@@ -30,9 +30,11 @@ public interface PanelListener {
 
     void getBoardClick(int x, int y) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 
-    void openPlayerLogin();
+    void openPlayerLogin(int playerIdentifier);
 
-    void setNewPlayer(String username, String email, String password, int team, String colour) throws IOException;
+    boolean setNewPlayer(int playerIdentifier, String username, String email, String password, int team, String colour) throws IOException;
 
     void closePlayerLogin(Stage stage);
+
+    void openPlayerProfile(int playerIdentifier);
 }
