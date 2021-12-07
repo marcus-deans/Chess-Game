@@ -180,4 +180,19 @@ public class GameBoard implements Board {
     {
         isAtomic=atomic;
     }
+
+    public void pawnsToPiece(String piece) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        Class[] params={int.class,int.class,int.class,Map.class};
+        String pieceName=PIECE_PATH+resourceMap.getString(piece);
+        for (Spot s : board)
+        {
+            if(s.getPiece()!=null && s.getPiece().getPieceName().equals("Pawn"))
+            {
+                int i=s.getCoordinate().getY_pos();
+                int j=s.getCoordinate().getX_pos();
+                int team=s.getPiece().getTeam();
+                s.setPiece((Piece) Class.forName(pieceName).getDeclaredConstructor(params).newInstance(j,i,team,myRules));
+            }
+        }
+    }
 }

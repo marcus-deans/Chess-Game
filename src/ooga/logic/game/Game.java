@@ -352,4 +352,8 @@ public class Game {
         this.gameType=type;
         if (gameType.equals("Atomic")) isAtomic=true;
     }
+
+    public void pawnsToPiece(String piece) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        myBoard.pawnsToPiece(piece);
+    }
 }
