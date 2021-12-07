@@ -1,6 +1,7 @@
 package ooga.view.ui.playerlogin;
 
 import static ooga.util.ResourceRetriever.getWord;
+import static ooga.util.ResourceRetriever.showAlert;
 import static ooga.util.ResourceRetriever.toHexCode;
 
 import java.io.IOException;
@@ -46,10 +47,6 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
 
   public PlayerLoginView(int playerIdentifier) {
     myPlayerIdentifier = playerIdentifier;
-  }
-
-  public static void main(String[] args) {
-    launch(args);
   }
 
   @Override
@@ -270,15 +267,6 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     Label newLabel = new Label(text);
     newLabel.setId("field_label");
     return newLabel;
-  }
-
-  private void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
-    Alert alert = new Alert(alertType);
-    alert.setTitle(title);
-    alert.setHeaderText(null);
-    alert.setContentText(message);
-    alert.initOwner(owner);
-    alert.show();
   }
 
   //return the integer from the resource file based on the provided string
