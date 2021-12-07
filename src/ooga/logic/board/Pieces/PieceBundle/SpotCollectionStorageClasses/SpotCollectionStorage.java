@@ -30,12 +30,15 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
   private Map<String,String> myDataMap;
 
   /**
-   * 
-   * @param pieceToString
-   * @param attributeMap
-   * @param pieceProperties
-   * @param defaultProperties
-   * @param teamMatters
+   * Scan all the sources of information below for the atomic nature of this given piece
+   * @param pieceToString String that we want to scan the attribute map for
+   * @param attributeMap map of keys and values that define the pieces outside of the default;
+   *                     allow for flexible pieces
+   * @param pieceProperties default properties of this particular piece
+   * @param defaultProperties default properties of any piece assuming that the property is not
+   *                          available in the piece properties
+   * @param teamMatters either an empty variable, or the team number depending on if the team affects
+   *                    the manner in which the piece moves (ex: white pawns vs black pawns)
    */
   public SpotCollectionStorage(String pieceToString, Map<String, String> attributeMap,
       ResourceBundle pieceProperties, ResourceBundle defaultProperties, String teamMatters) {
@@ -147,8 +150,7 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
   }
 
   /**
-   * 
-   * @return
+   * @return The specific SpotCollection we've found
    */
   @Override
   public SpotCollection getSpotCollection(){
