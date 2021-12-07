@@ -104,7 +104,6 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
   }
 
   private void addUIControls(GridPane gridPane) {
-    // Add Header
     Label headerLabel = new Label(getWord("login_title_text"));
     headerLabel.setId("login-header-label");
     gridPane.add(headerLabel, 0, 0, getInt("header_column_span"), getInt("header_row_span"));
