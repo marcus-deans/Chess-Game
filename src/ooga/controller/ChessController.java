@@ -66,6 +66,8 @@ public class ChessController implements Controller {
 
   private Map<String, String> myRulesMap;
 
+  private static final String GAME_VIEW_RESOURCES_FILE_PATH = "ooga.view.viewresources.GameViewResources";
+
 
 
   /**
@@ -141,7 +143,7 @@ public class ChessController implements Controller {
     return csvFile;
   }
 
-  public void boardInitializer(String[][] initialStates, Game game)
+  private void boardInitializer(String[][] initialStates, Game game)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     for (int rowPosition = 0; rowPosition < BOARDWIDTH; rowPosition++) {
       for (int columnPosition = 0; columnPosition < BOARDHEIGHT; columnPosition++) {
@@ -167,11 +169,26 @@ public class ChessController implements Controller {
     return BOARDHEIGHT;
   }
 
+  /**
+   * Allows a new Player to be added to the Roster of Players
+   * @param userName
+   * @param password
+   * @param team
+   * @param color
+   * @throws IOException
+   */
   @Override
   public boolean setPlayer(int playerIdentifier, String userName, String password, int team, String color) throws IOException {
     Player addPlayer = new Player(playerIdentifier, userName, password, team);
-    thePlayers.add(addPlayer);
-    myLogger.log(Level.INFO, "Welcome: "+ addPlayer.getUsername());
+    if(!addPlayer.checkUser()){
+      //TODO: previous user
+      myLogger.log(Level.INFO, "Welcome Back: " + addPlayer.getUsername());
+    }
+    else {
+      //TODO: new player
+      thePlayers.add(addPlayer);
+      myLogger.log(Level.INFO, "Welcome: " + addPlayer.getUsername());
+    }
     currentPlayer = thePlayers.get(0);
     numPlayers = thePlayers.size();
     return true; //TODO: change to returning appropriate value if player created
@@ -191,7 +208,6 @@ public class ChessController implements Controller {
 
   /**
    * Gives BOARDWIDTH
-   *
    * @return
    */
   @Override
@@ -199,10 +215,19 @@ public class ChessController implements Controller {
     return BOARDWIDTH;
   }
 
+  /**
+   * Clears History and replaces Game Board with the initial setup
+   */
   @Override
   public void resetGame() {
     myGame.reset();
+    while(!history.isEmpty()){
+      history.pop();
+      myGameView.removeHistory();
+    }
+    numTurns =1;
     boardViewBuild(myGame);
+    myLogger.log(Level.INFO, "BOARD RESET");
   }
 
   @Override
@@ -210,6 +235,19 @@ public class ChessController implements Controller {
 
   }
 
+  /**
+   * Handles User click input and determines which piece and selected and the action taken by the user
+   * First click selects a piece belonging to the player and highlights possible move options based on the variation
+   * Second click either deselects the piece if clicked for the second time, does nothing if selection is outside of
+   * range of moves, or moves the piece to the desired position.
+   * @param row
+   * @param column
+   * @throws ClassNotFoundException
+   * @throws InvocationTargetException
+   * @throws NoSuchMethodException
+   * @throws InstantiationException
+   * @throws IllegalAccessException
+   */
   @Override
   public void clickedCoordinates(int row, int column)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
@@ -258,6 +296,7 @@ public class ChessController implements Controller {
       myGameView.addHistory(clickedPiece.getX_pos() + "," + clickedPiece.getY_pos() + " -> "+ nextMove.getX_pos() + "," + nextMove.getY_pos());
       numTurns++;
       unwind.clear();
+      //TODO IS GAME OVER: (update user score: winner ->true, loser ->false) (check isGameOver from Game)
       nextTurn(clickedPiece, nextMove);
     } else {
       myLogger.log(Level.WARNING, "INVALID PIECE SELECTED");
@@ -276,7 +315,7 @@ public class ChessController implements Controller {
   }
 
   /**
-   * Uses most recent move to update the board backwards
+   * Undoes the previous move
    */
   @Override
   public void undoMove()
@@ -295,21 +334,33 @@ public class ChessController implements Controller {
     }
   }
 
+  /**
+   * Uses reflection and cheat code (Alt + letter combination) to change board conditions
+   * @param identifier
+   */
   @Override
   public void acceptCheatCode(String identifier){
     Method action;
-    ResourceBundle cheatCodeMethods = ResourceBundle.getBundle("src/ooga/view/viewresources/GameViewResources.properties");
-    String method = cheatCodeMethods.getString(identifier);
+    ResourceBundle cheatCodeMethods = ResourceBundle.getBundle(GAME_VIEW_RESOURCES_FILE_PATH);
+    String method = identifier;
     try {
-      action = ChessController.class.getDeclaredMethod(method, Class.forName(identifier));
-      action.invoke(this, identifier);
+      action = ChessController.class.getDeclaredMethod(method, null);
+      action.invoke(this);
+      myLogger.log(Level.INFO, "Cheat code "+ identifier+" activated");
     } catch (Exception e) {
       myLogger.log(Level.WARNING,"Method does not exist");
     }
-    myLogger.log(Level.INFO, "Cheat code "+ identifier+" activated");
   }
 
 
+  /**
+   * Allows user to replace pieces after undoing a move
+   * @throws ClassNotFoundException
+   * @throws InvocationTargetException
+   * @throws NoSuchMethodException
+   * @throws InstantiationException
+   * @throws IllegalAccessException
+   */
   @Override
   public void redoMove()
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
@@ -331,7 +382,6 @@ public class ChessController implements Controller {
   /**
    * This should allow the player to change the rules using a menubar The game should also be
    * re-initialized without changing the current piece positions, csv will be ignored
-   *
    * @param variant
    */
   @Override
@@ -356,51 +406,106 @@ public class ChessController implements Controller {
   }
   //____________________________________________________CHEAT CODES__________________________________________________
 
-  private void Cannibalism(){
+  /**
+   * Allows player to enable "friendly fire" and attacks own pieces
+   */
+  public void Cannibalism(){
 
   }
+
+  /**
+   *
+   */
   private void IgnoreFilters(){
 
   }
+
+  /**
+   *
+   */
   private void InstantEnd(){
 
   }
+  /**
+   * Allowing Toroidal Game Variant to wrap around the North and South sides opposed to East and West
+   */
   private void ToroidalYAxis(){
 
   }
+  /**
+   * Change all Pawns to Queens
+   */
   private void PawnsToQueens(){
 
   }
+  /**
+   * Change all Pawns to Rooks
+   */
   private void PawnsToRooks(){
 
   }
+  /**
+   * Change all Pawns to Knights
+   */
   private void PawnsToKnights(){
 
   }
+  /**
+   * Change all Pawns to Bishops
+   */
   private void PawnsToBishops(){
 
   }
+  /**
+   * Allow pieces to jump eachother like horses
+   */
   private void JumpingPieces(){
 
   }
+  /**
+   * Highlight Portals on the board
+   */
   private void VisiblePortals(){
 
   }
+  /**
+   * Highlight Blackholes on the board
+   */
   private void VisibleBlackHoles(){
 
   }
+
+  /**
+   *
+   */
   private void OpeningAlpha(){
 
   }
+
+  /**
+   *
+   */
   private void OpeningBravo(){
 
   }
+
+  /**
+   *
+   */
   private void OpeningCharlie(){
 
   }
+
+  /**
+   *
+   */
   private void OpeningDelta(){
 
   }
+
+  /**
+   *
+   */
   private void OpeningEcho(){
 
   }
