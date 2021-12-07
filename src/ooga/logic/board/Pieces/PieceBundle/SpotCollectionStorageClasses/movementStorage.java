@@ -2,8 +2,10 @@ package ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses;
 
 import java.util.Map;
 import java.util.ResourceBundle;
-import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 
+/**
+ * 
+ */
 public class movementStorage extends SpotCollectionStorage {
   private static final String MOVEMENT = "movement";
 
