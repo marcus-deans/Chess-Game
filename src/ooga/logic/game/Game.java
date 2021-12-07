@@ -1,12 +1,10 @@
 package ooga.logic.game;
 
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import ooga.logic.board.Pieces.PieceBundle.pieces.Piece;
+import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.logic.board.board.GameBoard;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
-import ooga.logic.board.spot.GameSpot;
 import ooga.logic.board.spot.Spot;
 
 import java.lang.reflect.InvocationTargetException;

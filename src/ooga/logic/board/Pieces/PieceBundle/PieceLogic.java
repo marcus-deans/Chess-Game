@@ -1,4 +1,4 @@
-package ooga.logic.board.Pieces.PieceBundle.pieces;
+package ooga.logic.board.Pieces.PieceBundle;
 
 import java.util.Map;
 import ooga.logic.board.Pieces.PieceCollection.PieceCollection;
