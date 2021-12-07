@@ -1,5 +1,6 @@
 package ooga.view.ui.gameplaypanel;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -22,10 +23,9 @@ public class VariantPanel extends SharedUIComponents {
   private static final String VARIANT_RESOURCE_FILE_PATH = "ooga.view.viewresources.VariantResources";
   private static final ResourceBundle variantResources = ResourceBundle.getBundle(
       VARIANT_RESOURCE_FILE_PATH);
-  private final List<String> variantOptions = Arrays.asList(
-      variantResources.getString("VariantOptions").split(","));
+  private List<String> cheatCodeOptions;
   private String myDescription;
-  private ComboBox variantControlDropdown;
+  private ComboBox cheatControlDropDown;
   private Button variantDescriptionButton;
 
   /**
@@ -33,6 +33,16 @@ public class VariantPanel extends SharedUIComponents {
    */
   public VariantPanel(String description) {
     myDescription = description;
+    initializeDropdownOptions();
+  }
+
+  private void initializeDropdownOptions(){
+    cheatCodeOptions = new ArrayList<String>();
+    String[] cheatCodeIdentifiers = getString("CheatCodeOptions").split(",");
+    for(String identifier : cheatCodeIdentifiers){
+      String codeName = getString(identifier);
+      cheatCodeOptions.add(String.format("Alt+%s: %s", identifier, codeName));
+    }
   }
 
   /**
@@ -45,7 +55,7 @@ public class VariantPanel extends SharedUIComponents {
     myVariantPanel.setSpacing(getInt("gameplay_subpanel_spacing"));
     myVariantPanel.setId("variant-panel");
 
-    Node variantControlDropdown = initializeVariantControlDropdown();
+    Node variantControlDropdown = initializeCheatControlDropdown();
     Button variantDescriptionButton = initializeVariantDescriptionButton();
 
     myVariantPanel.getChildren().addAll(variantControlDropdown, variantDescriptionButton);
@@ -54,15 +64,15 @@ public class VariantPanel extends SharedUIComponents {
   }
 
   //create the specific dropdown allowing the user to select which view mode they prefer
-  private Node initializeVariantControlDropdown() {
-    variantControlDropdown = makeComboBox(getWord("variant_selection"), variantOptions, (event) -> {
-      String myVariantSelection = variantControlDropdown.getSelectionModel().getSelectedItem()
+  private Node initializeCheatControlDropdown() {
+    cheatControlDropDown = makeComboBox(getWord("cheat_code_selection"), cheatCodeOptions, (event) -> {
+      String myCheatCodeSelection = cheatControlDropDown.getSelectionModel().getSelectedItem()
           .toString();
       if (this.getPanelListener() != null) {
-        this.getPanelListener().changeVariant(myVariantSelection);
+        this.getPanelListener().selectCheatCode(myCheatCodeSelection.split(" ")[1]);
       }
     });
-    return variantControlDropdown;
+    return cheatControlDropDown;
   }
 
   private Button initializeVariantDescriptionButton() {
@@ -79,6 +89,7 @@ public class VariantPanel extends SharedUIComponents {
   }
 
   public void setBoardDescription(String description) {
+    myDescription = description;
     variantDescriptionButton.setOnAction(event -> {
       Alert alert = new Alert(AlertType.INFORMATION);
       alert.setTitle(getWord("variant_description_popup_title"));
@@ -86,5 +97,16 @@ public class VariantPanel extends SharedUIComponents {
       alert.setContentText(myDescription);
       alert.showAndWait();
     });
+  }
+
+  //retrieves relevant word from the "words" ResourceBundle
+  private String getString(String key) {
+    String value;
+    try {
+      value = variantResources.getString(key);
+    } catch (Exception exception) {
+      value = "error";
+    }
+    return value;
   }
 }
