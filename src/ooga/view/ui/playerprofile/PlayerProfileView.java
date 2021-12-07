@@ -121,7 +121,7 @@ public class PlayerProfileView extends Application implements PlayerProfileInter
     try{
       nameField = makeLabel(myPlayer.getUsername());
       teamField = makeLabel(determineTeam(myPlayer.getTeam()));
-      playerColor = Color.web(myPlayer.getProfileColor());
+      playerColor = Color.web("#" + myPlayer.getProfileColor());
       playerScore = myPlayer.getUserScore().split(",");
     } catch (Exception e){
       showAlert(AlertType.ERROR, myStage.getScene().getWindow(), getWord("player_profile_error_title"), getWord("player_profile_error_message"));
