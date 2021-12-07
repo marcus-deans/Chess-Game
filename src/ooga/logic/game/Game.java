@@ -286,4 +286,9 @@ public class Game {
     public void pawnsToPiece(String piece) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         myBoard.pawnsToPiece(piece);
     }
+
+    public void makePiecesJump()
+    {
+        myBoard.makePiecesJump();
+    }
 }

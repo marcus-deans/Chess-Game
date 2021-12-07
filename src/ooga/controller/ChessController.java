@@ -486,7 +486,7 @@ public class ChessController implements Controller {
    * Allow pieces to jump eachother like horses
    */
   private void JumpingPieces(){
-
+    myGame.makePiecesJump();
   }
   /**
    * Highlight Portals on the board

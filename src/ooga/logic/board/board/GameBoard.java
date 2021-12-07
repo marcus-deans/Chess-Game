@@ -270,4 +270,20 @@ public class GameBoard implements Board {
             }
         }
     }
+
+    /**
+     * Make all the pieces in the board capable of jumping
+     */
+    public void makePiecesJump()
+    {
+        for (Spot s : board)
+        {
+            if(s.getPiece()!=null)
+            {
+
+            }
+        }
+    }
+
+
 }
