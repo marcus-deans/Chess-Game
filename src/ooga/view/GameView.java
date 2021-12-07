@@ -352,9 +352,8 @@ public class GameView extends Application implements PanelListener, GameChessVie
   }
 
   @Override
-  public void changeVariant(String variant) {
-    //TODO: callback to controller to change the variant
-    myChessController.changeVariant(variant);
+  public void selectCheatCode(String cheatCode) {
+    myChessController.acceptCheatCode(cheatCode);
   }
 
   //compute which cell on the grid this corresponds to, NOT the pixel position

@@ -455,17 +455,14 @@ public class ChessController implements Controller {
   private void ToroidalYAxis(){
     myGame.setEdgePolicy("CheatCode");
   }
-  /**
-   * Change all Pawns to Queens
-   */
-  private void PawnsToQueens(){
-
+  private void PawnsToQueens()
+          throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    myGame.pawnsToPiece("Q");
+    boardViewBuild(myGame);
   }
-  /**
-   * Change all Pawns to Rooks
-   */
-  private void PawnsToRooks(){
-
+  private void PawnsToRooks() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    myGame.pawnsToPiece("R");
+    boardViewBuild(myGame);
   }
   /**
    * Change all Pawns to Knights
