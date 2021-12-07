@@ -12,6 +12,12 @@ import ooga.logic.board.coordinate.GameCoordinate;
 public class Queen extends Piece {
   private static final String PIECE_TO_STRING = "Queen";
 
+  /**
+   * use the same information plus an empty rulesMap if this wasn't passed in
+   * @param xPosition xCoordinate of piece
+   * @param yPosition yCoordinate of piece
+   * @param team team of piece
+   */
   public Queen(int xPosition, int yPosition, int team){
     this(xPosition,yPosition,team,new HashMap<>());
   }
