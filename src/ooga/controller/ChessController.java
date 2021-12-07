@@ -434,7 +434,7 @@ public class ChessController implements Controller {
    * Allows player to enable "friendly fire" and attacks own pieces
    */
   public void Cannibalism(){
-
+    myGame.makePiecesCannibalize();
   }
 
   /**
@@ -483,7 +483,7 @@ public class ChessController implements Controller {
     boardViewBuild(myGame);
   }
   /**
-   * Allow pieces to jump eachother like horses
+   * Allow pieces to jump each other like horses
    */
   private void JumpingPieces(){
     myGame.makePiecesJump();

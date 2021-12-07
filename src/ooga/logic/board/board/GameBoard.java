@@ -285,5 +285,19 @@ public class GameBoard implements Board {
         }
     }
 
+    /**
+     * Make all the pieces in the board capable of attacking their own team's pieces
+     */
+    public void makePiecesCannibalize()
+    {
+        for (Spot s : board)
+        {
+            if(s.getPiece()!=null)
+            {
+
+            }
+        }
+    }
+
 
 }

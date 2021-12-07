@@ -291,4 +291,9 @@ public class Game {
     {
         myBoard.makePiecesJump();
     }
+
+    public void makePiecesCannibalize()
+    {
+        myBoard.makePiecesCannibalize();
+    }
 }
