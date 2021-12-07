@@ -267,7 +267,8 @@ public class ChessController implements Controller {
         Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece, currentPlayer.getTeam());
         highlightSpots(test);
         myGameView.colourChessCell(myGame.getSpot(clickedPiece),myData.get("MoveColor"));
-        myLogger.log(Level.INFO, "FIRST CLICK");
+        myLogger.log(Level.INFO, currentPlayer.getUsername() + "'s turn!");
+
         FIRSTCLICK = false;
       }
     }
@@ -323,6 +324,9 @@ public class ChessController implements Controller {
     if(myGame.getIsGameOver()) {
       myGameView.displayGameComplete(currentPlayer.getTeam());
       currentPlayer.updateUserScore(true);
+      for(Player player : thePlayers){
+        if(player != currentPlayer) player.updateUserScore(false);
+      }
     }
   }
 

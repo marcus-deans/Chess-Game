@@ -1,6 +1,7 @@
 package ooga.view;
 
 import static ooga.util.ResourceRetriever.getWord;
+import static ooga.util.ResourceRetriever.showAlert;
 
 import java.io.FileInputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -10,6 +11,7 @@ import java.util.logging.Logger;
 
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -23,7 +25,10 @@ import ooga.logic.board.spot.Spot;
 
 
 /**
- * JavaFX View class
+ * JavaFX GridPane that creates the chessboard on which all of the game will be executed
+ * Relies on appropriate resourcebundles being configured and JavaFX
+ *
+ * @author marcusdeans
  */
 public class GridView implements GridChessView {
 
@@ -42,11 +47,19 @@ public class GridView implements GridChessView {
   private static final ResourceBundle gridViewResources = ResourceBundle.getBundle(GRID_VIEW_RESOURCES_PATH);
   private final List<String> piecesNames= Arrays.asList(gridViewResources.getString("pieceTypes").split(","));
 
-  public GridView(int height, int width, String[] gridColours, int gridDisplayLength, PanelListener gameView) {
+  /**
+   * Create a new GridView that will provide a representation of the chessboard as a JavaFX GridPane
+   * @param heightNumber the vertical number of cells of this grid
+   * @param widthNumber the horizontal number of cells of this grid
+   * @param gridColours the specified colours that the grid should be set to
+   * @param gridDisplayLength the length in pixels of the display
+   * @param gameView a reference to the GameView to allow for communication and information propagation
+   */
+  public GridView(int heightNumber, int widthNumber, String[] gridColours, int gridDisplayLength, PanelListener gameView) {
     myGameGrid = new GridPane();
     myGameGrid.setId("game-grid");
-    myWidthNumber = width;
-    myHeightNumber = height;
+    myWidthNumber = widthNumber;
+    myHeightNumber = heightNumber;
     myGridColours = gridColours;
     myGridDimensions = gridDisplayLength;
     myGameView = gameView;
@@ -54,12 +67,13 @@ public class GridView implements GridChessView {
     populateNewGrid();
   }
 
+  //determine the cell dimensions that will apply for all cells in teh grid
   private void determineCellDimensions() {
     myCellWidth = (myGridDimensions - getInt("lineSize") - getInt("letter_label_width")) / myWidthNumber;
     myCellHeight = (myGridDimensions - getInt("lineSize")) / myHeightNumber;
   }
 
-
+  //create a new cell that has a specified colour
   private Rectangle createNewColouredCellView(int state, boolean hasPiece, String hexColour){
     Rectangle newCell = createNewCellView(state, hasPiece);
     newCell.setFill(Color.web(hexColour));
@@ -79,6 +93,7 @@ public class GridView implements GridChessView {
     return newCell;
   }
 
+  //create a new chess cell that has a piece on it and is also coloured
   private Pane createNewColouredCellWithPiece(int state, ImageView pieceImage, String hexColour){
     Pane newCellGroup = new Pane();
     newCellGroup.getChildren().addAll(createNewColouredCellView(state, true, hexColour), pieceImage);
@@ -86,11 +101,12 @@ public class GridView implements GridChessView {
       newCellGroup.setOnMouseClicked(this::clickOnGrid);
     }
     catch(Exception e){
-
+      showAlert(AlertType.ERROR, getWord("click_error_title"), getWord("click_error_message"));
     }
     return newCellGroup;
   }
 
+  //create a new chess cel that also has a pieceo nit
   private Pane createNewCellWithPiece(int state, ImageView pieceImage){
     Pane newCellGroup = new Pane();
     newCellGroup.getChildren().addAll(createNewCellView(state, true), pieceImage);
@@ -98,7 +114,7 @@ public class GridView implements GridChessView {
       newCellGroup.setOnMouseClicked(this::clickOnGrid);
     }
     catch(Exception e){
-
+      showAlert(AlertType.ERROR, getWord("click_error_title"), getWord("click_error_message"));
     }
     return newCellGroup;
   }
@@ -147,12 +163,17 @@ public class GridView implements GridChessView {
     }
   }
 
+  /**
+   * Obtain the GameGrid in order to display the chess board
+   * @return the JavaFX Gridpane representing the board
+   */
   @Override
   public GridPane getMyGameGrid() {
     myGameGrid.setGridLinesVisible(true);
     return myGameGrid;
   }
 
+  //determine which cell the user clicked on and process via reflection
   private void clickOnGrid(MouseEvent event) {
     Node nod = (Node) event.getSource();
     Parent par = nod.getParent();
@@ -172,49 +193,29 @@ public class GridView implements GridChessView {
 
   }
 
-  // row, column, colour, piece type
-  //Spot -> extract row, column, 'team'=colour, Spot.getPiece() -> reflect on the piece, makes corresponding JavaFX images
+  /**
+   * Allow for the modification of a specific chess cell
+   * @param spot the spot that should be modified
+   */
   @Override
   public void updateChessCell(Spot spot){
     changeChessCell(spot, false, getString("empty_cell_colour"));
   }
 
+  /**
+   * Allow for the change of a specific spot to a supplied colour
+   * @param spot the spot to be changed
+   * @param hexColour the colour that it should be changed to
+   */
   @Override
   public void colourChessCell(Spot spot, String hexColour){
     changeChessCell(spot, true, hexColour);
   }
 
+  //chance a specific cell on the chessboard
   private void changeChessCell(Spot spot, boolean isColoured, String hexColour){
     int columnIndex = spot.getCoordinate().getX_pos();
     int rowIndex = spot.getCoordinate().getY_pos();
-
-//    Map<Boolean, Consumer> spotNullMap = Map.of(
-//        true,
-//          spotFunction -> {
-//          ImageView pieceImageview = createNewPieceImageView(spot);
-//          pieceImageview.setFitHeight(myCellHeight - getInt("cell-piece-spacing"));
-//          pieceImageview.setFitWidth(myCellWidth - getInt("cell-piece-spacing"));
-//
-//          Pane newCellWithPiece = createNewCellWithPiece(determineCellColour(columnIndex, rowIndex),
-//              pieceImageview, isHighlighted);
-//          myGameGrid.add(newCellWithPiece, columnIndex, rowIndex);
-//        },
-//        false,
-//        spotFunction ->
-//        {
-//          Rectangle newCellWithoutPiece = createNewCellView(determineCellColour(columnIndex, rowIndex), isHighlighted, false);
-//          myGameGrid.add(newCellWithoutPiece, columnIndex, rowIndex);
-//        }
-//        );
-//
-//        try {
-//          spotNullMap.get(spot.getPiece() != null);
-//        } catch (NullPointerException e) {
-//          //myErrorFactory.updateError(GAME_ERROR);
-//        }
-
-
-
     if(spot.getPiece() != null){
       ImageView pieceImageview = createNewPieceImageView(spot);
       pieceImageview.setFitHeight(myCellHeight-getInt("cell-piece-spacing"));
@@ -237,10 +238,9 @@ public class GridView implements GridChessView {
       }
       myGameGrid.add(newCellWithoutPiece, columnIndex, rowIndex);
     }
-
-    //TODO: make cell updates
   }
 
+  //create a new spot that also has a chess piece on it
   private ImageView createNewPieceImageView(Spot spot){
     ImageView newPieceImageView;
     try {
@@ -257,12 +257,19 @@ public class GridView implements GridChessView {
     return newPieceImageView;
   }
 
+  //determine the colour of the team
   private String determineTeamColour(int teamNumber){
     Map<Integer, String> intMap = Map.of(1, "Black", 2, "White");
     return (intMap.containsKey(teamNumber))? intMap.get(teamNumber) : "Error";
   }
 
 
+  /**
+   * Update a specific cell in the grid
+   * @param row position of cell
+   * @param column position of cell
+   * @param state the state that the piece should be set to
+   */
   @Override
   public void update(int row, int column, int state) {
     myGameGrid.add(createNewCellView(determineCellColour(column, row), false), column, row);
