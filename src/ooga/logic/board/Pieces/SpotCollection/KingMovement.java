@@ -7,8 +7,8 @@ public class KingMovement extends SpotCollection {
   private static final String HORIZONTAL_RANGE = "horizontalRange";
   private static final String VERTICAL_RANGE = "verticalRange";
 
-  public KingMovement(){
-    super();
+  public KingMovement(int width){
+    super(width);
   }
 
 

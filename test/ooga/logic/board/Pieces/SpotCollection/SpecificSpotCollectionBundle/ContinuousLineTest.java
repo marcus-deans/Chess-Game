@@ -17,7 +17,7 @@ class ContinuousLineTest {
 
   @BeforeEach
   void setUp() {
-    mySpot = new ContinuousLine();
+    mySpot = new ContinuousLine(BOARD_SIZE);
     innerCoordinate = new GameCoordinate(2,2);
     outerCoordinate = new GameCoordinate(0,0);
   }

@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
-import ooga.logic.board.Pieces.SpotCollection.LastRankSpots;
+//import ooga.logic.board.Pieces.SpotCollection.LastRankSpots;
 import ooga.logic.board.Pieces.SpotCollection.PawnCapture;
 import ooga.logic.board.Pieces.SpotCollection.PawnMovement;
 import ooga.logic.board.coordinate.Coordinate;
@@ -72,9 +72,9 @@ class GeneralPieceTest {
     assertTrue(myPiece.getCheckable());
     assertTrue(myPiece.canCannibalize());
     assertEquals(getSize(myPiece.getPossibleCaptures().getPossibleSpots(myCoord)),
-        getSize(new PawnCapture().getPossibleSpots(myCoord)));
+        getSize(new PawnCapture(8).getPossibleSpots(myCoord)));
     assertEquals(getSize(myPiece.getPossibleMoves().getPossibleSpots(myCoord)),
-        getSize(new PawnMovement().getPossibleSpots(myCoord)));
+        getSize(new PawnMovement(8).getPossibleSpots(myCoord)));
 
   }
   private int getSize(List<List<Coordinate>> myCoords) {
