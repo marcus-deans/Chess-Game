@@ -454,7 +454,7 @@ public class GameView extends Application implements PanelListener, GameChessVie
   @Override
   public void setBoardDescription(String boardDescription){
     myDescription = boardDescription;
-    refreshUIPanels();
+    myGameplayPanel.setBoardDescription(myDescription);
   }
 
 

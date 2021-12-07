@@ -11,6 +11,7 @@ public class GameplayPanel extends SharedUIComponents {
   private int myGameplayPanelX;
   private GraveyardPanel myGraveyardPanel;
   private HistoryPanel myHistoryPanel;
+  private VariantPanel myVariantPanel;
   private String myDescription;
 
   /**
@@ -30,7 +31,7 @@ public class GameplayPanel extends SharedUIComponents {
     newGameplayPanel.setLayoutX(myGameplayPanelX);
     newGameplayPanel.setLayoutY(getInt("gameplay_panel_y"));
 
-    VariantPanel myVariantPanel = new VariantPanel(myDescription);
+    myVariantPanel = new VariantPanel(myDescription);
     myVariantPanel.setPanelListener(this.getPanelListener());
     newGameplayPanel.getChildren().add(myVariantPanel.createVariantPanel());
 
@@ -55,5 +56,9 @@ public class GameplayPanel extends SharedUIComponents {
 
   public void updateGraveyard(Piece deadPiece) {
     myGraveyardPanel.addGraveyardEntry(deadPiece);
+  }
+
+  public void setBoardDescription(String description){
+    myVariantPanel.setBoardDescription(description);
   }
 }
