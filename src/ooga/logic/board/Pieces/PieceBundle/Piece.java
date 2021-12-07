@@ -1,10 +1,10 @@
 package ooga.logic.board.Pieces.PieceBundle;
 
 import java.util.HashMap;
-import java.util.Locale;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import ooga.logic.board.Pieces.Interfaces.*;
+import ooga.logic.board.Pieces.Interfaces.PieceLogic;
 import ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses.*;
 import ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses.*;
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
@@ -14,7 +14,7 @@ import ooga.logic.board.Pieces.SpotCollection.LastRankSpots;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 import ooga.logic.board.coordinate.Coordinate;
 
-abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, PromoteLogic{
+abstract public class Piece implements PieceLogic{
   private Coordinate myCoordinate;
   private SpotCollection areaOfEffect;
   private SpotCollection myPromotionSpots;
@@ -51,16 +51,42 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
     setPieceProperties(pieceToString);
     setDefaultProperties();
     setTeam(team);
-    teamMatters = new TeamMattersStorage(attributeMap,PieceProperties,DefaultProperties);
-    myJump = new JumpStorage(attributeMap,PieceProperties,DefaultProperties);
-    canCannibalize = new cannibalizeStorage(attributeMap,PieceProperties,DefaultProperties);
-    checkable= new checkableStorage(attributeMap,PieceProperties,DefaultProperties);
-    myCaptureStorage = new captureStorage(pieceToString, attributeMap,PieceProperties,DefaultProperties,getTeamIfNecessary());
-    myMovementStorage = new movementStorage(pieceToString, attributeMap,PieceProperties,DefaultProperties,getTeamIfNecessary());
+
+    setTeamMatters();
+    setJump();
+    setCanCannibalize();
+    setCheckable();
+    setCapture();
+    setMovement();
+
     setCoordinate(myCoordinate);
     setPromotionSpots();
     setAtomicArea();
 
+  }
+
+  private void setJump() {
+    myJump = new JumpStorage(attributeMap,PieceProperties,DefaultProperties);
+  }
+
+  private void setCanCannibalize() {
+    canCannibalize = new cannibalizeStorage(attributeMap,PieceProperties,DefaultProperties);
+  }
+
+  private void setCheckable() {
+    checkable= new checkableStorage(attributeMap,PieceProperties,DefaultProperties);
+  }
+
+  private void setCapture() {
+    myCaptureStorage = new captureStorage(PieceName, attributeMap,PieceProperties,DefaultProperties,getTeamIfNecessary());
+  }
+
+  private void setMovement() {
+    myMovementStorage = new movementStorage(PieceName, attributeMap,PieceProperties,DefaultProperties,getTeamIfNecessary());
+  }
+
+  private void setTeamMatters() {
+    teamMatters = new TeamMattersStorage(attributeMap,PieceProperties,DefaultProperties);
   }
 
   private void setMyAttributeMap(Map<String, String> myAttributeMap){
@@ -129,8 +155,21 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   @Override
   public boolean canCapture(Coordinate captureCoordinate) {
-    return getPossibleCaptures().getPossibleSpots(myCoordinate).contains(captureCoordinate);
+    return ListContainsCoordinate(getPossibleCaptures(),captureCoordinate);
   }
+
+ // @Override
+  public boolean canMoveTo(Coordinate captureCoordinate) {
+    return ListContainsCoordinate(getPossibleMoves(),captureCoordinate);
+  }
+
+  private boolean ListContainsCoordinate(SpotCollection CoordList,Coordinate myCoord){
+    for (List<Coordinate> x : CoordList.getPossibleSpots(myCoordinate)){
+      if (x.contains(myCoord)) return true;
+    }
+    return false;
+  }
+
 
 
 
@@ -187,25 +226,25 @@ abstract public class Piece implements PieceLogic, MoveLogic, CaptureLogic, Prom
 
   }
 
-
-  @Override
-  public void setCheckable(boolean checkable) {
-
-  }
-
   @Override
   public boolean getCheckable() {
     return checkable.getValue();
   }
 
   @Override
-  public void setCanCannibalize(boolean cannibalize) {
-
+  public boolean canCannibalize() {
+    return canCannibalize.getValue();
   }
 
   @Override
-  public boolean canCannibalize() {
-    return canCannibalize.getValue();
+  public void updateRules(Map<String, String> myMap) {
+    attributeMap = myMap;
+    teamMatters.update(attributeMap);
+    myJump.update(attributeMap);
+    canCannibalize.update(attributeMap);
+    checkable.update(attributeMap);
+    myCaptureStorage.update(attributeMap);
+    myMovementStorage.update(attributeMap);
   }
 
 /**

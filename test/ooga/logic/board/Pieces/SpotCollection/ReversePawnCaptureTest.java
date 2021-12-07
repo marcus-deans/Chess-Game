@@ -1,6 +1,6 @@
 package ooga.logic.board.Pieces.SpotCollection;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import ooga.logic.board.coordinate.Coordinate;
@@ -8,7 +8,7 @@ import ooga.logic.board.coordinate.GameCoordinate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class PawnCaptureTest {
+class ReversePawnCaptureTest {
   private SpotCollection mySpotCollection;
   private Coordinate innerCoordinate;
   private Coordinate outerCoordinate;
@@ -16,7 +16,7 @@ class PawnCaptureTest {
 
   @BeforeEach
   void setUp() {
-    mySpotCollection = new PawnCapture();
+    mySpotCollection = new ReversePawnCapture();
     innerCoordinate = new GameCoordinate(2,2);
     outerCoordinate = new GameCoordinate(0,0);
     topCoordinate = new GameCoordinate(3,7);

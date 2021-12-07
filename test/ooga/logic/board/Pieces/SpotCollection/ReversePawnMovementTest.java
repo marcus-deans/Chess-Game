@@ -8,7 +8,7 @@ import ooga.logic.board.coordinate.GameCoordinate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class PawnCaptureTest {
+class ReversePawnMovementTest {
   private SpotCollection mySpotCollection;
   private Coordinate innerCoordinate;
   private Coordinate outerCoordinate;
@@ -16,17 +16,17 @@ class PawnCaptureTest {
 
   @BeforeEach
   void setUp() {
-    mySpotCollection = new PawnCapture();
+    mySpotCollection = new ReversePawnMovement();
     innerCoordinate = new GameCoordinate(2,2);
     outerCoordinate = new GameCoordinate(0,0);
-    topCoordinate = new GameCoordinate(3,7);
+    topCoordinate = new GameCoordinate(3,6);
   }
 
   @Test
   void getPossibleSpotsInnerCoordinate() {
     List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(innerCoordinate);
     int size = getSize(myCoords);
-    assertTrue(size == 2);
+    assertTrue(size == 1);
   }
 
 
@@ -36,7 +36,7 @@ class PawnCaptureTest {
     List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(outerCoordinate);
 
     int size = getSize(myCoords);
-    assertTrue(size == 2);
+    assertTrue(size == 1);
   }
 
   @Test

@@ -1,78 +1,108 @@
 package ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.ResourceBundle;
-import ooga.logic.board.Pieces.SpotCollection.NoMovement;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 
-abstract public class SpotCollectionStorage {
+abstract public class SpotCollectionStorage implements SpotCollectionStorageInterface {
   private static final String CAPTURE = "capture";
   private static final String MOVEMENT = "movement";
   private SpotCollection mySpotCollection;
   private static final String SPOT_COLLECTION_BASE = SpotCollection.class.getPackageName();
 
+  private ResourceBundle pieceProperties;
+  private ResourceBundle defaultProperties;
+  private String pieceToString;
+  private String teamMatters;
 
-  public SpotCollectionStorage(String myString, Map<String, String> attributeMap,
+
+  public SpotCollectionStorage(String pieceToString, Map<String, String> attributeMap,
       ResourceBundle pieceProperties, ResourceBundle defaultProperties, String teamMatters) {
-      setBundle(myString, attributeMap, pieceProperties, defaultProperties, teamMatters);
+      this.pieceProperties = pieceProperties;
+      this.defaultProperties = defaultProperties;
+      this.pieceToString = pieceToString;
+      this.teamMatters = teamMatters;
+      setBundle(attributeMap);
   }
 
-
-  private void setBundle(String pieceToString, Map<String, String> attributeMap, ResourceBundle pieceProperties,
-      ResourceBundle defaultProperties, String teamMatters) {
+  private void setBundle( Map<String, String> attributeMap) {
     try{
       if (attributeMap.containsKey(getMySpotType())){
         setMySpotCollection(
-            (SpotCollection) Class.forName(
-                String.format("%s.%s",SPOT_COLLECTION_BASE ,
-                    attributeMap.get(getMySpotType())
-                )).getConstructor().newInstance()
+            getSpotCollection(attributeMap)
         );
       }
       else{
         setMySpotCollection(
-            (SpotCollection) Class.forName(
-                String.format("%s.%s",SPOT_COLLECTION_BASE ,pieceProperties.
-                    getString(
-                        String.format("%s%s",getMySpotType(),teamMatters)
-                    ))).getConstructor().newInstance()
+            getSpotCollectionFromBundle(pieceProperties)
         );
       }
     }
     catch (Exception e){
-      setDefaultBundle(pieceToString);
+      setDefaultBundle();
     }
   }
 
-  protected abstract String getMySpotType();
-
-  private void setDefaultBundle(String pieceToString) {
+  private void setDefaultBundle() {
     try{
       setMySpotCollection(
-          (SpotCollection) Class.forName(
-              String.format("%s.%s%s",SPOT_COLLECTION_BASE,pieceToString,capitalizeFirst(getMySpotType()))
-          ).getConstructor().newInstance()
+          getFromType(getMySpotType())
       );
 
     }
     catch(Exception e){
-      movementOrNone(pieceToString);
+      movementOrNone();
     }
   }
-
-  private void movementOrNone(String pieceToString) {
+  private void movementOrNone() {
     try{
       setMySpotCollection(
-          (SpotCollection) Class.forName(
-              String.format("%s.%s%s",SPOT_COLLECTION_BASE,pieceToString,capitalizeFirst(MOVEMENT))
-          ).getConstructor().newInstance()
+          getFromType(MOVEMENT)
       );
 
     }
     catch(Exception e){
-      setMySpotCollection(new NoMovement());
+      getDefaultState();
     }
   }
+
+  private void getDefaultState(){
+  try {
+    setMySpotCollection(
+        getSpotCollectionFromBundle(defaultProperties)
+    );
+  }
+  catch (Exception e){
+    //SOME KIND OF ERROR
+  }
+  }
+
+  private SpotCollection getSpotCollectionFromBundle(ResourceBundle pieceProperties)
+      throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
+    return (SpotCollection) Class.forName(
+        String.format("%s.%s", SPOT_COLLECTION_BASE, pieceProperties.
+            getString(
+                String.format("%s%s", getMySpotType(), teamMatters)
+            ))
+    ).getConstructor().newInstance();
+  }
+
+  private SpotCollection getSpotCollection(Map<String, String> attributeMap)
+      throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
+    return (SpotCollection) Class.forName(
+        String.format("%s.%s",SPOT_COLLECTION_BASE ,
+            attributeMap.get(getMySpotType())
+        )).getConstructor().newInstance();
+  }
+
+  private SpotCollection getFromType(String mySpotType)
+      throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
+    return (SpotCollection) Class.forName(
+        String.format("%s.%s%s", SPOT_COLLECTION_BASE, pieceToString, capitalizeFirst(mySpotType))
+    ).getConstructor().newInstance();
+  }
+
 
   private void setMySpotCollection(SpotCollection myNewSpotCollection){
     mySpotCollection = myNewSpotCollection;
@@ -82,8 +112,17 @@ abstract public class SpotCollectionStorage {
     return mySpotCollection;
   }
 
-  protected String capitalizeFirst(String toBeCapitalized){
+  private String capitalizeFirst(String toBeCapitalized){
+    if (toBeCapitalized.length() == 0){
+      return toBeCapitalized;
+    }
     return toBeCapitalized.substring(0, 1).toUpperCase() + toBeCapitalized.substring(1);
   }
+
+  @Override
+  public void update(Map<String, String> myMap) {
+    setBundle(myMap);
+  }
+  protected abstract String getMySpotType();
 
 }

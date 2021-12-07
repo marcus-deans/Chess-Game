@@ -12,6 +12,7 @@ class OneTimeDiagonalTest {
 private SpecificSpotCollection mySpot;
 private Coordinate innerCoordinate;
 private Coordinate outerCoordinate;
+  private final int BOARD_SIZE = 8;
 
   @BeforeEach
   void setUp() {
@@ -38,7 +39,7 @@ private Coordinate outerCoordinate;
   @Test
   void outerCoordinateInvalid() {
     List<Coordinate> myCoords = mySpot.getPossibleSpots(outerCoordinate,-1,-1);
-    assertEquals(myCoords.size(), 0);
+    assertEquals(myCoords.size(), 1);
   }
 
 }

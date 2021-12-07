@@ -43,7 +43,7 @@ class PawnMovementTest {
   void getPossibleSpotsTopCoordinate() {
     List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(topCoordinate);
     int size = getSize(myCoords);
-    assertTrue(size == 0);
+    assertTrue(size == 1);
   }
 
   private int getSize(List<List<Coordinate>> myCoords) {

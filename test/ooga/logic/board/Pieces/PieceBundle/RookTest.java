@@ -18,24 +18,24 @@ class RookTest {
 
   @Test
   void canCapture() {
-    myCoord.setCoordinate(2,4);
+    myCoord.setCoordinate(3,2);
     assertTrue(myPiece.canCapture(myCoord));
   }
 
   @Test
   void getMyMovement() {
-    myCoord.setCoordinate(3,3);
-    assertFalse(myPiece.getPossibleMoves().getPossibleSpots(myPiece.getCoordinate()).contains(myCoord));
-    myCoord.setCoordinate(2,0);
-    assertTrue(myPiece.getPossibleMoves().getPossibleSpots(myPiece.getCoordinate()).contains(myCoord));
+    myCoord.setCoordinate(2,3);
+    assertTrue(myPiece.canMoveTo(myCoord));
+    myCoord.setCoordinate(1,1);
+    assertFalse(myPiece.canMoveTo(myCoord));
   }
 
   @Test
-  void getMyCapture() {
-    myCoord.setCoordinate(4,4);
-    assertFalse(myPiece.getPossibleCaptures().getPossibleSpots(myPiece.getCoordinate()).contains(myCoord));
-    myCoord.setCoordinate(7,2);
-    assertTrue(myPiece.getPossibleCaptures().getPossibleSpots(myPiece.getCoordinate()).contains(myCoord));
+  void setMyCapture() {
+    myCoord.setCoordinate(4,2);
+    assertTrue(myPiece.canCapture(myCoord));
+    myCoord.setCoordinate(3,5);
+    assertFalse(myPiece.canCapture(myCoord));
   }
 
 }
