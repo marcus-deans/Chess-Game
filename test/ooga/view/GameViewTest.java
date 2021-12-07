@@ -20,11 +20,15 @@ public class GameViewTest extends DukeApplicationTest {
   private ChessController myController;
   private File myFile;
   private ComboBox myLanguageComboBox;
+  private ComboBox myViewComboBox;
+  private ComboBox myCheatCodeBox;
   private Button myPlayerOneButton;
   private Button mySaveButton;
   private Button myLoadButton;
   private Button myUndoButton;
   private Button myRedoButton;
+  private Button myResetButton;
+  private Button myDescriptionButton;
   private GameView myGameView;
 
 
@@ -46,11 +50,15 @@ public class GameViewTest extends DukeApplicationTest {
       }
     });
     myLanguageComboBox = lookup("#language-dropdown").queryComboBox();
+    myViewComboBox = lookup("#view-dropdown").queryComboBox();
+    myCheatCodeBox = lookup("#cheatcontrol-dropdown").queryComboBox();
     myPlayerOneButton = lookup("#player-1-button").queryButton();
     myLoadButton = lookup("#load-button").queryButton();
     mySaveButton = lookup("#save-button").queryButton();
     myUndoButton = lookup("#undo-button").queryButton();
     myRedoButton = lookup("#redo-button").queryButton();
+    myResetButton = lookup("#reset-button").queryButton();
+    myDescriptionButton = lookup("#description-button").queryButton();
   }
 
   @Test
@@ -75,10 +83,18 @@ public class GameViewTest extends DukeApplicationTest {
   }
 
   @Test
-  void testSelectLanguageGerman(){
-    String unexpected = "English";
-    select(myLanguageComboBox, "German");
-    assertNotEquals(unexpected, myLanguageComboBox.getPromptText());
+  void testSelectViewSpace(){
+    String expected = "Space";
+    select(myViewComboBox, "Space");
+    assertEquals(expected, myViewComboBox.getSelectionModel().getSelectedItem().toString());
+  }
+
+
+  @Test
+  void testSelectViewDark(){
+    String expected = "Dark";
+    select(myViewComboBox, "Dark");
+    assertEquals(expected, myViewComboBox.getSelectionModel().getSelectedItem().toString());
   }
 
   @Test
@@ -98,16 +114,51 @@ public class GameViewTest extends DukeApplicationTest {
 
   @Test
   void testUndoHistoryButton(){
-    String expected = "Undo Move";
+    String expected = "Undo";
     clickOn(myUndoButton);
     assertEquals(expected, myUndoButton.getText());
   }
 
   @Test
+  void testSelectLanguageGerman(){
+    String unexpected = "English";
+    select(myLanguageComboBox, "German");
+    assertNotEquals(unexpected, myLanguageComboBox.getPromptText());
+  }
+
+  @Test
+  void testDescriptionButtonPopupRandomMessage(){
+    String unexpected = "Description";
+    clickOn(myDescriptionButton);
+    assertNotEquals(unexpected, getDialogMessage());
+  }
+
+  @Test
   void testRedoHistoryButton(){
-    String expected = "Redo Move";
+    String expected = "Redo";
     clickOn(myRedoButton);
     assertEquals(expected, myRedoButton.getText());
+  }
+
+  @Test
+  void testSelectViewUNC(){
+    String expected = "UNC";
+    select(myViewComboBox, "UNC");
+    assertEquals(expected, myViewComboBox.getSelectionModel().getSelectedItem().toString());
+  }
+
+  @Test
+  void testDescriptionButtonPopup(){
+    String expected = "Good Ol'fashioned Game of Chess";
+    clickOn(myDescriptionButton);
+    assertEquals(expected, getDialogMessage());
+  }
+
+  @Test
+  void testResetButton(){
+    String expected = "Reset";
+    clickOn(myResetButton);
+    assertEquals(expected, myResetButton.getText());
   }
 
   @Test
@@ -136,5 +187,19 @@ public class GameViewTest extends DukeApplicationTest {
       }
     });
     assertEquals(expected, getDialogMessage());
+  }
+
+  @Test
+  void testDescriptionClickButton(){
+    String expected = "Description";
+    clickOn(myDescriptionButton);
+    assertEquals(expected, myDescriptionButton.getText());
+  }
+
+  @Test
+  void testSelectViewDukeRoyal(){
+    String expected = "Duke-Royal";
+    select(myViewComboBox, "Duke-Royal");
+    assertEquals(expected, myViewComboBox.getSelectionModel().getSelectedItem().toString());
   }
 }

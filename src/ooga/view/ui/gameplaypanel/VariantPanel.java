@@ -73,6 +73,7 @@ public class VariantPanel extends SharedUIComponents {
         this.getPanelListener().selectCheatCode(myCheatCodeSelection.split(" ")[1]);
       }
     });
+    cheatControlDropDown.setId("cheatcontrol-dropdown");
     return cheatControlDropDown;
   }
 
@@ -85,6 +86,7 @@ public class VariantPanel extends SharedUIComponents {
       alert.setContentText(myDescription);
       alert.showAndWait();
     });
+    variantDescriptionButton.setId("description-button");
     variantDescriptionButton.setMaxHeight(getInt("button_height"));
     variantDescriptionButton.setPrefWidth(getInt("button_width"));
     return variantDescriptionButton;
