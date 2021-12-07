@@ -7,8 +7,8 @@ public class KnightMovement extends SpotCollection {
   private static final String PIECE_AS_STRING = "knight";
   private static final String SIGNS_AS_STRING = "signs";
 
-  public KnightMovement(){
-    super();
+  public KnightMovement(int width){
+    super(width);
   }
 
   @Override

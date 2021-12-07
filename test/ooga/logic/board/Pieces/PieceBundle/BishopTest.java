@@ -2,6 +2,8 @@ package ooga.logic.board.Pieces.PieceBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +35,6 @@ class BishopTest {
 
   @Test
   void setMyCapture() {
-//    myPiece.setMyCapture(new KnightMovement());
     myCoord.setCoordinate(2,4);
     assertTrue(myPiece.canCapture(myCoord));
     myCoord.setCoordinate(1,4);

@@ -99,7 +99,10 @@ public class GameBoard implements Board {
         {
             atomic(newPosition);
         }
-        getSpot(newPosition).setPiece(movingPiece);
+        else
+        {
+            getSpot(newPosition).setPiece(movingPiece);
+        }
         int spotType=getSpot(newPosition).getTypeOfSpot();
         spotActionName=SPOTACTION_PATH+resourceMap.getString(String.valueOf(spotType));
         SpotAction spotAction=(SpotAction) Class.forName(spotActionName).getConstructor().newInstance();

@@ -265,8 +265,8 @@ public class ChessController implements Controller {
     if (myGame.getSpot(clickedPiece).getPiece() != null) {
       if (myTempHashMap.get(turnIterator) == myGame.getSpot(clickedPiece).getPiece().getTeam()) {
         Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece, currentPlayer.getTeam());
-        //highlightSpots(test);
-        //myGameView.colourChessCell(myGame.getSpot(clickedPiece),myData.get("MoveColor"));
+//        highlightSpots(test);
+//        myGameView.colourChessCell(myGame.getSpot(clickedPiece),myData.get("MoveColor"));
         myLogger.log(Level.INFO, "FIRST CLICK");
         FIRSTCLICK = false;
       }
@@ -355,6 +355,7 @@ public class ChessController implements Controller {
   public void acceptCheatCode(String identifier){
     Method action;
     ResourceBundle cheatCodeMethods = ResourceBundle.getBundle(GAME_VIEW_RESOURCES_FILE_PATH);
+    //ResourceBundle cheatCodeMethods = ResourceBundle.getBundle("src/ooga/view/viewresources/GameViewResources.properties");
     String method = identifier;
     try {
       action = ChessController.class.getDeclaredMethod(method, null);
@@ -436,14 +437,17 @@ public class ChessController implements Controller {
   /**
    *
    */
-  private void InstantEnd(){
 
+  private void InstantEnd()
+          throws CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, IncorrectCSVFormatException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    File file=new File("data/CheatCode.sim");
+    initializeFromFile(file);
   }
   /**
    * Allowing Toroidal Game Variant to wrap around the North and South sides opposed to East and West
    */
   private void ToroidalYAxis(){
-
+    myGame.setEdgePolicy("CheatCode");
   }
   /**
    * Change all Pawns to Queens

@@ -10,9 +10,7 @@ import ooga.logic.board.coordinate.GameCoordinate;
  * @author Amr Tagel-Din
  */
 abstract public class SpecificSpotCollection implements SpecificSpotCollectionInterface{
-
-  private static final int BOARD_SIZE = 8;
-
+  private int myWidth;
   /**
    * From the interface, get possible spots either once or continuously down a given x and y
    * @param coordinate The coordinate that we are starting at
@@ -27,7 +25,7 @@ abstract public class SpecificSpotCollection implements SpecificSpotCollectionIn
     List<Coordinate> myCoordinateList = new ArrayList<>();
     List<Coordinate> individualCoords;
     int i = 1;
-    while (i <= BOARD_SIZE){
+    while (i <= myWidth){
       individualCoords = Diagonal(coordinate,myXInt * i,myYInt * i);
       if (DiagonalIsInvalid(individualCoords)){
         break;
@@ -48,6 +46,10 @@ abstract public class SpecificSpotCollection implements SpecificSpotCollectionIn
     Coordinate myNewCoordinate = new GameCoordinate(myCoordinate.getX_pos() + xAmount,myCoordinate.getY_pos() + yAmount);
     myCoords.add(myNewCoordinate);
     return myCoords;
+  }
+
+  protected void setMyWidth(int width) {
+    myWidth = width;
   }
 
 }

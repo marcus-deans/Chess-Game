@@ -13,10 +13,11 @@ class ReversePawnMovementTest {
   private Coordinate innerCoordinate;
   private Coordinate outerCoordinate;
   private Coordinate topCoordinate;
+  private final int BOARD_SIZE = 8;
 
   @BeforeEach
   void setUp() {
-    mySpotCollection = new ReversePawnMovement();
+    mySpotCollection = new ReversePawnMovement(BOARD_SIZE);
     innerCoordinate = new GameCoordinate(2,2);
     outerCoordinate = new GameCoordinate(0,0);
     topCoordinate = new GameCoordinate(3,6);

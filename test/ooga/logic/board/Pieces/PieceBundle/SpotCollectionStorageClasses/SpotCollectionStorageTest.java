@@ -53,14 +53,14 @@ class SpotCollectionStorageTest {
         defaultProperties,teamMatters);
 
     assertEquals(getSize(myStorage.getSpotCollection().getPossibleSpots(myCoord)),
-        getSize(new PawnCapture().getPossibleSpots(myCoord)));
+        getSize(new PawnCapture(8).getPossibleSpots(myCoord)));
 
     myRulesMap.remove("capture");
 
     myStorage.update(myRulesMap);
 
     assertEquals(getSize(myStorage.getSpotCollection().getPossibleSpots(myCoord)),
-        getSize(new BishopMovement().getPossibleSpots(myCoord)));
+        getSize(new BishopMovement(8).getPossibleSpots(myCoord)));
 
 
   }
