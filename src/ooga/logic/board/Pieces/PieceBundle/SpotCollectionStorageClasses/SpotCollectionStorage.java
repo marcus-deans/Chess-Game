@@ -5,6 +5,9 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 
+/**
+ * 
+ */
 abstract public class SpotCollectionStorage implements SpotCollectionStorageInterface {
   private static final String CAPTURE = "capture";
   private static final String MOVEMENT = "movement";
@@ -23,7 +26,14 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
   private String teamMatters;
   private Map<String,String> myDataMap;
 
-
+  /**
+   *
+   * @param pieceToString
+   * @param attributeMap
+   * @param pieceProperties
+   * @param defaultProperties
+   * @param teamMatters
+   */
   public SpotCollectionStorage(String pieceToString, Map<String, String> attributeMap,
       ResourceBundle pieceProperties, ResourceBundle defaultProperties, String teamMatters) {
       this.pieceProperties = pieceProperties;
@@ -133,6 +143,11 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
     mySpotCollection = myNewSpotCollection;
   }
 
+  /**
+   *
+   * @return
+   */
+  @Override
   public SpotCollection getSpotCollection(){
     if (mySpotCollection == null){
       setBundle();
@@ -147,6 +162,10 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
     return toBeCapitalized.substring(0, 1).toUpperCase() + toBeCapitalized.substring(1);
   }
 
+  /**
+   *
+   * @param myMap Map of relevant keys and what we want them to be set to
+   */
   @Override
   public void update(Map<String, String> myMap) {
     myDataMap = myMap;

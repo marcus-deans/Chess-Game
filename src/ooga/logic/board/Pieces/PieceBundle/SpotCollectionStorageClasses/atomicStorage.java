@@ -11,6 +11,9 @@ public class atomicStorage extends SpotCollectionStorage {
     super(myString, attributeMap, pieceProperties, defaultProperties, teamMatters);
   }
 
+  /**
+   * @return The string we are looking for in the keys
+   */
   protected String getMySpotType(){
     return ATOMIC;
   }
