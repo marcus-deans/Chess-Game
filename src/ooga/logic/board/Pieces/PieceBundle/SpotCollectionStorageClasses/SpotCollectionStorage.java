@@ -6,6 +6,11 @@ import java.util.ResourceBundle;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 
 
+/**
+ * Abstract class to generally parse through and figure out the SpotCollection for a specific aspect
+ * of a piece
+ * @author Amr Tagel-Din
+ */
 abstract public class SpotCollectionStorage implements SpotCollectionStorageInterface {
   private static final String CAPTURE = "capture";
   private static final String MOVEMENT = "movement";

@@ -5,6 +5,7 @@ import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 
 /**
  * Interface that allows you to store and alter a SpotCollection
+ * @author Amr Tagel-Din
  */
 public interface SpotCollectionStorageInterface {
 

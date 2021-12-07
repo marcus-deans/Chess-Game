@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 /**
  * Store the spotCollection explaining the atomic explosion of a piece (ie when this piece explodes,
  * what kind of blast radius is resulted
+ * @author Amr Tagel-Din
  */
 public class atomicStorage extends SpotCollectionStorage {
   private static final String ATOMIC = "atomic";

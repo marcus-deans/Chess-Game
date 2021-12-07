@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 /**
  * Store the spotCollection explaining the movement of a specific piece (ie does this
  * piece move like a pawn? a king? etc.)
+ * @author Amr Tagel-Din
  */
 public class movementStorage extends SpotCollectionStorage {
   private static final String MOVEMENT = "movement";
