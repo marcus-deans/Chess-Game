@@ -2,6 +2,7 @@ package ooga.view.ui.playerprofile;
 
 import static ooga.util.ResourceRetriever.getWord;
 
+import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -37,7 +38,7 @@ public class PlayerProfileView extends Application implements PlayerProfileInter
    *                     not be primary stages.
    */
   @Override
-  public void start(Stage primaryStage) {
+  public void start(Stage primaryStage)   {
     myStage = primaryStage;
     myStage.setTitle(getWord("login_modal_title_text"));
 
@@ -58,6 +59,15 @@ public class PlayerProfileView extends Application implements PlayerProfileInter
     myStage.setScene(scene);
 
     myStage.show();
+
+    //    public String getUserScore() throws IOException {
+    // wins, losses
+
+    try {
+      System.out.println(myPlayer.getUserScore());
+    } catch(Exception e){
+      e.printStackTrace();
+    }
   }
 
   @Override
