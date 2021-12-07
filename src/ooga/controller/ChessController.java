@@ -40,6 +40,8 @@ public class ChessController implements Controller {
       ChessController.class.getPackageName() + ".controllerresources.";
   private static final String PUZZLE_CSV_MAP = "Puzzles";
   private static final String GAME_VIEW_RESOURCES_FILE_PATH = "ooga.view.viewresources.GameViewResources";
+  private static final String CHESS_CONTROLLER_RESOURCES_PATH = "ooga.controller.controllerresources.ControllerResources";
+  private static final ResourceBundle controllerResources = ResourceBundle.getBundle(CHESS_CONTROLLER_RESOURCES_PATH);
   private final String[] ALPHABET = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"};
   private GameChessView myGameView;
   private int BOARDWIDTH;
@@ -557,7 +559,7 @@ public class ChessController implements Controller {
    */
   private void OpeningBravo() throws
       CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, IncorrectCSVFormatException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    File file = new File("data/PawnBattle.sim");
+    File file = new File(controllerResources.getString("Bravo"));
     initializeFromFile(file);
   }
 
@@ -566,7 +568,7 @@ public class ChessController implements Controller {
    */
   private void OpeningCharlie() throws
       CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, IncorrectCSVFormatException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    File file = new File("data/PawnBattle.sim");
+    File file = new File(controllerResources.getString("Charlie"));
     initializeFromFile(file);
 
   }
@@ -576,7 +578,7 @@ public class ChessController implements Controller {
    */
   private void OpeningDelta() throws
       CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, IncorrectCSVFormatException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    File file = new File("data/PawnBattle.sim");
+    File file = new File(controllerResources.getString("Delta"));
     initializeFromFile(file);
 
   }
@@ -586,7 +588,7 @@ public class ChessController implements Controller {
    */
   private void OpeningEcho() throws
       CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, IncorrectCSVFormatException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    File file = new File("data/PawnBattle.sim");
+    File file = new File(controllerResources.getString("Echo"));
     initializeFromFile(file);
 
   }
