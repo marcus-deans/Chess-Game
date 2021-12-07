@@ -226,8 +226,8 @@ public class ChessController implements Controller {
     if (myGame.getSpot(clickedPiece).getPiece() != null) {
       if (myTempHashMap.get(turnIterator) == myGame.getSpot(clickedPiece).getPiece().getTeam()) {
         Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece, currentPlayer.getTeam());
-//        highlightSpots(test);
-//        myGameView.colourChessCell(myGame.getSpot(clickedPiece),myData.get("MoveColor"));
+        highlightSpots(test);
+        myGameView.colourChessCell(myGame.getSpot(clickedPiece),myData.get("MoveColor"));
         myLogger.log(Level.INFO, "FIRST CLICK");
         FIRSTCLICK = false;
       }
@@ -371,10 +371,12 @@ public class ChessController implements Controller {
   private void ToroidalYAxis(){
     myGame.setEdgePolicy("CheatCode");
   }
-  private void PawnsToQueens(){
-
+  private void PawnsToQueens()
+          throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    myGame.pawnsToPiece("Q");
+    boardViewBuild(myGame);
   }
-  private void PawnsToRooks(){
+  private void PawnsToRooks() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
   }
   private void PawnsToKnights(){
