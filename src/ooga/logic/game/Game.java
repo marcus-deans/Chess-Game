@@ -312,4 +312,14 @@ public class Game {
     public void setFilter(boolean filter) {
         this.filter = filter;
     }
+
+    public void makePiecesJump()
+    {
+        myBoard.makePiecesJump();
+    }
+
+    public void makePiecesCannibalize()
+    {
+        myBoard.makePiecesCannibalize();
+    }
 }

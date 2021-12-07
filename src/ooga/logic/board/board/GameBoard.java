@@ -270,4 +270,35 @@ public class GameBoard implements Board {
             }
         }
     }
+
+    /**
+     * Make all the pieces in the board capable of jumping
+     */
+    public void makePiecesJump()
+    {
+        for (Spot s : board)
+        {
+            if(s.getPiece()!=null)
+            {
+
+            }
+        }
+    }
+
+    /**
+     * Make all the pieces in the board capable of attacking their own team's pieces
+     */
+    public void makePiecesCannibalize()
+    {
+        myRules.put("All|jump","true");
+        for (Spot s : board)
+        {
+            if(s.getPiece()!=null)
+            {
+                s.getPiece().updateRules(myRules);
+            }
+        }
+    }
+
+
 }
