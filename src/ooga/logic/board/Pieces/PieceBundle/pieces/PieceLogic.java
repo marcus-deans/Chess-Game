@@ -1,4 +1,4 @@
-package ooga.logic.board.Pieces.Interfaces;
+package ooga.logic.board.Pieces.PieceBundle.pieces;
 
 import java.util.Map;
 import ooga.logic.board.Pieces.PieceCollection.PieceCollection;
@@ -13,7 +13,7 @@ import ooga.logic.board.coordinate.Coordinate;
  * @author Amr Tagel-Din
  */
 public interface PieceLogic {
-    
+
     /**
      * Retrieves the coordinate point for the piece
      */

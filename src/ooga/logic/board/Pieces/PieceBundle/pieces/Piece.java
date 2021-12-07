@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import ooga.logic.board.Pieces.Interfaces.PieceLogic;
 import ooga.logic.board.Pieces.PieceBundle.BooleanStorageClasses.*;
 import ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses.*;
 import ooga.logic.board.Pieces.PieceCollection.PieceCollection;
