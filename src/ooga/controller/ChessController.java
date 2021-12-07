@@ -366,7 +366,7 @@ public class ChessController implements Controller {
 
   }
   private void ToroidalYAxis(){
-
+    myGame.setEdgePolicy("CheatCode");
   }
   private void PawnsToQueens(){
 
