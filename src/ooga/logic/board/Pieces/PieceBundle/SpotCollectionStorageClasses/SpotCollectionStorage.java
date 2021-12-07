@@ -3,6 +3,7 @@ package ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.ResourceBundle;
+import ooga.logic.board.Pieces.SpotCollection.NoMovement;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 
 
@@ -79,7 +80,7 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
       movementOrNone();
     }
   }
-  private void movementOrNone() {
+  protected void movementOrNone() {
     try{
       setMySpotCollection(
           getFromType(MOVEMENT)
@@ -98,7 +99,7 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
     );
   }
   catch (Exception e){
-    //SOME KIND OF ERROR
+    setMySpotCollection(new NoMovement(getWidthHeightMax()));
   }
   }
 
@@ -110,7 +111,7 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
             getString(
                 String.format("%s%s", getMySpotType(), teamMatters)
             ))
-    ).getConstructor(params).newInstance(Math.max(getBoardHeight(),getBoardWidth()));
+    ).getConstructor(params).newInstance(getWidthHeightMax());
   }
 
   private int getBoardWidth(){
@@ -133,7 +134,7 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
     return (SpotCollection) Class.forName(
         String.format("%s.%s",SPOT_COLLECTION_BASE ,
             myDataMap.get(getMySpotType())
-        )).getConstructor(params).newInstance(Math.max(getBoardHeight(),getBoardWidth()));
+        )).getConstructor(params).newInstance(getWidthHeightMax());
   }
 
   private SpotCollection getFromType(String mySpotType)
@@ -141,7 +142,7 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
     Class[] params={int.class};
     return (SpotCollection) Class.forName(
         String.format("%s.%s%s", SPOT_COLLECTION_BASE, pieceToString, capitalizeFirst(mySpotType))
-    ).getConstructor(params).newInstance(Math.max(getBoardHeight(),getBoardWidth()));
+    ).getConstructor(params).newInstance(getWidthHeightMax());
   }
 
 
@@ -177,5 +178,10 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
     setBundle();
   }
   protected abstract String getMySpotType();
+
+  private int getWidthHeightMax(){
+    return Math.max(getBoardHeight(),getBoardWidth());
+  }
+
 
 }

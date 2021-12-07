@@ -34,4 +34,8 @@ public class movementStorage extends SpotCollectionStorage {
     return MOVEMENT;
   }
 
+  protected void movementOrNone() {
+    getDefaultState();
+  }
+
 }
