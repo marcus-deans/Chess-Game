@@ -254,6 +254,7 @@ public class ChessController implements Controller {
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     if (FIRSTCLICK) {
       handleFirstClick(row, column);
+      System.out.println(row +" and "+ column);
     } else {
       handleSecondClick(row, column);
     }
