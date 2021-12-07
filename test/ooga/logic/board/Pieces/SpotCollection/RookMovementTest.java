@@ -18,7 +18,7 @@ class RookMovementTest {
 
   @BeforeEach
   void setUp() {
-    mySpotCollection = new RookMovement();
+    mySpotCollection = new RookMovement(BOARD_SIZE);
     innerCoordinate = new GameCoordinate(2,2);
     outerCoordinate = new GameCoordinate(0,0);
     topCoordinate = new GameCoordinate(3,7);

@@ -16,7 +16,7 @@ private Coordinate outerCoordinate;
 
   @BeforeEach
   void setUp() {
-    mySpot = new OneTimeDirection();
+    mySpot = new OneTimeDirection(BOARD_SIZE);
     innerCoordinate = new GameCoordinate(1,1);
     outerCoordinate = new GameCoordinate(0,0);
   }

@@ -6,8 +6,8 @@ import ooga.logic.board.coordinate.Coordinate;
 public class RookMovement extends SpotCollection {
   private static final String PIECE_AS_STRING = "rook";
 
-  public RookMovement(){
-    super();
+  public RookMovement(int width){
+    super(width);
   }
 
   @Override

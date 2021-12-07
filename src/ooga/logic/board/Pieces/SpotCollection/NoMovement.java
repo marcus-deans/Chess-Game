@@ -6,8 +6,8 @@ import ooga.logic.board.coordinate.Coordinate;
 
 public class NoMovement extends SpotCollection {
 
-  public NoMovement(){
-    super();
+  public NoMovement(int width){
+    super(width);
   }
 
   @Override

@@ -6,8 +6,8 @@ import ooga.logic.board.coordinate.Coordinate;
 public class BishopMovement extends SpotCollection {
   private static final String PIECE_AS_STRING = "bishop";
 
-  public BishopMovement(){
-    super();
+  public BishopMovement(int width){
+    super(width);
   }
 
   @Override

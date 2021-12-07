@@ -8,13 +8,20 @@ import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 abstract public class SpotCollectionStorage implements SpotCollectionStorageInterface {
   private static final String CAPTURE = "capture";
   private static final String MOVEMENT = "movement";
+  private static final String WIDTH = "width";
+  private static final String HEIGHT = "height";
+
   private SpotCollection mySpotCollection;
   private static final String SPOT_COLLECTION_BASE = SpotCollection.class.getPackageName();
+  private static final int DEFAULT_BOARD_WIDTH = 8;
+  private static final int DEFAULT_BOARD_HEIGHT = 8;
+
 
   private ResourceBundle pieceProperties;
   private ResourceBundle defaultProperties;
   private String pieceToString;
   private String teamMatters;
+  private Map<String,String> myDataMap;
 
 
   public SpotCollectionStorage(String pieceToString, Map<String, String> attributeMap,
@@ -23,14 +30,15 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
       this.defaultProperties = defaultProperties;
       this.pieceToString = pieceToString;
       this.teamMatters = teamMatters;
-      setBundle(attributeMap);
+      this.myDataMap = attributeMap;
+      setBundle();
   }
 
-  private void setBundle( Map<String, String> attributeMap) {
+  private void setBundle() {
     try{
-      if (attributeMap.containsKey(getMySpotType())){
+      if (myDataMap.containsKey(getMySpotType())){
         setMySpotCollection(
-            getSpotCollection(attributeMap)
+            getFromSpotCollection()
         );
       }
       else{
@@ -80,27 +88,38 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
 
   private SpotCollection getSpotCollectionFromBundle(ResourceBundle pieceProperties)
       throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
+    Class[] params={int.class, int.class};
     return (SpotCollection) Class.forName(
         String.format("%s.%s", SPOT_COLLECTION_BASE, pieceProperties.
             getString(
                 String.format("%s%s", getMySpotType(), teamMatters)
             ))
-    ).getConstructor().newInstance();
+    ).getConstructor(params).newInstance(getBoardWidth(),getBoardHeight());
   }
 
-  private SpotCollection getSpotCollection(Map<String, String> attributeMap)
+  private int getBoardWidth(){
+    return (myDataMap.containsKey(WIDTH) ? Integer.parseInt(myDataMap.get(WIDTH)) : DEFAULT_BOARD_WIDTH);
+  }
+  private int getBoardHeight(){
+    return (myDataMap.containsKey(HEIGHT) ? Integer.parseInt(myDataMap.get(HEIGHT)) : DEFAULT_BOARD_HEIGHT);
+
+  }
+
+  private SpotCollection getFromSpotCollection()
       throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
+    Class[] params={int.class, int.class};
     return (SpotCollection) Class.forName(
         String.format("%s.%s",SPOT_COLLECTION_BASE ,
-            attributeMap.get(getMySpotType())
-        )).getConstructor().newInstance();
+            myDataMap.get(getMySpotType())
+        )).getConstructor().newInstance(getBoardWidth(),getBoardHeight());
   }
 
   private SpotCollection getFromType(String mySpotType)
       throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
+    Class[] params={int.class, int.class};
     return (SpotCollection) Class.forName(
         String.format("%s.%s%s", SPOT_COLLECTION_BASE, pieceToString, capitalizeFirst(mySpotType))
-    ).getConstructor().newInstance();
+    ).getConstructor().newInstance(Math.max(getBoardHeight(),getBoardWidth()));
   }
 
 
@@ -109,6 +128,9 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
   }
 
   public SpotCollection getSpotCollection(){
+    if (mySpotCollection == null){
+      setBundle();
+    }
     return mySpotCollection;
   }
 
@@ -121,7 +143,8 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
 
   @Override
   public void update(Map<String, String> myMap) {
-    setBundle(myMap);
+    myDataMap = myMap;
+    setBundle();
   }
   protected abstract String getMySpotType();
 

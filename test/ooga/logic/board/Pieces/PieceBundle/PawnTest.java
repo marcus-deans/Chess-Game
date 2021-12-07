@@ -3,7 +3,7 @@ package ooga.logic.board.Pieces.PieceBundle;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
-import ooga.logic.board.Pieces.SpotCollection.LastRankSpots;
+//import ooga.logic.board.Pieces.SpotCollection.LastRankSpots;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
 import org.junit.jupiter.api.BeforeEach;
