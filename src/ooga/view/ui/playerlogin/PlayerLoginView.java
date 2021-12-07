@@ -86,15 +86,10 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
 
     // Set a padding of 20px on each side
     gridPane.setPadding(new Insets(40, 40, 40, 40));
-
-    // Set the horizontal gap between columns
     gridPane.setHgap(getInt("login_grid_pane_hgap"));
-
-    // Set the vertical gap between rows
     gridPane.setVgap(getInt("login_grid_pane_vgap"));
 
     // Add Column Constraints
-
     // columnOneConstraints will be applied to all the nodes placed in column one.
     ColumnConstraints columnOneConstraints = new ColumnConstraints(100, 100, Double.MAX_VALUE);
     columnOneConstraints.setHalignment(HPos.RIGHT);
