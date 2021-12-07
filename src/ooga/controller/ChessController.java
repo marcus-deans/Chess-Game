@@ -1,6 +1,6 @@
 package ooga.controller;
 
-import java.beans.PropertyChangeEvent;
+import com.opencsv.exceptions.CsvValidationException;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -15,12 +15,11 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.opencsv.exceptions.CsvValidationException;
 import javafx.stage.Stage;
 import ooga.Parser.CSVParser;
 import ooga.Parser.SIMParser;
 import ooga.logic.board.coordinate.GameCoordinate;
+import ooga.logic.board.spot.GameSpot;
 import ooga.logic.board.spot.Spot;
 import ooga.logic.game.Game;
 import ooga.logic.game.Player;
@@ -40,6 +39,8 @@ public class ChessController implements Controller {
   private static final String PIECES_PACKAGE =
       ChessController.class.getPackageName() + ".controllerresources.";
   private static final String PUZZLE_CSV_MAP = "Puzzles";
+  private static final String GAME_VIEW_RESOURCES_FILE_PATH = "ooga.view.viewresources.GameViewResources";
+  private final String[] ALPHABET = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"};
   private GameChessView myGameView;
   private int BOARDWIDTH;
   private int BOARDHEIGHT;
@@ -60,16 +61,9 @@ public class ChessController implements Controller {
   private ResourceBundle puzzleMap;
   private int puzzleNumber;
   private String puzzleName;
-  private final String[] ALPHABET = {"a","b","c","d","e","f","g","h","i","j","k"};
-
   private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
   private Map<Integer, Integer> myTempHashMap;
-
   private Map<String, String> myRulesMap;
-
-  private static final String GAME_VIEW_RESOURCES_FILE_PATH = "ooga.view.viewresources.GameViewResources";
-
 
 
   /**
@@ -80,8 +74,9 @@ public class ChessController implements Controller {
    * @param background
    * @param filename
    */
-  public ChessController(int width, int height, String background, String filename) throws IOException {
-    myGameView = new GameView(width, height, 8, 8, background, filename, filename,this);
+  public ChessController(int width, int height, String background, String filename)
+      throws IOException {
+    myGameView = new GameView(width, height, 8, 8, background, filename, filename, this);
     myGame = new Game(height, width, new HashMap<>());
     myGameView.start(new Stage());
 
@@ -120,7 +115,7 @@ public class ChessController implements Controller {
     BOARDWIDTH = myCSVParser.getDimensions()[0];
     BOARDHEIGHT = myCSVParser.getDimensions()[1];
     myRulesMap = getRulesFromSim(myData);
-    myGame = new Game(BOARDHEIGHT, BOARDWIDTH,myRulesMap);
+    myGame = new Game(BOARDHEIGHT, BOARDWIDTH, myRulesMap);
     myGame.setGameType(myData.get("Type"));
     setBoardDescription(myData.get("Description"));
     if (myData.get("Type").equals("Puzzles")) {
@@ -137,7 +132,7 @@ public class ChessController implements Controller {
     myLogger.log(Level.INFO, "Inititalized: " + myData.get("Type") + " gametype");
   }
 
-  private void setBoardDescription(String boardDescription){
+  private void setBoardDescription(String boardDescription) {
     myGameView.setBoardDescription(boardDescription);
   }
 
@@ -178,6 +173,7 @@ public class ChessController implements Controller {
 
   /**
    * Allows a new Player to be added to the Roster of Players
+   *
    * @param userName
    * @param password
    * @param team
@@ -185,7 +181,8 @@ public class ChessController implements Controller {
    * @throws IOException
    */
   @Override
-  public boolean setPlayer(int playerIdentifier, String userName, String password, int team, String color) throws IOException {
+  public boolean setPlayer(int playerIdentifier, String userName, String password, int team,
+      String color) throws IOException {
     Player addPlayer = new Player(playerIdentifier, userName, password, team);
     thePlayers.add(addPlayer);
     currentPlayer = thePlayers.get(0);
@@ -202,13 +199,14 @@ public class ChessController implements Controller {
   }
 
   @Override
-  public Player getPlayer(int playerIdentifier){
-    return thePlayers.get(playerIdentifier-1);
+  public Player getPlayer(int playerIdentifier) {
+    return thePlayers.get(playerIdentifier - 1);
   }
 
 
   /**
    * Gives BOARDWIDTH
+   *
    * @return
    */
   @Override
@@ -222,11 +220,11 @@ public class ChessController implements Controller {
   @Override
   public void resetGame() {
     myGame.reset();
-    while(!history.isEmpty()){
+    while (!history.isEmpty()) {
       history.pop();
       myGameView.removeHistory();
     }
-    numTurns =1;
+    numTurns = 1;
     boardViewBuild(myGame);
     myLogger.log(Level.INFO, "BOARD RESET");
   }
@@ -237,10 +235,12 @@ public class ChessController implements Controller {
   }
 
   /**
-   * Handles User click input and determines which piece and selected and the action taken by the user
-   * First click selects a piece belonging to the player and highlights possible move options based on the variation
-   * Second click either deselects the piece if clicked for the second time, does nothing if selection is outside of
-   * range of moves, or moves the piece to the desired position.
+   * Handles User click input and determines which piece and selected and the action taken by the
+   * user First click selects a piece belonging to the player and highlights possible move options
+   * based on the variation Second click either deselects the piece if clicked for the second time,
+   * does nothing if selection is outside of range of moves, or moves the piece to the desired
+   * position.
+   *
    * @param row
    * @param column
    * @throws ClassNotFoundException
@@ -266,7 +266,7 @@ public class ChessController implements Controller {
       if (myTempHashMap.get(turnIterator) == myGame.getSpot(clickedPiece).getPiece().getTeam()) {
         Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece, currentPlayer.getTeam());
         highlightSpots(test);
-        myGameView.colourChessCell(myGame.getSpot(clickedPiece),myData.get("MoveColor"));
+        myGameView.colourChessCell(myGame.getSpot(clickedPiece), myData.get("MoveColor"));
         myLogger.log(Level.INFO, currentPlayer.getUsername() + "'s turn!");
 
         FIRSTCLICK = false;
@@ -295,13 +295,15 @@ public class ChessController implements Controller {
       myGame.movePiece(clickedPiece, nextMove);
       myGameView.updateChessCell(myGame.getSpot(clickedPiece));
       FIRSTCLICK = true;
-      myGameView.addHistory(ALPHABET[clickedPiece.getX_pos()] + "," + (clickedPiece.getY_pos()+1) + " -> "+ ALPHABET[nextMove.getX_pos()] + "," + (nextMove.getY_pos()+1));
+      myGameView.addHistory(
+          ALPHABET[clickedPiece.getX_pos()] + "," + (clickedPiece.getY_pos() + 1) + " -> "
+              + ALPHABET[nextMove.getX_pos()] + "," + (nextMove.getY_pos() + 1));
       numTurns++;
       unwind.clear();
       //TODO IS GAME OVER: (update user score: winner ->true, loser ->false) (check isGameOver from Game)
       try {
         checkEndGame();
-      } catch(Exception e){
+      } catch (Exception e) {
         myLogger.log(Level.SEVERE, "FAILURE TO SELECT PIECE");
       }
       nextTurn(clickedPiece, nextMove);
@@ -321,11 +323,13 @@ public class ChessController implements Controller {
   }
 
   private void checkEndGame() throws IOException {
-    if(myGame.getIsGameOver()) {
+    if (myGame.getIsGameOver()) {
       myGameView.displayGameComplete(currentPlayer.getTeam());
       currentPlayer.updateUserScore(true);
-      for(Player player : thePlayers){
-        if(player != currentPlayer) player.updateUserScore(false);
+      for (Player player : thePlayers) {
+        if (player != currentPlayer) {
+          player.updateUserScore(false);
+        }
       }
     }
   }
@@ -351,10 +355,11 @@ public class ChessController implements Controller {
 
   /**
    * Uses reflection and cheat code (Alt + letter combination) to change board conditions
+   *
    * @param identifier
    */
   @Override
-  public void acceptCheatCode(String identifier){
+  public void acceptCheatCode(String identifier) {
     Method action;
     ResourceBundle cheatCodeMethods = ResourceBundle.getBundle(GAME_VIEW_RESOURCES_FILE_PATH);
     //ResourceBundle cheatCodeMethods = ResourceBundle.getBundle("src/ooga/view/viewresources/GameViewResources.properties");
@@ -362,15 +367,16 @@ public class ChessController implements Controller {
     try {
       action = ChessController.class.getDeclaredMethod(method, null);
       action.invoke(this);
-      myLogger.log(Level.INFO, "Cheat code "+ identifier+" activated");
+      myLogger.log(Level.INFO, "Cheat code " + identifier + " activated");
     } catch (Exception e) {
-      myLogger.log(Level.WARNING,"Method does not exist");
+      myLogger.log(Level.WARNING, "Method does not exist");
     }
   }
 
 
   /**
    * Allows user to replace pieces after undoing a move
+   *
    * @throws ClassNotFoundException
    * @throws InvocationTargetException
    * @throws NoSuchMethodException
@@ -403,13 +409,15 @@ public class ChessController implements Controller {
       second = 0;
     }
 
-    String call = ALPHABET[change[first].getX_pos()] + "," + (change[first].getY_pos() + 1) + " -> " + ALPHABET[change[second].getX_pos()] + "," + (change[second].getY_pos() + 1);
+    String call = ALPHABET[change[first].getX_pos()] + "," + (change[first].getY_pos() + 1) + " -> "
+        + ALPHABET[change[second].getX_pos()] + "," + (change[second].getY_pos() + 1);
     return call;
   }
 
   /**
    * This should allow the player to change the rules using a menubar The game should also be
    * re-initialized without changing the current piece positions, csv will be ignored
+   *
    * @param variant
    */
   @Override
@@ -424,8 +432,8 @@ public class ChessController implements Controller {
 
   private Map<String, String> getRulesFromSim(Map<String, String> myData) {
     myRulesMap = new HashMap<>();
-    for (String key : myData.keySet()){
-      if (key.substring(0,1).equals("^")){
+    for (String key : myData.keySet()) {
+      if (key.substring(0, 1).equals("^")) {
         myRulesMap.put(key.substring(1), myData.get(key));
       }
     }
@@ -437,14 +445,14 @@ public class ChessController implements Controller {
   /**
    * Allows player to enable "friendly fire" and attacks own pieces
    */
-  public void Cannibalism(){
+  public void Cannibalism() {
     myGame.makePiecesCannibalize();
   }
 
   /**
    *
    */
-  private void IgnoreFilters(){
+  private void IgnoreFilters() {
     myGame.setFilter(false);
   }
 
@@ -453,91 +461,122 @@ public class ChessController implements Controller {
    */
 
   private void InstantEnd()
-          throws CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, IncorrectCSVFormatException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    File file=new File("data/CheatCode.sim");
+      throws CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, IncorrectCSVFormatException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    File file = new File("data/CheatCode.sim");
     initializeFromFile(file);
   }
+
   /**
-   * Allowing Toroidal Game Variant to wrap around the North and South sides opposed to East and West
+   * Allowing Toroidal Game Variant to wrap around the North and South sides opposed to East and
+   * West
    */
-  private void ToroidalYAxis(){
+  private void ToroidalYAxis() {
     myGame.setEdgePolicy("CheatCode");
   }
+
   private void PawnsToQueens()
-          throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     myGame.pawnsToPiece("Q");
     boardViewBuild(myGame);
   }
-  private void PawnsToRooks() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+
+  private void PawnsToRooks()
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     myGame.pawnsToPiece("R");
     boardViewBuild(myGame);
   }
+
   /**
    * Change all Pawns to Knights
    */
-  private void PawnsToKnights() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+  private void PawnsToKnights()
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     myGame.pawnsToPiece("N");
     boardViewBuild(myGame);
   }
+
   /**
    * Change all Pawns to Bishops
    */
-  private void PawnsToBishops() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+  private void PawnsToBishops()
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     myGame.pawnsToPiece("B");
     boardViewBuild(myGame);
   }
+
   /**
    * Allow pieces to jump each other like horses
    */
-  private void JumpingPieces(){
+  private void JumpingPieces() {
     myGame.makePiecesJump();
   }
+
   /**
    * Highlight Portals on the board
    */
-  private void VisiblePortals(){
-
+  private void VisiblePortals() {
+    List<Spot> allPortals = new ArrayList<>();
+    for (Spot s : myGame.getFullBoard()) {
+      if (((GameSpot) s).getTypeOfSpot() == 1) {
+        allPortals.add(s);
+      }
+    }
+    for (Spot q : allPortals) {
+      myGameView.colourChessCell(q, myData.get("PortalColor"));
+    }
   }
+
   /**
    * Highlight Blackholes on the board
    */
-  private void VisibleBlackHoles(){
-
+  private void VisibleBlackHoles() {
+    List<Spot> allBlackHoles = new ArrayList<>();
+    for (Spot s : myGame.getFullBoard())
+    {
+      if(((GameSpot) s).getTypeOfSpot()==2)
+      {
+        allBlackHoles.add(s);
+      }
+    }
+    for(Spot q : allBlackHoles){
+      myGameView.colourChessCell(q, myData.get("BlackHoleColor"));
+    }
   }
 
   /**
    *
    */
-  private void PawnBattle() throws CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, IncorrectCSVFormatException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    File file=new File("data/PawnBattle.sim");
+  private void PawnBattle() throws
+      CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, IncorrectCSVFormatException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    File file = new File("data/PawnBattle.sim");
     initializeFromFile(file);
   }
 
   /**
    *
    */
-  private void OpeningBravo(){
+  private void OpeningBravo() {
 
   }
 
   /**
    *
    */
-  private void OpeningCharlie(){
+  private void OpeningCharlie() {
 
   }
 
   /**
    *
    */
-  private void OpeningDelta(){
+  private void OpeningDelta() {
 
   }
 
   /**
    *
    */
-  private void OpeningEcho(){
+  private void OpeningEcho() {
 
   }
 }
