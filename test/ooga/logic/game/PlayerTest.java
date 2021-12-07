@@ -24,8 +24,8 @@ public class PlayerTest {
         //pick a random number from 0 to 10000 to get a "random" username that is very highly likely unique and haven't been created before
         String uniqueUsername = String.valueOf((int) (Math.random()*10000)) + "PlayerTest";
         Player player1 = new Player(1, uniqueUsername, "password", 1);
-        int result = player1.checkUser();
-        Assertions.assertEquals(0, result);
+        boolean result = player1.checkUser();
+        Assertions.assertEquals(true, result);
     }
 
     @Test
@@ -37,8 +37,8 @@ public class PlayerTest {
 
         //create a 2nd player with the same username w/ the same password
         Player player2 = new Player(1, uniqueUsername, "password", 1);
-        int result = player2.checkUser();
-        Assertions.assertEquals(2, result);
+        boolean result = player2.checkUser();
+        Assertions.assertEquals(result, result);
     }
 
     @Test
@@ -50,8 +50,8 @@ public class PlayerTest {
 
         //create a 2nd player with the same username with a different/wrong password
         Player player2 = new Player(1, uniqueUsername, "wrongpassword", 1);
-        int result = player2.checkUser();
-        Assertions.assertEquals(1, result);
+        boolean result = player2.checkUser();
+        Assertions.assertEquals(false, result);
     }
 
     @Test

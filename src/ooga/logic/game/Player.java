@@ -55,16 +55,15 @@ public class Player {
     }
 
 
-    public int checkUser() throws IOException {
+    public boolean checkUser() throws IOException {
         String url = apiURL + readFromProperties("check_user_path") + "?" + readFromProperties("id_parameter") + myUsername + "&" + readFromProperties("password_parameter") + myPassword;
 
         String result = getFromDatabase(url);
 
-        if(result.equals(readFromProperties("insert_new_user_output"))) return 0;
-        else if(result.equals(readFromProperties("incorrect_password_match_output"))) return 1;
-        else if(result.equals(readFromProperties("successful_login_output"))) return 2;
+        if(result.equals(readFromProperties("insert_new_user_output")) || result.equals(readFromProperties("successful_login_output"))) return true;
+        else if(result.equals(readFromProperties("incorrect_password_match_output"))) return false;
 
-        return -1;
+        return false;
     }
 
     public void updateUserScore(boolean didWin) throws IOException {
@@ -74,6 +73,7 @@ public class Player {
         }else{
             result = getFromDatabase(apiURL + readFromProperties("subtract_score_path") + "?" + readFromProperties("id_parameter") + myUsername);
         }
+
         myLogger.log(Level.INFO, result);
     }
 
