@@ -555,28 +555,39 @@ public class ChessController implements Controller {
   /**
    *
    */
-  private void OpeningBravo() {
+  private void OpeningBravo() throws
+      CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, IncorrectCSVFormatException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    File file = new File("data/PawnBattle.sim");
+    initializeFromFile(file);
+  }
+
+  /**
+   *
+   */
+  private void OpeningCharlie() throws
+      CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, IncorrectCSVFormatException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    File file = new File("data/PawnBattle.sim");
+    initializeFromFile(file);
 
   }
 
   /**
    *
    */
-  private void OpeningCharlie() {
+  private void OpeningDelta() throws
+      CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, IncorrectCSVFormatException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    File file = new File("data/PawnBattle.sim");
+    initializeFromFile(file);
 
   }
 
   /**
    *
    */
-  private void OpeningDelta() {
-
-  }
-
-  /**
-   *
-   */
-  private void OpeningEcho() {
+  private void OpeningEcho() throws
+      CsvValidationException, IOException, ClassNotFoundException, InvocationTargetException, IncorrectCSVFormatException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    File file = new File("data/PawnBattle.sim");
+    initializeFromFile(file);
 
   }
 }
