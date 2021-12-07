@@ -69,14 +69,78 @@ public class ControllerTest extends DukeApplicationTest {
     }
 
     @Test
-    public void movePawnTest() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        Button setPlayer = lookup("Player Profile").query();
+    public void movePawnTest() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IOException {
+        //Button setPlayer = lookup("Player Profile").query();
+        myController.setPlayer(1, "Carter", "1", 1, "White");
+        runAsJFXAction(() -> {
+            try {
+                myController.clickedCoordinates(1, 6);
+            } catch (ClassNotFoundException e) {
 
-        myController.clickedCoordinates(1, 6);
-        myController.clickedCoordinates(1, 4);
+            } catch (InvocationTargetException e) {
+            } catch (NoSuchMethodException e) {
+            } catch (InstantiationException e) {
+            } catch (IllegalAccessException e) {
+            }
+            try {
+                myController.clickedCoordinates(1, 4);
+            } catch (ClassNotFoundException e) {
+            } catch (InvocationTargetException e) {
+            } catch (NoSuchMethodException e) {
+            } catch (InstantiationException e) {
+            } catch (IllegalAccessException e) {
+            }
+        });
+        //assertTrue();
 
     }
+    @Test
+    public void samePieceTest() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IOException {
+        //Button setPlayer = lookup("Player Profile").query();
+        myController.setPlayer(1, "Carter", "1", 1, "White");
+        runAsJFXAction(() -> {
+            try {
+                myController.clickedCoordinates(1, 6);
+            } catch (ClassNotFoundException e) {
 
+            } catch (InvocationTargetException e) {
+            } catch (NoSuchMethodException e) {
+            } catch (InstantiationException e) {
+            } catch (IllegalAccessException e) {
+            }
+            try {
+                myController.clickedCoordinates(1, 6);
+            } catch (ClassNotFoundException e) {
+            } catch (InvocationTargetException e) {
+            } catch (NoSuchMethodException e) {
+            } catch (InstantiationException e) {
+            } catch (IllegalAccessException e) {
+            }
+        });
+    }
+    @Test
+    public void InvalidPieceTest() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, IOException {
+        //Button setPlayer = lookup("Player Profile").query();
+        myController.setPlayer(1, "Carter", "1", 1, "White");
+        runAsJFXAction(() -> {
+            try {
+                myController.clickedCoordinates(1, 6);
+            } catch (ClassNotFoundException e) {
 
+            } catch (InvocationTargetException e) {
+            } catch (NoSuchMethodException e) {
+            } catch (InstantiationException e) {
+            } catch (IllegalAccessException e) {
+            }
+            try {
+                myController.clickedCoordinates(2, 5);
+            } catch (ClassNotFoundException e) {
+            } catch (InvocationTargetException e) {
+            } catch (NoSuchMethodException e) {
+            } catch (InstantiationException e) {
+            } catch (IllegalAccessException e) {
+            }
+        });
+    }
 }
 
