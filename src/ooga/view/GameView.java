@@ -1,5 +1,9 @@
 package ooga.view;
 
+import static ooga.view.GameViewUtil.getInt;
+import static ooga.view.GameViewUtil.getString;
+import static ooga.view.GameViewUtil.getWord;
+
 import com.opencsv.exceptions.CsvValidationException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,7 +12,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Set;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -42,25 +45,20 @@ import ooga.view.ui.playerprofile.PlayerProfileView;
  * application Relies on appropriate resourcebundles being configured as well as JavaFX Creates
  * gameController
  *
- * @author marcusdeans, drewpeterson
+ * @author marcusdeans
  */
 public class GameView extends Application implements PanelListener, GameChessView {
-
-  //JavaFX Simulation Parameters:
-  private static final int FRAMES_PER_SECOND = 7;
-  private static final double SECOND_DELAY = 7.0 / FRAMES_PER_SECOND;
-
-  //General resource file structure
-  private static final String GAME_VIEW_RESOURCES_FILE_PATH = "ooga.view.viewresources.GameViewResources";
-  private static final ResourceBundle gameViewResources = ResourceBundle.getBundle(
-      GAME_VIEW_RESOURCES_FILE_PATH);
 
   //Cosmetic features: colours and views
   private static final String GRID_COLORS_PATH = "ooga.view.viewresources.DefaultGridColours";
   private static final ResourceBundle defaultGridColours = ResourceBundle.getBundle(
       GRID_COLORS_PATH);
 
-//  private final List<String> gameTypes = Arrays.asList(gameViewResources.getString("GameOptions").split(","));
+  //JavaFX setup elements
+  private Stage myStage;
+  private Timeline myAnimation;
+  private Group myGameViewRoot;
+  private Scene myGameViewScene;
 
   //Cosmetic features: JavaFX pixel positioning
   private int frameWidth;
@@ -69,53 +67,33 @@ public class GameView extends Application implements PanelListener, GameChessVie
   private int boardHeight;
   private Paint frameBackground;
   private int gridDisplayLength;
-  private int[] gridSize;
   private String myFilename;
-  private String NO_CONTENT = "None";
-
-  //Information panel on top of screen
-  private String myTitle;
-  private String myType;
-  private String myAuthor;
 
   //Control Panel on Right Side of Screen
   private int controlPanelX;
   private Node myVisualControlPanel;
-  private Node myVisualGameplayPanel;
-  private Node myVisualInformationPanel;
-  private InformationPanel myInformationPanel;
-  private GameplayPanel myGameplayPanel;
   private ControlPanel myControlPanel;
 
   //Gameplay Panel on Left Side of Screen
+  private GameplayPanel myGameplayPanel;
+  private Node myVisualGameplayPanel;
   private int gameplayPanelX;
 
-  private int gameGridViewX;
-  private int gameGridViewY;
-
-  //Details panel on bottom of screen
-  private String[] myGameParameters;
+  //Information Panel on top of Screen
+  private Node myVisualInformationPanel;
+  private InformationPanel myInformationPanel;
   private String myDescription;
   private String[] myGridColours;
 
   //Grid display
   private Node myGridPanel;
-
-  //JavaFX setup elements
-  private Stage myStage;
-  private Timeline myAnimation;
-  private Group myGameViewRoot;
-  private Scene myGameViewScene;
+  private int gameGridViewX;
+  private int gameGridViewY;
 
   //Integral Game classes
   private GridChessView myGridView;
-//  private GameController myGameController;
 
   private FileInputStream fis;
-
-//  private static final String REQUIRED_PARAMETERS = "ooga.view.viewresources.requiredParameters";
-//  private static final ResourceBundle requiredParameters = ResourceBundle.getBundle(
-//      REQUIRED_PARAMETERS);
 
   private boolean successfulSetup;
   private Controller myChessController;
@@ -140,6 +118,12 @@ public class GameView extends Application implements PanelListener, GameChessVie
     myDescription = description;
     myFilename = filename;
     myChessController = gameController;
+    determineElementXPositioning(frameWidth);
+    myGameViewRoot = new Group();
+  }
+
+  //Compute the x positions of the various view elements based on the specified screen size
+  private void determineElementXPositioning(int frameWidth) {
     gridDisplayLength = frameWidth - getInt("width_buffer");
     controlPanelX = frameWidth - getInt("control_panel_offset");
     gameplayPanelX = getInt("gameplay_panel_offset");
@@ -148,17 +132,8 @@ public class GameView extends Application implements PanelListener, GameChessVie
     gameGridViewY = getInt("game_grid_y_offset");
     gridDisplayLength =
         controlPanelX - gameGridViewX - getInt("width_buffer") - 2 * getInt("line_offset");
-    myGameViewRoot = new Group();
   }
 
-  /**
-   * Returns the PanelListener, allowing UI panel subclasses to interact with the listener
-   *
-   * @return the PanelListener
-   */
-  protected Controller getGameController() {
-    return myChessController;
-  }
 
   /**
    * Start the JavaFX simulation by first setting up the scene and then initializing the animation
@@ -178,8 +153,6 @@ public class GameView extends Application implements PanelListener, GameChessVie
       primaryStage.setTitle(getWord("simulation_title"));
       primaryStage.show();
       myInformationPanel.adjustInformationPanelPosition();
-
-//      myAnimation.getKeyFrames().add(new KeyFrame(Duration.seconds(SECOND_DELAY), e -> step()));
     }
   }
 
@@ -198,6 +171,7 @@ public class GameView extends Application implements PanelListener, GameChessVie
     setupCheatCodes();
   }
 
+  //retrieve all of the cheat codes and setup the desired combinations that will be created
   private void setupCheatCodes() {
     List<String> cheatCodeIdentifiers = List.of(getString("allCheatCodeIdentifiers").split(","));
     for (String kcIdentifier : cheatCodeIdentifiers) {
@@ -208,6 +182,7 @@ public class GameView extends Application implements PanelListener, GameChessVie
     }
   }
 
+  //create an inidivudal cheat code by creatinga  javaFX accelator and Runnable
   private void addCheatCode(KeyCombination kc, String rnIdentifier) {
     Runnable rn = () -> myChessController.acceptCheatCode(rnIdentifier);
     myGameViewScene.getAccelerators().put(kc, rn);
@@ -344,6 +319,9 @@ public class GameView extends Application implements PanelListener, GameChessVie
     myChessController.undoMove();
   }
 
+  /**
+   * Redo the previously undone move
+   */
   @Override
   public void redoMove()
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
@@ -351,20 +329,31 @@ public class GameView extends Application implements PanelListener, GameChessVie
     myChessController.redoMove();
   }
 
+  /**
+   * Allows a user-selected cheat code to be propagated to the controller
+   * @param cheatCode the desired cheat code that will be applied
+   */
   @Override
   public void selectCheatCode(String cheatCode) {
     myChessController.acceptCheatCode(cheatCode);
   }
 
-  //compute which cell on the grid this corresponds to, NOT the pixel position
-  //error check that its' in the board as well
+
+  /**
+   * Send coordinates that the user has clicked to the controller for computation
+   * @param column the column of the chessboard that the click was on
+   * @param row the row of the chess board tha the click waso n
+   */
   @Override
   public void getBoardClick(int column, int row)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    //TODO: ensure controller callback works
     myChessController.clickedCoordinates(column, row);
   }
 
+  /**
+   * Open the player login pane so that the user can create their profile
+   * @param playerIdentifier the unique identifier of the player
+   */
   @Override
   public void openPlayerLogin(int playerIdentifier) {
     PlayerLoginInterface newPlayerLoginView = new PlayerLoginView(playerIdentifier);
@@ -372,17 +361,37 @@ public class GameView extends Application implements PanelListener, GameChessVie
     newPlayerLoginView.start(new Stage());
   }
 
+  /**
+   * Define a new player as created by the user
+   * @param playerIdentifier the unique identifier of thep layer
+   * @param username the user-specified name
+   * @param email user-specified email
+   * @param password user-especified password
+   * @param team the string of the user, either white or black
+   * @param colour the desired profile coloru of the user
+   * @return whether the creation of hte player was succesful as reported by the controller
+   */
   @Override
-  public boolean setNewPlayer(int playerIdentifier, String username, String email, String password, int team, String colour) throws IOException {
+  public boolean setNewPlayer(int playerIdentifier, String username, String email, String password,
+      int team, String colour) throws IOException {
     return myChessController.setPlayer(playerIdentifier, username, password, team, colour);
   }
 
+  /**
+   * Close the player login pane now that the userh as logged in
+   * @param stage the login stage which now is closed
+   * @param playerIdentifier the unique identifier of hte player
+   */
   @Override
   public void closePlayerLogin(Stage stage, int playerIdentifier) {
     stage.close();
     myControlPanel.playerHasLoggedIn(playerIdentifier);
   }
 
+  /**
+   * Open the profile of the specified player
+   * @param playerIdentifier the iunique identifier of hte player
+   */
   @Override
   public void openPlayerProfile(int playerIdentifier) {
     Player currentPlayer = myChessController.getPlayer(playerIdentifier);
@@ -399,6 +408,23 @@ public class GameView extends Application implements PanelListener, GameChessVie
   @Override
   public void addHistory(String historyText) {
     myGameplayPanel.updateHistory(historyText);
+  }
+
+  //get the filename for the simulation file that the user wants to save the current simulation to
+  private String getUserSaveFileName(String message) {
+    // TODO: implement interface from gamecontroller
+    myAnimation.pause();
+//    TextInputDialog getUserInput = new TextInputDialog();
+//    getUserInput.setHeaderText(message);
+//    String fileName = getUserInput.showAndWait().toString();
+//    if (myGameController.validateSaveStringFilenameUsingIO(fileName)) {
+//      return fileName;
+//    }
+//    sendAlert("Invalid Filename");
+//    myAnimation.play();
+//    return getUserSaveFileName(
+//        message); //TODO: test to make sure this gives users another chance if they submit an invalid filename
+    return getWord("player");
   }
 
   /**
@@ -427,15 +453,20 @@ public class GameView extends Application implements PanelListener, GameChessVie
     myGridView.updateChessCell(spot);
   }
 
+  /**
+   * Display which team has won the game which is determined by the backend
+   * @param teamNumber the team that won
+   */
   @Override
-  public void displayGameComplete(int teamNumber){
+  public void displayGameComplete(int teamNumber) {
     String teamName;
-    if(teamNumber == 1){
+    if (teamNumber == 1) {
       teamName = "White";
     } else {
       teamName = "Black";
     }
-    ResourceRetriever.showAlert(Alert.AlertType.INFORMATION,"Game Complete", String.format("%s has won!", teamName));
+    ResourceRetriever.showAlert(Alert.AlertType.INFORMATION, getWord("game_complete_title"),
+        String.format("%s %s", teamName, getWord("game_complete_message")));
     resetGame();
   }
 
@@ -450,70 +481,14 @@ public class GameView extends Application implements PanelListener, GameChessVie
     myGridView.colourChessCell(spot, hexColour);
   }
 
+  /**
+   * Set the board description which is available to the user
+   * @param boardDescription the text description
+   */
   @Override
-  public void setBoardDescription(String boardDescription){
+  public void setBoardDescription(String boardDescription) {
     myDescription = boardDescription;
     myGameplayPanel.setBoardDescription(myDescription);
-  }
-
-
-  //get the filename for the simulation file that the user wants to save the current simulation to
-  private String getUserSaveFileName(String message) {
-    // TODO: implement interface from gamecontroller
-    myAnimation.pause();
-//    TextInputDialog getUserInput = new TextInputDialog();
-//    getUserInput.setHeaderText(message);
-//    String fileName = getUserInput.showAndWait().toString();
-//    if (myGameController.validateSaveStringFilenameUsingIO(fileName)) {
-//      return fileName;
-//    }
-//    sendAlert("Invalid Filename");
-//    myAnimation.play();
-//    return getUserSaveFileName(
-//        message); //TODO: test to make sure this gives users another chance if they submit an invalid filename
-    return "Yee";
-  }
-
-  // displays alert/error message to the user - currently duplicated in SharedUIComponents
-  protected void sendAlert(String alertMessage) {
-    Alert alert = new Alert(Alert.AlertType.ERROR);
-    alert.setContentText(alertMessage);
-    alert.show();
-  }
-
-  //retrieves relevant word from the "words" ResourceBundle
-  protected String getWord(String key) {
-    ResourceBundle words = ResourceBundle.getBundle("words");
-    String value = "error";
-    try {
-      value = words.getString(key);
-    } catch (Exception exception) {
-      sendAlert(String.format("%s string was not found in Resource File %s", key,
-          GAME_VIEW_RESOURCES_FILE_PATH));
-    }
-    return value;
-  }
-
-  //return the integer from the resource file based on the provided string
-  private int getInt(String key) {
-    int value;
-    try {
-      value = Integer.parseInt(gameViewResources.getString(key));
-    } catch (Exception e) {
-      value = -1;
-    }
-    return value;
-  }
-
-  //retrieves relevant word from the "words" ResourceBundle
-  private String getString(String key) {
-    String value;
-    try {
-      value = gameViewResources.getString(key);
-    } catch (Exception exception) {
-      value = "error";
-    }
-    return value;
   }
 
 }

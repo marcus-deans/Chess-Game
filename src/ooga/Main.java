@@ -21,7 +21,10 @@ import ooga.controller.Controller;
 import ooga.util.ResourceRetriever;
 
 /**
- * Feel free to completely change this code or delete it entirely.
+ * Main driving class for the application that provides an entry point for the user
+ * Relies on appropriate resourcebundles being configured and JavaFX
+ *
+ * @author marcusdeans
  */
 public class Main extends Application {
 
