@@ -300,6 +300,10 @@ public class GameBoard implements Board {
         }
     }
 
+    /**
+     *
+     * @return list of portal spots
+     */
     public List<Spot> getPortalList(){
         List<Spot> portals=new ArrayList<>();
         for (Spot s : board)
@@ -312,6 +316,10 @@ public class GameBoard implements Board {
         return portals;
     }
 
+    /**
+     *
+     * @return list of blackhole spots
+     */
     public List<Spot> getBlackHoleList(){
         List<Spot> blackholes=new ArrayList<>();
         for (Spot s : board)
