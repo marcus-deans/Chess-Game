@@ -30,6 +30,8 @@ public class Game {
     private Coordinate puzzleFinish;
     private String gameType;
     private boolean isAtomic;
+    private boolean filter;
+
 
     /**
      * Game constructor. Height and width and myMap are taken in as parameters which are then used to make GameBoard
@@ -44,6 +46,7 @@ public class Game {
         myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
         isGameOver = false;
         isAtomic = false;
+        filter = true;
     }
 
     /**
@@ -394,4 +397,9 @@ public class Game {
     {
         myBoard.makePiecesCannibalize();
     }
+
+    public void setFilter(boolean filter) {
+        this.filter = filter;
+    }
+
 }
