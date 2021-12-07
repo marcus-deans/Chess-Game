@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Player {
     private List<Piece> graveyard;
@@ -20,7 +22,7 @@ public class Player {
     private int myTeam;
     private String apiURL;
     private ResourceBundle myResource;
-
+    private Logger myLogger;
 
     public Player(int playerIdentifier, String username, String password, int team){
         myIdentifier = playerIdentifier;
@@ -30,6 +32,7 @@ public class Player {
         myTeam = team;
         myResource = ResourceBundle.getBundle("ooga.logic.game.REST");
         apiURL = readFromProperties("api_url");
+        myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     }
 
     private String readFromProperties(String key){
@@ -71,10 +74,13 @@ public class Player {
         }else{
             result = getFromDatabase(apiURL + readFromProperties("subtract_score_path") + "?" + readFromProperties("id_parameter") + myUsername);
         }
+        myLogger.log(Level.INFO, result);
     }
 
     public void setProfileColor() throws IOException {
         String result = getFromDatabase(apiURL + readFromProperties("set_profile_color_path") + "?" + readFromProperties("id_parameter") + myUsername);
+
+        myLogger.log(Level.INFO, result);
     }
 
     public String getUserScore() throws IOException {

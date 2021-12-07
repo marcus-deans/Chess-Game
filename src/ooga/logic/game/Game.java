@@ -27,7 +27,7 @@ public class Game {
     private GameSpot selectedSpot;
     private List<Coordinate> possibleCoordinates;
     private boolean isGameOver;
-    private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private Logger myLogger;
     private Coordinate puzzleStart;
     private Coordinate puzzleFinish;
     private String gameType;
@@ -35,6 +35,7 @@ public class Game {
 
     public Game(int height, int width, Map<String,String> myMap){
         myBoard = new GameBoard(height, width, myMap);
+        myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     }
 
     public void setEdgePolicy(String s){
