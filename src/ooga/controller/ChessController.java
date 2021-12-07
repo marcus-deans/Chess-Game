@@ -226,8 +226,8 @@ public class ChessController implements Controller {
     if (myGame.getSpot(clickedPiece).getPiece() != null) {
       if (myTempHashMap.get(turnIterator) == myGame.getSpot(clickedPiece).getPiece().getTeam()) {
         Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece, currentPlayer.getTeam());
-        //highlightSpots(test);
-        //myGameView.colourChessCell(myGame.getSpot(clickedPiece),myData.get("MoveColor"));
+        highlightSpots(test);
+        myGameView.colourChessCell(myGame.getSpot(clickedPiece),myData.get("MoveColor"));
         myLogger.log(Level.INFO, "FIRST CLICK");
         FIRSTCLICK = false;
       }
@@ -298,15 +298,16 @@ public class ChessController implements Controller {
   @Override
   public void acceptCheatCode(String identifier){
     Method action;
-    ResourceBundle cheatCodeMethods = ResourceBundle.getBundle("src/ooga/view/viewresources/GameViewResources.properties");
-    String method = cheatCodeMethods.getString(identifier);
+    //ResourceBundle cheatCodeMethods = ResourceBundle.getBundle("src/ooga/view/viewresources/GameViewResources.properties");
+    String method = identifier;
     try {
-      action = ChessController.class.getDeclaredMethod(method, Class.forName(identifier));
-      action.invoke(this, identifier);
+      action = ChessController.class.getDeclaredMethod(method, null);
+      action.invoke(this);
+      myLogger.log(Level.INFO, "Cheat code "+ identifier+" activated");
     } catch (Exception e) {
       myLogger.log(Level.WARNING,"Method does not exist");
     }
-    myLogger.log(Level.INFO, "Cheat code "+ identifier+" activated");
+
   }
 
 
@@ -366,7 +367,7 @@ public class ChessController implements Controller {
 
   }
   private void ToroidalYAxis(){
-
+    myGame.setEdgePolicy("CheatCode");
   }
   private void PawnsToQueens(){
 
