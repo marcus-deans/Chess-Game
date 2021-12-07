@@ -68,7 +68,7 @@ public class Main extends Application {
       try {
         startNewGame("Standard.sim");
       } catch (IOException e) {
-        ResourceRetriever.showAlert(AlertType.ERROR, menuButtonPanel.getScene().getWindow(),
+        ResourceRetriever.showAlert(AlertType.ERROR,
             ResourceRetriever.getWord("main_error"),
             ResourceRetriever.getWord("main_error_message"));
       }

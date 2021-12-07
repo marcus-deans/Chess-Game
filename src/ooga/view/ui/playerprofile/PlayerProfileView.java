@@ -137,7 +137,7 @@ public class PlayerProfileView extends Application implements PlayerProfileInter
       playerColor = Color.web(myPlayer.getProfileColor());
       playerScore = myPlayer.getUserScore().split(",");
     } catch (Exception e){
-      showAlert(AlertType.ERROR, myStage.getScene().getWindow(), getWord("player_profile_error_title"), getWord("player_profile_error_message"));
+      showAlert(AlertType.ERROR, getWord("player_profile_error_title"), getWord("player_profile_error_message"));
     }
     Label winField = makeLabel(String.format("%s: %s", getWord("number_wins"),playerScore[0]));
     Label loseField = makeLabel(String.format("%s: %s", getWord("number_loses"), playerScore[1]));

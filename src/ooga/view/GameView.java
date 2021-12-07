@@ -435,7 +435,7 @@ public class GameView extends Application implements PanelListener, GameChessVie
     } else {
       teamName = "Black";
     }
-    ResourceRetriever.showAlert(Alert.AlertType.INFORMATION, myGameViewScene.getWindow(), "Game Complete", String.format("%s has won!", teamName));
+    ResourceRetriever.showAlert(Alert.AlertType.INFORMATION,"Game Complete", String.format("%s has won!", teamName));
     resetGame();
   }
 

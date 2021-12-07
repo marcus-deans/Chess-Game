@@ -184,6 +184,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
       public void handle(ActionEvent event) {
         Color selectedColor = colorPicker.getValue();
         colorSelected[0] = toHexCode(selectedColor);
+        System.out.println(colorSelected[0]);
         colorSelectionLabel.setText(
             String.format("%s %s", colorSelected[0], getWord("selectedWording")));
         colorSelectionLabel.setTextFill(selectedColor);
@@ -211,13 +212,13 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
       @Override
       public void handle(ActionEvent event) {
         if (nameField.getText().isEmpty()) {
-          showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(),
+          showAlert(Alert.AlertType.ERROR,
               getWord("login_form_error"),
               getWord("name_field_error"));
           return;
         }
         if (passwordField.getText().isEmpty()) {
-          showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(),
+          showAlert(Alert.AlertType.ERROR,
               getWord("login_form_error"),
               getWord("password_field_error"));
           return;
@@ -241,15 +242,15 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
         try {
           if (myPanelListener.setNewPlayer(myPlayerIdentifier, name, email, password, teamValue,
               colour)) {
-            showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(),
+            showAlert(Alert.AlertType.CONFIRMATION,
                 getWord("login_form_success"), getWord("login_welcome_message") + name);
             myPanelListener.closePlayerLogin(myStage, myPlayerIdentifier);
           } else {
-            showAlert(AlertType.ERROR, gridPane.getScene().getWindow(), getWord("login_form_error"),
+            showAlert(AlertType.ERROR,  getWord("login_form_error"),
                 getWord("login_failure_message"));
           }
         } catch (IOException e) {
-          showAlert(AlertType.ERROR, gridPane.getScene().getWindow(), getWord("login_form_error"),
+          showAlert(AlertType.ERROR, getWord("login_form_error"),
               getWord("login_failure_message"));
         }
       }
