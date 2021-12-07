@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 public class Player {
     private List<Piece> graveyard;
@@ -17,29 +18,20 @@ public class Player {
     private String myPassword;
     private int myTeam;
     private String apiURL;
+    private ResourceBundle myResource;
+
 
     public Player(String username, String password, int team){
         graveyard = new ArrayList<Piece>();
         myUsername = username;
         myPassword = password;
         myTeam = team;
-        apiURL = "https://cs307.herokuapp.com";
-
-        System.out.println(apiURL);
+        myResource = ResourceBundle.getBundle("ooga.logic.game.Player");
+        apiURL = readFromProperties("api_url");
     }
 
     private String readFromProperties(String key){
-        try (InputStream input = new FileInputStream("game/Player.properties")) {
-            Properties prop = new Properties();
-
-            prop.load(input);
-
-            return prop.getProperty(key);
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return null;
+         return myResource.getString(key);
     }
 
 
@@ -48,8 +40,6 @@ public class Player {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         StringBuilder result = new StringBuilder();
-        connection.setRequestMethod("GET");
-
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(connection.getInputStream()))) {
             for (String line; (line = reader.readLine()) != null; ) {
@@ -62,7 +52,7 @@ public class Player {
 
 
     public int checkUser() throws IOException {
-        String url = "https://cs307.herokuapp.com/createUser?id=" + myUsername + "&password=" + myPassword;
+        String url = apiURL + readFromProperties("check_user_path") + "?id=" + myUsername + "&password=" + myPassword;
 
         String result = getFromDatabase(url);
 
@@ -75,28 +65,18 @@ public class Player {
 
     public void updateUserScore(boolean didWin) throws IOException {
         if(didWin){
-            String result = getFromDatabase("https://cs307.herokuapp.com/addScore?id=" + myUsername);
+            String result = getFromDatabase(apiURL + readFromProperties("add_score_path") +"?id=" + myUsername);
         }else{
-            String result = getFromDatabase("https://cs307.herokuapp.com/subtractScore?id=" + myUsername);
+            String result = getFromDatabase(apiURL + readFromProperties("subtract_score_path") + "?id=" + myUsername);
         }
     }
 
     public void setProfileColor() throws IOException {
-        URL url = new URL("https://cs307.herokuapp.com/setProfileColor?id=" + myUsername);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-        StringBuilder result = new StringBuilder();
-        connection.setRequestMethod("GET");
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(connection.getInputStream()))) {
-            for (String line; (line = reader.readLine()) != null; ) {
-                result.append(line);
-            }
-        }
+        String result = getFromDatabase(apiURL + readFromProperties("set_profile_color_path") + "?id=" + myUsername);
     }
 
     public String getUserScore() throws IOException {
-        String result = getFromDatabase("https://cs307.herokuapp.com/getUserScore?id=" + myUsername);
+        String result = getFromDatabase(apiURL + readFromProperties("get_user_score_path") + "?id=" + myUsername);
 
         return result;
     }
