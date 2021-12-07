@@ -13,6 +13,8 @@ class RookMovementTest {
   private Coordinate innerCoordinate;
   private Coordinate outerCoordinate;
   private Coordinate topCoordinate;
+  private final int BOARD_SIZE = 8;
+
 
   @BeforeEach
   void setUp() {
@@ -26,7 +28,7 @@ class RookMovementTest {
   void getPossibleSpotsInnerCoordinate() {
     List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(innerCoordinate);
     int size = getSize(myCoords);
-    assertTrue(size == 14);
+    assertTrue(size == BOARD_SIZE * 4);
   }
 
 
@@ -36,14 +38,14 @@ class RookMovementTest {
     List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(outerCoordinate);
 
     int size = getSize(myCoords);
-    assertTrue(size == 14);
+    assertTrue(size == BOARD_SIZE * 4);
   }
 
   @Test
   void getPossibleSpotsTopCoordinate() {
     List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(topCoordinate);
     int size = getSize(myCoords);
-    assertTrue(size == 14);
+    assertTrue(size == BOARD_SIZE * 4);
   }
 
   private int getSize(List<List<Coordinate>> myCoords) {
