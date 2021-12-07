@@ -20,7 +20,7 @@ public class DefaultPromotionPieces extends PieceCollection{
   }
 
   /**
-   * @return the list of possible pieces
+   * @return the possible pieces to promote to
    */
   @Override
   public List<String> getPossiblePieces() {
