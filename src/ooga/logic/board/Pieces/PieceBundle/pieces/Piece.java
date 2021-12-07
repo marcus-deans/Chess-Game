@@ -10,6 +10,12 @@ import ooga.logic.board.Pieces.PieceCollection.PieceCollection;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 import ooga.logic.board.coordinate.Coordinate;
 
+
+/**
+ * Generic class to hold a default yet flexible piece; stores basic information about itself but relies
+ * on helper storage classes to deciper information regarding its booleans and spotCollections
+ * @author Amr Tagel-Din
+ */
 abstract public class Piece implements PieceLogic{
   private Coordinate myCoordinate;
   private SpotCollection myPromotionSpots;

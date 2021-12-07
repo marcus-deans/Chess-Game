@@ -4,11 +4,8 @@ import java.util.Map;
 import ooga.logic.board.coordinate.GameCoordinate;
 
 /**
- * Implement a Pawn that can do the following
- * Promote on the 8th rank
- * Move forward once OR twice if on 2nd rank
- * Move forward once if else
- * can capture top right and top left immediate
+ * Implement a King that can move and eat once in every direction;
+ * CAN be checked/ killed as the default win condition
  */
 public class King extends Piece {
   private static final String PIECE_TO_STRING = "King";

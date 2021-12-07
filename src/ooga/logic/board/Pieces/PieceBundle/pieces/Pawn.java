@@ -10,6 +10,9 @@ import ooga.logic.board.coordinate.GameCoordinate;
  * Move forward once OR twice if on 2nd rank
  * Move forward once if else
  * can capture top right and top left immediate
+ * Can reverse depending on direction
+ * as default
+ * @author Amr Tagel-Din
  */
 public class Pawn extends Piece {
   private static final String PIECE_TO_STRING = "Pawn";

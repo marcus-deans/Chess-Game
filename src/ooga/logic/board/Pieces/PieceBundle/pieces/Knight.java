@@ -4,6 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import ooga.logic.board.coordinate.GameCoordinate;
 
+/**
+ * Generic class to hold a default yet flexible Knight; can jump over pieces, and little else that
+ * is special
+ * @author Amr Tagel-Din
+ */
 public class Knight extends Piece {
   private static final String PIECE_TO_STRING = "Knight";
   public Knight(int xPosition, int yPosition, int team){

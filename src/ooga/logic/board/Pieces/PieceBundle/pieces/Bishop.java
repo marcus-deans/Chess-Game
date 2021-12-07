@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import ooga.logic.board.coordinate.GameCoordinate;
 
+/**
+ * Default bishop moves in all diagonals (1 by 1)
+ * @author Amr Tagel-Din
+ */
 public class Bishop extends Piece {
   private static final String PIECE_TO_STRING = "Bishop";
 
