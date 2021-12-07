@@ -300,5 +300,29 @@ public class GameBoard implements Board {
         }
     }
 
+    public List<Spot> getPortalList(){
+        List<Spot> portals=new ArrayList<>();
+        for (Spot s : board)
+        {
+            if(((GameSpot) s).getTypeOfSpot()==1)
+            {
+                portals.add(s);
+            }
+        }
+        return portals;
+    }
+
+    public List<Spot> getBlackHoleList(){
+        List<Spot> blackholes=new ArrayList<>();
+        for (Spot s : board)
+        {
+            if(((GameSpot) s).getTypeOfSpot()==2)
+            {
+                blackholes.add(s);
+            }
+        }
+        return blackholes;
+    }
+
 
 }
