@@ -252,7 +252,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
           if (myPanelListener.setNewPlayer(myPlayerIdentifier, name, email, password, teamValue, colour)){
             showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(),
                 getWord("login_form_success"), getWord("login_welcome_message") + name);
-            myPanelListener.closePlayerLogin(myStage);
+            myPanelListener.closePlayerLogin(myStage, myPlayerIdentifier);
           } else {
             showAlert(AlertType.ERROR, gridPane.getScene().getWindow(), getWord("login_form_error"), getWord("login_failure_message"));
           }

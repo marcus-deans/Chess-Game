@@ -377,8 +377,9 @@ public class GameView extends Application implements PanelListener, GameChessVie
   }
 
   @Override
-  public void closePlayerLogin(Stage stage) {
+  public void closePlayerLogin(Stage stage, int playerIdentifier) {
     stage.close();
+    myControlPanel.playerHasLoggedIn(playerIdentifier);
   }
 
   @Override

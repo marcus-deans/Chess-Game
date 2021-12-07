@@ -49,6 +49,7 @@ public class PlayerControlPanel extends SharedUIComponents {
       loggedInPlayerButton.setText(getWord("player_login_button_display"));
       loggedInPlayerButton.setOnAction(action -> this.getPanelListener().openPlayerProfile(playerIndex));
     } catch (Exception e){
+      System.out.println(playerIndex);
       sendAlert(getWord("player_display_error"));
     }
   }
