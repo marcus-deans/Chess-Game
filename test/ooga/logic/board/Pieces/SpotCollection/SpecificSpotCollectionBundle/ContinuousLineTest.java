@@ -13,10 +13,11 @@ class ContinuousLineTest {
   private SpecificSpotCollection mySpot;
   private Coordinate innerCoordinate;
   private Coordinate outerCoordinate;
+  private final int BOARD_SIZE = 8;
 
   @BeforeEach
   void setUp() {
-    mySpot = new ContinuousLine();
+    mySpot = new ContinuousLine(BOARD_SIZE);
     innerCoordinate = new GameCoordinate(2,2);
     outerCoordinate = new GameCoordinate(0,0);
   }
@@ -24,14 +25,14 @@ class ContinuousLineTest {
   @Test
   void outerCoordinateGoingOutwards() {
     List<Coordinate> myCoords = mySpot.getPossibleSpots(outerCoordinate,-1,-1);
-    assertTrue(myCoords.size() == 0);
+    assertTrue(myCoords.size() == BOARD_SIZE);
   }
 
   @Test
   void innerCoordinateGoingOutwards() {
     List<Coordinate> myCoords = mySpot.getPossibleSpots(innerCoordinate,-1,-1);
     System.out.println(myCoords.size());
-    assertTrue(myCoords.size() == 2);
+    assertTrue(myCoords.size() == BOARD_SIZE);
   }
 
 }

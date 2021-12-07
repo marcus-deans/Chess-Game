@@ -9,8 +9,8 @@ import ooga.logic.board.coordinate.GameCoordinate;
 public class PawnMovement extends SpotCollection {
   private static final String PIECE_AS_STRING = "pawnMovement";
 
-  public PawnMovement(){
-    super();
+  public PawnMovement(int width){
+    super(width);
   }
 
   @Override

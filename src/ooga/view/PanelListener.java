@@ -26,7 +26,7 @@ public interface PanelListener {
 
     void redoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 
-    void changeVariant(String variant);
+    void selectCheatCode(String variant);
 
     void getBoardClick(int x, int y) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 

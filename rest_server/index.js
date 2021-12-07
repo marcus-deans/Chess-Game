@@ -6,7 +6,6 @@ mongoose
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const jsonParser = bodyParser.json()
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -23,11 +22,6 @@ let userSchema = new mongoose.Schema({
 // defining the Express app
 const app = express();
 
-// defining an array to work as the database (temporary solution)
-const ads = [
-    {title: 'Hello, world (again)!'}
-];
-
 // adding Helmet to enhance your API's security
 app.use(helmet());
 
@@ -40,14 +34,14 @@ app.use(cors());
 // adding morgan to log HTTP requests
 app.use(morgan('combined'));
 
-// defining an endpoint to return all ads
+// defining an endpoint to test that the api root url is working
 app.get('/', (req, res) => {
-    res.send(ads);
+    res.send("API root url for team 06's chess game!");
 });
 
+// check if user with a matching username is in the database already
 async function findUser(Users, query){
     let resp = await Users.findOne(query);
-
     return resp;
 }
 
@@ -55,25 +49,15 @@ app.get('/createUser', (req, res) => {
     let id = req.query.id
     let password = req.query.password
 
-    // id = "test1"
-    // password = "test"
-    console.log(id)
-    console.log(password)
-
     let query = {
         _id: id
     }
 
     let collectionName = "userInfo"
 
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "*")
-
     const Users = mongoose.model(collectionName, userSchema, collectionName)
 
     findUser(Users, query).then(r => {
-        console.log(r)
-
         if(!r) {
             Users.create({
                 _id: id,
@@ -96,16 +80,11 @@ app.get('/setProfileColor', (req, res) => {
     let id = req.query.id
     let color = req.query.color
 
-    console.log(id)
-
     let query = {
         _id: id
     }
 
     let collectionName = "userInfo"
-
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "*")
 
     const Users = mongoose.model(collectionName, userSchema, collectionName)
 
@@ -118,23 +97,18 @@ app.get('/setProfileColor', (req, res) => {
                 res.send("error")
                 return;
             }
-            res.send("updated")
+            res.send("Updated user profile color")
         })
 });
 
 app.get('/getUserScore', (req, res) => {
     let id = req.query.id
 
-    console.log(id)
-
     let query = {
         _id: id
     }
 
     let collectionName = "userInfo"
-
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "*")
 
     const Users = mongoose.model(collectionName, userSchema, collectionName)
 
@@ -146,17 +120,11 @@ app.get('/getUserScore', (req, res) => {
 
 app.get('/getProfileColor', (req, res) => {
     let id = req.query.id
-
-    console.log(id)
-
     let query = {
         _id: id
     }
 
     let collectionName = "userInfo"
-
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "*")
 
     const Users = mongoose.model(collectionName, userSchema, collectionName)
 
@@ -167,17 +135,11 @@ app.get('/getProfileColor', (req, res) => {
 
 app.get('/addScore', (req, res) => {
     let id = req.query.id
-
-    console.log(id)
-
     let query = {
         _id: id
     }
 
     let collectionName = "userInfo"
-
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "*")
 
     const Users = mongoose.model(collectionName, userSchema, collectionName)
 
@@ -190,23 +152,17 @@ app.get('/addScore', (req, res) => {
                 res.send("error")
                 return;
             }
-            res.send("updated")
+            res.send("Incremented user's win count")
         })
 });
 
 app.get('/subtractScore', (req, res) => {
     let id = req.query.id
-
-    console.log(id)
-
     let query = {
         _id: id
     }
 
     let collectionName = "userInfo"
-
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "*")
 
     const Users = mongoose.model(collectionName, userSchema, collectionName)
 
@@ -219,11 +175,11 @@ app.get('/subtractScore', (req, res) => {
                 res.send("error")
                 return;
             }
-            res.send("updated")
+            res.send("Decremented user's loss count")
         })
 });
 
 // starting the server
 app.listen(3001, () => {
-    console.log('listening on port 3001');
+    console.log('listening on port');
 });

@@ -1,5 +1,6 @@
 package ooga.view.ui.gameplaypanel;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -12,38 +13,49 @@ import javafx.scene.layout.VBox;
 import ooga.view.ui.SharedUIComponents;
 
 /**
- * JavaFX panel that creates the information panel display the game type, author, and name.
- * Relies on appropriate resourcebundles being configured, SharedUIComponents, and JavaFX
+ * JavaFX panel that creates the information panel display the game type, author, and name. Relies
+ * on appropriate resourcebundles being configured, SharedUIComponents, and JavaFX
  *
  * @author marcusdeans, drewpeterson
  */
 public class VariantPanel extends SharedUIComponents {
-  private String myDescription;
 
   private static final String VARIANT_RESOURCE_FILE_PATH = "ooga.view.viewresources.VariantResources";
   private static final ResourceBundle variantResources = ResourceBundle.getBundle(
       VARIANT_RESOURCE_FILE_PATH);
-  private final List<String> variantOptions = Arrays.asList(
-      variantResources.getString("VariantOptions").split(","));
-  private ComboBox variantControlDropdown;
+  private List<String> cheatCodeOptions;
+  private String myDescription;
+  private ComboBox cheatControlDropDown;
+  private Button variantDescriptionButton;
 
   /**
    * Initialize the information panel creator
    */
-  public VariantPanel(String description){
+  public VariantPanel(String description) {
     myDescription = description;
+    initializeDropdownOptions();
+  }
+
+  private void initializeDropdownOptions(){
+    cheatCodeOptions = new ArrayList<String>();
+    String[] cheatCodeIdentifiers = getString("CheatCodeOptions").split(",");
+    for(String identifier : cheatCodeIdentifiers){
+      String codeName = getString(identifier);
+      cheatCodeOptions.add(String.format("Alt+%s: %s", identifier, codeName));
+    }
   }
 
   /**
    * Create the information panel that displays type, name, and author of the simulation on-screen
+   *
    * @return the JavaFX HBox that constitutes the information panel
    */
-  public Node createVariantPanel(){
+  public Node createVariantPanel() {
     VBox myVariantPanel = new VBox();
     myVariantPanel.setSpacing(getInt("gameplay_subpanel_spacing"));
     myVariantPanel.setId("variant-panel");
 
-    Node variantControlDropdown = initializeVariantControlDropdown();
+    Node variantControlDropdown = initializeCheatControlDropdown();
     Button variantDescriptionButton = initializeVariantDescriptionButton();
 
     myVariantPanel.getChildren().addAll(variantControlDropdown, variantDescriptionButton);
@@ -52,18 +64,19 @@ public class VariantPanel extends SharedUIComponents {
   }
 
   //create the specific dropdown allowing the user to select which view mode they prefer
-  private Node initializeVariantControlDropdown() {
-    variantControlDropdown = makeComboBox(getWord("variant_selection"), variantOptions, (event) -> {
-      String myVariantSelection = variantControlDropdown.getSelectionModel().getSelectedItem().toString();
-      if(this.getPanelListener() != null){
-        this.getPanelListener().changeVariant(myVariantSelection);
+  private Node initializeCheatControlDropdown() {
+    cheatControlDropDown = makeComboBox(getWord("cheat_code_selection"), cheatCodeOptions, (event) -> {
+      String myCheatCodeSelection = cheatControlDropDown.getSelectionModel().getSelectedItem()
+          .toString();
+      if (this.getPanelListener() != null) {
+        this.getPanelListener().selectCheatCode(myCheatCodeSelection.split(" ")[1]);
       }
     });
-    return variantControlDropdown;
+    return cheatControlDropDown;
   }
 
-  private Button initializeVariantDescriptionButton(){
-    Button variantDescriptionButton = makeButton(getWord("variant_description_button"), event -> {
+  private Button initializeVariantDescriptionButton() {
+    variantDescriptionButton = makeButton(getWord("variant_description_button"), event -> {
       Alert alert = new Alert(AlertType.INFORMATION);
       alert.setTitle(getWord("variant_description_popup_title"));
       alert.setHeaderText(getWord("variant_description_popup_header"));
@@ -73,5 +86,27 @@ public class VariantPanel extends SharedUIComponents {
     variantDescriptionButton.setMaxHeight(getInt("button_height"));
     variantDescriptionButton.setPrefWidth(getInt("button_width"));
     return variantDescriptionButton;
+  }
+
+  public void setBoardDescription(String description) {
+    myDescription = description;
+    variantDescriptionButton.setOnAction(event -> {
+      Alert alert = new Alert(AlertType.INFORMATION);
+      alert.setTitle(getWord("variant_description_popup_title"));
+      alert.setHeaderText(getWord("variant_description_popup_header"));
+      alert.setContentText(myDescription);
+      alert.showAndWait();
+    });
+  }
+
+  //retrieves relevant word from the "words" ResourceBundle
+  private String getString(String key) {
+    String value;
+    try {
+      value = variantResources.getString(key);
+    } catch (Exception exception) {
+      value = "error";
+    }
+    return value;
   }
 }

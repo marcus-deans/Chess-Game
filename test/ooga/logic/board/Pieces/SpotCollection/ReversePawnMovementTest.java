@@ -8,7 +8,7 @@ import ooga.logic.board.coordinate.GameCoordinate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class KingMovementTest {
+class ReversePawnMovementTest {
   private SpotCollection mySpotCollection;
   private Coordinate innerCoordinate;
   private Coordinate outerCoordinate;
@@ -17,17 +17,17 @@ class KingMovementTest {
 
   @BeforeEach
   void setUp() {
-    mySpotCollection = new KingMovement(BOARD_SIZE);
+    mySpotCollection = new ReversePawnMovement(BOARD_SIZE);
     innerCoordinate = new GameCoordinate(2,2);
     outerCoordinate = new GameCoordinate(0,0);
-    topCoordinate = new GameCoordinate(3,7);
+    topCoordinate = new GameCoordinate(3,6);
   }
 
   @Test
   void getPossibleSpotsInnerCoordinate() {
     List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(innerCoordinate);
     int size = getSize(myCoords);
-    assertTrue(size == 8);
+    assertTrue(size == 1);
   }
 
 
@@ -37,14 +37,14 @@ class KingMovementTest {
     List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(outerCoordinate);
 
     int size = getSize(myCoords);
-    assertTrue(size == 8);
+    assertTrue(size == 1);
   }
 
   @Test
   void getPossibleSpotsTopCoordinate() {
     List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(topCoordinate);
     int size = getSize(myCoords);
-    assertTrue(size == 8);
+    assertTrue(size == 2);
   }
 
   private int getSize(List<List<Coordinate>> myCoords) {

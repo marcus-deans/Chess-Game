@@ -31,7 +31,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import ooga.view.PanelListener;
 
 public class PlayerLoginView extends Application implements PlayerLoginInterface {
@@ -41,8 +40,12 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
   private static final String PLAYER_LOGIN_VIEW_RESOURCES_FILE_PATH = "ooga.view.viewresources.PlayerLoginViewResources";
   private static final ResourceBundle playerLoginViewResources = ResourceBundle.getBundle(
       PLAYER_LOGIN_VIEW_RESOURCES_FILE_PATH);
+  final String[] teamSelected = new String[1];
+  final String[] colorSelected = new String[1];
   PanelListener myPanelListener;
   Stage myStage;
+  TextField nameField;
+  TextField passwordField;
   int myPlayerIdentifier;
 
   public PlayerLoginView(int playerIdentifier) {
@@ -59,7 +62,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     // Add UI controls to the registration form grid pane
     addUIControls(gridPane);
     // Create a scene with registration form grid pane as the root node
-    Scene scene = new Scene(gridPane, 700, 500);
+    Scene scene = new Scene(gridPane, getInt("scene_width"), getInt("scene_height"));
 
     gridPane.setId("login-pane");
     scene.getStylesheets().add(
@@ -78,24 +81,20 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
   }
 
   private GridPane createRegistrationFormPane() {
-    // Instantiate a new Grid Pane
     GridPane gridPane = new GridPane();
 
-    // Position the pane at the center of the screen, both vertically and horizontally
     gridPane.setAlignment(Pos.CENTER);
-
-    // Set a padding of 20px on each side
-    gridPane.setPadding(new Insets(40, 40, 40, 40));
+    gridPane.setPadding(
+        new Insets(getInt("gridpanePadding"), getInt("gridpanePadding"), getInt("gridpanePadding"),
+            getInt("gridpanePadding")));
     gridPane.setHgap(getInt("login_grid_pane_hgap"));
     gridPane.setVgap(getInt("login_grid_pane_vgap"));
 
-    // Add Column Constraints
-    // columnOneConstraints will be applied to all the nodes placed in column one.
-    ColumnConstraints columnOneConstraints = new ColumnConstraints(100, 100, Double.MAX_VALUE);
+    ColumnConstraints columnOneConstraints = new ColumnConstraints(getInt("column_one_width"),
+        getInt("column_one_width"), Double.MAX_VALUE);
     columnOneConstraints.setHalignment(HPos.RIGHT);
-
-    // columnTwoConstraints will be applied to all the nodes placed in column two.
-    ColumnConstraints columnTwoConstrains = new ColumnConstraints(200, 200, Double.MAX_VALUE);
+    ColumnConstraints columnTwoConstrains = new ColumnConstraints(getInt("column_two_width"),
+        getInt("column_two_width"), Double.MAX_VALUE);
     columnTwoConstrains.setHgrow(Priority.ALWAYS);
 
     gridPane.getColumnConstraints().addAll(columnOneConstraints, columnTwoConstrains);
@@ -104,46 +103,26 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
   }
 
   private void addUIControls(GridPane gridPane) {
-    // Add Header
     Label headerLabel = new Label(getWord("login_title_text"));
     headerLabel.setId("login-header-label");
-    gridPane.add(headerLabel, 0, 0, 2, 1);
+    gridPane.add(headerLabel, 0, 0, getInt("header_column_span"), getInt("header_row_span"));
 
     GridPane.setHalignment(headerLabel, HPos.CENTER);
-    GridPane.setMargin(headerLabel, new Insets(20, 0, 20, 0));
+    GridPane.setMargin(headerLabel,
+        new Insets(getInt("gridpaneMargin"), 0, getInt("gridpaneMargin"), 0));
 
-    // Add Name Label
-    Label nameLabel = makeLabel(getWord("name_label_text"));
-    gridPane.add(nameLabel, 0, 1);
+    createLabelsAndTextFields(gridPane);
+    createTeamSelector(gridPane);
+    createColorPicker(gridPane);
+    createSubmitButton(gridPane);
+  }
 
-    // Add Name Text Field
-    TextField nameField = new TextField();
-    nameField.setPrefHeight(getInt("input_field_height"));
-    gridPane.add(nameField, 1, 1);
-
-    // Add Email Label
-    Label emailLabel = makeLabel(getWord("email_label_text"));
-    gridPane.add(emailLabel, 0, 2);
-
-    // Add Email Text Field
-    TextField emailField = new TextField();
-    emailField.setPrefHeight(getInt("input_field_height"));
-    gridPane.add(emailField, 1, 2);
-
-    // Add Password Label
-    Label passwordLabel = makeLabel(getWord("password_label_text"));
-    gridPane.add(passwordLabel, 0, 3);
-
-    // Add Password Field
-    PasswordField passwordField = new PasswordField();
-    passwordField.setPrefHeight(getInt("input_field_height"));
-    gridPane.add(passwordField, 1, 3);
-
+  private void createTeamSelector(GridPane gridPane) {
     //Add Team Label
     Label teamLabel = makeLabel(getWord("team_label_text"));
-    gridPane.add(teamLabel, 0, 4);
+    gridPane.add(teamLabel, getInt("label_column"), getInt("team_row"));
     Label teamSelectionLabel = makeLabel(getWord("team_field_error"));
-    gridPane.add(teamSelectionLabel, 1, 5);
+    gridPane.add(teamSelectionLabel, getInt("field_column"), getInt("team_selection_row"));
 
     //Add Team Field
     ToggleGroup teamRadioGroup = new ToggleGroup();
@@ -155,7 +134,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
     teamTwoRadioButton.setToggleGroup(teamRadioGroup);
     HBox radioButtonBox = new HBox(teamOneRadioButton, teamTwoRadioButton);
     radioButtonBox.setSpacing(getInt("radio_button_spacing"));
-    final String[] teamSelected = new String[1];
+
     teamRadioGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
       @Override
       public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue,
@@ -167,23 +146,21 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
           teamSelectionLabel.setText(
               String.format("%s %s", teamSelected[0], getWord("selectedWording")));
         }
-
       }
     });
-    gridPane.add(radioButtonBox, 1, 4);
-//    gridPane.add(teamTwoRadioButton, 2, 4);
+    gridPane.add(radioButtonBox, getInt("field_column"), getInt("team_row"));
+  }
 
+  private void createColorPicker(GridPane gridPane) {
     Label colorLabel = makeLabel(getWord("color_label_text"));
-    gridPane.add(colorLabel, 0, 6);
+    gridPane.add(colorLabel, getInt("label_column"), getInt("colour_row"));
     Label colorSelectionLabel = makeLabel(getWord("color_field_error"));
-    gridPane.add(colorSelectionLabel, 1, 7);
+    gridPane.add(colorSelectionLabel, getInt("field_column"), getInt("color_selection_row"));
     ColorPicker colorPicker = new ColorPicker(Color.web(getString("default_color_selection")));
-    final String[] colorSelected = new String[1];
     colorPicker.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
         Color selectedColor = colorPicker.getValue();
-//        colorSelectionLabel.setText(String.format("R:%.2f | G:%.2f | B:%.2f %s", selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue(), getWord("selectedWording")));
         colorSelected[0] = toHexCode(selectedColor);
         colorSelectionLabel.setText(
             String.format("%s %s", colorSelected[0], getWord("selectedWording")));
@@ -191,16 +168,20 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
         colorSelectionLabel.setId("color-selection-label");
       }
     });
-    gridPane.add(colorPicker, 1, 6);
+    gridPane.add(colorPicker, getInt("field_column"), getInt("colour_row"));
+  }
 
+  private void createSubmitButton(GridPane gridPane) {
     // Add Submit Button
     Button submitButton = new Button(getWord("submit_button_text"));
     submitButton.setPrefHeight(getInt("submit_button_height"));
     submitButton.setDefaultButton(true);
     submitButton.setPrefWidth(getInt("submit_button_width"));
-    gridPane.add(submitButton, 0, 8, 4, 1);
+    gridPane.add(submitButton, getInt("label_column"), getInt("submit_row"),
+        getInt("submit_col_span"), getInt("submit_row_span"));
     GridPane.setHalignment(submitButton, HPos.CENTER);
-    GridPane.setMargin(submitButton, new Insets(20, 0, 20, 0));
+    GridPane.setMargin(submitButton,
+        new Insets(getInt("gridpaneMargin"), 0, getInt("gridpaneMargin"), 0));
 
     submitButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
@@ -211,29 +192,19 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
               getWord("name_field_error"));
           return;
         }
-        if (emailField.getText().isEmpty()) {
-          showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(),
-              getWord("login_form_error"),
-              getWord("email_field_error"));
-          return;
-        }
         if (passwordField.getText().isEmpty()) {
           showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(),
               getWord("login_form_error"),
               getWord("password_field_error"));
           return;
         }
-//        if (selectedRadioButton.equals(null)){
-//          showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), getWord("login_form_error"),
-//                  getWord("team_field_error"));
-//        }
 
         String name = nameField.getText();
-        String email = emailField.getText();
+        String email = getWord("login_form_error");
         String password = passwordField.getText();
         String team = teamSelected[0];
         String colour = colorSelected[0];
-//        int team = Integer.parseInt(teamField.getText());
+
         int teamValue;
         switch (team) {
           case "White" -> teamValue = 1;
@@ -244,18 +215,41 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
         }
 
         try {
-          if (myPanelListener.setNewPlayer(myPlayerIdentifier, name, email, password, teamValue, colour)){
+          if (myPanelListener.setNewPlayer(myPlayerIdentifier, name, email, password, teamValue,
+              colour)) {
             showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(),
                 getWord("login_form_success"), getWord("login_welcome_message") + name);
             myPanelListener.closePlayerLogin(myStage, myPlayerIdentifier);
           } else {
-            showAlert(AlertType.ERROR, gridPane.getScene().getWindow(), getWord("login_form_error"), getWord("login_failure_message"));
+            showAlert(AlertType.ERROR, gridPane.getScene().getWindow(), getWord("login_form_error"),
+                getWord("login_failure_message"));
           }
         } catch (IOException e) {
-          showAlert(AlertType.ERROR, gridPane.getScene().getWindow(), getWord("login_form_error"), getWord("login_failure_message"));
+          showAlert(AlertType.ERROR, gridPane.getScene().getWindow(), getWord("login_form_error"),
+              getWord("login_failure_message"));
         }
       }
     });
+  }
+
+  private void createLabelsAndTextFields(GridPane gridPane) {
+    // Add Name Label
+    Label nameLabel = makeLabel(getWord("name_label_text"));
+    gridPane.add(nameLabel, getInt("label_column"), getInt("name_row"));
+
+    // Add Name Text Field
+    nameField = new TextField();
+    nameField.setPrefHeight(getInt("input_field_height"));
+    gridPane.add(nameField, getInt("field_column"), getInt("name_row"));
+
+    // Add Password Label
+    Label passwordLabel = makeLabel(getWord("password_label_text"));
+    gridPane.add(passwordLabel, getInt("label_column"), getInt("password_row"));
+
+    // Add Password Field
+    passwordField = new PasswordField();
+    passwordField.setPrefHeight(getInt("input_field_height"));
+    gridPane.add(passwordField, getInt("field_column"), getInt("password_row"));
   }
 
   private Label makeLabel(String text) {

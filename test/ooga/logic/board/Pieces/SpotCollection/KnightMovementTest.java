@@ -13,10 +13,12 @@ class KnightMovementTest {
   private Coordinate innerCoordinate;
   private Coordinate outerCoordinate;
   private Coordinate topCoordinate;
+  private final int BOARD_SIZE = 8;
+
 
   @BeforeEach
   void setUp() {
-    mySpotCollection = new KnightMovement();
+    mySpotCollection = new KnightMovement(BOARD_SIZE);
     innerCoordinate = new GameCoordinate(2,2);
     outerCoordinate = new GameCoordinate(0,0);
     topCoordinate = new GameCoordinate(3,7);
@@ -36,14 +38,14 @@ class KnightMovementTest {
     List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(outerCoordinate);
 
     int size = getSize(myCoords);
-    assertTrue(size == 2);
+    assertTrue(size == 8);
   }
 
   @Test
   void getPossibleSpotsTopCoordinate() {
     List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(topCoordinate);
     int size = getSize(myCoords);
-    assertTrue(size == 4);
+    assertTrue(size == 8);
   }
 
   private int getSize(List<List<Coordinate>> myCoords) {

@@ -13,10 +13,12 @@ class BishopMovementTest {
   private Coordinate innerCoordinate;
   private Coordinate outerCoordinate;
   private Coordinate topCoordinate;
+  private final int BOARD_SIZE = 8;
+
 
   @BeforeEach
   void setUp() {
-    mySpotCollection = new BishopMovement();
+    mySpotCollection = new BishopMovement(BOARD_SIZE);
     innerCoordinate = new GameCoordinate(2,2);
     outerCoordinate = new GameCoordinate(0,0);
     topCoordinate = new GameCoordinate(3,7);
@@ -26,7 +28,7 @@ class BishopMovementTest {
   void getPossibleSpotsInnerCoordinate() {
     List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(innerCoordinate);
     int size = getSize(myCoords);
-    assertTrue(size == 11);
+    assertTrue(size == BOARD_SIZE * 4);
   }
 
 
@@ -36,14 +38,14 @@ class BishopMovementTest {
     List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(outerCoordinate);
 
     int size = getSize(myCoords);
-    assertTrue(size == 7);
+    assertTrue(size == BOARD_SIZE * 4);
   }
 
   @Test
   void getPossibleSpotsTopCoordinate() {
     List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(topCoordinate);
     int size = getSize(myCoords);
-    assertTrue(size == 7);
+    assertTrue(size == BOARD_SIZE * 4);
   }
 
   private int getSize(List<List<Coordinate>> myCoords) {

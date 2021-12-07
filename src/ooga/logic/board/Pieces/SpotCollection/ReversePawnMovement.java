@@ -9,8 +9,8 @@ import ooga.logic.board.coordinate.GameCoordinate;
 public class ReversePawnMovement extends SpotCollection {
   private static final String PIECE_AS_STRING = "reversePawnMovement";
 
-  public ReversePawnMovement(){
-    super();
+  public ReversePawnMovement(int width){
+    super(width);
   }
 
   @Override

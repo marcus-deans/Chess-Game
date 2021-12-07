@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle.ContinuousLine;
 import ooga.logic.board.Pieces.SpotCollection.SpecificSpotCollectionBundle.OneTimeDirection;
-import ooga.logic.board.board.GameBoard;
 import ooga.logic.board.coordinate.Coordinate;
 
 abstract public class SpotCollection implements SpotCollectionInterface{
@@ -13,12 +12,13 @@ abstract public class SpotCollection implements SpotCollectionInterface{
   private ResourceBundle teamProperties;
   private static final String BASE = SpotCollection.class.getPackageName() + ".resources";
   private static final String DIRECTION = "Directions";
-  private static final String TEAM_DEFAULT_DIRECTIONS = "TeamDefaultDirections";
+//  private static final String TEAM_DEFAULT_DIRECTIONS = "TeamDefaultDirections";
+  private int boardWidth;
 
-
-  public SpotCollection(){
+  public SpotCollection(int width){
+    boardWidth = width;
     pieceProperties = ResourceBundle.getBundle(String.format("%s.%s",BASE,DIRECTION));
-    teamProperties = ResourceBundle.getBundle(String.format("%s.%s",BASE, TEAM_DEFAULT_DIRECTIONS));
+//    teamProperties = ResourceBundle.getBundle(String.format("%s.%s",BASE, TEAM_DEFAULT_DIRECTIONS));
   }
 
   @Override
@@ -28,9 +28,9 @@ abstract public class SpotCollection implements SpotCollectionInterface{
     return pieceProperties;
   }
 
-  protected ResourceBundle setPieceProperties(){
-    return teamProperties;
-  }
+//  protected ResourceBundle setPieceProperties(){
+//    return teamProperties;
+//  }
 
   protected List<List<Coordinate>> availableSquares(Coordinate myCoordinate,int[] addXAmount, int[] addYAmount){
     List<List<Coordinate>> myCoordinateList = new ArrayList<>();
@@ -39,7 +39,7 @@ abstract public class SpotCollection implements SpotCollectionInterface{
     for (int xAmt : addXAmount){
       for (int yAmt: addYAmount){
         if (!originalCoordinate(xAmt, yAmt)) {
-          moveCoordinate = (new OneTimeDirection()).getPossibleSpots(myCoordinate,xAmt,yAmt);
+          moveCoordinate = (new OneTimeDirection(getBoardWidth())).getPossibleSpots(myCoordinate,xAmt,yAmt);
           if (moveCoordinate.size() != 0){
             myCoordinateList.add(moveCoordinate);
           }
@@ -72,7 +72,7 @@ abstract public class SpotCollection implements SpotCollectionInterface{
     for (String x : myDirections){
       List<Coordinate> myCoords = new ArrayList<>();
       int[] myDirection = stringToIntArr(pieceProperties.getString(x));
-      myCoords.addAll(new ContinuousLine().getPossibleSpots(myCoordinate, myDirection[0],myDirection[1]));
+      myCoords.addAll(new ContinuousLine(getBoardWidth()).getPossibleSpots(myCoordinate, myDirection[0],myDirection[1]));
       myBigListOfCoordLists.add(myCoords);
     }
 
@@ -84,7 +84,7 @@ abstract public class SpotCollection implements SpotCollectionInterface{
     String[] myDirections = pieceProperties.getString(piece_as_string).split(",");
     for (String x : myDirections){
       int[] myDirection = stringToIntArr(pieceProperties.getString(x));
-      myCoords.addAll(new OneTimeDirection().getPossibleSpots(myCoordinate, myDirection[0],myDirection[1]));
+      myCoords.addAll(new OneTimeDirection(getBoardWidth()).getPossibleSpots(myCoordinate, myDirection[0],myDirection[1]));
     }
     List<List<Coordinate>> myBiggerCoordList = new ArrayList<>();
     myBiggerCoordList.add(myCoords);
@@ -99,11 +99,11 @@ abstract public class SpotCollection implements SpotCollectionInterface{
       for (int ySign : signs){
         for (String direction: myDirections) {
           int[] myDirection = stringToIntArr(pieceProperties.getString(direction));
-          myCoords = new OneTimeDirection().getPossibleSpots(myCoordinate, xSign * myDirection[0],
+          myCoords = new OneTimeDirection(getBoardWidth()).getPossibleSpots(myCoordinate, xSign * myDirection[0],
               ySign * myDirection[1]);
           myBigList.add(myCoords);
 
-          myCoords = new OneTimeDirection().getPossibleSpots(myCoordinate, xSign * myDirection[1],
+          myCoords = new OneTimeDirection(getBoardWidth()).getPossibleSpots(myCoordinate, xSign * myDirection[1],
               ySign * myDirection[0]);
           myBigList.add(myCoords);
 
@@ -113,6 +113,9 @@ abstract public class SpotCollection implements SpotCollectionInterface{
     return myBigList;
   }
 
+  protected int getBoardWidth(){
+    return boardWidth;
+  }
 
 
 }

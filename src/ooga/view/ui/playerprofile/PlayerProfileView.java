@@ -1,27 +1,41 @@
 package ooga.view.ui.playerprofile;
 
 import static ooga.util.ResourceRetriever.getWord;
+import static ooga.util.ResourceRetriever.showAlert;
 
-import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.application.Application;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import ooga.logic.game.Player;
 import ooga.view.PanelListener;
 import ooga.view.ui.playerlogin.PlayerLoginView;
 
-public class PlayerProfileView extends Application implements PlayerProfileInterface{
-  PanelListener myPanelListener;
-  Player myPlayer;
-  Stage myStage;
-  private static final String FORMATTING_FILE = "PlayerLoginFormatting.css";
+public class PlayerProfileView extends Application implements PlayerProfileInterface {
+
+  private static final String FORMATTING_FILE = "PlayerProfileFormatting.css";
   private static final String PLAYER_PROFILE_VIEW_RESOURCES_FILE_PATH = "ooga.view.viewresources.PlayerProfileViewResources";
   private static final ResourceBundle playerProfileViewResources = ResourceBundle.getBundle(
       PLAYER_PROFILE_VIEW_RESOURCES_FILE_PATH);
+  PanelListener myPanelListener;
+  Player myPlayer;
+  Stage myStage;
+  GridPane myGridPane;
 
-  public PlayerProfileView(Player player){
+  public PlayerProfileView(Player player) {
     myPlayer = player;
   }
 
@@ -38,19 +52,16 @@ public class PlayerProfileView extends Application implements PlayerProfileInter
    *                     not be primary stages.
    */
   @Override
-  public void start(Stage primaryStage)   {
+  public void start(Stage primaryStage) {
     myStage = primaryStage;
     myStage.setTitle(getWord("login_modal_title_text"));
 
-    // Create the registration form grid pane
-//    GridPane gridPane = createRegistrationFormPane();
+    myGridPane = createPlayerProfilePane();
     // Add UI controls to the registration form grid pane
-//    addUIControls(gridPane);
-    GridPane gridPane = new GridPane();
+    addUI();
     // Create a scene with registration form grid pane as the root node
-    Scene scene = new Scene(gridPane, 700, 500);
-
-//    gridPane.setId("login-pane");
+    Scene scene = new Scene(myGridPane, getInt("scene_width"), getInt("scene_height"));
+    myGridPane.setId("profile-pane");
     scene.getStylesheets().add(
         PlayerLoginView.class.getResource(FORMATTING_FILE)
             .toExternalForm());
@@ -59,26 +70,96 @@ public class PlayerProfileView extends Application implements PlayerProfileInter
     myStage.setScene(scene);
 
     myStage.show();
+  }
 
+  private GridPane createPlayerProfilePane() {
+    GridPane gridPane = new GridPane();
+
+    gridPane.setAlignment(Pos.CENTER);
+    gridPane.setPadding(
+        new Insets(getInt("gridpanePadding"), getInt("gridpanePadding"), getInt("gridpanePadding"),
+            getInt("gridpanePadding")));
+    gridPane.setHgap(getInt("login_grid_pane_hgap"));
+    gridPane.setVgap(getInt("login_grid_pane_vgap"));
+
+    ColumnConstraints columnOneConstraints = new ColumnConstraints(getInt("column_one_width"),
+        getInt("column_one_width"), Double.MAX_VALUE);
+    columnOneConstraints.setHalignment(HPos.RIGHT);
+    ColumnConstraints columnTwoConstrains = new ColumnConstraints(getInt("column_two_width"),
+        getInt("column_two_width"), Double.MAX_VALUE);
+    columnTwoConstrains.setHgrow(Priority.ALWAYS);
+
+    gridPane.getColumnConstraints().addAll(columnOneConstraints, columnTwoConstrains);
+
+    return gridPane;
+  }
+
+  private void addUI() {
+    Label headerLabel = new Label(getWord("login_title_text"));
+    headerLabel.setId("login-header-label");
+    myGridPane.add(headerLabel, 0, 0, getInt("header_column_span"), getInt("header_row_span"));
+
+    GridPane.setHalignment(headerLabel, HPos.CENTER);
+    GridPane.setMargin(headerLabel,
+        new Insets(getInt("gridpaneMargin"), 0, getInt("gridpaneMargin"), 0));
+
+    Label nameLabel = makeLabel(getWord("name_label_text"));
+    myGridPane.add(nameLabel, getInt("label_column"), getInt("name_row"));
+    Label teamLabel = makeLabel(getWord("team_label_text"));
+    myGridPane.add(teamLabel, getInt("label_column"), getInt("team_row"));
+
+    addPlayerDetailsToUI();
     //    public String getUserScore() throws IOException {
     // wins, losses
+  }
 
+  private void addPlayerDetailsToUI(){
+    Label nameField = new Label();
+    Label teamField  = new Label();
+    Color playerColor = Color.web(getString("default_color_selection"));
+    String[] playerScore = new String[2];
+    try{
+      nameField = makeLabel(myPlayer.getUsername());
+      teamField = makeLabel(determineTeam(myPlayer.getTeam()));
+      playerColor = Color.web(myPlayer.getProfileColor());
+      playerScore = myPlayer.getUserScore().split(",");
+    } catch (Exception e){
+      showAlert(AlertType.ERROR, myStage.getScene().getWindow(), getWord("player_profile_error_title"), getWord("player_profile_error_message"));
+    }
+    Label winField = makeLabel(String.format("%s: %s", getWord("number_wins"),playerScore[0]));
+    Label loseField = makeLabel(String.format("%s: %s", getWord("number_loses"), playerScore[1]));
 
+    myGridPane.add(nameField, getInt("field_column"), getInt("name_row"));
+    myGridPane.add(teamField, getInt("field_column"), getInt("team_row"));
+    myGridPane.add(winField, getInt("label_column"), getInt("score_row"));
+    myGridPane.add(loseField, getInt("field_column"), getInt("score_row"));
 
-    try {
-//      String score = currentPlayer.getUserScore();
-      myPlayer.getUsername();
-      myPlayer.getTeam();
-      myPlayer.getProfileColor();
-      System.out.println(myPlayer.getUserScore());
-    } catch(Exception e){
-      e.printStackTrace();
+    myGridPane.setBackground(new Background(new BackgroundFill(playerColor, CornerRadii.EMPTY, Insets.EMPTY)));
+  }
+
+  private String determineTeam(int teamNumber){
+    switch(teamNumber){
+      case 1 -> {
+        return "White";
+      }
+      case 2 -> {
+        return "Black";
+      }
+      default -> {
+        return "Team Error";
+      }
     }
   }
 
   @Override
   public void setPanelListener(PanelListener panelListener) {
     myPanelListener = panelListener;
+  }
+
+  private Label makeLabel(String text) {
+    Label newLabel = new Label(text);
+    newLabel.setId("field_label");
+    return newLabel;
   }
 
   //return the integer from the resource file based on the provided string

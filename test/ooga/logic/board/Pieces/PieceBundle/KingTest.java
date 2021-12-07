@@ -3,7 +3,7 @@ package ooga.logic.board.Pieces.PieceBundle;
 import static org.junit.jupiter.api.Assertions.*;
 
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
-import ooga.logic.board.Pieces.SpotCollection.LastRankSpots;
+//import ooga.logic.board.Pieces.SpotCollection.LastRankSpots;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,17 +27,16 @@ class KingTest {
   @Test
   void getMyMovement() {
     myCoord.setCoordinate(2,4);
-    assertFalse(myPiece.getPossibleMoves().getPossibleSpots(myPiece.getCoordinate()).contains(myCoord));
+    assertFalse(myPiece.canMoveTo(myCoord));
     myCoord.setCoordinate(0,3);
-    assertTrue(myPiece.getPossibleMoves().getPossibleSpots(myPiece.getCoordinate()).contains(myCoord));
-  }
+    assertTrue(myPiece.canMoveTo(myCoord));  }
 
   @Test
-  void getMyCapture() {
-    myCoord.setCoordinate(2,4);
-    assertFalse(myPiece.getPossibleCaptures().getPossibleSpots(myPiece.getCoordinate()).contains(myCoord));
+  void setMyCapture() {
     myCoord.setCoordinate(0,1);
-    assertTrue(myPiece.getPossibleCaptures().getPossibleSpots(myPiece.getCoordinate()).contains(myCoord));
+    assertTrue(myPiece.canCapture(myCoord));
+    myCoord.setCoordinate(2,4);
+    assertFalse(myPiece.canCapture(myCoord));
   }
 
 

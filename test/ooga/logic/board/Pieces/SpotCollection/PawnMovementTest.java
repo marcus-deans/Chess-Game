@@ -13,10 +13,11 @@ class PawnMovementTest {
   private Coordinate innerCoordinate;
   private Coordinate outerCoordinate;
   private Coordinate topCoordinate;
+  private final int BOARD_SIZE = 8;
 
   @BeforeEach
   void setUp() {
-    mySpotCollection = new PawnMovement();
+    mySpotCollection = new PawnMovement(BOARD_SIZE);
     innerCoordinate = new GameCoordinate(2,2);
     outerCoordinate = new GameCoordinate(0,0);
     topCoordinate = new GameCoordinate(3,7);
@@ -43,7 +44,7 @@ class PawnMovementTest {
   void getPossibleSpotsTopCoordinate() {
     List<List<Coordinate>> myCoords = mySpotCollection.getPossibleSpots(topCoordinate);
     int size = getSize(myCoords);
-    assertTrue(size == 0);
+    assertTrue(size == 1);
   }
 
   private int getSize(List<List<Coordinate>> myCoords) {
