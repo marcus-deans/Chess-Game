@@ -43,6 +43,7 @@ public class Game {
             myBoard.setEdgePolicy(s);
         }
         catch (Exception e){
+            //myBoard.setEdgePolicy("Basic");
         }
     }
 
@@ -322,9 +323,6 @@ public class Game {
         return isGameOver;
     }
 
-    public Spot getSpot(GameCoordinate coordinate){
-        return myBoard.getSpot(coordinate);
-    }
 
     public void resetClick(){
 
@@ -353,5 +351,9 @@ public class Game {
     {
         this.gameType=type;
         if (gameType.equals("Atomic")) isAtomic=true;
+    }
+
+    public void pawnsToPiece(String piece) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        myBoard.pawnsToPiece(piece);
     }
 }
