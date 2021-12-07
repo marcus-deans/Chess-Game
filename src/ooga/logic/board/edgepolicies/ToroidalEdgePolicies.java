@@ -20,6 +20,12 @@ public class ToroidalEdgePolicies implements EdgePolicies{
         this.height=height;
     }
 
+    /**
+     *
+     * @param allMoves
+     * @return list of moves that are allowed by this edge policy. The sides of the game are
+     * toroidal but the top and bottom are not
+     */
     public List<List<Coordinate>> filterList(List<List<Coordinate>> allMoves)
     {
         List<List<Coordinate>> possibleMoves=new ArrayList<>();
@@ -37,6 +43,11 @@ public class ToroidalEdgePolicies implements EdgePolicies{
         return possibleMoves;
     }
 
+    /**
+     * If the x positions of the possible move are beyond the x-boundaries, then it adds or subtracts
+     * the width of the board to make the position wrap to the other side
+     * @param c
+     */
     public void toroidalX(Coordinate c)
     {
         Consumer<Coordinate> alterX = list ->
@@ -53,6 +64,11 @@ public class ToroidalEdgePolicies implements EdgePolicies{
 
     }
 
+    /**
+     *
+     * @param a
+     * @return list of coordinates that are within the y-boundaries
+     */
     public List<Coordinate> toroidalY(List<Coordinate> a)
     {
 

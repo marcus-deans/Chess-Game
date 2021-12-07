@@ -204,6 +204,7 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
         String password = passwordField.getText();
         String team = teamSelected[0];
         String colour = colorSelected[0];
+        System.out.println(colour);
 
         int teamValue;
         switch (team) {

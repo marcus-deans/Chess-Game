@@ -16,6 +16,11 @@ public class CheatCodeEdgePolicies implements EdgePolicies{
         this.width=width;
     }
 
+    /**
+     *
+     * @param allMoves
+     * @return list of moves that are allowed by this edge policy. All boundaries are toroidal
+     */
     public List<List<Coordinate>> filterList(List<List<Coordinate>> allMoves)
     {
         List<List<Coordinate>> possibleMoves=new ArrayList<>();
@@ -34,6 +39,11 @@ public class CheatCodeEdgePolicies implements EdgePolicies{
         return possibleMoves;
     }
 
+    /**
+     * If the x positions of the possible move are beyond the x-boundaries, then it adds or subtracts
+     * the width of the board to make the position wrap to the other side
+     * @param c
+     */
     public void toroidalX(Coordinate c)
     {
         Consumer<Coordinate> alterX = list ->
@@ -49,6 +59,11 @@ public class CheatCodeEdgePolicies implements EdgePolicies{
         alterX.accept(c);
     }
 
+    /**
+     * If the y positions of the possible move are beyond the y-boundaries, then it adds or subtracts
+     * the height of the board to make the position wrap to the other side
+     * @param c
+     */
     public void toroidalY(Coordinate c)
     {
         Consumer<Coordinate> alterX = list ->

@@ -21,17 +21,29 @@ public class GameSpot implements Spot{
         this.color=color;
     }
 
+    /**
+     * Sets the coordinate of the spot
+     * @param x
+     * @param y
+     */
     @Override
     public void setCoordinate(int x, int y) {
         this.coordinate=new GameCoordinate(x,y);
     }
 
-
+    /**
+     *
+     * @return coordinate of the spot
+     */
     @Override
     public Coordinate getCoordinate() {
         return coordinate;
     }
 
+    /**
+     * sets the piece of the spot, if the piece is null, then sets empty to true
+     * @param piece
+     */
     @Override
     public void setPiece(Piece piece) {
         this.piece=piece;
@@ -41,32 +53,57 @@ public class GameSpot implements Spot{
         }
     }
 
+    /**
+     *
+     * @return empty
+     */
     @Override
     public boolean isEmpty() {
         return empty;
     }
 
+    /**
+     *
+     * @return piece
+     */
     @Override
     public Piece getPiece() {
         return piece;
     }
 
+    /**
+     *
+     * @return typeOfSpot
+     */
     public int getTypeOfSpot() {
         return typeOfSpot;
     }
 
+    /**
+     *
+     * @return color
+     */
     public boolean getColor(){return color;}
 
+    /**
+     * sets type of spot
+     * @param typeOfSpot
+     */
     public void setTypeOfSpot(int typeOfSpot) {
         this.typeOfSpot = typeOfSpot;
     }
 
-    public void emptySpot()
-    {
-        this.piece=null;
-        this.empty=true;
-    }
+//    public void emptySpot()
+//    {
+//        this.piece=null;
+//        this.empty=true;
+//    }
 
+    /**
+     * checks if two spots are equal
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals (Object o) {
         if (this == o) return true;

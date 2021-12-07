@@ -16,6 +16,11 @@ public class BasicEdgePolicies implements EdgePolicies{
         this.height=height;
     }
 
+    /**
+     *
+     * @param allMoves
+     * @return list of moves that are within the boundaries of the game
+     */
     @Override
     public List<List<Coordinate>> filterList(List<List<Coordinate>> allMoves)
     {

@@ -130,8 +130,8 @@ public class ChessController implements Controller {
     boardInitializer(myCSVParser.getInitialStates(), myGame);
     boardViewBuild(myGame);
     numTurns = 1;
-    setPlayer(1, "Player1", "Password1", 1, "#012169");
-    setPlayer(2, "Player2", "Password2", 2, "#00539B");
+//    setPlayer(1, "Player1", "Password1", 1, "#012169");
+//    setPlayer(2, "Player2", "Password2", 2, "#00539B");
     history = new Stack<GameCoordinate[]>();
     unwind = new Stack<GameCoordinate[]>();
     myLogger.log(Level.INFO, "Inititalized: " + myData.get("Type") + " gametype");
@@ -192,7 +192,7 @@ public class ChessController implements Controller {
     numPlayers = thePlayers.size();
     boolean result = addPlayer.checkUser();
     addPlayer.setProfileColor(color);
-    return result; //TODO: change to returning appropriate value if player created
+    return result;
   }
 
   @Deprecated
@@ -294,7 +294,7 @@ public class ChessController implements Controller {
       myGame.movePiece(clickedPiece, nextMove);
       myGameView.updateChessCell(myGame.getSpot(clickedPiece));
       FIRSTCLICK = true;
-      myGameView.addHistory(ALPHABET[clickedPiece.getX_pos()] + "," + clickedPiece.getY_pos()+1 + " -> "+ ALPHABET[nextMove.getX_pos()] + "," + nextMove.getY_pos()+1);
+      myGameView.addHistory(ALPHABET[clickedPiece.getX_pos()] + "," + (clickedPiece.getY_pos()+1) + " -> "+ ALPHABET[nextMove.getX_pos()] + "," + (nextMove.getY_pos()+1));
       numTurns++;
       unwind.clear();
       //TODO IS GAME OVER: (update user score: winner ->true, loser ->false) (check isGameOver from Game)
@@ -315,8 +315,7 @@ public class ChessController implements Controller {
     GameCoordinate[] moveRecord = {original, next};
     history.push(moveRecord);
     myLogger.log(Level.INFO,
-        "MOVED: " + ALPHABET[moveRecord[0].getX_pos()] + "," + moveRecord[0].getY_pos()+1 + " to "
-            + ALPHABET[moveRecord[1].getX_pos()] + "," + moveRecord[1].getY_pos()+1);
+        "MOVED: " + historyNotation(moveRecord, true));
     boardViewBuild(myGame);
   }
 
@@ -337,8 +336,7 @@ public class ChessController implements Controller {
       GameCoordinate[] recentMove = history.pop();
       unwind.push(recentMove);
       myLogger.log(Level.INFO,
-          "MOVED: " + ALPHABET[recentMove[0].getX_pos()] + "," + recentMove[0].getY_pos()+1 + " to "
-              + ALPHABET[recentMove[1].getX_pos()] + "," + recentMove[1].getY_pos()+1);
+          "MOVED: " + historyNotation(recentMove, false));
       myGame.movePiece(recentMove[1], recentMove[0]);
       myGameView.removeHistory();
       numTurns -= numTurns;
@@ -382,15 +380,27 @@ public class ChessController implements Controller {
       GameCoordinate[] reDoneMove = unwind.pop();
       history.push(reDoneMove);
       myLogger.log(Level.INFO,
-          "MOVED: " + ALPHABET[reDoneMove[1].getX_pos()] + "," + reDoneMove[1].getY_pos()+1 + " to "
-              + ALPHABET[reDoneMove[0].getX_pos()] + "," + reDoneMove[0].getY_pos()+1);
-      myGame.movePiece(reDoneMove[0], reDoneMove[1]);
-      myGameView.addHistory(reDoneMove[0].getX_pos() + "," + reDoneMove[0].getY_pos() + " -> "
-              + reDoneMove[1].getX_pos() + "," + reDoneMove[1].getY_pos());
+          "MOVED: " + historyNotation(reDoneMove, true));
+      myGameView.addHistory(historyNotation(reDoneMove, true));
       numTurns += numTurns;
       switchPlayers();
       boardViewBuild(myGame);
     }
+  }
+
+  private String historyNotation(GameCoordinate[] change, boolean forward) {
+    int first;
+    int second;
+    if (forward) {
+      first = 0;
+      second = 1;
+    } else {
+      first = 1;
+      second = 0;
+    }
+
+    String call = ALPHABET[change[first].getX_pos()] + "," + (change[first].getY_pos() + 1) + " -> " + ALPHABET[change[second].getX_pos()] + "," + (change[second].getY_pos() + 1);
+    return call;
   }
 
   /**
