@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 
 import ooga.logic.game.Game;
 
+import ooga.logic.game.Player;
 import ooga.util.IncorrectCSVFormatException;
 
 import java.io.File;
@@ -39,4 +40,6 @@ public interface Controller {
     public boolean setPlayer(int playerIdentifier, String userName, String password, int team, String color) throws IOException;
 
     public void acceptCheatCode(String identifier);
+
+    public Player getPlayer(int playerIdentifier);
   }

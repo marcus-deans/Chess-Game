@@ -183,6 +183,12 @@ public class ChessController implements Controller {
     //thePlayers.add(addPlayer);
   }
 
+  @Override
+  public Player getPlayer(int playerIdentifier){
+    return thePlayers.get(playerIdentifier);
+  }
+
+
   /**
    * Gives BOARDWIDTH
    *

@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 import ooga.controller.Controller;
 import ooga.logic.board.Pieces.PieceBundle.Piece;
 import ooga.logic.board.spot.Spot;
+import ooga.logic.game.Player;
 import ooga.util.IncorrectCSVFormatException;
 import ooga.view.ui.InformationPanel;
 import ooga.view.ui.controlpanel.ControlPanel;
@@ -382,7 +383,8 @@ public class GameView extends Application implements PanelListener, GameChessVie
 
   @Override
   public void openPlayerProfile(int playerIdentifier) {
-    PlayerProfileInterface newPlayerProfileView = new PlayerProfileView();
+    Player currentPlayer = myChessController.getPlayer(playerIdentifier);
+    PlayerProfileInterface newPlayerProfileView = new PlayerProfileView(currentPlayer);
     newPlayerProfileView.setPanelListener(this);
     newPlayerProfileView.start(new Stage());
   }

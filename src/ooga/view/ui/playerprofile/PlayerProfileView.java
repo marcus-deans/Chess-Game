@@ -2,13 +2,15 @@ package ooga.view.ui.playerprofile;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import ooga.logic.game.Player;
 import ooga.view.PanelListener;
 
 public class PlayerProfileView extends Application implements PlayerProfileInterface{
   PanelListener myPanelListener;
+  Player myPlayer;
 
-  public PlayerProfileView(){
-
+  public PlayerProfileView(Player player){
+    myPlayer = player;
   }
 
   /**
