@@ -9,6 +9,10 @@ import ooga.logic.board.coordinate.Coordinate;
 public class PawnCapture extends SpotCollection {
   private static final String PIECE_AS_STRING = "pawnCapture";
 
+  /**
+   * Pass width back to define bounds
+   * @param width max of width of height of board
+   */
   public PawnCapture(int width){
     super(width);
   }

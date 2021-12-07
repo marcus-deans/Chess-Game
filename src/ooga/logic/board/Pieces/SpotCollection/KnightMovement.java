@@ -10,6 +10,10 @@ public class KnightMovement extends SpotCollection {
   private static final String PIECE_AS_STRING = "knight";
   private static final String SIGNS_AS_STRING = "signs";
 
+  /**
+   * Pass width back to define bounds
+   * @param width max of width of height of board
+   */
   public KnightMovement(int width){
     super(width);
   }

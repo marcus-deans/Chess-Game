@@ -9,6 +9,10 @@ import ooga.logic.board.coordinate.Coordinate;
  */
 public class QueenMovement extends SpotCollection {
 
+  /**
+   * Pass width back to define bounds
+   * @param width max of width of height of board
+   */
   public QueenMovement(int width){
     super(width);
   }

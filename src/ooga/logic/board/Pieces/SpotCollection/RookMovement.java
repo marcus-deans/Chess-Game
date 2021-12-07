@@ -9,6 +9,10 @@ import ooga.logic.board.coordinate.Coordinate;
 public class RookMovement extends SpotCollection {
   private static final String PIECE_AS_STRING = "rook";
 
+  /**
+   * Pass width back to define bounds
+   * @param width max of width of height of board
+   */
   public RookMovement(int width){
     super(width);
   }

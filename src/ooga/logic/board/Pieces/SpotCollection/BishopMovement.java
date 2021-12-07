@@ -9,6 +9,10 @@ import ooga.logic.board.coordinate.Coordinate;
 public class BishopMovement extends SpotCollection {
   private static final String PIECE_AS_STRING = "bishop";
 
+  /**
+   * Pass width back to define bounds
+   * @param width max of width of height of board
+   */
   public BishopMovement(int width){
     super(width);
   }

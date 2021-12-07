@@ -10,6 +10,10 @@ import ooga.logic.board.coordinate.Coordinate;
 public class ReversePawnCapture extends SpotCollection {
   private static final String PIECE_AS_STRING = "reversePawnCapture";
 
+  /**
+   * Pass width back to define bounds
+   * @param width max of width of height of board
+   */
   public ReversePawnCapture(int width){
     super(width);
   }

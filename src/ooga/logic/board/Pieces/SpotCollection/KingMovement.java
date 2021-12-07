@@ -10,6 +10,10 @@ public class KingMovement extends SpotCollection {
   private static final String HORIZONTAL_RANGE = "horizontalRange";
   private static final String VERTICAL_RANGE = "verticalRange";
 
+  /**
+   * Pass width back to define bounds
+   * @param width max of width of height of board
+   */
   public KingMovement(int width){
     super(width);
   }

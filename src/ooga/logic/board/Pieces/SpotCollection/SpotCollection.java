@@ -18,6 +18,11 @@ abstract public class SpotCollection implements SpotCollectionInterface{
 //  private static final String TEAM_DEFAULT_DIRECTIONS = "TeamDefaultDirections";
   private int boardWidth;
 
+  /**
+   * Set width and piece Properties
+   * Pass width back to define bounds
+   * @param width max of width of height of board
+   */
   public SpotCollection(int width){
     boardWidth = width;
     pieceProperties = ResourceBundle.getBundle(String.format("%s.%s",BASE,DIRECTION));
