@@ -41,6 +41,7 @@ abstract public class Piece implements PieceLogic{
   private BooleanStorage checkable;
   private SpotCollectionStorage myCaptureStorage;
   private SpotCollectionStorage myMovementStorage;
+  private SpotCollectionStorage myAtomicStorage;
 
 
   public Piece(String pieceToString, int team, Coordinate myCoordinate, Map<String,String> myAttributeMap) {
@@ -57,11 +58,16 @@ abstract public class Piece implements PieceLogic{
     setCheckable();
     setCapture();
     setMovement();
+    setAtomic();
 
     setCoordinate(myCoordinate);
     setPromotionSpots();
     setAtomicArea();
 
+  }
+
+  private void setAtomic(){
+    myAtomicStorage = new atomicStorage(PieceName,attributeMap,PieceProperties,DefaultProperties,getTeamIfNecessary());
   }
 
   private void setJump() {
