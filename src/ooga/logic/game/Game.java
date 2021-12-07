@@ -31,11 +31,13 @@ public class Game {
     private Coordinate puzzleStart;
     private Coordinate puzzleFinish;
     private String gameType;
-    private boolean isAtomic=false;
+    private boolean isAtomic;
 
     public Game(int height, int width, Map<String,String> myMap){
         myBoard = new GameBoard(height, width, myMap);
         myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+        isGameOver = false;
+        isAtomic = false;
     }
 
     public void setEdgePolicy(String s){
