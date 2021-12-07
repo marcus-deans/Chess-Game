@@ -15,4 +15,7 @@ public class atomicStorage extends SpotCollectionStorage {
     return ATOMIC;
   }
 
+  protected void movementOrNone() {
+    getDefaultState();
+  }
 }

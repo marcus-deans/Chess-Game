@@ -256,13 +256,14 @@ abstract public class Piece implements PieceLogic{
     myCaptureStorage.update(attributeMap);
     myMovementStorage.update(attributeMap);
     myAtomicStorage.update(attributeMap);
+    atomicImmunity.update(attributeMap);
   }
 
   public SpotCollection getAtomicArea(){
     return myAtomicStorage.getSpotCollection();
   }
 
-  public boolean getAtomicIMmunity(){
+  public boolean getAtomicImmunity(){
     return atomicImmunity.getValue();
   }
 

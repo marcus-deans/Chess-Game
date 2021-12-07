@@ -95,7 +95,7 @@ public class GameBoard implements Board {
 
     public void updateBoard(Coordinate newPosition, Piece movingPiece)
             throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        if(isAtomic && getSpot(newPosition).getPiece()!=null && !getSpot(newPosition).getPiece().getPieceName().equalsIgnoreCase("Pawn"))
+        if(isAtomic && getSpot(newPosition).getPiece()!=null)
         {
             atomic(newPosition);
         }
@@ -110,12 +110,19 @@ public class GameBoard implements Board {
     }
 
     private void atomic(Coordinate newPosition){
-        getSpot(newPosition).getPiece().setAtomicArea();
         List<List<Coordinate>> list=getSpot(newPosition).getPiece().getAtomicArea().getPossibleSpots(newPosition);
         getSpot(newPosition).setPiece(null);
-        for (int i = 0; i < list.size(); i++){
-            for(int j = 0; j < list.get(i).size(); j++){
-                getSpot(list.get(i).get(j)).setPiece(null);
+
+        for (List<Coordinate> myList : list){
+            for(Coordinate eachCoord : myList){
+                Spot thisSpot = getSpot(eachCoord);
+                System.out.println(thisSpot.getPiece().getPieceName());
+                if (thisSpot.isEmpty()){
+                    continue;
+                }
+                if (!thisSpot.getPiece().getAtomicImmunity()){
+                    thisSpot.setPiece(null);
+                }
             }
         }
     }
@@ -170,10 +177,6 @@ public class GameBoard implements Board {
     public void reset(){
         copyInitialBoard(initialBoard);
         myLogger.log(Level.INFO, "Reset in gameboard");
-//        for(int i=0;i<board.size();i++){
-//            System.out.println(board.get(i).getPiece());
-//            System.out.println(initialBoard.get(i).getPiece());
-//        }
     }
 
     public void setAtomic(boolean atomic)
