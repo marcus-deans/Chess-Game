@@ -29,6 +29,12 @@ abstract public class SpotCollection implements SpotCollectionInterface{
 //    teamProperties = ResourceBundle.getBundle(String.format("%s.%s",BASE, TEAM_DEFAULT_DIRECTIONS));
   }
 
+  /**
+   * return a list of list of coordinates, where within each list a coordinate being reached
+   * depends on the coordinate before it
+   * @param coordinate the coordinate we are currently at
+   * @return the coordinates we could reach with no regard to bounds
+   */
   @Override
   public abstract List<List<Coordinate>> getPossibleSpots(Coordinate coordinate);
 

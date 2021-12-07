@@ -17,6 +17,12 @@ public class QueenMovement extends SpotCollection {
     super(width);
   }
 
+  /**
+   * return a list of list of coordinates, where within each list a coordinate being reached
+   * depends on the coordinate before it
+   * @param myCoordinate the coordinate we are currently at
+   * @return the coordinates we could reach with no regard to bounds
+   */
   @Override
   public List<List<Coordinate>> getPossibleSpots(Coordinate myCoordinate) {
     List<List<Coordinate>> myCoords = new ArrayList<>();
