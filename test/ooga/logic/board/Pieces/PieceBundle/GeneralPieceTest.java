@@ -73,7 +73,7 @@ class GeneralPieceTest {
     assertTrue(myPiece.canCannibalize());
     assertEquals(getSize(myPiece.getPossibleCaptures().getPossibleSpots(myCoord)),
         getSize(new PawnCapture().getPossibleSpots(myCoord)));
-    assertEquals(getSize(myPiece.getPossibleCaptures().getPossibleSpots(myCoord)),
+    assertEquals(getSize(myPiece.getPossibleMoves().getPossibleSpots(myCoord)),
         getSize(new PawnMovement().getPossibleSpots(myCoord)));
 
   }
