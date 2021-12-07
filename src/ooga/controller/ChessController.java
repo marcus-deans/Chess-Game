@@ -323,6 +323,9 @@ public class ChessController implements Controller {
     if(myGame.getIsGameOver()) {
       myGameView.displayGameComplete(currentPlayer.getTeam());
       currentPlayer.updateUserScore(true);
+      for(Player player : thePlayers){
+        if(player != currentPlayer) player.updateUserScore(false);
+      }
     }
   }
 
