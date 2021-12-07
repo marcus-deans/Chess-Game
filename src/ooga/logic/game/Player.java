@@ -77,10 +77,16 @@ public class Player {
         myLogger.log(Level.INFO, result);
     }
 
-    public void setProfileColor() throws IOException {
-        String result = getFromDatabase(apiURL + readFromProperties("set_profile_color_path") + "?" + readFromProperties("id_parameter") + myUsername);
+    public void setProfileColor(String color) throws IOException {
+        String result = getFromDatabase(apiURL + readFromProperties("set_profile_color_path") + "?" + readFromProperties("id_parameter") + myUsername+ "&color=" + color);
 
         myLogger.log(Level.INFO, result);
+    }
+
+    public String getProfileColor() throws IOException {
+        String result = getFromDatabase(apiURL + readFromProperties("get_profile_color_path") + "?" + readFromProperties("id_parameter") + myUsername);
+
+        return result;
     }
 
     public String getUserScore() throws IOException {

@@ -144,6 +144,27 @@ app.get('/getUserScore', (req, res) => {
 });
 
 
+app.get('/getProfileColor', (req, res) => {
+    let id = req.query.id
+
+    console.log(id)
+
+    let query = {
+        _id: id
+    }
+
+    let collectionName = "userInfo"
+
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "*")
+
+    const Users = mongoose.model(collectionName, userSchema, collectionName)
+
+    Users.findById(id).then( r=> {
+        res.send(r.profileColor);
+    })
+});
+
 app.get('/addScore', (req, res) => {
     let id = req.query.id
 
