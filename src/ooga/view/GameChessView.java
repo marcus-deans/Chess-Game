@@ -8,6 +8,9 @@ import ooga.logic.board.spot.Spot;
 
 /**
  * Interface to interact with the view of the program, serves as API
+ * Used extensively by Controller
+ *
+ * @author marcusdeans
  */
 public interface GameChessView {
 
@@ -51,7 +54,15 @@ public interface GameChessView {
    */
   public void undoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
 
+  /**
+   * MWhen game is complete, execute win demonstration
+   * @param teamNumber the team that won
+   */
   public void displayGameComplete(int teamNumber);
 
+  /**
+   * Set the description of the current simulation
+   * @param boardDescription the text description
+   */
   public void setBoardDescription(String boardDescription);
 }
