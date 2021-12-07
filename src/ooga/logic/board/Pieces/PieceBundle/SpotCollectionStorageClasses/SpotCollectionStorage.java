@@ -5,21 +5,30 @@ import java.util.ResourceBundle;
 import ooga.logic.board.Pieces.SpotCollection.NoMovement;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 
-abstract public class SpotCollectionStorage {
+abstract public class SpotCollectionStorage implements SpotCollectionStorageInterface {
   private static final String CAPTURE = "capture";
   private static final String MOVEMENT = "movement";
   private SpotCollection mySpotCollection;
   private static final String SPOT_COLLECTION_BASE = SpotCollection.class.getPackageName();
 
+  private ResourceBundle pieceProperties;
+  private ResourceBundle defaultProperties;
+  private String pieceToString;
+  private String teamMatters;
 
-  public SpotCollectionStorage(String myString, Map<String, String> attributeMap,
+
+  public SpotCollectionStorage(String pieceToString, Map<String, String> attributeMap,
       ResourceBundle pieceProperties, ResourceBundle defaultProperties, String teamMatters) {
-      setBundle(myString, attributeMap, pieceProperties, defaultProperties, teamMatters);
+      this.pieceProperties = pieceProperties;
+      this.defaultProperties = defaultProperties;
+      this.pieceToString = pieceToString;
+      this.teamMatters = teamMatters;
+      setBundle(attributeMap);
+
   }
 
 
-  private void setBundle(String pieceToString, Map<String, String> attributeMap, ResourceBundle pieceProperties,
-      ResourceBundle defaultProperties, String teamMatters) {
+  private void setBundle( Map<String, String> attributeMap) {
     try{
       if (attributeMap.containsKey(getMySpotType())){
         setMySpotCollection(
@@ -70,8 +79,24 @@ abstract public class SpotCollectionStorage {
 
     }
     catch(Exception e){
-      setMySpotCollection(new NoMovement());
+      getDefaultState();
     }
+  }
+
+  private void getDefaultState(){
+try {
+  setMySpotCollection(
+      (SpotCollection) Class.forName(
+          String.format("%s.%s",SPOT_COLLECTION_BASE ,defaultProperties.
+              getString(
+                  String.format("%s%s",getMySpotType(),teamMatters)
+              ))).getConstructor().newInstance()
+  );
+}
+catch (Exception e){
+  //SOME KIND OF ERROR
+}
+
   }
 
   private void setMySpotCollection(SpotCollection myNewSpotCollection){
@@ -82,8 +107,12 @@ abstract public class SpotCollectionStorage {
     return mySpotCollection;
   }
 
-  protected String capitalizeFirst(String toBeCapitalized){
+  private String capitalizeFirst(String toBeCapitalized){
     return toBeCapitalized.substring(0, 1).toUpperCase() + toBeCapitalized.substring(1);
   }
 
+  @Override
+  public void update(Map<String, String> myMap) {
+    setBundle(myMap);
+  }
 }

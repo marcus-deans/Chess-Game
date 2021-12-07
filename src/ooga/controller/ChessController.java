@@ -219,7 +219,7 @@ public class ChessController implements Controller {
       if (myTempHashMap.get(turnIterator) == myGame.getSpot(clickedPiece).getPiece().getTeam()) {
         Set<Spot> test = myGame.getPossibleCoordinates(clickedPiece, currentPlayer.getTeam());
         highlightSpots(test);
-        myGameView.highlightChessCell(myGame.getSpot(clickedPiece));
+//        myGameView.highlightChessCell(myGame.getSpot(clickedPiece));
         myLogger.log(Level.INFO, "FIRST CLICK");
         FIRSTCLICK = false;
       }
