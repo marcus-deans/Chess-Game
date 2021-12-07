@@ -1,14 +1,13 @@
 package ooga.view.ui.gameplaypanel;
 
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import ooga.logic.board.Pieces.PieceBundle.Piece;
+import ooga.logic.board.Pieces.PieceBundle.pieces.Piece;
 import ooga.view.ui.SharedUIComponents;
 
 public class GraveyardPanel extends SharedUIComponents {

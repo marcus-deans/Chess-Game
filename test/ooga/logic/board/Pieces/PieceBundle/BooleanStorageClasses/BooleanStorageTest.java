@@ -5,8 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.RestoreAction;
-import ooga.logic.board.Pieces.PieceBundle.Piece;
+import ooga.logic.board.Pieces.PieceBundle.pieces.Piece;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

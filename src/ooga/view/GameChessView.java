@@ -3,7 +3,7 @@ package ooga.view;
 import java.lang.reflect.InvocationTargetException;
 
 import javafx.stage.Stage;
-import ooga.logic.board.Pieces.PieceBundle.Piece;
+import ooga.logic.board.Pieces.PieceBundle.pieces.Piece;
 import ooga.logic.board.spot.Spot;
 
 /**

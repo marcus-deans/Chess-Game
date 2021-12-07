@@ -2,8 +2,7 @@ package ooga.logic.board.board;
 
 import java.util.HashMap;
 import java.util.Map;
-import ooga.logic.board.Pieces.PieceBundle.King;
-import ooga.logic.board.coordinate.Coordinate;
+import ooga.logic.board.Pieces.PieceBundle.pieces.King;
 import ooga.logic.board.coordinate.GameCoordinate;
 import ooga.logic.board.spot.GameSpot;
 import ooga.logic.board.spot.Spot;

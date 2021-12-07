@@ -1,19 +1,9 @@
 package ooga.logic.game;
 
-import ooga.logic.board.Pieces.PieceBundle.King;
-import ooga.logic.board.board.Board;
-import ooga.logic.board.board.GameBoard;
-import ooga.logic.board.coordinate.GameCoordinate;
-import ooga.logic.board.spot.GameSpot;
-import ooga.logic.board.spot.Spot;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 public class PlayerTest {

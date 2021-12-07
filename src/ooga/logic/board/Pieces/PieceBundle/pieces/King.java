@@ -1,5 +1,4 @@
-package ooga.logic.board.Pieces.PieceBundle;
-
+package ooga.logic.board.Pieces.PieceBundle.pieces;
 import java.util.HashMap;
 import java.util.Map;
 import ooga.logic.board.coordinate.GameCoordinate;
@@ -11,15 +10,13 @@ import ooga.logic.board.coordinate.GameCoordinate;
  * Move forward once if else
  * can capture top right and top left immediate
  */
-public class Pawn extends Piece {
-  private static final String PIECE_TO_STRING = "Pawn";
-
-  public Pawn(int xPosition, int yPosition, int team){
+public class King extends Piece {
+  private static final String PIECE_TO_STRING = "King";
+  public King(int xPosition, int yPosition, int team){
     this(xPosition,yPosition,team,new HashMap<>());
   }
 
-  public Pawn(int xPosition, int yPosition, int team, Map<String,String> mapAttributes){
+  public King(int xPosition, int yPosition, int team, Map<String,String> mapAttributes){
     super(PIECE_TO_STRING, team, new GameCoordinate(xPosition,yPosition), mapAttributes);
   }
-
 }

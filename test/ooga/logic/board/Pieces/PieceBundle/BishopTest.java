@@ -2,8 +2,8 @@ package ooga.logic.board.Pieces.PieceBundle;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import ooga.logic.board.Pieces.PieceBundle.pieces.Bishop;
+import ooga.logic.board.Pieces.PieceBundle.pieces.Piece;
 import ooga.logic.board.coordinate.Coordinate;
 import ooga.logic.board.coordinate.GameCoordinate;
 import org.junit.jupiter.api.BeforeEach;
