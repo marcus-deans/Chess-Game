@@ -12,10 +12,8 @@ import ooga.logic.board.coordinate.Coordinate;
  */
 abstract public class SpotCollection implements SpotCollectionInterface{
   private ResourceBundle pieceProperties;
-  private ResourceBundle teamProperties;
   private static final String BASE = SpotCollection.class.getPackageName() + ".resources";
   private static final String DIRECTION = "Directions";
-//  private static final String TEAM_DEFAULT_DIRECTIONS = "TeamDefaultDirections";
   private int boardWidth;
 
   /**
@@ -26,7 +24,6 @@ abstract public class SpotCollection implements SpotCollectionInterface{
   public SpotCollection(int width){
     boardWidth = width;
     pieceProperties = ResourceBundle.getBundle(String.format("%s.%s",BASE,DIRECTION));
-//    teamProperties = ResourceBundle.getBundle(String.format("%s.%s",BASE, TEAM_DEFAULT_DIRECTIONS));
   }
 
   /**
@@ -42,9 +39,6 @@ abstract public class SpotCollection implements SpotCollectionInterface{
     return pieceProperties;
   }
 
-//  protected ResourceBundle setPieceProperties(){
-//    return teamProperties;
-//  }
 
   protected List<List<Coordinate>> availableSquares(Coordinate myCoordinate,int[] addXAmount, int[] addYAmount){
     List<List<Coordinate>> myCoordinateList = new ArrayList<>();
