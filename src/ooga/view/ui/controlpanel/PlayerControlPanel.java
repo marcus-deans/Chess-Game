@@ -55,6 +55,7 @@ public class PlayerControlPanel extends SharedUIComponents {
         this.getPanelListener().openPlayerLogin(myPlayerButtonIndex);
       }
     });
+    playerLoginButton.setId(String.format("player-%d-button",myPlayerButtonIndex));
     myPlayerButtons.add(playerLoginButton);
     myPlayerButtonIndex++;
     return playerLoginButton;

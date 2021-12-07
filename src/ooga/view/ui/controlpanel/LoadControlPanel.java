@@ -63,6 +63,7 @@ public class LoadControlPanel extends SharedUIComponents {
         }
       }
     });
+    loadFileButton.setId("load-buton");
     return loadFileButton;
   }
 
@@ -82,6 +83,7 @@ public class LoadControlPanel extends SharedUIComponents {
         this.getPanelListener().saveCurrentFile();
       }
     });
+    saveFileButton.setId("save-button");
     return saveFileButton;
   }
 

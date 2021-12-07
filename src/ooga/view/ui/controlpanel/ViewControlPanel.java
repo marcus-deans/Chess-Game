@@ -63,7 +63,7 @@ public class ViewControlPanel extends SharedUIComponents {
         this.getPanelListener().updateColorScheme(viewControlResources.getString(myViewOption));
       }
     });
-    viewSetting.setId("language-dropdown");
+    viewSetting.setId("view-dropdown");
     return viewSetting;
   }
 
@@ -74,6 +74,7 @@ public class ViewControlPanel extends SharedUIComponents {
       if(this.getPanelListener() != null){
         this.getPanelListener().updateLanguage(lang);
       }});
+    languagesPrograms.setId("language-dropdown");
     return languagesPrograms;
   }
 }
