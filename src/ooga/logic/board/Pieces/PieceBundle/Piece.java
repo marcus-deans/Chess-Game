@@ -156,7 +156,6 @@ abstract public class Piece implements PieceLogic{
   @Override
   public boolean canCapture(Coordinate captureCoordinate) {
     return ListContainsCoordinate(getPossibleCaptures(),captureCoordinate);
-
   }
 
  // @Override

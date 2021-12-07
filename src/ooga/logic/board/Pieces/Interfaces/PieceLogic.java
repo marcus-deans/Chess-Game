@@ -5,17 +5,24 @@ import ooga.logic.board.Pieces.PieceCollection.PieceCollection;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 import ooga.logic.board.coordinate.Coordinate;
 
-//The purpose of this interface is to create a template for the pieces found on the board
-//It will interact with the Board class and the Coordinate class
+/**
+ * This interface creates a template of the things that a piece on the board would be able to do,
+ * such as functions pertaining to movements, captures, and setting/retrieving information about
+ * that piece
+ *
+ * @author Amr Tagel-Din
+ */
 public interface PieceLogic {
-
-
+    
     /**
-     * Retrieves the coordinate set for the piece
+     * Retrieves the coordinate point for the piece
      */
     Coordinate getCoordinate();
 
-
+    /**
+     *
+     * @param newTeam
+     */
     void setTeam(int newTeam);
 
 
