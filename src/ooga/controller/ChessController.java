@@ -125,8 +125,8 @@ public class ChessController implements Controller {
     boardInitializer(myCSVParser.getInitialStates(), myGame);
     boardViewBuild(myGame);
     numTurns = 1;
-    setPlayer("Player1", "Password1", 1, "#012169");
-    setPlayer("Player2", "Password2", 2, "#00539B");
+    setPlayer(1, "Player1", "Password1", 1, "#012169");
+    setPlayer(2, "Player2", "Password2", 2, "#00539B");
     history = new Stack<GameCoordinate[]>();
     unwind = new Stack<GameCoordinate[]>();
     myLogger.log(Level.INFO, "Inititalized: " + myData.get("Type") + " gametype");
@@ -168,13 +168,13 @@ public class ChessController implements Controller {
   }
 
   @Override
-  public void setPlayer(String userName, String password, int team, String color) throws IOException {
-    Player addPlayer = new Player(userName, password, team);
+  public boolean setPlayer(int playerIdentifier, String userName, String password, int team, String color) throws IOException {
+    Player addPlayer = new Player(playerIdentifier, userName, password, team);
     thePlayers.add(addPlayer);
     myLogger.log(Level.INFO, "Welcome: "+ addPlayer.getUsername());
     currentPlayer = thePlayers.get(0);
     numPlayers = thePlayers.size();
-
+    return true; //TODO: change to returning appropriate value if player created
   }
 
   @Deprecated
@@ -182,6 +182,12 @@ public class ChessController implements Controller {
     //Player addPlayer = new Player(userName, team);
     //thePlayers.add(addPlayer);
   }
+
+  @Override
+  public Player getPlayer(int playerIdentifier){
+    return thePlayers.get(playerIdentifier);
+  }
+
 
   /**
    * Gives BOARDWIDTH

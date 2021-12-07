@@ -1,5 +1,7 @@
 package ooga.view;
 
+import static ooga.util.ResourceRetriever.getWord;
+
 import java.io.FileInputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -33,7 +35,6 @@ public class GridView implements GridChessView {
   private int myGridDimensions;
   private int myCellWidth;
   private int myCellHeight;
-  private static final int LINE_SIZE = 6;
 
   private Logger myLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
@@ -166,7 +167,7 @@ public class GridView implements GridChessView {
     try {
       myGameView.getBoardClick(colIndex, rowIndex);
     } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
-      myLogger.log(Level.INFO, "Error with reflection");
+      myLogger.log(Level.INFO, getWord("reflection_error"));
     }
 
   }

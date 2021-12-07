@@ -3,6 +3,7 @@ package ooga.util;
 import java.util.ResourceBundle;
 import javafx.scene.control.Alert;
 import javafx.scene.paint.Color;
+import javafx.stage.Window;
 
 public class ResourceRetriever {
 
@@ -52,5 +53,14 @@ public class ResourceRetriever {
         (int)( color.getRed() * 255 ),
         (int)( color.getGreen() * 255 ),
         (int)( color.getBlue() * 255 ) );
+  }
+
+  public static void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
+    Alert alert = new Alert(alertType);
+    alert.setTitle(title);
+    alert.setHeaderText(null);
+    alert.setContentText(message);
+    alert.initOwner(owner);
+    alert.show();
   }
 }

@@ -60,22 +60,8 @@ public class LoadControlPanel extends SharedUIComponents {
         String filename = selectedCSVFile.getAbsolutePath();
         try {
           this.getPanelListener().loadNewFile(filename);
-        } catch (CsvValidationException e) {
-          e.printStackTrace();
-        } catch (IOException e) {
-          e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-          e.printStackTrace();
-        } catch (InvocationTargetException e) {
-          e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-          e.printStackTrace();
-        } catch (InstantiationException e) {
-          e.printStackTrace();
-        } catch (IllegalAccessException e) {
-          e.printStackTrace();
-        } catch (IncorrectCSVFormatException e) {
-          e.printStackTrace();
+        } catch (CsvValidationException | IOException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException | IncorrectCSVFormatException e) {
+          sendAlert(getWord("reflection_error"));
         }
       }
     });
