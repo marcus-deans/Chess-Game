@@ -7,8 +7,8 @@ import ooga.logic.board.coordinate.GameCoordinate;
 public class PawnCapture extends SpotCollection {
   private static final String PIECE_AS_STRING = "pawnCapture";
 
-  public PawnCapture(){
-    super();
+  public PawnCapture(int width){
+    super(width);
   }
 
   @Override

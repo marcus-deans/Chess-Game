@@ -18,7 +18,7 @@ class BishopMovementTest {
 
   @BeforeEach
   void setUp() {
-    mySpotCollection = new BishopMovement();
+    mySpotCollection = new BishopMovement(BOARD_SIZE);
     innerCoordinate = new GameCoordinate(2,2);
     outerCoordinate = new GameCoordinate(0,0);
     topCoordinate = new GameCoordinate(3,7);

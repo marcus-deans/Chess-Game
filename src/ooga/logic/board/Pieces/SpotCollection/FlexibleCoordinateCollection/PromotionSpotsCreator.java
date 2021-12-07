@@ -2,7 +2,7 @@ package ooga.logic.board.Pieces.SpotCollection.FlexibleCoordinateCollection;
 
 import java.util.ArrayList;
 import java.util.List;
-import ooga.logic.board.Pieces.SpotCollection.LastRankSpots;
+//import ooga.logic.board.Pieces.SpotCollection.LastRankSpots;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 import ooga.logic.board.coordinate.Coordinate;
 

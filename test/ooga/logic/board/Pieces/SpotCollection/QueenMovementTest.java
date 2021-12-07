@@ -17,7 +17,7 @@ class QueenMovementTest {
 
   @BeforeEach
   void setUp() {
-    mySpotCollection = new QueenMovement();
+    mySpotCollection = new QueenMovement(BOARD_SIZE);
     innerCoordinate = new GameCoordinate(2,2);
     outerCoordinate = new GameCoordinate(0,0);
     topCoordinate = new GameCoordinate(3,7);

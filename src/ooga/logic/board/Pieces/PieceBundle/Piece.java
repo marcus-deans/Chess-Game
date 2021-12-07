@@ -10,7 +10,6 @@ import ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses.*;
 import ooga.logic.board.Pieces.PieceCollection.DefaultPromotionPieces;
 import ooga.logic.board.Pieces.PieceCollection.PieceCollection;
 import ooga.logic.board.Pieces.SpotCollection.KingMovement;
-import ooga.logic.board.Pieces.SpotCollection.LastRankSpots;
 import ooga.logic.board.Pieces.SpotCollection.SpotCollection;
 import ooga.logic.board.coordinate.Coordinate;
 
@@ -135,7 +134,7 @@ abstract public class Piece implements PieceLogic{
 
   protected void setPromotionSpots(){
     if (PieceProperties.containsKey(PROMOTION)){
-      setMyPromotionSpots(new LastRankSpots(new DefaultPromotionPieces()));
+//      setMyPromotionSpots(new LastRankSpots(new DefaultPromotionPieces()));
     }
   }
 
@@ -254,7 +253,7 @@ TEMPORARY
     return areaOfEffect;
   }
   public void setAtomicArea(){
-    areaOfEffect = new KingMovement();
+    areaOfEffect = new KingMovement(8);
   }
 
 }

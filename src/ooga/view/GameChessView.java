@@ -50,4 +50,6 @@ public interface GameChessView {
    * Undo the previous move
    */
   public void undoMove() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
+
+  public void displayGameComplete(int teamNumber);
 }

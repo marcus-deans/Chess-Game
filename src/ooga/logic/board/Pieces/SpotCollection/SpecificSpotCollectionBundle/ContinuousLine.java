@@ -11,6 +11,9 @@ import ooga.logic.board.coordinate.Coordinate;
  */
 public class ContinuousLine extends SpecificSpotCollection {
 
+  public ContinuousLine(int width){
+    setMyWidth(width);
+  }
   /**
    * Starting at the coordinate, follow a line with the slope of 'yDirection/xDirection' and return
    * the valid squares in this line
@@ -24,5 +27,6 @@ public class ContinuousLine extends SpecificSpotCollection {
   public List<Coordinate> getPossibleSpots(Coordinate coordinate, int xDirection,int yDirection) {
     return diagonalSquares(coordinate, xDirection, yDirection);
   }
+
 
 }
