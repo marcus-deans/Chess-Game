@@ -298,7 +298,11 @@ public class ChessController implements Controller {
       numTurns++;
       unwind.clear();
       //TODO IS GAME OVER: (update user score: winner ->true, loser ->false) (check isGameOver from Game)
-      checkEndGame();
+      try {
+        checkEndGame();
+      } catch(Exception e){
+        myLogger.log(Level.SEVERE, "FAILURE TO SELECT PIECE");
+      }
       nextTurn(clickedPiece, nextMove);
     } else {
       myLogger.log(Level.WARNING, "INVALID PIECE SELECTED");
