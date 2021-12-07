@@ -190,7 +190,9 @@ public class ChessController implements Controller {
     thePlayers.add(addPlayer);
     currentPlayer = thePlayers.get(0);
     numPlayers = thePlayers.size();
-    return addPlayer.checkUser(); //TODO: change to returning appropriate value if player created
+    boolean result = addPlayer.checkUser();
+    addPlayer.setProfileColor(color);
+    return result; //TODO: change to returning appropriate value if player created
   }
 
   @Deprecated
