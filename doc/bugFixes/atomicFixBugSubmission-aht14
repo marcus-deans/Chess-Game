@@ -1,0 +1,37 @@
+## Description
+
+Atomic Chess does not work as expected
+
+## Expected Behavior
+
+When a piece is captured, the explosion mimics the 'capture' describes the atomic spotCollection
+given to that piece, and only immune pieces survive.
+
+## Current Behavior
+
+Currently, in Atomic Chess if you capture a piece, the only thing that happens is that both the piece
+you capture and the piece you captured disappear.
+
+## Steps to Reproduce
+
+Provide detailed steps for reproducing the issue.
+
+ 1. Set up a game of atomic chess
+ 2. List the default AtomicCapture as KingMovement
+ 3. Capture an enemy piece with a piece of your own in the vicinity of other pieces
+ 4. The nearby pieces that should explode will not
+
+## Failure Logs
+
+N/A
+
+## Hypothesis for Fixing the Bug
+
+Hypothesis 1)
+Print the outcome of the atomic capture spots before filtering; it will likely be incorrect
+for some reason. Test by testing that it contains the spots / number of spots you would expect it to
+have
+
+Hypothesis 2)
+Print the outcome of the atomic capture after filtering; check to see that it correctly impacts
+the spots you assumed it would (test the number as opposed to the specific spot).
