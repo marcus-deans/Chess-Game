@@ -6,7 +6,7 @@ import ooga.logic.board.Pieces.SpotCollection.KingMovement;
 import ooga.logic.board.Pieces.SpotCollection.NoMovement;
 
 public class atomicStorage extends SpotCollectionStorage {
-  private static final String ATOMIC = "atomic";
+  private static final String ATOMIC = "atomicRadius";
 
   public atomicStorage(String myString, Map<String, String> attributeMap, ResourceBundle pieceProperties,
       ResourceBundle defaultProperties, String teamMatters) {
