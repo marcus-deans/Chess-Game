@@ -10,11 +10,19 @@ GameConfiguration=data/Standard.csv
 
 Portal=False
 BlackHole=False
-EdgePolicy=Basic
+EdgePolicy=Toroidal
 
 MoveColor=#FF0000
 SelectColor=#00FF00
 
 PiecesImageDirectory=Standard
 
+###
+^All|jump=true
+^All|width=8
+^All|height=8
+^Rook|canCannibalize=true
+^Bishop|jump=true
+^Bishop|capture=KnightMovement
+^Knight|movement=BishopMovement
 
