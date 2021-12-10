@@ -19,3 +19,9 @@ During the test, each person should work to provide as realistic an experience a
 > > Facilitators, after the test, should ask for general impressions of the project (especially first impressions, what worked, and what could be improved)
 
 After the tests, as a team, discuss the feedback users gave and how you plan to address any issues that came up that do not have an obvious solution (i.e., not bug fixes or simple changes).
+
+
+At this stage in the project the functionality didn't quite connect everywhere, so this session wasn't
+too relevant for us. That being said, we were told that the design was sleek, and largely easy to understand
+(even for people without chess backgrounds). Some claimed the different 'Load' buttons were somewhat confusing,
+which has been changed since this lab.
