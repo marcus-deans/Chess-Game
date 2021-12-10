@@ -103,7 +103,7 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
   }
   }
 
-  private SpotCollection getSpotCollectionFromBundle(ResourceBundle pieceProperties)
+  protected SpotCollection getSpotCollectionFromBundle(ResourceBundle pieceProperties)
       throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
     Class[] params={int.class};
     return (SpotCollection) Class.forName(
@@ -146,7 +146,7 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
   }
 
 
-  private void setMySpotCollection(SpotCollection myNewSpotCollection){
+  protected void setMySpotCollection(SpotCollection myNewSpotCollection){
     mySpotCollection = myNewSpotCollection;
   }
 
@@ -177,8 +177,12 @@ abstract public class SpotCollectionStorage implements SpotCollectionStorageInte
   }
   protected abstract String getMySpotType();
 
-  private int getWidthHeightMax(){
+  protected int getWidthHeightMax(){
     return Math.max(getBoardHeight(),getBoardWidth());
+  }
+
+  protected ResourceBundle getDefaultProperties() {
+    return defaultProperties;
   }
 
 

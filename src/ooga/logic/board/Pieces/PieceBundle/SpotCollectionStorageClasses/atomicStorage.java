@@ -2,6 +2,8 @@ package ooga.logic.board.Pieces.PieceBundle.SpotCollectionStorageClasses;
 
 import java.util.Map;
 import java.util.ResourceBundle;
+import ooga.logic.board.Pieces.SpotCollection.KingMovement;
+import ooga.logic.board.Pieces.SpotCollection.NoMovement;
 
 public class atomicStorage extends SpotCollectionStorage {
   private static final String ATOMIC = "atomic";
@@ -18,4 +20,16 @@ public class atomicStorage extends SpotCollectionStorage {
   protected void movementOrNone() {
     getDefaultState();
   }
+
+  protected void getDefaultState(){
+    try {
+      setMySpotCollection(
+          getSpotCollectionFromBundle(getDefaultProperties())
+      );
+    }
+    catch (Exception e){
+      setMySpotCollection(new KingMovement(getWidthHeightMax()));
+    }
+  }
+
 }

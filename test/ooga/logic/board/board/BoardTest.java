@@ -111,7 +111,7 @@ public class BoardTest {
         Assertions.assertTrue(b.getFullBoard().get(0).getPiece()==null && b.getFullBoard().get(10).getPiece()!=null);
         for (int i = 0; i  < 2; i++){
             for (int j = 0; j < 2; j++){
-                Assertions.assertTrue(b.getFullBoard().get(i*8 + j).getPiece() == null);
+                Assertions.assertTrue(b.getFullBoard().get(i*7 + j).getPiece() == null);
             }
         }
     }
