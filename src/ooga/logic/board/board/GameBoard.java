@@ -144,6 +144,7 @@ public class GameBoard implements Board {
     private void atomic(Coordinate newPosition){
         List<List<Coordinate>> list=getSpot(newPosition).getPiece().getAtomicArea().getPossibleSpots(newPosition);
 
+
         getSpot(newPosition).setPiece(null);
 
         for (List<Coordinate> myList : list){

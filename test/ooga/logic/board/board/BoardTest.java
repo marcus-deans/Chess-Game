@@ -1,5 +1,6 @@
 package ooga.logic.board.board;
 
+
 import java.util.HashMap;
 import java.util.Map;
 import ooga.logic.board.Pieces.PieceBundle.King;
@@ -108,6 +109,11 @@ public class BoardTest {
         ((GameBoard) b).setAtomic(true);
         b.updateBoard(new GameCoordinate(1,1),b.getFullBoard().get(5).getPiece());
         Assertions.assertTrue(b.getFullBoard().get(0).getPiece()==null && b.getFullBoard().get(10).getPiece()!=null);
+        for (int i = 0; i  < 2; i++){
+            for (int j = 0; j < 2; j++){
+                Assertions.assertTrue(b.getFullBoard().get(i*8 + j).getPiece() == null);
+            }
+        }
     }
 
 }
