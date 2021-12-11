@@ -25,4 +25,5 @@ PiecesImageDirectory=Standard
 ^Bishop|jump=true
 ^Bishop|capture=KnightMovement
 ^Knight|movement=BishopMovement
+^All|atomicRadius=BishopMovement
 
