@@ -5,14 +5,23 @@
 
  * Team Member #1
 
+Remy Cross: Board
+
  * Team Member #2
+
+Carter Stonesifer: Controller
 
  * Team Member #3
 
+Amr Tagel-Din: Pieces
+
  * Team Member #4
+
+Tim Jang: Game & REST API
 
  * Team Member #5
 
+Marcus Deans: View
 
 ## Design goals
 
