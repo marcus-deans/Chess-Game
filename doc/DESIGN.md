@@ -16,14 +16,23 @@ Storage Classes to SpotCollection classes to evaluate piece movement and capture
 Specific spot collection classes to evaluate movements in relation to a piece. Worked with Remy to connect
 pieces and board.
 
+Remy Cross: Board
+
  * Team Member #2
+
+Carter Stonesifer: Controller
 
  * Team Member #3
 
+Amr Tagel-Din: Pieces
+
  * Team Member #4
+
+Tim Jang: Game & REST API
 
  * Team Member #5
 
+Marcus Deans: View
 
 ## Design goals
 

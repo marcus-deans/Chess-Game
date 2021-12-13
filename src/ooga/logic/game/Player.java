@@ -79,7 +79,7 @@ public class Player {
      *
      * @param didWin
      */
-    public void updateUserScore(boolean didWin) throws IOException {
+    public String updateUserScore(boolean didWin) throws IOException {
         String result;
         if(didWin){
             result = getFromDatabase(apiURL + readFromProperties("add_score_path") +"?" + readFromProperties("id_parameter") + myUsername);
@@ -88,6 +88,8 @@ public class Player {
         }
 
         myLogger.log(Level.INFO, result);
+
+        return result;
     }
 
     /**
@@ -95,10 +97,12 @@ public class Player {
      *
      * @param color
      */
-    public void setProfileColor(String color) throws IOException {
+    public String setProfileColor(String color) throws IOException {
         String result = getFromDatabase(apiURL + readFromProperties("set_profile_color_path") + "?" + readFromProperties("id_parameter") + myUsername+ "&color=" + color);
 
         myLogger.log(Level.INFO, result);
+
+        return result;
     }
 
     /**

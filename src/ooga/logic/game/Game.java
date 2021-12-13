@@ -173,7 +173,6 @@ public class Game {
         for (List<Coordinate> eachLine: possibleMovePositions) {
             for (Coordinate individualCoord : eachLine) {
                 Piece tempPiece = myBoard.getSpot(individualCoord).getPiece();
-
                 // empty piece: CAN MOVE HERE
                 if (tempPiece == null){
                     listToPopulate.add(individualCoord);
@@ -218,7 +217,6 @@ public class Game {
         List<Coordinate> myMoveList = filterMoves(selected);
         List<Coordinate> myCaptureList = filterCaptures(selected);
         myMoveList.addAll(myCaptureList);
-
         Set<Spot> possibleSet = myMoveList.stream().
             map(myBoard::getSpot).collect(Collectors.toSet());
         return possibleSet;
@@ -231,7 +229,6 @@ public class Game {
      * @param capturedPiece
      */
     private void removePieceFromGame(Piece capturedPiece){
-
         try {
             if (capturedPiece.getCheckable()) isGameOver = true;
             if (isAtomic) isGameOver=checkAtomic(capturedPiece);
