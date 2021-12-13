@@ -259,6 +259,12 @@ public class GameView extends Application implements PanelListener, GameChessVie
       case "French" -> {
         Locale.setDefault(new Locale("fr"));
       }
+      case "Latin" -> {
+        Locale.setDefault(new Locale("la"));
+      }
+      case "German" -> {
+        Locale.setDefault(new Locale("gr"));
+      }
     }
     refreshUIPanels();
   }
