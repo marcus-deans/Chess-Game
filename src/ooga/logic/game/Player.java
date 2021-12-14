@@ -162,6 +162,4 @@ public class Player {
     public List<Piece> getGraveyard(){
         return graveyard;
     }
-
-
 }

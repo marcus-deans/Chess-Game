@@ -1,3 +1,9 @@
+/**
+ * Game class. This class is designed very well in terms of implementing good use of helper methods to reduce as much
+ * duplicate code and make the code very readable. It also uses stream to improve performance and readability.
+ * Additionally, the code is well commented and the APIs are easy-to-use and hard-to-misuse.
+ */
+
 package ooga.logic.game;
 
 import java.util.stream.Collectors;
@@ -23,7 +29,6 @@ public class Game {
     private String gameType;
     private boolean isAtomic;
     private boolean filter;
-
 
     /**
      * Game constructor. Height and width and myMap are taken in as parameters which are then used to make GameBoard
@@ -247,7 +252,7 @@ public class Game {
      */
     private boolean checkAtomic(Piece capturedPiece)
     {
-        List<List<Coordinate>> list=capturedPiece.getAtomicArea().getPossibleSpots(capturedPiece.getCoordinate());
+        List<List<Coordinate>> list = capturedPiece.getAtomicArea().getPossibleSpots(capturedPiece.getCoordinate());
         for (int i = 0; i < list.size(); i++){
             for(int j = 0; j < list.size(); j++){
                 if(getSpot(list.get(i).get(j)).getPiece().getCheckable())
@@ -314,13 +319,11 @@ public class Game {
     public Boolean puzzleRules(Coordinate prevPosition, Coordinate newPosition)
     {
         boolean gameOver=false;
-        if (puzzleStart!=null && puzzleFinish!=null && puzzleStart.equals(prevPosition) && puzzleFinish.equals(newPosition))
-        {
+        if (puzzleStart!=null && puzzleFinish!=null && puzzleStart.equals(prevPosition) && puzzleFinish.equals(newPosition)) {
             myLogger.log(Level.INFO, "PUZZLE COMPLETED SUCCESSFULLY");
             gameOver = true;
         }
-        else if (puzzleStart!=null && puzzleFinish!=null && (!puzzleStart.equals(prevPosition) || !puzzleFinish.equals(newPosition)))
-        {
+        else if (puzzleStart!=null && puzzleFinish!=null && (!puzzleStart.equals(prevPosition) || !puzzleFinish.equals(newPosition))) {
             myLogger.log(Level.INFO, "PUZZLE FAILED! TRY AGAIN!");
             reset();
         }
