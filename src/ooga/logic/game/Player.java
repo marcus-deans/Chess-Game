@@ -67,6 +67,8 @@ public class Player {
 
         String result = getFromDatabase(url);
 
+        myLogger.log(Level.INFO, result);
+
         if(result.equals(readFromProperties("insert_new_user_output")) || result.equals(readFromProperties("successful_login_output"))) return true;
         else if(result.equals(readFromProperties("incorrect_password_match_output"))) return false;
 
