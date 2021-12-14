@@ -32,7 +32,13 @@ Amr Tagel-Din: Pieces
 
 * Team Member #4
 
-Tim Jang: Game & REST API
+Tim Jang: Game, Player & REST API
+
+Building the Game and Player class. Game class connects all of the backend components like Board and Piece class and setting
+various pieces to certain spots on the Board from communicating with the ChessController. Game class basically is the 
+communication for the ChessController and the backend. Player class deals with all of the player information and data.
+Building REST API Server and online database to store player values in the online store - this allows the players to 
+save their data in the database.
 
 * Team Member #5: Marcus Deans
 
