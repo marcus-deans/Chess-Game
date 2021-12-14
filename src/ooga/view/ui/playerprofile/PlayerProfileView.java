@@ -73,9 +73,7 @@ public class PlayerProfileView extends Application implements PlayerProfileInter
     // Create a scene with registration form grid pane as the root node
     Scene scene = new Scene(myGridPane, getInt("scene_width"), getInt("scene_height"));
     myGridPane.setId("profile-pane");
-//    scene.getStylesheets().add(
-//        PlayerLoginView.class.getResource(FORMATTING_FILE)
-//            .toExternalForm());
+    scene.getStylesheets().add(PlayerProfileView.class.getResource(FORMATTING_FILE).toExternalForm());
 
     // Set the scene in primary stage
     myStage.setScene(scene);
