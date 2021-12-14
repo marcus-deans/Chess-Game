@@ -1,0 +1,18 @@
+Type=Standard
+Title=Royal Duo
+Author=Marcus Deans
+
+Description= Class Warfare: Royals v. The Rest!
+
+GameTimer=0
+
+GameConfiguration=data/RoyalDuo.csv
+
+Portal=False
+BlackHole=False
+EdgePolicy=Toroidal
+
+MoveColor=#70AACD
+SelectColor=#7851A9
+
+PiecesImageDirectory=Standard
