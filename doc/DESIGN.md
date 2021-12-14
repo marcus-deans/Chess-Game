@@ -59,6 +59,13 @@ easy. Other things we wanted to make easy to change was what team a piece was on
 affected its behavior, whether it can jump over other pieces, whether it can cannibalize pieces,
 etc.
 
+View: Wanted all of the view options to be extendible so that the user could modify the view as they
+saw fit and customize especially the cosmetic features to their heart's desire. This included things
+like cheat codes, languages, and view options in particular but also more complex functionality such
+as adding the option for more player logins and controlling that interaction accordingly.
+Customization of user highlight options, cell visuals, and piece images was also desired and was
+generally implemented.
+
 ## High-level Design
 
 > describe the high-level design of your project, focusing on the purpose and interaction of the core classes
@@ -66,17 +73,17 @@ etc.
 At a high level, the ChessController acts as the entry point to the program. It contains references
 to both the GameView (frontend) and Game (backend) and regulates and mediates interactions between
 teh two, particularly of important information transfer. ChessController creates GameView, then
-invokes methods to popualte the frontend by creating UI subpanels. ChessController similarly reads
-in the data from the provided siulation/configuration files and passes that collected information to
-the backend, which processes it in order to creat a new game rperesentation on the backend matching
-the user's specifications in the file. As the game is played, user input in gameView through various
-panels is propagated via the Controller through the rest of the application, partricularly to the
-backend. This is where things like possible moves are computed as well as which pieces can be taken
-by the selected piece. Give nthe suer's selection, the backend also receives this information from
-the controller and processes it to show which pieces are now missing from the board. The controller
-then retrieves this information from the backend by retriveing the board's new representation, and
-updates the visual representation of the board in GameView by calling its API with the appropriate
-pieces on the board.
+invokes methods to populate the frontend by creating UI subpanels. ChessController similarly reads
+in the data from the provided simulation/configuration files and passes that collected information
+to the backend, which processes it in order to creat a new game representation on the backend
+matching the user's specifications in the file. As the game is played, user input in gameView
+through various panels is propagated via the Controller through the rest of the application,
+particularly to the backend. This is where things like possible moves are computed as well as which
+pieces can be taken by the selected piece. Given the user's selection, the backend also receives
+this information from the controller and processes it to show which pieces are now missing from the
+board. The controller then retrieves this information from the backend by retrieving the board's new
+representation, and updates the visual representation of the board in GameView by calling its API
+with the appropriate pieces on the board.
 
 #### Core Classes
 
