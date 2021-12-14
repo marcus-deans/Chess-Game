@@ -331,6 +331,8 @@ public class ChessController implements Controller {
           player.updateUserScore(false);
         }
       }
+      currentPlayer = thePlayers.get(0);
+      myGame.setIsGameOver(false);
     }
   }
 

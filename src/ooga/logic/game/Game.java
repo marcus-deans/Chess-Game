@@ -335,6 +335,10 @@ public class Game {
         return isGameOver;
     }
 
+    public void setIsGameOver(boolean newGameOver){
+        isGameOver= newGameOver;
+    }
+
     /**
      * returns spot given coordinate
      *
