@@ -1,8 +1,6 @@
 Type=Atomic
-Title=Standard Chess
-Author=Carter Stonesifer
-
-Description=Good Ol'fashioned Game of Chess
+Title=Funhouse Chess
+Author=Amr Tagel-Din
 
 GameTimer=0
 
@@ -12,18 +10,16 @@ Portal=False
 BlackHole=False
 EdgePolicy=Toroidal
 
-MoveColor=#FF0000
-SelectColor=#00FF00
+MoveColor=#00B20C
+SelectColor=#FF7B15
 
 PiecesImageDirectory=Standard
 
-###
 ^All|jump=true
-^All|width=13
-^All|height=13
+^All|width=5
+^All|height=5
 ^Rook|canCannibalize=true
 ^Bishop|jump=false
-^Bishop|capture=RookMovement
+^Bishop|capture=KingMovement
 ^Knight|movement=QueenMovement
 ^All|atomicRadius=KingMovement
-
