@@ -20,9 +20,12 @@
   piece movement and captures, and connecting these to Specific spot collection classes to evaluate
   movements in relation to a piece. Worked with Remy to connect pieces and board.
 
-Remy Cross: Board
 
-* Team Member #2
+
+* Team Member #2: Remy Cross: Board/Variations
+  * I implemented API for Board and the logic for the GameBoard class and all the classes associated with them
+including Spot, spotAction, Coordinate, and edgePolicy. I connected all these aspects of
+the game through the GameBoard class and implemented the logic in them to create the different game variations.
 
 Carter Stonesifer: Controller
 
@@ -72,6 +75,11 @@ as adding the option for more player logins and controlling that interaction acc
 Customization of user highlight options, cell visuals, and piece images was also desired and was
 generally implemented.
 
+Board: We wanted to make it very easy for the user to add new variations to the GameBoard itself. Therefore,
+the different variations of the GameBoard, like the spot type and the edge policy, were abstracted out and 
+made into a hierarchy that can be called using reflection. In order to add a new feature to these, they just
+need to be defined in the package for the spotAction or the edgePolicy.
+
 ## High-level Design
 
 > describe the high-level design of your project, focusing on the purpose and interaction of the core classes
@@ -102,7 +110,16 @@ with the appropriate pieces on the board.
 
 > what assumptions or decisions were made to simplify your project's design, especially those that affected adding required features
 
+* CSV files will be written with each spot on the board represented 
+by a 3-digit code where the first digit is the piece, the second
+is the team, and the third is the spot type. 
+("R10" represents a Rook on team 1 with a normal spot)
+
+* Players will recognize when their king is in check
+
 #### Features Affected by Assumptions
+* Setting up the GameBoard is impacted by the first assumption because of how the key is read in
+* The win condition of the game is affected by the second assumption because the game is won when the king is captured
 
 ## Significant differences from Original Plan
 
@@ -123,6 +140,9 @@ opposed to setting them up visually in GameView.
 Easy to add features include adding more players that belong to the two possible teams. Other easy
 extensions include additional languages and view profiles that are purely data-defined.
 
+On the board side, some easy to add features are the spot type and the logic that goes along with each 
+type of spot and the edge policy of the board and the logic that accompanies that.
+
 #### Other Features not yet Done
 
 The primary missing frontend features is the graveyard which was not fully implemented at a visual
@@ -131,4 +151,10 @@ appropriate image of the dead piece matching the backend String. We intend to ad
 which will allow for the user to visually specify all of their preferences including those currently
 specified from the sim files themselves. We also want to add social features for user score counting
 as well as adding additional profile functionality such as profile pictures.
+
+On the board side, one feature I wish was implemented was implementing win conditions reflectively so 
+that it would be much easier for the user to add new win conditions to the game. Right now, the program
+uses if statements to check the win condition, but if reflection were used, it would make it much easier 
+to change how the game is won. For example, rather than trying to capture the king, the game could be won
+by having a pawn reach the other side.
 

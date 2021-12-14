@@ -1,0 +1,14 @@
+Type=Atomic
+Title=Ultimate Chess
+Author=Jeremy Cross
+
+Description=Get ready for the UltimateChess experience
+
+GameTimer=0
+
+MoveColor=#FF0000
+SelectColor=#00FF00
+
+GameConfiguration=data/UltimateChess.csv
+
+EdgePolicy=Toroidal
