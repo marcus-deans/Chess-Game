@@ -1,9 +1,3 @@
-/**
- * Game class. This class is designed very well in terms of implementing good use of helper methods to reduce as much
- * duplicate code and make the code very readable. It also uses stream to improve performance and readability.
- * Additionally, the code is well commented and the APIs are easy-to-use and hard-to-misuse.
- */
-
 package ooga.logic.game;
 
 import java.util.stream.Collectors;
@@ -270,10 +264,7 @@ public class Game {
      * @param newPosition
      * @param movingPiece
      */
-    private void setMovingPiece(Coordinate newPosition, Piece movingPiece)
-            throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-
-
+    private void setMovingPiece(Coordinate newPosition, Piece movingPiece) {
         try {
             if(myBoard.hasPiece(newPosition)) removePieceFromGame(myBoard.getSpot(newPosition).getPiece());
             myBoard.updateBoard(newPosition,movingPiece);
@@ -290,8 +281,7 @@ public class Game {
      * @param prevPosition
      * @param newPosition
      */
-    public void movePiece(Coordinate prevPosition, Coordinate newPosition)
-            throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public void movePiece(Coordinate prevPosition, Coordinate newPosition){
         try {
             setMovingPiece(newPosition, myBoard.getSpot(prevPosition).getPiece());
             myBoard.getSpot(prevPosition).setPiece(null);
