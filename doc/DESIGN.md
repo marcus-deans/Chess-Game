@@ -1,6 +1,7 @@
 # OOGA Design Final
 
 ### Names
+
 > names of all people who worked on the project
 
 * Amr Tagel-Din
@@ -10,6 +11,7 @@
 * Tim Jang
 
 ## Team Roles and Responsibilities
+
 > each person's role in developing the project
 
 * Team Member #1: Amr Tagel-Din Pieces; implementing the basis for a piece and connecting it to an
@@ -43,8 +45,11 @@ information from the frontend all the way to the backend and vice versa during n
 operation.
 
 ## Design goals
+
 > what are the project's design goals, specifically what kinds of new features did you want to make easy to add
+
 #### What Features are Easy to Add
+
 Pieces: We wanted to make it super easy to mix and match pre-existing movement schemas to old move;
 for example, we wanted to make it super easy to have a Bishop have the movement or the capture
 behavior of another piece. We also wanted to make it super easy to define and redefine these
@@ -55,16 +60,35 @@ affected its behavior, whether it can jump over other pieces, whether it can can
 etc.
 
 ## High-level Design
+
 > describe the high-level design of your project, focusing on the purpose and interaction of the core classes
 
+At a high level, the ChessController acts as the entry point to the program. It contains references
+to both the GameView (frontend) and Game (backend) and regulates and mediates interactions between
+teh two, particularly of important information transfer. ChessController creates GameView, then
+invokes methods to popualte the frontend by creating UI subpanels. ChessController similarly reads
+in the data from the provided siulation/configuration files and passes that collected information to
+the backend, which processes it in order to creat a new game rperesentation on the backend matching
+the user's specifications in the file. As the game is played, user input in gameView through various
+panels is propagated via the Controller through the rest of the application, partricularly to the
+backend. This is where things like possible moves are computed as well as which pieces can be taken
+by the selected piece. Give nthe suer's selection, the backend also receives this information from
+the controller and processes it to show which pieces are now missing from the board. The controller
+then retrieves this information from the backend by retriveing the board's new representation, and
+updates the visual representation of the board in GameView by calling its API with the appropriate
+pieces on the board.
+
 #### Core Classes
+
 ```GameBoard.java```
 ```Game.java```
 ```ChessController.java```
 ```GameView.java```
 
 ## Assumptions that Affect the Design
+
 > what assumptions or decisions were made to simplify your project's design, especially those that affected adding required features
+
 #### Features Affected by Assumptions
 
 ## Significant differences from Original Plan
