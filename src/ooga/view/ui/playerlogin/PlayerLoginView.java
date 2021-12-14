@@ -184,7 +184,6 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
       public void handle(ActionEvent event) {
         Color selectedColor = colorPicker.getValue();
         colorSelected[0] = toHexCode(selectedColor);
-        System.out.println(colorSelected[0]);
         colorSelectionLabel.setText(
             String.format("%s %s", colorSelected[0], getWord("selectedWording")));
         colorSelectionLabel.setTextFill(selectedColor);
@@ -229,7 +228,6 @@ public class PlayerLoginView extends Application implements PlayerLoginInterface
         String password = passwordField.getText();
         String team = teamSelected[0];
         String colour = colorSelected[0];
-        System.out.println(colour);
 
         int teamValue;
         switch (team) {

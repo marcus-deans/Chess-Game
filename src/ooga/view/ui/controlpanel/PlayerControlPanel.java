@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import jdk.swing.interop.SwingInterOpUtils;
 import ooga.logic.game.Player;
 import ooga.view.ui.SharedUIComponents;
 
@@ -50,12 +51,13 @@ public class PlayerControlPanel extends SharedUIComponents {
 
   //create a single button that will allow the player to log in
   private Node initializePlayerLoginButton(){
-    Button playerLoginButton = makeButton(String.format("%s %d %s", getWord("player"), myPlayerButtonIndex+1, getWord("login")), event -> {
+    final int currentButtonIndex = myPlayerButtonIndex;
+    Button playerLoginButton = makeButton(String.format("%s %d %s", getWord("player"), currentButtonIndex+1, getWord("login")), event -> {
       if(this.getPanelListener() != null){
-        this.getPanelListener().openPlayerLogin(myPlayerButtonIndex);
+        this.getPanelListener().openPlayerLogin(currentButtonIndex);
       }
     });
-    playerLoginButton.setId(String.format("player-%d-button",myPlayerButtonIndex));
+    playerLoginButton.setId(String.format("player-%d-button",currentButtonIndex));
     myPlayerButtons.add(playerLoginButton);
     myPlayerButtonIndex++;
     return playerLoginButton;
@@ -66,12 +68,14 @@ public class PlayerControlPanel extends SharedUIComponents {
    * @param playerIndex the index of the player, used to keep track of buttons
    */
   public void playerHasLoggedIn(int playerIndex){
+    playerIndex = playerIndex;
     try {
-      Button loggedInPlayerButton = myPlayerButtons.get(playerIndex-1);
-      loggedInPlayerButton.setText(String.format("%s %d %s", getWord("player"), myPlayerButtonIndex+1, getWord("profile")));
-      loggedInPlayerButton.setOnAction(action -> this.getPanelListener().openPlayerProfile(playerIndex-1));
+      Button loggedInPlayerButton = myPlayerButtons.get(playerIndex);
+      loggedInPlayerButton.setText(String.format("%s %d %s", getWord("player"), playerIndex+1, getWord("profile")));
+      int finalPlayerIndex = playerIndex;
+      loggedInPlayerButton.setOnAction(action -> this.getPanelListener().openPlayerProfile(
+          finalPlayerIndex));
     } catch (Exception e){
-      System.out.println(playerIndex);
       sendAlert(getWord("player_display_error"));
     }
   }

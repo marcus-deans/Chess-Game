@@ -127,8 +127,6 @@ public class ChessController implements Controller {
     boardInitializer(myCSVParser.getInitialStates(), myGame);
     boardViewBuild(myGame);
     numTurns = 1;
-//    setPlayer(1, "Player1", "Password1", 1, "#012169");
-//    setPlayer(2, "Player2", "Password2", 2, "#00539B");
     history = new Stack<GameCoordinate[]>();
     unwind = new Stack<GameCoordinate[]>();
     myLogger.log(Level.INFO, "Inititalized: " + myData.get("Type") + " gametype");
@@ -202,7 +200,7 @@ public class ChessController implements Controller {
 
   @Override
   public Player getPlayer(int playerIdentifier) {
-    return thePlayers.get(playerIdentifier - 1);
+    return thePlayers.get(playerIdentifier);
   }
 
 
