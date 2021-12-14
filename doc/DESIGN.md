@@ -57,6 +57,12 @@ operation.
 
 > what are the project's design goals, specifically what kinds of new features did you want to make easy to add
 
+We want to be able to implement flexibility to all pieces like being about to change how a piece can move, capture,
+jump, promote, etc. We also want to be able to change Spots to different variations like black hole spot, portal spot, etc.
+In addition, we want to be able to change themes in the front-end and allow the users to sign up, login, and sign out
+of their account and select their profile color and save their scores using username and password that saves in an online database.
+We want to be able to change between all of these different variations by labeling in the initial data sim file. 
+
 #### What Features are Easy to Add
 
 Pieces: We wanted to make it super easy to mix and match pre-existing movement schemas to old move;
@@ -79,6 +85,9 @@ Board: We wanted to make it very easy for the user to add new variations to the 
 the different variations of the GameBoard, like the spot type and the edge policy, were abstracted out and 
 made into a hierarchy that can be called using reflection. In order to add a new feature to these, they just
 need to be defined in the package for the spotAction or the edgePolicy.
+
+Online Database: It is easy to add additional player information to the online database since we keep the parameters
+in a separate data file. It would just require a new public method to receive the new player data. 
 
 ## High-level Design
 
