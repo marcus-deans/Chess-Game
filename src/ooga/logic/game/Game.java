@@ -24,7 +24,6 @@ public class Game {
     private boolean isAtomic;
     private boolean filter;
 
-
     /**
      * Game constructor. Height and width and myMap are taken in as parameters which are then used to make GameBoard
      * using those values.
@@ -247,7 +246,7 @@ public class Game {
      */
     private boolean checkAtomic(Piece capturedPiece)
     {
-        List<List<Coordinate>> list=capturedPiece.getAtomicArea().getPossibleSpots(capturedPiece.getCoordinate());
+        List<List<Coordinate>> list = capturedPiece.getAtomicArea().getPossibleSpots(capturedPiece.getCoordinate());
         for (int i = 0; i < list.size(); i++){
             for(int j = 0; j < list.size(); j++){
                 if(getSpot(list.get(i).get(j)).getPiece().getCheckable())
@@ -265,10 +264,7 @@ public class Game {
      * @param newPosition
      * @param movingPiece
      */
-    private void setMovingPiece(Coordinate newPosition, Piece movingPiece)
-            throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-
-
+    private void setMovingPiece(Coordinate newPosition, Piece movingPiece) {
         try {
             if(myBoard.hasPiece(newPosition)) removePieceFromGame(myBoard.getSpot(newPosition).getPiece());
             myBoard.updateBoard(newPosition,movingPiece);
@@ -285,8 +281,7 @@ public class Game {
      * @param prevPosition
      * @param newPosition
      */
-    public void movePiece(Coordinate prevPosition, Coordinate newPosition)
-            throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public void movePiece(Coordinate prevPosition, Coordinate newPosition){
         try {
             setMovingPiece(newPosition, myBoard.getSpot(prevPosition).getPiece());
             myBoard.getSpot(prevPosition).setPiece(null);
@@ -314,13 +309,11 @@ public class Game {
     public Boolean puzzleRules(Coordinate prevPosition, Coordinate newPosition)
     {
         boolean gameOver=false;
-        if (puzzleStart!=null && puzzleFinish!=null && puzzleStart.equals(prevPosition) && puzzleFinish.equals(newPosition))
-        {
+        if (puzzleStart!=null && puzzleFinish!=null && puzzleStart.equals(prevPosition) && puzzleFinish.equals(newPosition)) {
             myLogger.log(Level.INFO, "PUZZLE COMPLETED SUCCESSFULLY");
             gameOver = true;
         }
-        else if (puzzleStart!=null && puzzleFinish!=null && (!puzzleStart.equals(prevPosition) || !puzzleFinish.equals(newPosition)))
-        {
+        else if (puzzleStart!=null && puzzleFinish!=null && (!puzzleStart.equals(prevPosition) || !puzzleFinish.equals(newPosition))) {
             myLogger.log(Level.INFO, "PUZZLE FAILED! TRY AGAIN!");
             reset();
         }

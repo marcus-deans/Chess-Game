@@ -524,7 +524,7 @@ public class ChessController implements Controller {
       }
     }
     for (Spot q : allPortals) {
-      myGameView.colourChessCell(q, myData.get("PortalColor"));
+      myGameView.colourChessCell(q, "#FF0000");
     }
   }
 
@@ -541,7 +541,7 @@ public class ChessController implements Controller {
       }
     }
     for(Spot q : allBlackHoles){
-      myGameView.colourChessCell(q, myData.get("BlackHoleColor"));
+      myGameView.colourChessCell(q, "#000000");
     }
   }
 
